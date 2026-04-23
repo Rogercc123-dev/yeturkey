@@ -26,13 +26,12 @@
   --stone: #D5CFC6;
   --off-black: #1A1A1A;
   --void: #0D0D0D;
-  --raw-red: #CC0000;
   --bone: #E8E0D5;
   --ash: #BEBEBE;
   --concrete: #9E9E9E;
   --steel: #666666;
   --white: #FFFFFF;
-  --radius: 8px;
+  --radius: 6px;
 }
 
 html {
@@ -48,6 +47,40 @@ body {
   line-height: 1.4;
   letter-spacing: 0.02em;
   overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* PRELOADER */
+.preloader {
+  position: fixed;
+  inset: 0;
+  background: var(--cream);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+  cursor: crosshair;
+}
+
+.preloader.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.preloader-text {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: clamp(60px, 12vw, 140px);
+  font-weight: 700;
+  color: var(--off-black);
+  letter-spacing: -0.06em;
+  animation: preloader-pulse 2s ease-in-out infinite;
+}
+
+@keyframes preloader-pulse {
+  0%, 100% { opacity: 0.2; transform: scale(0.98); }
+  50% { opacity: 1; transform: scale(1); }
 }
 
 /* NAV */
@@ -58,7 +91,7 @@ body {
   right: 0;
   z-index: 999;
   background: var(--cream);
-  border-bottom: 1px solid rgba(0,0,0,0.12);
+  border-bottom: 1px solid rgba(0,0,0,0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -77,75 +110,28 @@ body {
 
 .nav-menu {
   display: flex;
-  gap: 24px;
+  gap: 28px;
   list-style: none;
   align-items: center;
 }
 
 .nav-menu a {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
+  font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-decoration: none;
   color: var(--off-black);
   padding: 4px 0;
   border-bottom: 1px solid transparent;
-  transition: border-color 0.1s;
+  transition: border-color 0.2s, opacity 0.2s;
   font-weight: 500;
+  opacity: 0.7;
 }
 
 .nav-menu a:hover {
   border-bottom: 1px solid var(--off-black);
-}
-
-.btn-dark {
-  display: inline-block;
-  background: var(--off-black);
-  color: var(--cream);
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  padding: 10px 20px;
-  border: none;
-  border-radius: var(--radius);
-  cursor: pointer;
-  text-decoration: none;
-  transition: background 0.15s;
-  font-weight: 600;
-}
-
-.btn-dark:hover {
-  background: var(--raw-red);
-}
-
-/* NEW: Enhanced Primary Button for the Vision Section */
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--raw-red);
-  color: var(--white);
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 14px 28px;
-  border-radius: var(--radius);
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.25s ease;
-  font-weight: 700;
-  border: 1px solid var(--raw-red);
-  box-shadow: 0 4px 12px rgba(204, 0, 0, 0.15);
-}
-
-.btn-primary:hover {
-  background: transparent;
-  color: var(--raw-red);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(204, 0, 0, 0.25);
+  opacity: 1;
 }
 
 /* HERO */
@@ -169,13 +155,12 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(0.4) contrast(1.1) brightness(0.7);
 }
 
 .hero-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, rgba(13,13,13,0.95) 0%, rgba(13,13,13,0.3) 50%, rgba(13,13,13,0.6) 100%);
+  background: linear-gradient(0deg, rgba(13,13,13,0.92) 0%, rgba(13,13,13,0.2) 50%, rgba(13,13,13,0.5) 100%);
   z-index: 2;
 }
 
@@ -200,12 +185,16 @@ body {
   line-height: 0.8;
   letter-spacing: -0.05em;
   margin-bottom: 24px;
+  opacity: 0;
+  animation: fade-up 1s 0.3s forwards;
 }
 
 .hero-details {
   display: flex;
   gap: 40px;
   flex-wrap: wrap;
+  opacity: 0;
+  animation: fade-up 1s 0.6s forwards;
 }
 
 .hero-detail {
@@ -224,10 +213,15 @@ body {
 
 .hero-detail .detail-label {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
+  font-size: 8px;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.45);
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* COUNTDOWN */
@@ -254,6 +248,7 @@ body {
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--cream);
+  transition: opacity 0.3s;
 }
 
 .countdown-label {
@@ -280,11 +275,12 @@ body {
 
 .section-num {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 12px;
+  font-size: 11px;
   color: var(--steel);
   letter-spacing: 0.1em;
   margin-bottom: 16px;
   font-weight: 600;
+  opacity: 0.5;
 }
 
 .section-heading {
@@ -297,23 +293,29 @@ body {
   margin-bottom: 40px;
 }
 
+/* REVEAL ON SCROLL */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .divider {
   width: 100%;
   height: 1px;
   background: var(--off-black);
-  opacity: 0.2;
+  opacity: 0.15;
 }
 
 .divider-thick {
   width: 100%;
   height: 3px;
   background: var(--off-black);
-}
-
-.divider-red {
-  width: 100%;
-  height: 2px;
-  background: var(--raw-red);
 }
 
 /* ABOUT */
@@ -341,21 +343,46 @@ body {
   margin-bottom: 20px;
 }
 
-.tag-red {
+.tag-mono {
   display: inline-block;
-  background: var(--raw-red);
+  background: var(--off-black);
   color: var(--cream);
   padding: 3px 10px;
-  border-radius: 4px;
+  border-radius: 3px;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.04em;
 }
 
+.btn-mono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--off-black);
+  color: var(--cream);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 14px 28px;
+  border-radius: var(--radius);
+  cursor: crosshair;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 700;
+  border: 1px solid var(--off-black);
+}
+
+.btn-mono:hover {
+  background: transparent;
+  color: var(--off-black);
+  transform: translateY(-2px);
+}
+
 .embed-box {
   background: var(--off-black);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.06);
   border-radius: var(--radius);
   overflow: hidden;
 }
@@ -368,8 +395,8 @@ body {
 
 /* SEAT MAP */
 .seat-map-container {
-  background: var(--white); /* Updated to White */
-  border: 1px solid rgba(0,0,0,0.06);
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.04);
   border-radius: var(--radius);
   overflow: hidden;
   text-align: center;
@@ -381,7 +408,7 @@ body {
   height: auto;
   display: block;
   margin: 0 auto;
-  border-radius: 4px;
+  border-radius: 2px;
 }
 
 .seat-map-placeholder {
@@ -412,18 +439,19 @@ body {
 }
 
 .ticket-card {
-  border: 1px solid rgba(0,0,0,0.12);
+  border: 1px solid rgba(0,0,0,0.1);
   border-radius: var(--radius);
   padding: 28px;
   position: relative;
-  transition: all 0.15s;
-  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: crosshair;
   background: var(--cream);
 }
 
 .ticket-card:hover {
   background: var(--off-black);
   border-color: var(--off-black);
+  transform: translateY(-4px);
 }
 
 .ticket-card:hover .ticket-name,
@@ -440,7 +468,7 @@ body {
   letter-spacing: -0.02em;
   color: var(--off-black);
   margin-bottom: 16px;
-  transition: color 0.15s;
+  transition: color 0.3s;
   line-height: 1;
 }
 
@@ -450,7 +478,7 @@ body {
   font-weight: 700;
   color: var(--off-black);
   margin-bottom: 8px;
-  transition: color 0.15s;
+  transition: color 0.3s;
 }
 
 .ticket-price-text .currency {
@@ -465,17 +493,17 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--steel);
-  transition: color 0.15s;
+  transition: color 0.3s;
 }
 
-.ticket-badge {
+.ticket-label {
   position: absolute;
   top: 14px;
   right: 14px;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 8px;
   font-weight: 700;
-  color: var(--raw-red);
+  color: var(--steel);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -496,27 +524,27 @@ body {
 .promoters-text a {
   color: var(--off-black);
   text-decoration: underline;
-  transition: color 0.15s;
+  transition: opacity 0.2s;
   font-weight: 600;
 }
 
 .promoters-text a:hover {
-  color: var(--raw-red);
+  opacity: 0.6;
 }
 
-/* FAQ (Improved Smooth Animation) */
+/* FAQ */
 .faq-list {
   list-style: none;
 }
 
 .faq-item {
-  border-top: 1px solid rgba(0,0,0,0.1);
-  cursor: pointer;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  cursor: crosshair;
   padding: 24px 0;
 }
 
 .faq-item:last-child {
-  border-bottom: 1px solid rgba(0,0,0,0.1);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
 }
 
 .faq-row {
@@ -525,15 +553,19 @@ body {
   align-items: flex-start;
   gap: 20px;
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  transition: color 0.3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .faq-item:hover .faq-row {
-  color: var(--raw-red);
+  opacity: 0.5;
+}
+
+.faq-item.open .faq-row {
+  opacity: 1;
 }
 
 .faq-icon {
@@ -541,24 +573,21 @@ body {
   font-size: 20px;
   font-weight: 400;
   flex-shrink: 0;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .faq-item.open .faq-icon {
   transform: rotate(45deg);
-  color: var(--raw-red);
 }
 
 .faq-body {
   display: grid;
   grid-template-rows: 0fr;
-  opacity: 0;
-  transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  transition: grid-template-rows 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .faq-item.open .faq-body {
   grid-template-rows: 1fr;
-  opacity: 1;
 }
 
 .faq-body > div {
@@ -568,7 +597,7 @@ body {
 .faq-text {
   padding-top: 16px;
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--steel);
   line-height: 1.7;
   font-weight: 400;
@@ -621,17 +650,17 @@ body {
 .footer-links a {
   color: var(--concrete);
   text-decoration: none;
-  transition: color 0.15s;
+  transition: opacity 0.2s;
 }
 
 .footer-links a:hover {
-  color: var(--cream);
+  opacity: 0.6;
 }
 
 .footer-bottom {
   margin-top: 40px;
   padding-top: 24px;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  border-top: 1px solid rgba(255,255,255,0.08);
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -655,7 +684,7 @@ body {
   border: none;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 24px;
-  cursor: pointer;
+  cursor: crosshair;
   color: var(--off-black);
   padding: 8px;
 }
@@ -674,7 +703,7 @@ body {
     right: 0;
     background: var(--cream);
     padding: 24px;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
     gap: 16px;
     z-index: 998;
   }
@@ -698,6 +727,11 @@ body {
 
 <body>
 
+<!-- PRELOADER -->
+<div class="preloader" id="preloader">
+  <div class="preloader-text">YE</div>
+</div>
+
 <div class="scanlines"></div>
 
 <nav class="nav-bar">
@@ -710,12 +744,11 @@ body {
     <li><a href="#promoters">PROMOTERS</a></li>
     <li><a href="#faq">FAQ</a></li>
   </ul>
-  <a href="https://bugece.co" target="_blank" rel="noopener" class="btn-dark hide-mobile">BUGECE</a>
 </nav>
 
 <section class="hero-section">
   <div class="hero-bg">
-    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 900'%3E%3Cdefs%3E%3CradialGradient id='g' cx='50%25' cy='50%25'%3E%3Cstop offset='0%25' stop-color='%232a2a2a'/%3E%3Cstop offset='100%25' stop-color='%230d0d0d'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='1440' height='900'/%3E%3C/svg%3E" alt="" />
+    <img src="front.jpeg" alt="YE" />
   </div>
   <div class="hero-gradient"></div>
   <div class="hero-text">
@@ -762,16 +795,17 @@ body {
   </div>
 </section>
 
+<div class="reveal">
 <section id="vision" class="section-block">
   <p class="section-num">01</p>
   <h2 class="section-heading">THE<br>VISION</h2>
   <div class="about-grid">
     <div class="about-text">
-      <p><span class="tag-red">ISTANBUL</span> YE arrives for a singular stadium performance. A full visual production built from the ground up. Immersive stage design. Music spanning the entire catalog.</p>
+      <p><span class="tag-mono">ISTANBUL</span> YE arrives for a singular stadium performance. A full visual production built from the ground up. Immersive stage design. Music spanning the entire catalog.</p>
       <p>This is not a concert. This is a moment. A gathering. A frequency. The stadium becomes a vessel. The crowd becomes the choir.</p>
       <p>No phones. No distractions. Just sound, light, and presence.</p>
       <div style="margin-top: 32px;">
-        <a href="https://bugece.co" class="btn-primary" target="_blank" rel="noopener">GET TICKETS → BUGECE</a>
+        <a href="https://bugece.co" class="btn-mono" target="_blank" rel="noopener">GET TICKETS → BUGECE</a>
       </div>
     </div>
     <div class="embed-box">
@@ -779,9 +813,11 @@ body {
     </div>
   </div>
 </section>
+</div>
 
 <div class="divider-thick"></div>
 
+<div class="reveal">
 <section id="seats" class="section-block">
   <p class="section-num">02</p>
   <h2 class="section-heading">THE<br>GROUND</h2>
@@ -790,57 +826,63 @@ body {
     <p class="seat-map-placeholder" style="display:none;">SEAT MAP — ADD YOUR PNG AS "seat-map.png"</p>
   </div>
 </section>
+</div>
 
-<div class="divider-red"></div>
+<div class="divider"></div>
 
+<div class="reveal">
 <section id="tickets" class="section-block">
   <p class="section-num">03</p>
   <h2 class="section-heading">TICKETS</h2>
-  <p style="font-family:'IBM Plex Mono', monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--steel); margin-bottom:40px; font-weight:600;">
-    ALL TICKETS VIA <a href="https://bugece.co" style="color:var(--raw-red);text-decoration:underline;font-weight:700;">BUGECE.CO</a>
+  <p style="font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--steel);margin-bottom:40px;font-weight:600;">
+    ALL TICKETS VIA <a href="https://bugece.co" style="color:var(--off-black);text-decoration:underline;font-weight:700;">BUGECE.CO</a>
   </p>
   <div class="ticket-grid">
     <div class="ticket-card" onclick="window.open('https://bugece.co','_blank')">
       <div class="ticket-name">GENERAL<br>ADMISSION</div>
       <div class="ticket-price-text">₺2.500 <span class="currency">TRY</span></div>
       <div class="ticket-info-text">Upper bowl access</div>
-      <div class="ticket-badge">TIER 1</div>
+      <div class="ticket-label">TIER 1</div>
     </div>
     <div class="ticket-card" onclick="window.open('https://bugece.co','_blank')">
       <div class="ticket-name">SEATED</div>
       <div class="ticket-price-text">₺4.000 <span class="currency">TRY</span></div>
       <div class="ticket-info-text">Lower bowl reserved</div>
-      <div class="ticket-badge">TIER 2</div>
+      <div class="ticket-label">TIER 2</div>
     </div>
     <div class="ticket-card" onclick="window.open('https://bugece.co','_blank')">
       <div class="ticket-name">VIP<br>FLOOR</div>
       <div class="ticket-price-text">₺8.500 <span class="currency">TRY</span></div>
       <div class="ticket-info-text">Standing floor access</div>
-      <div class="ticket-badge">LIMITED</div>
+      <div class="ticket-label">LIMITED</div>
     </div>
     <div class="ticket-card" onclick="window.open('https://bugece.co','_blank')">
       <div class="ticket-name">VIP<br>LOUNGE</div>
       <div class="ticket-price-text">₺15.000 <span class="currency">TRY</span></div>
       <div class="ticket-info-text">Premium hospitality</div>
-      <div class="ticket-badge">EXCLUSIVE</div>
+      <div class="ticket-label">EXCLUSIVE</div>
     </div>
   </div>
 </section>
+</div>
 
 <div class="divider"></div>
 
+<div class="reveal">
 <section id="promoters" class="section-block">
   <p class="section-num">04</p>
   <h2 class="section-heading">PROMOTERS</h2>
   <div class="promoters-text">
-    <p><span class="tag-red">ACCESS OPERA</span> is the exclusive promotional partner for YE Istanbul. For media inquiries, brand partnerships, and hospitality packages, contact the team directly.</p>
+    <p><span class="tag-mono">ACCESS OPERA</span> is the exclusive promotional partner for YE Istanbul. For media inquiries, brand partnerships, and hospitality packages, contact the team directly.</p>
     <p>Access Opera is a leading live entertainment promoter specializing in bringing global artists to Turkey and the wider region. With a track record of sold-out stadium shows and premium production values, they are the force behind this historic performance.</p>
     <p>For all promoter-related inquiries:<br /><a href="mailto:info@accessopera.com">INFO@ACCESSOPERA.COM</a></p>
   </div>
 </section>
+</div>
 
 <div class="divider"></div>
 
+<div class="reveal">
 <section id="faq" class="section-block">
   <p class="section-num">05</p>
   <h2 class="section-heading">FAQ</h2>
@@ -923,6 +965,7 @@ body {
     </div>
   </div>
 </section>
+</div>
 
 <footer class="footer-section">
   <div class="footer-grid">
@@ -955,28 +998,72 @@ body {
 
 <script>
 (function() {
+  // PRELOADER
+  var preloader = document.getElementById('preloader');
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      preloader.classList.add('hidden');
+    }, 800);
+  });
+  // Fallback
+  setTimeout(function() {
+    preloader.classList.add('hidden');
+  }, 4000);
+
+  // COUNTDOWN
   var eventDate = new Date('2026-05-30T20:00:00+03:00').getTime();
+  var prevValues = ['', '', '', ''];
   function pad(n) { return String(Math.max(0, Math.floor(n))).padStart(2, '0'); }
   function updateCountdown() {
     var d = Math.max(0, eventDate - Date.now());
-    document.getElementById('days').textContent = pad(d / (1000 * 60 * 60 * 24));
-    document.getElementById('hours').textContent = pad((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    document.getElementById('minutes').textContent = pad((d % (1000 * 60 * 60)) / (1000 * 60));
-    document.getElementById('seconds').textContent = pad((d % (1000 * 60)) / 1000);
+    var values = [
+      pad(d / (1000 * 60 * 60 * 24)),
+      pad((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+      pad((d % (1000 * 60 * 60)) / (1000 * 60)),
+      pad((d % (1000 * 60)) / 1000)
+    ];
+    var ids = ['days', 'hours', 'minutes', 'seconds'];
+    ids.forEach(function(id, i) {
+      var el = document.getElementById(id);
+      if (el && values[i] !== prevValues[i]) {
+        el.style.opacity = '0';
+        setTimeout(function() {
+          el.textContent = values[i];
+          el.style.opacity = '1';
+        }, 150);
+        prevValues[i] = values[i];
+      } else if (el && prevValues[i] === '') {
+        el.textContent = values[i];
+        prevValues[i] = values[i];
+      }
+    });
   }
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
+  // FAQ
   document.querySelectorAll('.faq-item').forEach(function(item) {
     item.addEventListener('click', function() { item.classList.toggle('open'); });
   });
 
+  // MOBILE MENU
   var menuBtn = document.getElementById('menuBtn');
   var navMenu = document.getElementById('navMenu');
   menuBtn.addEventListener('click', function() { navMenu.classList.toggle('open'); });
   navMenu.querySelectorAll('a').forEach(function(link) {
     link.addEventListener('click', function() { navMenu.classList.remove('open'); });
   });
+
+  // SCROLL REVEAL
+  var revealElements = document.querySelectorAll('.reveal');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+  revealElements.forEach(function(el) { observer.observe(el); });
 })();
 </script>
 
