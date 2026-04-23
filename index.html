@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>YE — ISTANBUL</title>
-<meta name="description" content="YE live at Atatürk Olympic Stadium, Istanbul. May 30 2026. Tickets via Bugece." />
+<meta name="description" content="YE live at Atatürk Olympic Stadium, Istanbul. May 30 2026. Presented by Access Opera. Tickets via Bugece." />
 <meta property="og:title" content="YE — ISTANBUL" />
 <meta property="og:description" content="YE live at Atatürk Olympic Stadium. May 30 2026." />
 <meta property="og:type" content="website" />
@@ -102,7 +102,7 @@ body {
 .nav-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .nav-logo {
@@ -114,11 +114,17 @@ body {
   text-decoration: none;
 }
 
+.nav-separator {
+  width: 1px;
+  height: 16px;
+  background: rgba(0,0,0,0.2);
+}
+
 .nav-logo-img {
-  height: 18px;
+  height: 16px;
   width: auto;
   display: block;
-  opacity: 0.8;
+  opacity: 0.7;
 }
 
 .nav-menu {
@@ -128,30 +134,13 @@ body {
   align-items: center;
 }
 
-.nav-menu a {
+.nav-menu a,
+.nav-menu .nav-btn {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.14em;
   text-decoration: none;
-  color: var(--off-black);
-  padding: 4px 0;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s, opacity 0.2s;
-  font-weight: 500;
-  opacity: 0.7;
-}
-
-.nav-menu a:hover {
-  border-bottom: 1px solid var(--off-black);
-  opacity: 1;
-}
-
-.seat-map-link {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
   color: var(--off-black);
   padding: 4px 0;
   border: none;
@@ -163,7 +152,8 @@ body {
   background: none;
 }
 
-.seat-map-link:hover {
+.nav-menu a:hover,
+.nav-menu .nav-btn:hover {
   border-bottom: 1px solid var(--off-black);
   opacity: 1;
 }
@@ -191,10 +181,27 @@ body {
   object-fit: cover;
 }
 
+.hero-bg .desktop-img {
+  display: block;
+}
+
+.hero-bg .mobile-img {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .hero-bg .desktop-img {
+    display: none;
+  }
+  .hero-bg .mobile-img {
+    display: block;
+  }
+}
+
 .hero-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, rgba(13,13,13,0.94) 0%, rgba(13,13,13,0.18) 50%, rgba(13,13,13,0.5) 100%);
+  background: linear-gradient(0deg, rgba(13,13,13,0.94) 0%, rgba(13,13,13,0.15) 50%, rgba(13,13,13,0.5) 100%);
   z-index: 2;
 }
 
@@ -207,6 +214,17 @@ body {
 
 @media (min-width: 768px) {
   .hero-text { padding: 96px 64px; }
+}
+
+.hero-presenter {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: fade-up 1s 0.15s forwards;
 }
 
 .hero-ye {
@@ -418,19 +436,6 @@ body {
   letter-spacing: 0.04em;
 }
 
-.tag-outline {
-  display: inline-block;
-  border: 1px solid var(--off-black);
-  color: var(--off-black);
-  padding: 3px 10px;
-  border-radius: 3px;
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  opacity: 0.7;
-}
-
 .embed-box {
   background: transparent;
   overflow: hidden;
@@ -502,54 +507,18 @@ body {
 .ticket-card {
   border: 1px solid rgba(0,0,0,0.08);
   border-radius: var(--radius);
-  padding: 32px 28px 28px;
+  padding: 32px 28px 24px;
   position: relative;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 0.3s ease;
   background: var(--cream);
   display: flex;
   flex-direction: column;
-  min-height: 260px;
-}
-
-.ticket-card:hover {
-  background: var(--off-black);
-  border-color: var(--off-black);
-  transform: translateY(-6px);
-  z-index: 10;
+  min-height: 280px;
 }
 
 .ticket-card.featured {
   border-color: var(--off-black);
-  border-width: 2px;
-}
-
-.ticket-card.featured::before {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  right: -1px;
-  bottom: -1px;
-  border: 1px solid var(--off-black);
-  border-radius: var(--radius);
-  pointer-events: none;
-}
-
-.ticket-card:hover .ticket-name,
-.ticket-card:hover .ticket-price-text,
-.ticket-card:hover .ticket-info-text,
-.ticket-card:hover .ticket-label {
-  color: var(--cream);
-}
-
-.ticket-card:hover .ticket-divider {
-  background: rgba(255,255,255,0.2);
-}
-
-.ticket-card:hover .ticket-btn {
-  background: var(--cream);
-  color: var(--off-black);
-  border-color: var(--cream);
+  border-width: 1.5px;
 }
 
 .ticket-label {
@@ -560,7 +529,6 @@ body {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   margin-bottom: 16px;
-  transition: color 0.3s;
 }
 
 .ticket-name {
@@ -571,7 +539,6 @@ body {
   letter-spacing: -0.02em;
   color: var(--off-black);
   margin-bottom: 8px;
-  transition: color 0.3s;
   line-height: 1;
 }
 
@@ -581,7 +548,6 @@ body {
   font-weight: 700;
   color: var(--off-black);
   margin-bottom: 6px;
-  transition: color 0.3s;
   line-height: 1;
 }
 
@@ -598,7 +564,6 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--steel);
-  transition: color 0.3s;
   margin-bottom: 8px;
 }
 
@@ -607,13 +572,13 @@ body {
   height: 1px;
   background: rgba(0,0,0,0.1);
   margin: 12px 0 16px;
-  transition: background 0.3s;
 }
 
 .ticket-features {
   list-style: none;
   margin-bottom: 20px;
   flex-grow: 1;
+  padding: 0;
 }
 
 .ticket-features li {
@@ -622,36 +587,47 @@ body {
   color: var(--steel);
   letter-spacing: 0.04em;
   padding: 2px 0;
-  transition: color 0.3s;
+  position: relative;
+  padding-left: 12px;
 }
 
-.ticket-card:hover .ticket-features li {
-  color: rgba(255,255,255,0.6);
+.ticket-features li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 4px;
+  height: 1px;
+  background: var(--concrete);
+}
+
+/* SKELETAL FRAME BUTTON */
+.ticket-btn-wrap {
+  margin-top: auto;
 }
 
 .ticket-btn {
   display: block;
   width: 100%;
-  margin-top: auto;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--cream);
-  background: var(--off-black);
+  letter-spacing: 0.15em;
+  color: var(--off-black);
+  background: transparent;
   border: 1px solid var(--off-black);
-  padding: 14px 16px;
-  border-radius: var(--radius);
+  padding: 12px 16px;
   text-align: center;
   text-decoration: none;
-  font-weight: 700;
-  transition: all 0.3s ease;
+  font-weight: 500;
+  transition: all 0.25s ease;
   cursor: crosshair;
+  border-radius: 0;
 }
 
 .ticket-btn:hover {
-  background: transparent;
-  color: var(--off-black);
+  background: var(--off-black);
+  color: var(--cream);
 }
 
 /* PROMOTERS */
@@ -732,6 +708,22 @@ body {
 
 .promoters-side .partner-block {
   margin-bottom: 20px;
+}
+
+.press-note {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--steel);
+  letter-spacing: 0.06em;
+}
+
+.press-note a {
+  color: var(--off-black);
+  text-decoration: underline;
+  font-weight: 600;
 }
 
 /* FAQ */
@@ -834,6 +826,15 @@ body {
 .footer-tagline {
   margin-top: 12px;
   color: var(--concrete);
+  font-size: 10px;
+}
+
+.footer-presenter {
+  margin-top: 8px;
+  color: var(--cream);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  font-size: 9px;
 }
 
 .footer-links {
@@ -872,12 +873,6 @@ body {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 16px;
-}
-
-.footer-promoter {
-  color: var(--cream);
-  font-weight: 600;
-  letter-spacing: 0.1em;
 }
 
 /* SCANLINES */
@@ -919,6 +914,9 @@ body {
   }
   .mobile-menu-btn { display: block; }
   .hide-mobile { display: none; }
+  .ticket-card.featured {
+    border-width: 1px;
+  }
 }
 
 @media (min-width: 768px) {
@@ -943,12 +941,13 @@ body {
 <nav class="nav-bar">
   <div class="nav-left">
     <a href="#" class="nav-logo">YE</a>
-    <img src="opera.png" alt="Access Opera" class="nav-logo-img" />
+    <div class="nav-separator"></div>
+    <img src="opera.jpeg" alt="Access Opera" class="nav-logo-img" />
   </div>
   <button class="mobile-menu-btn" id="menuBtn" aria-label="Menu">☰</button>
   <ul class="nav-menu" id="navMenu">
     <li><a href="#vision">VISION</a></li>
-    <li><button class="seat-map-link" id="seatMapHeaderBtn">MAP</button></li>
+    <li><button class="nav-btn" id="seatMapHeaderBtn">MAP</button></li>
     <li><a href="#tickets">TICKETS</a></li>
     <li><a href="#promoters">PROMOTERS</a></li>
     <li><a href="#faq">FAQ</a></li>
@@ -957,10 +956,14 @@ body {
 
 <section class="hero-section">
   <div class="hero-bg">
-    <img src="front.jpg" alt="YE" />
+    <!-- Desktop image -->
+    <img src="front.jpg" alt="YE" class="desktop-img" />
+    <!-- Mobile image — replace with your portrait crop -->
+    <img src="front-mobile.jpg" alt="YE" class="mobile-img" />
   </div>
   <div class="hero-gradient"></div>
   <div class="hero-text">
+    <p class="hero-presenter">ACCESS OPERA PRESENTS</p>
     <h1 class="hero-ye">YE</h1>
     <div class="hero-details">
       <div class="hero-detail">
@@ -1035,6 +1038,7 @@ body {
     EXCLUSIVELY VIA <a href="https://bugece.co" style="color:var(--off-black);text-decoration:underline;font-weight:700;">BUGECE.CO</a>
   </p>
   <div class="ticket-grid">
+    <!-- GENERAL ADMISSION -->
     <div class="ticket-card">
       <div class="ticket-label">TIER 1</div>
       <div class="ticket-name">GENERAL<br>ADMISSION</div>
@@ -1043,11 +1047,15 @@ body {
       <div class="ticket-divider"></div>
       <ul class="ticket-features">
         <li>Stadium access</li>
-        <li>Upper bowl view</li>
+        <li>Upper bowl viewing</li>
         <li>General facilities</li>
       </ul>
-      <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a>
+      <div class="ticket-btn-wrap">
+        <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a>
+      </div>
     </div>
+
+    <!-- SEATED -->
     <div class="ticket-card">
       <div class="ticket-label">TIER 2</div>
       <div class="ticket-name">SEATED</div>
@@ -1056,11 +1064,15 @@ body {
       <div class="ticket-divider"></div>
       <ul class="ticket-features">
         <li>Reserved seating</li>
-        <li>Lower bowl view</li>
+        <li>Lower bowl sightlines</li>
         <li>Priority entry lane</li>
       </ul>
-      <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a>
+      <div class="ticket-btn-wrap">
+        <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a>
+      </div>
     </div>
+
+    <!-- VIP FLOOR -->
     <div class="ticket-card">
       <div class="ticket-label">LIMITED</div>
       <div class="ticket-name">VIP<br>FLOOR</div>
@@ -1071,10 +1083,14 @@ body {
         <li>Floor access</li>
         <li>Dedicated bar</li>
         <li>VIP entrance</li>
-        <li>Limited edition merch</li>
+        <li>Limited edition merchandise</li>
       </ul>
-      <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a>
+      <div class="ticket-btn-wrap">
+        <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a>
+      </div>
     </div>
+
+    <!-- VIP LOUNGE -->
     <div class="ticket-card featured">
       <div class="ticket-label">EXCLUSIVE</div>
       <div class="ticket-name">VIP<br>LOUNGE</div>
@@ -1088,7 +1104,9 @@ body {
         <li>Exclusive merchandise</li>
         <li>Parking included</li>
       </ul>
-      <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a>
+      <div class="ticket-btn-wrap">
+        <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a>
+      </div>
     </div>
   </div>
 </section>
@@ -1105,8 +1123,11 @@ body {
       <p class="lead-tag">LEAD PROMOTER</p>
       <h3>ACCESS<br>OPERA</h3>
       <p>Access Opera is the exclusive lead promoter for YE at Atatürk Olympic Stadium. As one of Turkey's premier live entertainment companies, Access Opera has delivered landmark stadium shows and built a reputation for flawless production at the highest level.</p>
-      <p>For media inquiries, brand partnerships, and hospitality packages, contact the Access Opera team directly.</p>
+      <p>For all media inquiries, brand partnerships, and hospitality packages:</p>
       <p><a href="mailto:info@accessopera.com">INFO@ACCESSOPERA.COM</a></p>
+      <div class="press-note">
+        Media assets and press accreditation — <a href="mailto:press@accessopera.com">REQUEST HERE</a>
+      </div>
     </div>
     <div class="promoters-side">
       <div class="partner-block">
@@ -1178,6 +1199,7 @@ body {
     <div>
       <div class="footer-logo">YE</div>
       <p class="footer-tagline">ISTANBUL — 30.05.26<br />ATATÜRK OLYMPIC STADIUM</p>
+      <p class="footer-presenter">PRESENTED BY ACCESS OPERA</p>
     </div>
     <div>
       <ul class="footer-links">
@@ -1193,12 +1215,13 @@ body {
         <li><a href="#">PRIVACY</a></li>
         <li><a href="#">TERMS</a></li>
         <li><a href="mailto:info@accessopera.com">CONTACT</a></li>
+        <li><a href="mailto:press@accessopera.com">PRESS</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
     <span>© 2026 YE ISTANBUL</span>
-    <span class="footer-promoter">ACCESS OPERA</span>
+    <span>ACCESS OPERA</span>
   </div>
 </footer>
 
