@@ -48,10 +48,17 @@ body {
   background: var(--cream);
   z-index: 10000;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 20px;
   transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: crosshair;
+}
+  .preloader-divider {
+  width: 40px;
+  height: 1px;
+  background: rgba(0,0,0,0.2);
 }
 .preloader.hidden { opacity: 0; transform: scale(1.04); pointer-events: none; }
 .preloader-text {
@@ -453,7 +460,11 @@ body {
 
 <body>
 
-<div class="preloader" id="preloader"><div class="preloader-text">YE</div></div>
+<div class="preloader" id="preloader">
+  <div class="preloader-text">YE</div>
+  <div class="preloader-divider"></div>
+  <img src="opera.png" alt="Access Opera" class="preloader-logo" />
+</div>
 <div class="seat-map-overlay" id="seatMapOverlay">
   <button class="seat-map-close" id="seatMapClose">✕</button>
   <img src="seat-map.png" alt="Venue Seat Map" id="seatMapImg" />
