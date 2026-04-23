@@ -4,9 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>YE — ISTANBUL</title>
-<meta name="description" content="YE live at Turk Telekom Stadium, Istanbul. May 30 2026. Tickets via Bugece." />
+<meta name="description" content="YE live at Ataturk Stadium, Istanbul. May 30 2026. Tickets via Bugece." />
 <meta property="og:title" content="YE — ISTANBUL" />
-<meta property="og:description" content="YE live at Turk Telekom Stadium. May 30 2026." />
+<meta property="og:description" content="YE live at Ataturk Stadium. May 30 2026." />
 <meta property="og:type" content="website" />
 <meta name="theme-color" content="#0D0D0D" />
 
@@ -370,6 +370,39 @@ body {
   }
 }
 
+/* Vision section-specific alignment */
+.vision-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+@media (min-width: 768px) {
+  .vision-layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+}
+
+.vision-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.vision-heading-wrap {
+  margin-bottom: 24px;
+}
+
+.vision-heading-wrap .section-num {
+  margin-bottom: 8px;
+}
+
+.vision-heading-wrap .section-heading {
+  margin-bottom: 0;
+}
+
 .about-text {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 13px;
@@ -492,8 +525,9 @@ body {
   padding: 28px;
   position: relative;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: crosshair;
   background: var(--cream);
+  display: flex;
+  flex-direction: column;
 }
 
 .ticket-card:hover {
@@ -506,6 +540,12 @@ body {
 .ticket-card:hover .ticket-price-text,
 .ticket-card:hover .ticket-info-text {
   color: var(--cream);
+}
+
+.ticket-card:hover .ticket-btn {
+  background: var(--cream);
+  color: var(--off-black);
+  border-color: var(--cream);
 }
 
 .ticket-name {
@@ -542,6 +582,7 @@ body {
   letter-spacing: 0.1em;
   color: var(--steel);
   transition: color 0.3s;
+  margin-bottom: 20px;
 }
 
 .ticket-label {
@@ -558,18 +599,26 @@ body {
 
 .ticket-btn {
   display: inline-block;
-  margin-top: 16px;
+  margin-top: auto;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 9px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   color: var(--off-black);
-  text-decoration: underline;
+  background: transparent;
+  border: 1px solid var(--off-black);
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  text-align: center;
+  text-decoration: none;
   font-weight: 600;
-  transition: opacity 0.2s;
+  transition: all 0.3s ease;
+  cursor: crosshair;
+  align-self: flex-start;
 }
 
-.ticket-card:hover .ticket-btn {
+.ticket-btn:hover {
+  background: var(--off-black);
   color: var(--cream);
 }
 
@@ -813,12 +862,10 @@ body {
 
 <body>
 
-<!-- PRELOADER -->
 <div class="preloader" id="preloader">
   <div class="preloader-text">YE</div>
 </div>
 
-<!-- SEAT MAP OVERLAY -->
 <div class="seat-map-overlay" id="seatMapOverlay">
   <button class="seat-map-close" id="seatMapClose">✕</button>
   <img src="seat-map.png" alt="Venue Seat Map" id="seatMapImg" />
@@ -854,7 +901,7 @@ body {
         <span class="detail-label">DATE</span>
       </div>
       <div class="hero-detail">
-        <span class="detail-value">TURK TELEKOM</span>
+        <span class="detail-value">ATATURK</span>
         <span class="detail-label">VENUE</span>
       </div>
       <div class="hero-detail">
@@ -892,13 +939,17 @@ body {
 
 <div class="reveal">
 <section id="vision" class="section-block">
-  <p class="section-num">01</p>
-  <h2 class="section-heading">THE<br>VISION</h2>
-  <div class="about-grid">
-    <div class="about-text">
-      <p><span class="tag-mono">ISTANBUL</span> YE arrives for a singular stadium performance. A full visual production built from the ground up. Immersive stage design. Music spanning the entire catalog.</p>
-      <p>This is not a concert. This is a moment. A gathering. A frequency. The stadium becomes a vessel. The crowd becomes the choir.</p>
-      <p>No phones. No distractions. Just sound, light, and presence.</p>
+  <div class="vision-layout">
+    <div class="vision-left">
+      <div class="vision-heading-wrap">
+        <p class="section-num">01</p>
+        <h2 class="section-heading">THE<br>VISION</h2>
+      </div>
+      <div class="about-text">
+        <p><span class="tag-mono">ISTANBUL</span> YE arrives for a singular stadium performance. A full visual production built from the ground up. Immersive stage design. Music spanning the entire catalog.</p>
+        <p>This is not a concert. This is a moment. A gathering. A frequency. The stadium becomes a vessel. The crowd becomes the choir.</p>
+        <p>No phones. No distractions. Just sound, light, and presence.</p>
+      </div>
     </div>
     <div class="embed-box">
       <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/album/5poA9SAx0Xiz1cf17fWBLS?utm_source=generator" width="100%" height="352" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
@@ -922,28 +973,28 @@ body {
       <div class="ticket-price-text">₺2.500 <span class="currency">TRY</span></div>
       <div class="ticket-info-text">Upper bowl access</div>
       <div class="ticket-label">TIER 1</div>
-      <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS →</a>
+      <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a>
     </div>
     <div class="ticket-card">
       <div class="ticket-name">SEATED</div>
       <div class="ticket-price-text">₺4.000 <span class="currency">TRY</span></div>
       <div class="ticket-info-text">Lower bowl reserved</div>
       <div class="ticket-label">TIER 2</div>
-      <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS →</a>
+      <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a>
     </div>
     <div class="ticket-card">
       <div class="ticket-name">VIP<br>FLOOR</div>
       <div class="ticket-price-text">₺8.500 <span class="currency">TRY</span></div>
       <div class="ticket-info-text">Standing floor access</div>
       <div class="ticket-label">LIMITED</div>
-      <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS →</a>
+      <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a>
     </div>
     <div class="ticket-card">
       <div class="ticket-name">VIP<br>LOUNGE</div>
       <div class="ticket-price-text">₺15.000 <span class="currency">TRY</span></div>
       <div class="ticket-info-text">Premium hospitality</div>
       <div class="ticket-label">EXCLUSIVE</div>
-      <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS →</a>
+      <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a>
     </div>
   </div>
 </section>
@@ -1045,18 +1096,12 @@ body {
 
 <script>
 (function() {
-  // PRELOADER
   var preloader = document.getElementById('preloader');
   window.addEventListener('load', function() {
-    setTimeout(function() {
-      preloader.classList.add('hidden');
-    }, 800);
+    setTimeout(function() { preloader.classList.add('hidden'); }, 800);
   });
-  setTimeout(function() {
-    preloader.classList.add('hidden');
-  }, 4000);
+  setTimeout(function() { preloader.classList.add('hidden'); }, 4000);
 
-  // COUNTDOWN
   var eventDate = new Date('2026-05-30T20:00:00+03:00').getTime();
   var prevValues = ['', '', '', ''];
   function pad(n) { return String(Math.max(0, Math.floor(n))).padStart(2, '0'); }
@@ -1073,10 +1118,7 @@ body {
       var el = document.getElementById(id);
       if (el && values[i] !== prevValues[i]) {
         el.style.opacity = '0';
-        setTimeout(function() {
-          el.textContent = values[i];
-          el.style.opacity = '1';
-        }, 150);
+        setTimeout(function() { el.textContent = values[i]; el.style.opacity = '1'; }, 150);
         prevValues[i] = values[i];
       } else if (el && prevValues[i] === '') {
         el.textContent = values[i];
@@ -1087,12 +1129,10 @@ body {
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
-  // FAQ
   document.querySelectorAll('.faq-item').forEach(function(item) {
     item.addEventListener('click', function() { item.classList.toggle('open'); });
   });
 
-  // MOBILE MENU
   var menuBtn = document.getElementById('menuBtn');
   var navMenu = document.getElementById('navMenu');
   menuBtn.addEventListener('click', function() { navMenu.classList.toggle('open'); });
@@ -1100,39 +1140,25 @@ body {
     el.addEventListener('click', function() { navMenu.classList.remove('open'); });
   });
 
-  // SEAT MAP OVERLAY
   var overlay = document.getElementById('seatMapOverlay');
   var seatMapImg = document.getElementById('seatMapImg');
   var seatMapClose = document.getElementById('seatMapClose');
   var seatMapHeaderBtn = document.getElementById('seatMapHeaderBtn');
   var seatMapFooterBtn = document.getElementById('seatMapFooterBtn');
 
-  function openSeatMap() {
-    overlay.classList.add('open');
-  }
-
-  function closeSeatMap() {
-    overlay.classList.remove('open');
-  }
+  function openSeatMap() { overlay.classList.add('open'); }
+  function closeSeatMap() { overlay.classList.remove('open'); }
 
   seatMapHeaderBtn.addEventListener('click', openSeatMap);
   if (seatMapFooterBtn) seatMapFooterBtn.addEventListener('click', openSeatMap);
   seatMapClose.addEventListener('click', closeSeatMap);
-  overlay.addEventListener('click', function(e) {
-    if (e.target === overlay) closeSeatMap();
-  });
-  // Fallback if image fails to load
-  seatMapImg.onerror = function() {
-    seatMapImg.style.display = 'none';
-  };
+  overlay.addEventListener('click', function(e) { if (e.target === overlay) closeSeatMap(); });
+  seatMapImg.onerror = function() { seatMapImg.style.display = 'none'; };
 
-  // SCROLL REVEAL
   var revealElements = document.querySelectorAll('.reveal');
   var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
+      if (entry.isIntersecting) entry.target.classList.add('visible');
     });
   }, { threshold: 0.15 });
   revealElements.forEach(function(el) { observer.observe(el); });
