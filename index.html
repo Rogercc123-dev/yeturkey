@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>YE — Istanbul Live</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Helvetica,Arial,sans-serif;background:#fff;color:#000;line-height:1.6}
+
+nav{
+position:fixed;top:0;left:0;right:0;height:64px;background:#fff;border-bottom:1px solid #eee;
+display:flex;align-items:center;justify-content:space-between;padding:0 40px;z-index:999
+}
+
+.logo{font-weight:700;letter-spacing:.2em}
+
+nav ul{display:flex;gap:28px;list-style:none}
+
+nav a{text-decoration:none;color:#444;font-size:12px;text-transform:uppercase}
+
+.cta{background:#000;color:#fff;border:none;padding:10px 22px;cursor:pointer;font-size:11px;letter-spacing:.15em}
+
+.hero{
+margin-top:64px;height:90vh;background:#000;color:#fff;display:flex;flex-direction:column;justify-content:flex-end
+}
+
+.hero video,.hero iframe{width:100%;height:100%;object-fit:cover;border:none}
+
+.hero-bottom{padding:40px}
+
+.hero-title{font-size:120px;font-weight:800;letter-spacing:-.03em}
+
+.meta{display:flex;gap:60px;margin-top:20px}
+
+.meta div{font-size:12px;color:#ccc}
+
+.countdown{display:flex;gap:30px;margin-top:30px}
+
+.time span{font-size:32px;font-weight:700}
+.time p{font-size:10px;color:#aaa}
+
+section{padding:120px 40px;border-bottom:1px solid #eee}
+
+.section-title{font-size:42px;margin-bottom:30px}
+
+.reveal{opacity:0;transform:translateY(80px);transition:all 1s cubic-bezier(.16,1,.3,1)}
+.reveal.active{opacity:1;transform:translateY(0)}
+
+.about{max-width:900px}
+
+.spotify{
+margin-top:40px
+}
+
+.seatmap svg{width:100%;max-width:900px;margin:auto;display:block}
+
+.seat{fill:#ddd;cursor:pointer;transition:.3s}
+.seat:hover{fill:#000}
+
+.vip{fill:#d4af37}
+.floor{fill:#bbb}
+.seating{fill:#e0e0e0}
+
+.ticket-grid{display:grid;grid-template-columns:repeat(4,1fr);margin-top:40px;border:1px solid #eee}
+
+.ticket{padding:30px;border-right:1px solid #eee}
+.ticket:last-child{border-right:none}
+
+.price{font-size:28px;font-weight:700;margin-top:10px}
+
+.faq-row{border-top:1px solid #eee;padding:24px 0;cursor:pointer}
+
+.faq-q{display:flex;justify-content:space-between;font-size:16px}
+
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease;color:#666;margin-top:10px}
+
+.faq-row.open .faq-a{max-height:200px}
+
+footer{padding:40px;text-align:center;color:#777;font-size:12px}
+
+@media(max-width:900px){
+.hero-title{font-size:70px}
+.ticket-grid{grid-template-columns:1fr 1fr}
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+<div class="logo">YE</div>
+<ul>
+<li><a href="#about">Show</a></li>
+<li><a href="#seats">Seats</a></li>
+<li><a href="#tickets">Tickets</a></li>
+<li><a href="#faq">FAQ</a></li>
+</ul>
+<button class="cta" onclick="scrollTickets()">Buy Tickets</button>
+</nav>
+
+<div class="hero">
+
+<iframe src="https://www.youtube.com/embed/6CHs4x2uqcQ" allowfullscreen></iframe>
+
+<div class="hero-bottom">
+
+<div class="hero-title">YE</div>
+
+<div class="meta">
+<div>May 30 2026</div>
+<div>Turk Telekom Stadium</div>
+<div>Show 20:00</div>
+</div>
+
+<div class="countdown">
+<div class="time"><span id="days">0</span><p>DAYS</p></div>
+<div class="time"><span id="hours">0</span><p>HOURS</p></div>
+<div class="time"><span id="minutes">0</span><p>MIN</p></div>
+<div class="time"><span id="seconds">0</span><p>SEC</p></div>
+</div>
+
+</div>
+
+</div>
+
+<section id="about" class="reveal">
+
+<h2 class="section-title">The Show</h2>
+
+<div class="about">
+<p>
+YE arrives in Istanbul for a massive stadium performance featuring a full visual production, immersive stage design and music from across the catalog.
+</p>
+
+<div class="spotify">
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/album/2noRn2Aes5aoNVsU6iWThc" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+
+</div>
+
+</div>
+
+</section>
+
+<section id="seats" class="reveal">
+
+<h2 class="section-title">Seat Map</h2>
+
+<div class="seatmap">
+
+<svg viewBox="0 0 800 500">
+
+<rect class="seat vip" x="350" y="200" width="100" height="80"/>
+
+<rect class="seat floor" x="200" y="320" width="400" height="120"/>
+
+<rect class="seat seating" x="100" y="100" width="600" height="80"/>
+
+</svg>
+
+</div>
+
+</section>
+
+<section id="tickets" class="reveal">
+
+<h2 class="section-title">Tickets</h2>
+
+<div class="ticket-grid">
+
+<div class="ticket">
+<div>General Admission</div>
+<div class="price">₺2500</div>
+</div>
+
+<div class="ticket">
+<div>Seated</div>
+<div class="price">₺4000</div>
+</div>
+
+<div class="ticket">
+<div>VIP Floor</div>
+<div class="price">₺8500</div>
+</div>
+
+<div class="ticket">
+<div>VIP Lounge</div>
+<div class="price">₺15000</div>
+</div>
+
+</div>
+
+</section>
+
+<section id="faq" class="reveal">
+
+<h2 class="section-title">FAQ</h2>
+
+<div class="faq-row">
+<div class="faq-q">When do tickets go on sale?</div>
+<div class="faq-a">Tickets release Friday at 12:00 TRT.</div>
+</div>
+
+<div class="faq-row">
+<div class="faq-q">Is there an age restriction?</div>
+<div class="faq-a">Under 18 must attend with an adult.</div>
+</div>
+
+<div class="faq-row">
+<div class="faq-q">What time do doors open?</div>
+<div class="faq-a">Doors open at 18:00.</div>
+</div>
+
+</section>
+
+<footer>
+© 2026 YE Istanbul Live
+</footer>
+
+<script>
+
+function scrollTickets(){
+
+document.getElementById("tickets").scrollIntoView({behavior:"smooth"})
+
+}
+
+const eventDate=new Date("May 30, 2026 20:00:00").getTime()
+
+setInterval(()=>{
+
+const now=new Date().getTime()
+const distance=eventDate-now
+
+const days=Math.floor(distance/(1000*60*60*24))
+const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60))
+const minutes=Math.floor((distance%(1000*60*60))/(1000*60))
+const seconds=Math.floor((distance%(1000*60))/1000)
+
+if(document.getElementById("days")){
+
+document.getElementById("days").innerText=days
+
+document.getElementById("hours").innerText=hours
+
+document.getElementById("minutes").innerText=minutes
+
+document.getElementById("seconds").innerText=seconds
+
+}
+
+},1000)
+
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){entry.target.classList.add("active")}
+})
+},{threshold:.2})
+
+document.querySelectorAll(".reveal").forEach(el=>observer.observe(el))
+
+
+document.querySelectorAll(".seat").forEach(seat=>{
+seat.addEventListener("click",()=>{
+alert("Seat section selected")
+scrollTickets()
+})
+})
+
+
+document.querySelectorAll(".faq-row").forEach(row=>{
+row.addEventListener("click",()=>{
+row.classList.toggle("open")
+})
+})
+
+</script>
+
+</body>
+</html>
