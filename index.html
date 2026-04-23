@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>YE — ISTANBUL</title>
-<meta name="description" content="YE live at Atatürk Olympic Stadium, Istanbul. May 30 2026. Presented by Access Opera. Tickets via Bugece." />
+<meta name="description" content="YE live at Atatürk Olympic Stadium, Istanbul. May 30 2026. Presented by Access Opera. Tickets via Bugece and Ticketofis." />
 <meta property="og:title" content="YE — ISTANBUL" />
 <meta property="og:description" content="YE live at Atatürk Olympic Stadium. May 30 2026." />
 <meta property="og:type" content="website" />
@@ -181,21 +181,12 @@ body {
   object-fit: cover;
 }
 
-.hero-bg .desktop-img {
-  display: block;
-}
-
-.hero-bg .mobile-img {
-  display: none;
-}
+.hero-bg .desktop-img { display: block; }
+.hero-bg .mobile-img { display: none; }
 
 @media (max-width: 767px) {
-  .hero-bg .desktop-img {
-    display: none;
-  }
-  .hero-bg .mobile-img {
-    display: block;
-  }
+  .hero-bg .desktop-img { display: none; }
+  .hero-bg .mobile-img { display: block; }
 }
 
 .hero-gradient {
@@ -355,7 +346,6 @@ body {
   margin-bottom: 40px;
 }
 
-/* REVEAL ON SCROLL */
 .reveal {
   opacity: 0;
   transform: translateY(40px);
@@ -401,17 +391,9 @@ body {
   flex-direction: column;
 }
 
-.vision-heading-wrap {
-  margin-bottom: 24px;
-}
-
-.vision-heading-wrap .section-num {
-  margin-bottom: 8px;
-}
-
-.vision-heading-wrap .section-heading {
-  margin-bottom: 0;
-}
+.vision-heading-wrap { margin-bottom: 24px; }
+.vision-heading-wrap .section-num { margin-bottom: 8px; }
+.vision-heading-wrap .section-heading { margin-bottom: 0; }
 
 .about-text {
   font-family: 'IBM Plex Mono', monospace;
@@ -420,9 +402,7 @@ body {
   letter-spacing: 0.02em;
 }
 
-.about-text p {
-  margin-bottom: 20px;
-}
+.about-text p { margin-bottom: 20px; }
 
 .tag-mono {
   display: inline-block;
@@ -461,9 +441,7 @@ body {
   cursor: crosshair;
 }
 
-.seat-map-overlay.open {
-  display: flex;
-}
+.seat-map-overlay.open { display: flex; }
 
 .seat-map-overlay img {
   max-width: 90vw;
@@ -486,23 +464,38 @@ body {
 }
 
 /* TICKETS */
+.ticket-header-note {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--steel);
+  margin-bottom: 40px;
+  font-weight: 600;
+}
+
+.ticket-header-note a {
+  color: var(--off-black);
+  text-decoration: underline;
+  font-weight: 700;
+  transition: opacity 0.2s;
+}
+
+.ticket-header-note a:hover { opacity: 0.6; }
+
+.ticket-header-note .sep {
+  color: var(--concrete);
+  margin: 0 6px;
+}
+
 .ticket-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 8px;
 }
 
-@media (min-width: 600px) {
-  .ticket-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (min-width: 1024px) {
-  .ticket-grid {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-  }
-}
+@media (min-width: 600px) { .ticket-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .ticket-grid { grid-template-columns: 1fr 1fr 1fr 1fr; } }
 
 .ticket-card {
   border: 1px solid rgba(0,0,0,0.08);
@@ -586,9 +579,8 @@ body {
   font-size: 9px;
   color: var(--steel);
   letter-spacing: 0.04em;
-  padding: 2px 0;
+  padding: 2px 0 2px 12px;
   position: relative;
-  padding-left: 12px;
 }
 
 .ticket-features li::before {
@@ -601,10 +593,8 @@ body {
   background: var(--concrete);
 }
 
-/* SKELETAL FRAME BUTTON */
-.ticket-btn-wrap {
-  margin-top: auto;
-}
+/* SINGLE SKELETAL BUTTON */
+.ticket-btn-wrap { margin-top: auto; }
 
 .ticket-btn {
   display: block;
@@ -672,9 +662,7 @@ body {
   line-height: 1.1;
 }
 
-.promoters-main p {
-  margin-bottom: 16px;
-}
+.promoters-main p { margin-bottom: 16px; }
 
 .promoters-main a {
   color: var(--off-black);
@@ -683,9 +671,7 @@ body {
   transition: opacity 0.2s;
 }
 
-.promoters-main a:hover {
-  opacity: 0.6;
-}
+.promoters-main a:hover { opacity: 0.6; }
 
 .promoters-side {
   font-family: 'IBM Plex Mono', monospace;
@@ -706,9 +692,7 @@ body {
   margin-bottom: 4px;
 }
 
-.promoters-side .partner-block {
-  margin-bottom: 20px;
-}
+.promoters-side .partner-block { margin-bottom: 20px; }
 
 .press-note {
   margin-top: 24px;
@@ -733,9 +717,7 @@ body {
   column-gap: 40px;
 }
 
-@media (max-width: 767px) {
-  .faq-list { columns: 1; }
-}
+@media (max-width: 767px) { .faq-list { columns: 1; } }
 
 .faq-item {
   border-top: 1px solid rgba(0,0,0,0.08);
@@ -745,9 +727,7 @@ body {
   display: block;
 }
 
-.faq-item:last-child {
-  border-bottom: 1px solid rgba(0,0,0,0.08);
-}
+.faq-item:last-child { border-bottom: 1px solid rgba(0,0,0,0.08); }
 
 .faq-row {
   display: flex;
@@ -810,9 +790,7 @@ body {
   gap: 40px;
 }
 
-@media (min-width: 768px) {
-  .footer-grid { grid-template-columns: 2fr 1fr 1fr; }
-}
+@media (min-width: 768px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr; } }
 
 .footer-logo {
   font-family: 'IBM Plex Mono', monospace;
@@ -861,9 +839,7 @@ body {
 }
 
 .footer-links a:hover,
-.footer-links button:hover {
-  opacity: 0.6;
-}
+.footer-links button:hover { opacity: 0.6; }
 
 .footer-bottom {
   margin-top: 40px;
@@ -913,15 +889,10 @@ body {
     z-index: 998;
   }
   .mobile-menu-btn { display: block; }
-  .hide-mobile { display: none; }
-  .ticket-card.featured {
-    border-width: 1px;
-  }
+  .ticket-card.featured { border-width: 1px; }
 }
 
-@media (min-width: 768px) {
-  .hide-desktop { display: none; }
-}
+@media (min-width: 768px) { .hide-desktop { display: none; } }
 </style>
 </head>
 
@@ -942,7 +913,7 @@ body {
   <div class="nav-left">
     <a href="#" class="nav-logo">YE</a>
     <div class="nav-separator"></div>
-    <img src="opera.jpeg" alt="Access Opera" class="nav-logo-img" />
+    <img src="opera.png" alt="Access Opera" class="nav-logo-img" />
   </div>
   <button class="mobile-menu-btn" id="menuBtn" aria-label="Menu">☰</button>
   <ul class="nav-menu" id="navMenu">
@@ -956,9 +927,7 @@ body {
 
 <section class="hero-section">
   <div class="hero-bg">
-    <!-- Desktop image -->
     <img src="front.jpg" alt="YE" class="desktop-img" />
-    <!-- Mobile image — replace with your portrait crop -->
     <img src="front-mobile.jpg" alt="YE" class="mobile-img" />
   </div>
   <div class="hero-gradient"></div>
@@ -1034,11 +1003,13 @@ body {
 <section id="tickets" class="section-block">
   <p class="section-num">02</p>
   <h2 class="section-heading">TICKETS</h2>
-  <p style="font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--steel);margin-bottom:40px;font-weight:600;">
-    EXCLUSIVELY VIA <a href="https://bugece.co" style="color:var(--off-black);text-decoration:underline;font-weight:700;">BUGECE.CO</a>
+  <p class="ticket-header-note">
+    AVAILABLE AT 
+    <a href="https://bugece.co" target="_blank" rel="noopener">BUGECE.CO</a>
+    <span class="sep">&</span>
+    <a href="https://ticketofis.com" target="_blank" rel="noopener">TICKETOFIS.COM</a>
   </p>
   <div class="ticket-grid">
-    <!-- GENERAL ADMISSION -->
     <div class="ticket-card">
       <div class="ticket-label">TIER 1</div>
       <div class="ticket-name">GENERAL<br>ADMISSION</div>
@@ -1055,7 +1026,6 @@ body {
       </div>
     </div>
 
-    <!-- SEATED -->
     <div class="ticket-card">
       <div class="ticket-label">TIER 2</div>
       <div class="ticket-name">SEATED</div>
@@ -1072,7 +1042,6 @@ body {
       </div>
     </div>
 
-    <!-- VIP FLOOR -->
     <div class="ticket-card">
       <div class="ticket-label">LIMITED</div>
       <div class="ticket-name">VIP<br>FLOOR</div>
@@ -1090,7 +1059,6 @@ body {
       </div>
     </div>
 
-    <!-- VIP LOUNGE -->
     <div class="ticket-card featured">
       <div class="ticket-label">EXCLUSIVE</div>
       <div class="ticket-name">VIP<br>LOUNGE</div>
@@ -1156,7 +1124,7 @@ body {
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>What are the ticket prices?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><div><div class="faq-text">Ticket prices will be published when ticket sales open.</div></div></div>
+      <div class="faq-body"><div><div class="faq-text">Ticket prices will be published when ticket sales open. Check Bugece or Ticketofis for current pricing.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>How many tickets can I buy?</span><span class="faq-icon">+</span></div>
@@ -1164,7 +1132,7 @@ body {
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>Where can I buy tickets?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><div><div class="faq-text">Tickets are available exclusively through Bugece. Do not buy tickets from unofficial resale platforms.</div></div></div>
+      <div class="faq-body"><div><div class="faq-text">Tickets are available exclusively through Bugece and Ticketofis. Do not buy tickets from unofficial resale platforms.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>Is there a ticket limit per person?</span><span class="faq-icon">+</span></div>
@@ -1204,6 +1172,7 @@ body {
     <div>
       <ul class="footer-links">
         <li><a href="https://bugece.co" target="_blank" rel="noopener">TICKETS — BUGECE</a></li>
+        <li><a href="https://ticketofis.com" target="_blank" rel="noopener">TICKETS — TICKETOFIS</a></li>
         <li><a href="#vision">VISION</a></li>
         <li><button id="seatMapFooterBtn">SEAT MAP</button></li>
         <li><a href="#promoters">PROMOTERS</a></li>
