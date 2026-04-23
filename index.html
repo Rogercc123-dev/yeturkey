@@ -4,9 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>YE — ISTANBUL</title>
-<meta name="description" content="YE live at Ataturk Stadium, Istanbul. May 30 2026. Tickets via Bugece." />
+<meta name="description" content="YE live at Atatürk Olympic Stadium, Istanbul. May 30 2026. Tickets via Bugece." />
 <meta property="og:title" content="YE — ISTANBUL" />
-<meta property="og:description" content="YE live at Ataturk Stadium. May 30 2026." />
+<meta property="og:description" content="YE live at Atatürk Olympic Stadium. May 30 2026." />
 <meta property="og:type" content="website" />
 <meta name="theme-color" content="#0D0D0D" />
 
@@ -59,13 +59,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.8s ease, visibility 0.8s ease;
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: crosshair;
 }
 
 .preloader.hidden {
   opacity: 0;
-  visibility: hidden;
+  transform: scale(1.04);
   pointer-events: none;
 }
 
@@ -79,7 +79,7 @@ body {
 }
 
 @keyframes preloader-pulse {
-  0%, 100% { opacity: 0.2; transform: scale(0.98); }
+  0%, 100% { opacity: 0.15; transform: scale(0.97); }
   50% { opacity: 1; transform: scale(1); }
 }
 
@@ -118,6 +118,7 @@ body {
   height: 18px;
   width: auto;
   display: block;
+  opacity: 0.8;
 }
 
 .nav-menu {
@@ -151,18 +152,15 @@ body {
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  text-decoration: none;
   color: var(--off-black);
   padding: 4px 0;
+  border: none;
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s, opacity 0.2s;
   font-weight: 500;
   opacity: 0.7;
   cursor: crosshair;
   background: none;
-  border-left: none;
-  border-right: none;
-  border-top: none;
 }
 
 .seat-map-link:hover {
@@ -196,7 +194,7 @@ body {
 .hero-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, rgba(13,13,13,0.92) 0%, rgba(13,13,13,0.2) 50%, rgba(13,13,13,0.5) 100%);
+  background: linear-gradient(0deg, rgba(13,13,13,0.94) 0%, rgba(13,13,13,0.18) 50%, rgba(13,13,13,0.5) 100%);
   z-index: 2;
 }
 
@@ -208,9 +206,7 @@ body {
 }
 
 @media (min-width: 768px) {
-  .hero-text {
-    padding: 96px 64px;
-  }
+  .hero-text { padding: 96px 64px; }
 }
 
 .hero-ye {
@@ -264,7 +260,7 @@ body {
 .countdown-section {
   background: var(--off-black);
   color: var(--cream);
-  padding: 32px 24px;
+  padding: 36px 24px;
 }
 
 .countdown-row {
@@ -284,7 +280,21 @@ body {
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--cream);
-  transition: opacity 0.3s;
+  transition: opacity 0.15s, transform 0.15s;
+  display: inline-block;
+}
+
+.countdown-number.glitch {
+  animation: glitch-shift 0.2s ease;
+}
+
+@keyframes glitch-shift {
+  0% { transform: translate(0); }
+  20% { transform: translate(-3px, 2px); }
+  40% { transform: translate(3px, -1px); }
+  60% { transform: translate(-2px, -2px); }
+  80% { transform: translate(2px, 1px); }
+  100% { transform: translate(0); }
 }
 
 .countdown-label {
@@ -304,9 +314,7 @@ body {
 }
 
 @media (min-width: 768px) {
-  .section-block {
-    padding: 100px 64px;
-  }
+  .section-block { padding: 100px 64px; }
 }
 
 .section-num {
@@ -345,7 +353,7 @@ body {
   width: 100%;
   height: 1px;
   background: var(--off-black);
-  opacity: 0.15;
+  opacity: 0.12;
 }
 
 .divider-thick {
@@ -354,23 +362,7 @@ body {
   background: var(--off-black);
 }
 
-/* ABOUT */
-.about-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 40px;
-  align-items: start;
-}
-
-@media (min-width: 768px) {
-  .about-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 64px;
-    align-items: start;
-  }
-}
-
-/* Vision section-specific alignment */
+/* VISION */
 .vision-layout {
   display: grid;
   grid-template-columns: 1fr;
@@ -426,29 +418,17 @@ body {
   letter-spacing: 0.04em;
 }
 
-.btn-mono {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--off-black);
-  color: var(--cream);
+.tag-outline {
+  display: inline-block;
+  border: 1px solid var(--off-black);
+  color: var(--off-black);
+  padding: 3px 10px;
+  border-radius: 3px;
   font-family: 'IBM Plex Mono', monospace;
   font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 14px 28px;
-  border-radius: var(--radius);
-  cursor: crosshair;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  font-weight: 700;
-  border: 1px solid var(--off-black);
-}
-
-.btn-mono:hover {
-  background: transparent;
-  color: var(--off-black);
-  transform: translateY(-2px);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  opacity: 0.7;
 }
 
 .embed-box {
@@ -469,7 +449,7 @@ body {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(13,13,13,0.9);
+  background: rgba(13,13,13,0.92);
   z-index: 10001;
   align-items: center;
   justify-content: center;
@@ -504,7 +484,7 @@ body {
 .ticket-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 12px;
+  gap: 8px;
 }
 
 @media (min-width: 600px) {
@@ -520,26 +500,50 @@ body {
 }
 
 .ticket-card {
-  border: 1px solid rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.08);
   border-radius: var(--radius);
-  padding: 28px;
+  padding: 32px 28px 28px;
   position: relative;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   background: var(--cream);
   display: flex;
   flex-direction: column;
+  min-height: 260px;
 }
 
 .ticket-card:hover {
   background: var(--off-black);
   border-color: var(--off-black);
-  transform: translateY(-4px);
+  transform: translateY(-6px);
+  z-index: 10;
+}
+
+.ticket-card.featured {
+  border-color: var(--off-black);
+  border-width: 2px;
+}
+
+.ticket-card.featured::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  border: 1px solid var(--off-black);
+  border-radius: var(--radius);
+  pointer-events: none;
 }
 
 .ticket-card:hover .ticket-name,
 .ticket-card:hover .ticket-price-text,
-.ticket-card:hover .ticket-info-text {
+.ticket-card:hover .ticket-info-text,
+.ticket-card:hover .ticket-label {
   color: var(--cream);
+}
+
+.ticket-card:hover .ticket-divider {
+  background: rgba(255,255,255,0.2);
 }
 
 .ticket-card:hover .ticket-btn {
@@ -548,102 +552,186 @@ body {
   border-color: var(--cream);
 }
 
+.ticket-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--steel);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  transition: color 0.3s;
+}
+
 .ticket-name {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: clamp(18px, 3vw, 26px);
+  font-size: clamp(18px, 2.5vw, 24px);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: -0.02em;
   color: var(--off-black);
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   transition: color 0.3s;
   line-height: 1;
 }
 
 .ticket-price-text {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: clamp(24px, 4vw, 40px);
+  font-size: clamp(28px, 4vw, 44px);
   font-weight: 700;
   color: var(--off-black);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   transition: color 0.3s;
+  line-height: 1;
 }
 
 .ticket-price-text .currency {
   font-size: 12px;
   font-weight: 400;
   color: var(--steel);
+  letter-spacing: 0.05em;
 }
 
 .ticket-info-text {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 9px;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   color: var(--steel);
   transition: color 0.3s;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 }
 
-.ticket-label {
-  position: absolute;
-  top: 14px;
-  right: 14px;
+.ticket-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(0,0,0,0.1);
+  margin: 12px 0 16px;
+  transition: background 0.3s;
+}
+
+.ticket-features {
+  list-style: none;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.ticket-features li {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 8px;
-  font-weight: 700;
+  font-size: 9px;
   color: var(--steel);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 0;
+  transition: color 0.3s;
+}
+
+.ticket-card:hover .ticket-features li {
+  color: rgba(255,255,255,0.6);
 }
 
 .ticket-btn {
-  display: inline-block;
+  display: block;
+  width: 100%;
   margin-top: auto;
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
+  font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--off-black);
-  background: transparent;
+  letter-spacing: 0.12em;
+  color: var(--cream);
+  background: var(--off-black);
   border: 1px solid var(--off-black);
-  padding: 10px 16px;
+  padding: 14px 16px;
   border-radius: var(--radius);
   text-align: center;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 700;
   transition: all 0.3s ease;
   cursor: crosshair;
-  align-self: flex-start;
 }
 
 .ticket-btn:hover {
-  background: var(--off-black);
-  color: var(--cream);
+  background: transparent;
+  color: var(--off-black);
 }
 
 /* PROMOTERS */
-.promoters-text {
+.promoters-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+
+@media (min-width: 768px) {
+  .promoters-layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+}
+
+.promoters-main {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 13px;
   line-height: 1.8;
   letter-spacing: 0.02em;
-  max-width: 700px;
 }
 
-.promoters-text p {
+.promoters-main .lead-tag {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--steel);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.promoters-main h3 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+  line-height: 1.1;
+}
+
+.promoters-main p {
   margin-bottom: 16px;
 }
 
-.promoters-text a {
+.promoters-main a {
   color: var(--off-black);
   text-decoration: underline;
-  transition: opacity 0.2s;
   font-weight: 600;
+  transition: opacity 0.2s;
 }
 
-.promoters-text a:hover {
+.promoters-main a:hover {
   opacity: 0.6;
+}
+
+.promoters-side {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  line-height: 1.7;
+  letter-spacing: 0.03em;
+  color: var(--steel);
+  border-left: 1px solid rgba(0,0,0,0.1);
+  padding-left: 24px;
+}
+
+.promoters-side .partner-name {
+  font-weight: 700;
+  color: var(--off-black);
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.promoters-side .partner-block {
+  margin-bottom: 20px;
 }
 
 /* FAQ */
@@ -654,9 +742,7 @@ body {
 }
 
 @media (max-width: 767px) {
-  .faq-list {
-    columns: 1;
-  }
+  .faq-list { columns: 1; }
 }
 
 .faq-item {
@@ -684,13 +770,8 @@ body {
   transition: opacity 0.3s ease;
 }
 
-.faq-item:hover .faq-row {
-  opacity: 0.5;
-}
-
-.faq-item.open .faq-row {
-  opacity: 1;
-}
+.faq-item:hover .faq-row { opacity: 0.5; }
+.faq-item.open .faq-row { opacity: 1; }
 
 .faq-icon {
   font-family: 'IBM Plex Mono', monospace;
@@ -700,9 +781,7 @@ body {
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.faq-item.open .faq-icon {
-  transform: rotate(45deg);
-}
+.faq-item.open .faq-icon { transform: rotate(45deg); }
 
 .faq-body {
   display: grid;
@@ -710,13 +789,8 @@ body {
   transition: grid-template-rows 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.faq-item.open .faq-body {
-  grid-template-rows: 1fr;
-}
-
-.faq-body > div {
-  overflow: hidden;
-}
+.faq-item.open .faq-body { grid-template-rows: 1fr; }
+.faq-body > div { overflow: hidden; }
 
 .faq-text {
   padding-top: 12px;
@@ -745,9 +819,7 @@ body {
 }
 
 @media (min-width: 768px) {
-  .footer-grid {
-    grid-template-columns: 2fr 1fr 1fr;
-  }
+  .footer-grid { grid-template-columns: 2fr 1fr 1fr; }
 }
 
 .footer-logo {
@@ -802,14 +874,20 @@ body {
   gap: 16px;
 }
 
+.footer-promoter {
+  color: var(--cream);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
 /* SCANLINES */
 .scanlines {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.02;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px);
+  opacity: 0.025;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.05) 2px, rgba(0,0,0,0.05) 4px);
 }
 
 /* MOBILE */
@@ -825,10 +903,7 @@ body {
 }
 
 @media (max-width: 767px) {
-  .nav-menu {
-    display: none;
-  }
-
+  .nav-menu { display: none; }
   .nav-menu.open {
     display: flex;
     flex-direction: column;
@@ -842,20 +917,12 @@ body {
     gap: 16px;
     z-index: 998;
   }
-
-  .mobile-menu-btn {
-    display: block;
-  }
-
-  .hide-mobile {
-    display: none;
-  }
+  .mobile-menu-btn { display: block; }
+  .hide-mobile { display: none; }
 }
 
 @media (min-width: 768px) {
-  .hide-desktop {
-    display: none;
-  }
+  .hide-desktop { display: none; }
 }
 </style>
 </head>
@@ -901,7 +968,7 @@ body {
         <span class="detail-label">DATE</span>
       </div>
       <div class="hero-detail">
-        <span class="detail-value">ATATURK</span>
+        <span class="detail-value">ATATÜRK OLYMPIC</span>
         <span class="detail-label">VENUE</span>
       </div>
       <div class="hero-detail">
@@ -946,7 +1013,7 @@ body {
         <h2 class="section-heading">THE<br>VISION</h2>
       </div>
       <div class="about-text">
-        <p><span class="tag-mono">ISTANBUL</span> YE arrives for a singular stadium performance. A full visual production built from the ground up. Immersive stage design. Music spanning the entire catalog.</p>
+        <p><span class="tag-mono">ISTANBUL</span> YE arrives for a singular stadium performance at Atatürk Olympic Stadium. A full visual production built from the ground up. Immersive stage design. Music spanning the entire catalog.</p>
         <p>This is not a concert. This is a moment. A gathering. A frequency. The stadium becomes a vessel. The crowd becomes the choir.</p>
         <p>No phones. No distractions. Just sound, light, and presence.</p>
       </div>
@@ -965,35 +1032,62 @@ body {
   <p class="section-num">02</p>
   <h2 class="section-heading">TICKETS</h2>
   <p style="font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--steel);margin-bottom:40px;font-weight:600;">
-    ALL TICKETS VIA <a href="https://bugece.co" style="color:var(--off-black);text-decoration:underline;font-weight:700;">BUGECE.CO</a>
+    EXCLUSIVELY VIA <a href="https://bugece.co" style="color:var(--off-black);text-decoration:underline;font-weight:700;">BUGECE.CO</a>
   </p>
   <div class="ticket-grid">
     <div class="ticket-card">
+      <div class="ticket-label">TIER 1</div>
       <div class="ticket-name">GENERAL<br>ADMISSION</div>
       <div class="ticket-price-text">₺2.500 <span class="currency">TRY</span></div>
-      <div class="ticket-info-text">Upper bowl access</div>
-      <div class="ticket-label">TIER 1</div>
+      <div class="ticket-info-text">Upper Bowl</div>
+      <div class="ticket-divider"></div>
+      <ul class="ticket-features">
+        <li>Stadium access</li>
+        <li>Upper bowl view</li>
+        <li>General facilities</li>
+      </ul>
       <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a>
     </div>
     <div class="ticket-card">
+      <div class="ticket-label">TIER 2</div>
       <div class="ticket-name">SEATED</div>
       <div class="ticket-price-text">₺4.000 <span class="currency">TRY</span></div>
-      <div class="ticket-info-text">Lower bowl reserved</div>
-      <div class="ticket-label">TIER 2</div>
+      <div class="ticket-info-text">Lower Bowl</div>
+      <div class="ticket-divider"></div>
+      <ul class="ticket-features">
+        <li>Reserved seating</li>
+        <li>Lower bowl view</li>
+        <li>Priority entry lane</li>
+      </ul>
       <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a>
     </div>
     <div class="ticket-card">
+      <div class="ticket-label">LIMITED</div>
       <div class="ticket-name">VIP<br>FLOOR</div>
       <div class="ticket-price-text">₺8.500 <span class="currency">TRY</span></div>
-      <div class="ticket-info-text">Standing floor access</div>
-      <div class="ticket-label">LIMITED</div>
+      <div class="ticket-info-text">Standing Floor</div>
+      <div class="ticket-divider"></div>
+      <ul class="ticket-features">
+        <li>Floor access</li>
+        <li>Dedicated bar</li>
+        <li>VIP entrance</li>
+        <li>Limited edition merch</li>
+      </ul>
       <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a>
     </div>
-    <div class="ticket-card">
+    <div class="ticket-card featured">
+      <div class="ticket-label">EXCLUSIVE</div>
       <div class="ticket-name">VIP<br>LOUNGE</div>
       <div class="ticket-price-text">₺15.000 <span class="currency">TRY</span></div>
-      <div class="ticket-info-text">Premium hospitality</div>
-      <div class="ticket-label">EXCLUSIVE</div>
+      <div class="ticket-info-text">Premium Hospitality</div>
+      <div class="ticket-divider"></div>
+      <ul class="ticket-features">
+        <li>Premium viewing deck</li>
+        <li>Open bar & dining</li>
+        <li>Private entrance</li>
+        <li>Exclusive merchandise</li>
+        <li>Parking included</li>
+      </ul>
       <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a>
     </div>
   </div>
@@ -1006,10 +1100,24 @@ body {
 <section id="promoters" class="section-block">
   <p class="section-num">03</p>
   <h2 class="section-heading">PROMOTERS</h2>
-  <div class="promoters-text">
-    <p><span class="tag-mono">TEMACC</span> <span class="tag-mono">ACCESS OPERA</span> <span class="tag-mono">ILS VISION</span> are the exclusive promotional partners for YE Istanbul. Together they bring decades of experience in live entertainment across Turkey and the international stage.</p>
-    <p>Temacc is a premier event production company known for large-scale stadium productions and artist management. Access Opera is a leading live entertainment promoter specializing in bringing global artists to Turkey and the wider region. ILS Vision provides world-class stage design and technical production, ensuring every detail of this historic performance is executed flawlessly.</p>
-    <p>For media inquiries, brand partnerships, and hospitality packages:<br /><a href="mailto:info@accessopera.com">INFO@ACCESSOPERA.COM</a></p>
+  <div class="promoters-layout">
+    <div class="promoters-main">
+      <p class="lead-tag">LEAD PROMOTER</p>
+      <h3>ACCESS<br>OPERA</h3>
+      <p>Access Opera is the exclusive lead promoter for YE at Atatürk Olympic Stadium. As one of Turkey's premier live entertainment companies, Access Opera has delivered landmark stadium shows and built a reputation for flawless production at the highest level.</p>
+      <p>For media inquiries, brand partnerships, and hospitality packages, contact the Access Opera team directly.</p>
+      <p><a href="mailto:info@accessopera.com">INFO@ACCESSOPERA.COM</a></p>
+    </div>
+    <div class="promoters-side">
+      <div class="partner-block">
+        <span class="partner-name">TEMACC</span>
+        <p>Event production and artist management. Large-scale stadium logistics and operations.</p>
+      </div>
+      <div class="partner-block">
+        <span class="partner-name">ILS VISION</span>
+        <p>Stage design and technical production. Immersive visual environments and lighting.</p>
+      </div>
+    </div>
   </div>
 </section>
 </div>
@@ -1051,7 +1159,7 @@ body {
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>Are VIP tickets available?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><div><div class="faq-text">Yes. Various VIP packages will be available. More information will be announced closer to the ticket sale date.</div></div></div>
+      <div class="faq-body"><div><div class="faq-text">Yes. Various VIP packages are available including VIP Floor and VIP Lounge.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>Can I resell my tickets?</span><span class="faq-icon">+</span></div>
@@ -1059,7 +1167,7 @@ body {
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>What time does the concert start?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><div><div class="faq-text">Exact times for doors and show start will be announced closer to the event.</div></div></div>
+      <div class="faq-body"><div><div class="faq-text">Doors open at 18:00. Show begins at 20:00 sharp. Times are subject to change.</div></div></div>
     </div>
   </div>
 </section>
@@ -1069,7 +1177,7 @@ body {
   <div class="footer-grid">
     <div>
       <div class="footer-logo">YE</div>
-      <p class="footer-tagline">ISTANBUL — 30.05.26</p>
+      <p class="footer-tagline">ISTANBUL — 30.05.26<br />ATATÜRK OLYMPIC STADIUM</p>
     </div>
     <div>
       <ul class="footer-links">
@@ -1090,7 +1198,7 @@ body {
   </div>
   <div class="footer-bottom">
     <span>© 2026 YE ISTANBUL</span>
-    <span>PROMOTED BY TEMACC · ACCESS OPERA · ILS VISION</span>
+    <span class="footer-promoter">ACCESS OPERA</span>
   </div>
 </footer>
 
@@ -1098,7 +1206,7 @@ body {
 (function() {
   var preloader = document.getElementById('preloader');
   window.addEventListener('load', function() {
-    setTimeout(function() { preloader.classList.add('hidden'); }, 800);
+    setTimeout(function() { preloader.classList.add('hidden'); }, 600);
   });
   setTimeout(function() { preloader.classList.add('hidden'); }, 4000);
 
@@ -1116,11 +1224,14 @@ body {
     var ids = ['days', 'hours', 'minutes', 'seconds'];
     ids.forEach(function(id, i) {
       var el = document.getElementById(id);
-      if (el && values[i] !== prevValues[i]) {
+      if (!el) return;
+      if (values[i] !== prevValues[i]) {
+        el.classList.add('glitch');
+        setTimeout(function() { el.classList.remove('glitch'); }, 200);
         el.style.opacity = '0';
-        setTimeout(function() { el.textContent = values[i]; el.style.opacity = '1'; }, 150);
+        setTimeout(function() { el.textContent = values[i]; el.style.opacity = '1'; }, 100);
         prevValues[i] = values[i];
-      } else if (el && prevValues[i] === '') {
+      } else if (prevValues[i] === '') {
         el.textContent = values[i];
         prevValues[i] = values[i];
       }
@@ -1160,7 +1271,7 @@ body {
     entries.forEach(function(entry) {
       if (entry.isIntersecting) entry.target.classList.add('visible');
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.12 });
   revealElements.forEach(function(el) { observer.observe(el); });
 })();
 </script>
