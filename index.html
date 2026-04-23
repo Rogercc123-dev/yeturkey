@@ -99,6 +99,12 @@ body {
   height: 56px;
 }
 
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .nav-logo {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 28px;
@@ -106,6 +112,12 @@ body {
   letter-spacing: -0.06em;
   color: var(--off-black);
   text-decoration: none;
+}
+
+.nav-logo-img {
+  height: 18px;
+  width: auto;
+  display: block;
 }
 
 .nav-menu {
@@ -130,6 +142,30 @@ body {
 }
 
 .nav-menu a:hover {
+  border-bottom: 1px solid var(--off-black);
+  opacity: 1;
+}
+
+.seat-map-link {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  color: var(--off-black);
+  padding: 4px 0;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s, opacity 0.2s;
+  font-weight: 500;
+  opacity: 0.7;
+  cursor: crosshair;
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+}
+
+.seat-map-link:hover {
   border-bottom: 1px solid var(--off-black);
   opacity: 1;
 }
@@ -323,12 +359,14 @@ body {
   display: grid;
   grid-template-columns: 1fr;
   gap: 40px;
+  align-items: start;
 }
 
 @media (min-width: 768px) {
   .about-grid {
     grid-template-columns: 1fr 1fr;
     gap: 64px;
+    align-items: start;
   }
 }
 
@@ -381,42 +419,52 @@ body {
 }
 
 .embed-box {
-  background: var(--off-black);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: var(--radius);
+  background: transparent;
   overflow: hidden;
+  border-radius: 12px;
 }
 
 .embed-box iframe {
   display: block;
   width: 100%;
   border: none;
+  border-radius: 12px;
 }
 
-/* SEAT MAP */
-.seat-map-container {
-  background: var(--white);
-  border: 1px solid rgba(0,0,0,0.04);
-  border-radius: var(--radius);
-  overflow: hidden;
-  text-align: center;
-  padding: 40px;
+/* SEAT MAP OVERLAY */
+.seat-map-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(13,13,13,0.9);
+  z-index: 10001;
+  align-items: center;
+  justify-content: center;
+  cursor: crosshair;
 }
 
-.seat-map-container img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-  border-radius: 2px;
+.seat-map-overlay.open {
+  display: flex;
 }
 
-.seat-map-placeholder {
+.seat-map-overlay img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.seat-map-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: none;
+  border: none;
+  color: var(--cream);
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 12px;
-  color: var(--steel);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 24px;
+  cursor: crosshair;
+  z-index: 10002;
 }
 
 /* TICKETS */
@@ -508,6 +556,23 @@ body {
   text-transform: uppercase;
 }
 
+.ticket-btn {
+  display: inline-block;
+  margin-top: 16px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--off-black);
+  text-decoration: underline;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.ticket-card:hover .ticket-btn {
+  color: var(--cream);
+}
+
 /* PROMOTERS */
 .promoters-text {
   font-family: 'IBM Plex Mono', monospace;
@@ -535,12 +600,22 @@ body {
 /* FAQ */
 .faq-list {
   list-style: none;
+  columns: 2;
+  column-gap: 40px;
+}
+
+@media (max-width: 767px) {
+  .faq-list {
+    columns: 1;
+  }
 }
 
 .faq-item {
   border-top: 1px solid rgba(0,0,0,0.08);
   cursor: crosshair;
-  padding: 24px 0;
+  padding: 20px 0;
+  break-inside: avoid;
+  display: block;
 }
 
 .faq-item:last-child {
@@ -551,9 +626,9 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 20px;
+  gap: 16px;
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.02em;
   text-transform: uppercase;
@@ -570,7 +645,7 @@ body {
 
 .faq-icon {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 400;
   flex-shrink: 0;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -595,11 +670,11 @@ body {
 }
 
 .faq-text {
-  padding-top: 16px;
+  padding-top: 12px;
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 12px;
+  font-size: 11px;
   color: var(--steel);
-  line-height: 1.7;
+  line-height: 1.6;
   font-weight: 400;
 }
 
@@ -647,13 +722,24 @@ body {
   gap: 8px;
 }
 
-.footer-links a {
+.footer-links a,
+.footer-links button {
   color: var(--concrete);
   text-decoration: none;
   transition: opacity 0.2s;
+  background: none;
+  border: none;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: crosshair;
+  padding: 0;
+  text-align: left;
 }
 
-.footer-links a:hover {
+.footer-links a:hover,
+.footer-links button:hover {
   opacity: 0.6;
 }
 
@@ -732,14 +818,23 @@ body {
   <div class="preloader-text">YE</div>
 </div>
 
+<!-- SEAT MAP OVERLAY -->
+<div class="seat-map-overlay" id="seatMapOverlay">
+  <button class="seat-map-close" id="seatMapClose">✕</button>
+  <img src="seat-map.png" alt="Venue Seat Map" id="seatMapImg" />
+</div>
+
 <div class="scanlines"></div>
 
 <nav class="nav-bar">
-  <a href="#" class="nav-logo">YE</a>
+  <div class="nav-left">
+    <a href="#" class="nav-logo">YE</a>
+    <img src="opera.jpeg" alt="Access Opera" class="nav-logo-img" />
+  </div>
   <button class="mobile-menu-btn" id="menuBtn" aria-label="Menu">☰</button>
   <ul class="nav-menu" id="navMenu">
     <li><a href="#vision">VISION</a></li>
-    <li><a href="#seats">MAP</a></li>
+    <li><button class="seat-map-link" id="seatMapHeaderBtn">MAP</button></li>
     <li><a href="#tickets">TICKETS</a></li>
     <li><a href="#promoters">PROMOTERS</a></li>
     <li><a href="#faq">FAQ</a></li>
@@ -804,12 +899,9 @@ body {
       <p><span class="tag-mono">ISTANBUL</span> YE arrives for a singular stadium performance. A full visual production built from the ground up. Immersive stage design. Music spanning the entire catalog.</p>
       <p>This is not a concert. This is a moment. A gathering. A frequency. The stadium becomes a vessel. The crowd becomes the choir.</p>
       <p>No phones. No distractions. Just sound, light, and presence.</p>
-      <div style="margin-top: 32px;">
-        <a href="https://bugece.co" class="btn-mono" target="_blank" rel="noopener">GET TICKETS → BUGECE</a>
-      </div>
     </div>
     <div class="embed-box">
-     <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/album/5poA9SAx0Xiz1cf17fWBLS?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/album/5poA9SAx0Xiz1cf17fWBLS?utm_source=generator" width="100%" height="352" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
   </div>
 </section>
@@ -818,49 +910,40 @@ body {
 <div class="divider-thick"></div>
 
 <div class="reveal">
-<section id="seats" class="section-block">
-  <p class="section-num">02</p>
-  <h2 class="section-heading">THE<br>GROUND</h2>
-  <div class="seat-map-container">
-    <img src="seat-map.png" alt="Venue Seat Map" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
-    <p class="seat-map-placeholder" style="display:none;">SEAT MAP — ADD YOUR PNG AS "seat-map.png"</p>
-  </div>
-</section>
-</div>
-
-<div class="divider"></div>
-
-<div class="reveal">
 <section id="tickets" class="section-block">
-  <p class="section-num">03</p>
+  <p class="section-num">02</p>
   <h2 class="section-heading">TICKETS</h2>
   <p style="font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--steel);margin-bottom:40px;font-weight:600;">
     ALL TICKETS VIA <a href="https://bugece.co" style="color:var(--off-black);text-decoration:underline;font-weight:700;">BUGECE.CO</a>
   </p>
   <div class="ticket-grid">
-    <div class="ticket-card" onclick="window.open('https://bugece.co','_blank')">
+    <div class="ticket-card">
       <div class="ticket-name">GENERAL<br>ADMISSION</div>
       <div class="ticket-price-text">₺2.500 <span class="currency">TRY</span></div>
       <div class="ticket-info-text">Upper bowl access</div>
       <div class="ticket-label">TIER 1</div>
+      <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS →</a>
     </div>
-    <div class="ticket-card" onclick="window.open('https://bugece.co','_blank')">
+    <div class="ticket-card">
       <div class="ticket-name">SEATED</div>
       <div class="ticket-price-text">₺4.000 <span class="currency">TRY</span></div>
       <div class="ticket-info-text">Lower bowl reserved</div>
       <div class="ticket-label">TIER 2</div>
+      <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS →</a>
     </div>
-    <div class="ticket-card" onclick="window.open('https://bugece.co','_blank')">
+    <div class="ticket-card">
       <div class="ticket-name">VIP<br>FLOOR</div>
       <div class="ticket-price-text">₺8.500 <span class="currency">TRY</span></div>
       <div class="ticket-info-text">Standing floor access</div>
       <div class="ticket-label">LIMITED</div>
+      <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS →</a>
     </div>
-    <div class="ticket-card" onclick="window.open('https://bugece.co','_blank')">
+    <div class="ticket-card">
       <div class="ticket-name">VIP<br>LOUNGE</div>
       <div class="ticket-price-text">₺15.000 <span class="currency">TRY</span></div>
       <div class="ticket-info-text">Premium hospitality</div>
       <div class="ticket-label">EXCLUSIVE</div>
+      <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS →</a>
     </div>
   </div>
 </section>
@@ -870,12 +953,12 @@ body {
 
 <div class="reveal">
 <section id="promoters" class="section-block">
-  <p class="section-num">04</p>
+  <p class="section-num">03</p>
   <h2 class="section-heading">PROMOTERS</h2>
   <div class="promoters-text">
-    <p><span class="tag-mono">ACCESS OPERA</span> is the exclusive promotional partner for YE Istanbul. For media inquiries, brand partnerships, and hospitality packages, contact the team directly.</p>
-    <p>Access Opera is a leading live entertainment promoter specializing in bringing global artists to Turkey and the wider region. With a track record of sold-out stadium shows and premium production values, they are the force behind this historic performance.</p>
-    <p>For all promoter-related inquiries:<br /><a href="mailto:info@accessopera.com">INFO@ACCESSOPERA.COM</a></p>
+    <p><span class="tag-mono">TEMACC</span> <span class="tag-mono">ACCESS OPERA</span> <span class="tag-mono">ILS VISION</span> are the exclusive promotional partners for YE Istanbul. Together they bring decades of experience in live entertainment across Turkey and the international stage.</p>
+    <p>Temacc is a premier event production company known for large-scale stadium productions and artist management. Access Opera is a leading live entertainment promoter specializing in bringing global artists to Turkey and the wider region. ILS Vision provides world-class stage design and technical production, ensuring every detail of this historic performance is executed flawlessly.</p>
+    <p>For media inquiries, brand partnerships, and hospitality packages:<br /><a href="mailto:info@accessopera.com">INFO@ACCESSOPERA.COM</a></p>
   </div>
 </section>
 </div>
@@ -884,7 +967,7 @@ body {
 
 <div class="reveal">
 <section id="faq" class="section-block">
-  <p class="section-num">05</p>
+  <p class="section-num">04</p>
   <h2 class="section-heading">FAQ</h2>
   <div class="faq-list">
     <div class="faq-item">
@@ -901,7 +984,7 @@ body {
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>Where can I buy tickets?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><div><div class="faq-text">Tickets are available exclusively through the official ticket website. Do not buy tickets from unofficial resale platforms.</div></div></div>
+      <div class="faq-body"><div><div class="faq-text">Tickets are available exclusively through Bugece. Do not buy tickets from unofficial resale platforms.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>Is there a ticket limit per person?</span><span class="faq-icon">+</span></div>
@@ -912,56 +995,20 @@ body {
       <div class="faq-body"><div><div class="faq-text">After purchasing your ticket you will receive an order confirmation. Tickets will be available for download shortly before the event.</div></div></div>
     </div>
     <div class="faq-item">
-      <div class="faq-row"><span>I haven't received a confirmation email. What should I do?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><div><div class="faq-text">Contact the ticket support team and include the event name, the email address used for purchase, and proof of payment.</div></div></div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-row"><span>Can I change the email address on my ticket order?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><div><div class="faq-text">Yes. Contact the support team and provide the event name, the original email address, and proof of payment.</div></div></div>
-    </div>
-    <div class="faq-item">
       <div class="faq-row"><span>Do I need to print my tickets?</span><span class="faq-icon">+</span></div>
       <div class="faq-body"><div><div class="faq-text">No. Tickets can be scanned directly from your phone at the entrance.</div></div></div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-row"><span>If I bought multiple tickets, can we enter separately?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><div><div class="faq-text">Yes. Each ticket has its own QR code and can be sent to different people.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>Are VIP tickets available?</span><span class="faq-icon">+</span></div>
       <div class="faq-body"><div><div class="faq-text">Yes. Various VIP packages will be available. More information will be announced closer to the ticket sale date.</div></div></div>
     </div>
     <div class="faq-item">
-      <div class="faq-row"><span>How do I access the order status page?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><div><div class="faq-text">Use the "Download your tickets" link in your confirmation email.</div></div></div>
-    </div>
-    <div class="faq-item">
       <div class="faq-row"><span>Can I resell my tickets?</span><span class="faq-icon">+</span></div>
       <div class="faq-body"><div><div class="faq-text">Tickets can only be resold through official resale partners such as TicketSwap or Tixel.</div></div></div>
     </div>
     <div class="faq-item">
-      <div class="faq-row"><span>How do I buy wheelchair or accessibility tickets?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><div><div class="faq-text">Accessible viewing platform tickets are available through the ticket purchase page. Each wheelchair user may bring one companion.</div></div></div>
-    </div>
-    <div class="faq-item">
       <div class="faq-row"><span>What time does the concert start?</span><span class="faq-icon">+</span></div>
       <div class="faq-body"><div><div class="faq-text">Exact times for doors and show start will be announced closer to the event.</div></div></div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-row"><span>Is there an age restriction?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><div><div class="faq-text">There is no strict minimum age. However, fans under 16 are recommended to attend with an adult.</div></div></div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-row"><span>Can I bring a bag?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><div><div class="faq-text">Large bags and backpacks are generally not allowed. Check the venue's rules before attending.</div></div></div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-row"><span>Is the venue accessible for visitors with disabilities?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><div><div class="faq-text">Yes. Accessibility facilities are available at the venue.</div></div></div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-row"><span>If the concert sells out, will a waiting list open?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><div><div class="faq-text">Yes. A waiting list may be opened through the official ticket page.</div></div></div>
     </div>
   </div>
 </section>
@@ -977,7 +1024,7 @@ body {
       <ul class="footer-links">
         <li><a href="https://bugece.co" target="_blank" rel="noopener">TICKETS — BUGECE</a></li>
         <li><a href="#vision">VISION</a></li>
-        <li><a href="#seats">SEAT MAP</a></li>
+        <li><button id="seatMapFooterBtn">SEAT MAP</button></li>
         <li><a href="#promoters">PROMOTERS</a></li>
         <li><a href="#faq">FAQ</a></li>
       </ul>
@@ -992,7 +1039,7 @@ body {
   </div>
   <div class="footer-bottom">
     <span>© 2026 YE ISTANBUL</span>
-    <span>PROMOTED BY ACCESS OPERA</span>
+    <span>PROMOTED BY TEMACC · ACCESS OPERA · ILS VISION</span>
   </div>
 </footer>
 
@@ -1005,7 +1052,6 @@ body {
       preloader.classList.add('hidden');
     }, 800);
   });
-  // Fallback
   setTimeout(function() {
     preloader.classList.add('hidden');
   }, 4000);
@@ -1050,9 +1096,35 @@ body {
   var menuBtn = document.getElementById('menuBtn');
   var navMenu = document.getElementById('navMenu');
   menuBtn.addEventListener('click', function() { navMenu.classList.toggle('open'); });
-  navMenu.querySelectorAll('a').forEach(function(link) {
-    link.addEventListener('click', function() { navMenu.classList.remove('open'); });
+  navMenu.querySelectorAll('a, button').forEach(function(el) {
+    el.addEventListener('click', function() { navMenu.classList.remove('open'); });
   });
+
+  // SEAT MAP OVERLAY
+  var overlay = document.getElementById('seatMapOverlay');
+  var seatMapImg = document.getElementById('seatMapImg');
+  var seatMapClose = document.getElementById('seatMapClose');
+  var seatMapHeaderBtn = document.getElementById('seatMapHeaderBtn');
+  var seatMapFooterBtn = document.getElementById('seatMapFooterBtn');
+
+  function openSeatMap() {
+    overlay.classList.add('open');
+  }
+
+  function closeSeatMap() {
+    overlay.classList.remove('open');
+  }
+
+  seatMapHeaderBtn.addEventListener('click', openSeatMap);
+  if (seatMapFooterBtn) seatMapFooterBtn.addEventListener('click', openSeatMap);
+  seatMapClose.addEventListener('click', closeSeatMap);
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closeSeatMap();
+  });
+  // Fallback if image fails to load
+  seatMapImg.onerror = function() {
+    seatMapImg.style.display = 'none';
+  };
 
   // SCROLL REVEAL
   var revealElements = document.querySelectorAll('.reveal');
