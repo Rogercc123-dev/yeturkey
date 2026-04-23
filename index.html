@@ -481,69 +481,57 @@ body {
 }
 
 /* TICKETS */
+/* YZY REDESIGN: TICKETS */
 .ticket-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
-}
-
-@media (min-width: 600px) {
-  .ticket-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (min-width: 1024px) {
-  .ticket-grid {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-  }
+  display: flex;
+  flex-direction: column;
+  border-top: 2px solid var(--off-black);
 }
 
 .ticket-card {
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: var(--radius);
-  padding: 32px 28px 28px;
-  position: relative;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  background: var(--cream);
-  display: flex;
-  flex-direction: column;
-  min-height: 260px;
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 1fr 1fr;
+  align-items: center;
+  padding: 40px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  background: transparent;
+  transition: all 0.2s ease;
+  border-radius: 0; /* Kill the radius */
+  min-height: auto;
 }
 
 .ticket-card:hover {
   background: var(--off-black);
-  border-color: var(--off-black);
-  transform: translateY(-6px);
-  z-index: 10;
+  padding-left: 20px;
+  padding-right: 20px;
+  transform: none; /* No lifting, just color shift */
 }
 
-.ticket-card.featured {
-  border-color: var(--off-black);
-  border-width: 2px;
+/* Specific Label Styling */
+.ticket-label {
+  font-size: 10px;
+  opacity: 0.5;
 }
 
-.ticket-card.featured::before {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: -1px;
-  right: -1px;
-  bottom: -1px;
+.ticket-name {
+  font-size: 32px; /* Bigger, bolder */
+  letter-spacing: -0.05em;
+}
+
+.ticket-price-text {
+  font-size: 24px;
+  text-align: right;
+  margin-bottom: 0;
+}
+
+.ticket-btn {
+  background: transparent;
   border: 1px solid var(--off-black);
-  border-radius: var(--radius);
-  pointer-events: none;
-}
-
-.ticket-card:hover .ticket-name,
-.ticket-card:hover .ticket-price-text,
-.ticket-card:hover .ticket-info-text,
-.ticket-card:hover .ticket-label {
-  color: var(--cream);
-}
-
-.ticket-card:hover .ticket-divider {
-  background: rgba(255,255,255,0.2);
+  color: var(--off-black);
+  width: auto;
+  padding: 12px 24px;
+  margin-left: 40px;
+  border-radius: 0; /* Sharp corners */
 }
 
 .ticket-card:hover .ticket-btn {
@@ -552,108 +540,140 @@ body {
   border-color: var(--cream);
 }
 
-.ticket-label {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 8px;
-  font-weight: 700;
-  color: var(--steel);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-  transition: color 0.3s;
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .ticket-card {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 32px 0;
+  }
+  .ticket-price-text { text-align: left; font-size: 28px; }
+  .ticket-btn { margin-left: 0; margin-top: 20px; }
 }
-
-.ticket-name {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: clamp(18px, 2.5vw, 24px);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
-  color: var(--off-black);
-  margin-bottom: 8px;
-  transition: color 0.3s;
-  line-height: 1;
-}
-
-.ticket-price-text {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: clamp(28px, 4vw, 44px);
-  font-weight: 700;
-  color: var(--off-black);
-  margin-bottom: 6px;
-  transition: color 0.3s;
-  line-height: 1;
-}
-
-.ticket-price-text .currency {
-  font-size: 12px;
-  font-weight: 400;
-  color: var(--steel);
-  letter-spacing: 0.05em;
-}
-
-.ticket-info-text {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--steel);
-  transition: color 0.3s;
-  margin-bottom: 8px;
-}
-
-.ticket-divider {
-  width: 100%;
-  height: 1px;
-  background: rgba(0,0,0,0.1);
-  margin: 12px 0 16px;
-  transition: background 0.3s;
-}
-
-.ticket-features {
-  list-style: none;
-  margin-bottom: 20px;
-  flex-grow: 1;
-}
-
-.ticket-features li {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px;
-  color: var(--steel);
-  letter-spacing: 0.04em;
-  padding: 2px 0;
-  transition: color 0.3s;
-}
-
-.ticket-card:hover .ticket-features li {
-  color: rgba(255,255,255,0.6);
-}
-
-.ticket-btn {
-  display: block;
-  width: 100%;
-  margin-top: auto;
+/* TICKET MANIFEST (YZY REDESIGN) */
+.ticket-subheading {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--cream);
+  letter-spacing: 0.15em;
+  color: var(--steel);
+  margin-bottom: 60px;
+}
+
+.ticket-subheading a {
+  color: var(--off-black);
+  text-decoration: none;
+  border-bottom: 1px solid var(--off-black);
+}
+
+.ticket-manifest {
+  border-top: 2px solid var(--off-black);
+}
+
+.ticket-row {
+  display: grid;
+  grid-template-columns: 0.6fr 2fr 1.2fr 1fr;
+  align-items: center;
+  padding: 40px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+/* Hover State: Aggressive and Instant */
+.ticket-row:hover {
   background: var(--off-black);
+  color: var(--cream);
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.ticket-row.featured {
+  background: rgba(0,0,0,0.03);
+}
+
+.t-col {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.t-meta {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--steel);
+}
+
+.t-title {
+  font-size: clamp(16px, 2vw, 24px);
+  font-weight: 700;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.t-desc {
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--steel);
+}
+
+.t-price {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: right;
+  letter-spacing: -0.04em;
+}
+
+.t-curr {
+  font-size: 10px;
+  font-weight: 400;
+  vertical-align: middle;
+  opacity: 0.6;
+}
+
+.yzy-btn {
+  display: inline-block;
   border: 1px solid var(--off-black);
-  padding: 14px 16px;
-  border-radius: var(--radius);
+  padding: 12px 0;
+  width: 100%;
   text-align: center;
   text-decoration: none;
-  font-weight: 700;
-  transition: all 0.3s ease;
-  cursor: crosshair;
-}
-
-.ticket-btn:hover {
-  background: transparent;
   color: var(--off-black);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  transition: all 0.2s ease;
 }
 
+/* Row Hover Interaction for nested elements */
+.ticket-row:hover .t-meta,
+.ticket-row:hover .t-desc {
+  color: var(--concrete);
+}
+
+.ticket-row:hover .yzy-btn {
+  border-color: var(--cream);
+  color: var(--cream);
+}
+
+.yzy-btn:hover {
+  background: var(--cream);
+  color: var(--off-black) !important;
+}
+
+/* Responsive: Stack for Mobile */
+@media (max-width: 900px) {
+  .ticket-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 30px 0;
+  }
+  .t-price {
+    text-align: left;
+  }
+  .ticket-row:hover {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
 /* PROMOTERS */
 .promoters-layout {
   display: grid;
@@ -1031,64 +1051,45 @@ body {
 <section id="tickets" class="section-block">
   <p class="section-num">02</p>
   <h2 class="section-heading">TICKETS</h2>
-  <p style="font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--steel);margin-bottom:40px;font-weight:600;">
-    EXCLUSIVELY VIA <a href="https://bugece.co" style="color:var(--off-black);text-decoration:underline;font-weight:700;">BUGECE.CO</a>
+  <p class="ticket-subheading">
+    EXCLUSIVELY VIA <a href="https://bugece.co">BUGECE.CO</a>
   </p>
-  <div class="ticket-grid">
-    <div class="ticket-card">
-      <div class="ticket-label">TIER 1</div>
-      <div class="ticket-name">GENERAL<br>ADMISSION</div>
-      <div class="ticket-price-text">₺2.500 <span class="currency">TRY</span></div>
-      <div class="ticket-info-text">Upper Bowl</div>
-      <div class="ticket-divider"></div>
-      <ul class="ticket-features">
-        <li>Stadium access</li>
-        <li>Upper bowl view</li>
-        <li>General facilities</li>
-      </ul>
-      <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a>
+
+  <div class="ticket-manifest">
+    <div class="ticket-row">
+      <div class="t-col t-meta">01 // TIER</div>
+      <div class="t-col t-title">GENERAL ADMISSION<br><span class="t-desc">UPPER BOWL ACCESS</span></div>
+      <div class="t-col t-price">₺2.500 <span class="t-curr">TRY</span></div>
+      <div class="t-col t-action">
+        <a href="https://bugece.co" class="yzy-btn">PURCHASE</a>
+      </div>
     </div>
-    <div class="ticket-card">
-      <div class="ticket-label">TIER 2</div>
-      <div class="ticket-name">SEATED</div>
-      <div class="ticket-price-text">₺4.000 <span class="currency">TRY</span></div>
-      <div class="ticket-info-text">Lower Bowl</div>
-      <div class="ticket-divider"></div>
-      <ul class="ticket-features">
-        <li>Reserved seating</li>
-        <li>Lower bowl view</li>
-        <li>Priority entry lane</li>
-      </ul>
-      <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a>
+
+    <div class="ticket-row">
+      <div class="t-col t-meta">02 // TIER</div>
+      <div class="t-col t-title">RESERVED SEATING<br><span class="t-desc">LOWER BOWL / PRIORITY LANE</span></div>
+      <div class="t-col t-price">₺4.000 <span class="t-curr">TRY</span></div>
+      <div class="t-col t-action">
+        <a href="https://bugece.co" class="yzy-btn">PURCHASE</a>
+      </div>
     </div>
-    <div class="ticket-card">
-      <div class="ticket-label">LIMITED</div>
-      <div class="ticket-name">VIP<br>FLOOR</div>
-      <div class="ticket-price-text">₺8.500 <span class="currency">TRY</span></div>
-      <div class="ticket-info-text">Standing Floor</div>
-      <div class="ticket-divider"></div>
-      <ul class="ticket-features">
-        <li>Floor access</li>
-        <li>Dedicated bar</li>
-        <li>VIP entrance</li>
-        <li>Limited edition merch</li>
-      </ul>
-      <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a>
+
+    <div class="ticket-row">
+      <div class="t-col t-meta">03 // LIMITED</div>
+      <div class="t-col t-title">VIP FLOOR<br><span class="t-desc">STANDING FLOOR / EXCLUSIVE MERCH</span></div>
+      <div class="t-col t-price">₺8.500 <span class="t-curr">TRY</span></div>
+      <div class="t-col t-action">
+        <a href="https://bugece.co" class="yzy-btn">PURCHASE</a>
+      </div>
     </div>
-    <div class="ticket-card featured">
-      <div class="ticket-label">EXCLUSIVE</div>
-      <div class="ticket-name">VIP<br>LOUNGE</div>
-      <div class="ticket-price-text">₺15.000 <span class="currency">TRY</span></div>
-      <div class="ticket-info-text">Premium Hospitality</div>
-      <div class="ticket-divider"></div>
-      <ul class="ticket-features">
-        <li>Premium viewing deck</li>
-        <li>Open bar & dining</li>
-        <li>Private entrance</li>
-        <li>Exclusive merchandise</li>
-        <li>Parking included</li>
-      </ul>
-      <a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a>
+
+    <div class="ticket-row featured">
+      <div class="t-col t-meta">04 // EXCLUSIVE</div>
+      <div class="t-col t-title">VIP LOUNGE<br><span class="t-desc">PREMIUM HOSPITALITY / OPEN BAR / PARKING</span></div>
+      <div class="t-col t-price">₺15.000 <span class="t-curr">TRY</span></div>
+      <div class="t-col t-action">
+        <a href="https://bugece.co" class="yzy-btn">PURCHASE</a>
+      </div>
     </div>
   </div>
 </section>
