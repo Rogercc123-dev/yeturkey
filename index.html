@@ -10,6 +10,10 @@
 <meta property="og:type" content="website" />
 <meta name="theme-color" content="#0D0D0D" />
 
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
 <style>
 *, *::before, *::after {
   box-sizing: border-box;
@@ -27,6 +31,7 @@
   --ash: #BEBEBE;
   --concrete: #9E9E9E;
   --steel: #666666;
+  --white: #FFFFFF;
   --radius: 8px;
 }
 
@@ -37,25 +42,12 @@ html {
 }
 
 body {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'IBM Plex Mono', monospace;
   background: var(--cream);
   color: var(--off-black);
   line-height: 1.4;
   letter-spacing: 0.02em;
   overflow-x: hidden;
-}
-
-/* UTILITY */
-.yeezy-heading {
-  font-family: 'Impact', 'Arial Black', sans-serif;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -0.04em;
-  line-height: 0.85;
-}
-
-.mono-text {
-  font-family: 'Courier New', Courier, monospace;
 }
 
 /* NAV */
@@ -75,9 +67,9 @@ body {
 }
 
 .nav-logo {
-  font-family: 'Impact', 'Arial Black', sans-serif;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 28px;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: -0.06em;
   color: var(--off-black);
   text-decoration: none;
@@ -91,7 +83,7 @@ body {
 }
 
 .nav-menu a {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -100,6 +92,7 @@ body {
   padding: 4px 0;
   border-bottom: 1px solid transparent;
   transition: border-color 0.1s;
+  font-weight: 500;
 }
 
 .nav-menu a:hover {
@@ -110,7 +103,7 @@ body {
   display: inline-block;
   background: var(--off-black);
   color: var(--cream);
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.15em;
@@ -127,26 +120,32 @@ body {
   background: var(--raw-red);
 }
 
-.btn-outline {
-  display: inline-block;
-  background: transparent;
-  color: var(--off-black);
-  border: 1px solid var(--off-black);
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 10px;
+/* NEW: Enhanced Primary Button for the Vision Section */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--raw-red);
+  color: var(--white);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  padding: 10px 20px;
+  letter-spacing: 0.1em;
+  padding: 14px 28px;
   border-radius: var(--radius);
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.15s;
-  font-weight: 600;
+  transition: all 0.25s ease;
+  font-weight: 700;
+  border: 1px solid var(--raw-red);
+  box-shadow: 0 4px 12px rgba(204, 0, 0, 0.15);
 }
 
-.btn-outline:hover {
-  background: var(--off-black);
-  color: var(--cream);
+.btn-primary:hover {
+  background: transparent;
+  color: var(--raw-red);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(204, 0, 0, 0.25);
 }
 
 /* HERO */
@@ -194,9 +193,9 @@ body {
 }
 
 .hero-ye {
-  font-family: 'Impact', 'Arial Black', sans-serif;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: clamp(90px, 18vw, 260px);
-  font-weight: 900;
+  font-weight: 700;
   color: var(--cream);
   line-height: 0.8;
   letter-spacing: -0.05em;
@@ -216,7 +215,7 @@ body {
 }
 
 .hero-detail .detail-value {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 14px;
   color: var(--cream);
   letter-spacing: 0.05em;
@@ -224,7 +223,7 @@ body {
 }
 
 .hero-detail .detail-label {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 9px;
   text-transform: uppercase;
   letter-spacing: 0.2em;
@@ -250,15 +249,15 @@ body {
 }
 
 .countdown-number {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: clamp(36px, 6vw, 64px);
-  font-weight: bold;
+  font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--cream);
 }
 
 .countdown-label {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 9px;
   text-transform: uppercase;
   letter-spacing: 0.3em;
@@ -280,7 +279,7 @@ body {
 }
 
 .section-num {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 12px;
   color: var(--steel);
   letter-spacing: 0.1em;
@@ -289,9 +288,9 @@ body {
 }
 
 .section-heading {
-  font-family: 'Impact', 'Arial Black', sans-serif;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: clamp(36px, 7vw, 80px);
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: -0.04em;
   line-height: 0.9;
   text-transform: uppercase;
@@ -332,7 +331,7 @@ body {
 }
 
 .about-text {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 13px;
   line-height: 1.8;
   letter-spacing: 0.02em;
@@ -348,7 +347,7 @@ body {
   color: var(--cream);
   padding: 3px 10px;
   border-radius: 4px;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -369,7 +368,7 @@ body {
 
 /* SEAT MAP */
 .seat-map-container {
-  background: var(--bone);
+  background: var(--white); /* Updated to White */
   border: 1px solid rgba(0,0,0,0.06);
   border-radius: var(--radius);
   overflow: hidden;
@@ -386,7 +385,7 @@ body {
 }
 
 .seat-map-placeholder {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 12px;
   color: var(--steel);
   letter-spacing: 0.08em;
@@ -434,9 +433,9 @@ body {
 }
 
 .ticket-name {
-  font-family: 'Impact', 'Arial Black', sans-serif;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: clamp(18px, 3vw, 26px);
-  font-weight: 900;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: -0.02em;
   color: var(--off-black);
@@ -446,7 +445,7 @@ body {
 }
 
 .ticket-price-text {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: clamp(24px, 4vw, 40px);
   font-weight: 700;
   color: var(--off-black);
@@ -461,7 +460,7 @@ body {
 }
 
 .ticket-info-text {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 9px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -473,7 +472,7 @@ body {
   position: absolute;
   top: 14px;
   right: 14px;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 8px;
   font-weight: 700;
   color: var(--raw-red);
@@ -483,7 +482,7 @@ body {
 
 /* PROMOTERS */
 .promoters-text {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 13px;
   line-height: 1.8;
   letter-spacing: 0.02em;
@@ -505,7 +504,7 @@ body {
   color: var(--raw-red);
 }
 
-/* FAQ */
+/* FAQ (Improved Smooth Animation) */
 .faq-list {
   list-style: none;
 }
@@ -513,7 +512,7 @@ body {
 .faq-item {
   border-top: 1px solid rgba(0,0,0,0.1);
   cursor: pointer;
-  padding: 20px 0;
+  padding: 24px 0;
 }
 
 .faq-item:last-child {
@@ -525,39 +524,54 @@ body {
   justify-content: space-between;
   align-items: flex-start;
   gap: 20px;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 13px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.02em;
   text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.faq-item:hover .faq-row {
+  color: var(--raw-red);
 }
 
 .faq-icon {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 18px;
-  font-weight: 700;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 20px;
+  font-weight: 400;
   flex-shrink: 0;
-  transition: transform 0.2s;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
 }
 
 .faq-item.open .faq-icon {
   transform: rotate(45deg);
+  color: var(--raw-red);
 }
 
 .faq-body {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 12px;
-  color: var(--steel);
-  line-height: 1.7;
-  font-weight: 400;
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
 }
 
 .faq-item.open .faq-body {
-  max-height: 500px;
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.faq-body > div {
+  overflow: hidden;
+}
+
+.faq-text {
   padding-top: 16px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  color: var(--steel);
+  line-height: 1.7;
+  font-weight: 400;
 }
 
 /* FOOTER */
@@ -565,7 +579,7 @@ body {
   background: var(--off-black);
   color: var(--concrete);
   padding: 64px 24px;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -584,9 +598,9 @@ body {
 }
 
 .footer-logo {
-  font-family: 'Impact', 'Arial Black', sans-serif;
+  font-family: 'IBM Plex Mono', monospace;
   font-size: 48px;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: -0.05em;
   color: var(--cream);
   line-height: 0.8;
@@ -639,8 +653,8 @@ body {
   display: none;
   background: none;
   border: none;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 20px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 24px;
   cursor: pointer;
   color: var(--off-black);
   padding: 8px;
@@ -756,7 +770,9 @@ body {
       <p><span class="tag-red">ISTANBUL</span> YE arrives for a singular stadium performance. A full visual production built from the ground up. Immersive stage design. Music spanning the entire catalog.</p>
       <p>This is not a concert. This is a moment. A gathering. A frequency. The stadium becomes a vessel. The crowd becomes the choir.</p>
       <p>No phones. No distractions. Just sound, light, and presence.</p>
-      <a href="https://bugece.co" class="btn-outline" target="_blank" rel="noopener" style="margin-top:8px;">GET TICKETS → BUGECE</a>
+      <div style="margin-top: 32px;">
+        <a href="https://bugece.co" class="btn-primary" target="_blank" rel="noopener">GET TICKETS → BUGECE</a>
+      </div>
     </div>
     <div class="embed-box">
       <iframe style="border-radius:0" src="https://open.spotify.com/embed/album/6avQh5B5DqTLVVulgqLJhB?utm_source=generator" width="100%" height="400" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
@@ -780,7 +796,7 @@ body {
 <section id="tickets" class="section-block">
   <p class="section-num">03</p>
   <h2 class="section-heading">TICKETS</h2>
-  <p style="font-family:'Courier New',Courier,monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--steel);margin-bottom:40px;font-weight:600;">
+  <p style="font-family:'IBM Plex Mono', monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--steel); margin-bottom:40px; font-weight:600;">
     ALL TICKETS VIA <a href="https://bugece.co" style="color:var(--raw-red);text-decoration:underline;font-weight:700;">BUGECE.CO</a>
   </p>
   <div class="ticket-grid">
@@ -831,79 +847,79 @@ body {
   <div class="faq-list">
     <div class="faq-item">
       <div class="faq-row"><span>When does the general ticket sale start?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><p>The general ticket sale will start soon. Exact dates are announced on the official ticket page.</p></div>
+      <div class="faq-body"><div><div class="faq-text">The general ticket sale will start soon. Exact dates are announced on the official ticket page.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>What are the ticket prices?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><p>Ticket prices will be published when ticket sales open.</p></div>
+      <div class="faq-body"><div><div class="faq-text">Ticket prices will be published when ticket sales open.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>How many tickets can I buy?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><p>A maximum of 6 tickets per purchase per show is allowed. Orders that exceed the limit may be cancelled.</p></div>
+      <div class="faq-body"><div><div class="faq-text">A maximum of 6 tickets per purchase per show is allowed. Orders that exceed the limit may be cancelled.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>Where can I buy tickets?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><p>Tickets are available exclusively through the official ticket website. Do not buy tickets from unofficial resale platforms.</p></div>
+      <div class="faq-body"><div><div class="faq-text">Tickets are available exclusively through the official ticket website. Do not buy tickets from unofficial resale platforms.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>Is there a ticket limit per person?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><p>Yes. Each person can purchase a maximum of 6 tickets per show.</p></div>
+      <div class="faq-body"><div><div class="faq-text">Yes. Each person can purchase a maximum of 6 tickets per show.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>When will I receive my tickets?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><p>After purchasing your ticket you will receive an order confirmation. Tickets will be available for download shortly before the event.</p></div>
+      <div class="faq-body"><div><div class="faq-text">After purchasing your ticket you will receive an order confirmation. Tickets will be available for download shortly before the event.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>I haven't received a confirmation email. What should I do?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><p>Contact the ticket support team and include the event name, the email address used for purchase, and proof of payment.</p></div>
+      <div class="faq-body"><div><div class="faq-text">Contact the ticket support team and include the event name, the email address used for purchase, and proof of payment.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>Can I change the email address on my ticket order?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><p>Yes. Contact the support team and provide the event name, the original email address, and proof of payment.</p></div>
+      <div class="faq-body"><div><div class="faq-text">Yes. Contact the support team and provide the event name, the original email address, and proof of payment.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>Do I need to print my tickets?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><p>No. Tickets can be scanned directly from your phone at the entrance.</p></div>
+      <div class="faq-body"><div><div class="faq-text">No. Tickets can be scanned directly from your phone at the entrance.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>If I bought multiple tickets, can we enter separately?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><p>Yes. Each ticket has its own QR code and can be sent to different people.</p></div>
+      <div class="faq-body"><div><div class="faq-text">Yes. Each ticket has its own QR code and can be sent to different people.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>Are VIP tickets available?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><p>Yes. Various VIP packages will be available. More information will be announced closer to the ticket sale date.</p></div>
+      <div class="faq-body"><div><div class="faq-text">Yes. Various VIP packages will be available. More information will be announced closer to the ticket sale date.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>How do I access the order status page?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><p>Use the "Download your tickets" link in your confirmation email.</p></div>
+      <div class="faq-body"><div><div class="faq-text">Use the "Download your tickets" link in your confirmation email.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>Can I resell my tickets?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><p>Tickets can only be resold through official resale partners such as TicketSwap or Tixel.</p></div>
+      <div class="faq-body"><div><div class="faq-text">Tickets can only be resold through official resale partners such as TicketSwap or Tixel.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>How do I buy wheelchair or accessibility tickets?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><p>Accessible viewing platform tickets are available through the ticket purchase page. Each wheelchair user may bring one companion.</p></div>
+      <div class="faq-body"><div><div class="faq-text">Accessible viewing platform tickets are available through the ticket purchase page. Each wheelchair user may bring one companion.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>What time does the concert start?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><p>Exact times for doors and show start will be announced closer to the event.</p></div>
+      <div class="faq-body"><div><div class="faq-text">Exact times for doors and show start will be announced closer to the event.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>Is there an age restriction?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><p>There is no strict minimum age. However, fans under 16 are recommended to attend with an adult.</p></div>
+      <div class="faq-body"><div><div class="faq-text">There is no strict minimum age. However, fans under 16 are recommended to attend with an adult.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>Can I bring a bag?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><p>Large bags and backpacks are generally not allowed. Check the venue's rules before attending.</p></div>
+      <div class="faq-body"><div><div class="faq-text">Large bags and backpacks are generally not allowed. Check the venue's rules before attending.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>Is the venue accessible for visitors with disabilities?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><p>Yes. Accessibility facilities are available at the venue.</p></div>
+      <div class="faq-body"><div><div class="faq-text">Yes. Accessibility facilities are available at the venue.</div></div></div>
     </div>
     <div class="faq-item">
       <div class="faq-row"><span>If the concert sells out, will a waiting list open?</span><span class="faq-icon">+</span></div>
-      <div class="faq-body"><p>Yes. A waiting list may be opened through the official ticket page.</p></div>
+      <div class="faq-body"><div><div class="faq-text">Yes. A waiting list may be opened through the official ticket page.</div></div></div>
     </div>
   </div>
 </section>
