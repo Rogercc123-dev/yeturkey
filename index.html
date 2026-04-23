@@ -1,39 +1,377 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>YE — ISTANBUL</title>
-<meta name="description" content="YE live at Turk Telekom Stadium, Istanbul. May 30 2026. Tickets via Weeztix." />
-<meta property="og:title" content="YE — ISTANBUL" />
-<meta property="og:description" content="YE live at Turk Telekom Stadium. May 30 2026." />
-<meta property="og:type" content="website" />
-<meta name="theme-color" content="#0D0D0D" />
-
-<style>
-/* ============================================
-   YEEZY DESIGN SYSTEM — ISTANBUL
-   ============================================ */
-
-@font-face {
-  font-family: 'YeezyDisplay';
-  src: local('Impact');
-  font-weight: 900;
-  font-display: swap;
-}
-
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-:root {
-  --cream: #F0EDE8;
-  --stone: #D5CFC6;
-  --sand: #C4B9A8;
-  --mud: #8B7E6A;
-  --charcoal: #2A2A2A;
+diff --git a/index.html b/index.html
+index 1f2830a06ae217dcd625e06170ad53f3f4cca3cf..bf8be6e854ebd9a651be6887e95c5d22b44c05ad 100644
+--- a/index.html
++++ b/index.html
+@@ -984,295 +984,140 @@ body.loaded {
+     </div>
+     <div class="ticket-brutal-card" onclick="window.open('https://weeztix.com','_blank')">
+       <div class="ticket-tier">VIP<br>LOUNGE</div>
+       <div class="ticket-price">₺15.000<span>TRY</span></div>
+       <div class="ticket-desc">Premium hospitality</div>
+       <div class="ticket-strike">EXCLUSIVE</div>
+     </div>
+   </div>
+ </section>
+ 
+ <div class="hard-line"></div>
+ 
+ <!-- FAQ — FOLD -->
+ <section id="faq" class="block block-pad">
+   <div class="section-num">04</div>
+   <h2 class="section-heading">FAQ</h2>
+   <div class="faq-list">
+     <div class="faq-item">
+       <div class="faq-question">
+         <span>When do tickets go on sale?</span>
+         <span class="faq-toggle">+</span>
+       </div>
+       <div class="faq-answer">
+         Tickets are available now exclusively via Weeztix. No presale. No codes. First come, first served.
+       </div>
++    </div>
++    <div class="faq-item">
++      <div class="faq-question">
++        <span>Is there an age restriction?</span>
++        <span class="faq-toggle">+</span>
++      </div>
++      <div class="faq-answer">
++        Under 18 attendees must be accompanied by a parent or legal guardian.
++      </div>
++    </div>
++    <div class="faq-item">
++      <div class="faq-question">
++        <span>What time do doors open?</span>
++        <span class="faq-toggle">+</span>
++      </div>
++      <div class="faq-answer">
++        Doors open at 18:00 local time and the show starts at 20:00.
++      </div>
++    </div>
+   </div>
+ </section>
+ 
+ <!-- FOOTER -->
+ <footer class="footer-brutal">
+   <div class="footer-grid">
+     <div>
+       <div class="footer-brand">YE</div>
+       <p style="margin-top:12px;color:var(--concrete);">ISTANBUL — 30.05.26</p>
+     </div>
+     <div>
+       <ul class="footer-links">
+         <li><a href="https://weeztix.com" target="_blank" rel="noopener">Tickets — Weeztix</a></li>
+         <li><a href="#vision">Vision</a></li>
+         <li><a href="#seats">Seat Map</a></li>
+         <li><a href="#faq">FAQ</a></li>
+       </ul>
+     </div>
+     <div>
+       <ul class="footer-links">
+         <li><a href="#">Privacy</a></li>
+         <li><a href="#">Terms</a></li>
+         <li><a href="#">Contact</a></li>
+-      </ul.meta div{font-size:12px;color:#ccc}
+-
+-.countdown{display:flex;gap:30px;margin-top:30px}
+-
+-.time span{font-size:32px;font-weight:700}
+-.time p{font-size:10px;color:#aaa}
+-
+-section{padding:120px 40px;border-bottom:1px solid #eee}
+-
+-.section-title{font-size:42px;margin-bottom:30px}
+-
+-.reveal{opacity:0;transform:translateY(80px);transition:all 1s cubic-bezier(.16,1,.3,1)}
+-.reveal.active{opacity:1;transform:translateY(0)}
+-
+-.about{max-width:900px}
+-
+-.spotify{
+-margin-top:40px
+-}
+-
+-.seatmap svg{width:100%;max-width:900px;margin:auto;display:block}
+-
+-.seat{fill:#ddd;cursor:pointer;transition:.3s}
+-.seat:hover{fill:#000}
+-
+-.vip{fill:#d4af37}
+-.floor{fill:#bbb}
+-.seating{fill:#e0e0e0}
+-
+-.ticket-grid{display:grid;grid-template-columns:repeat(4,1fr);margin-top:40px;border:1px solid #eee}
+-
+-.ticket{padding:30px;border-right:1px solid #eee}
+-.ticket:last-child{border-right:none}
+-
+-.price{font-size:28px;font-weight:700;margin-top:10px}
+-
+-.faq-row{border-top:1px solid #eee;padding:24px 0;cursor:pointer}
+-
+-.faq-q{display:flex;justify-content:space-between;font-size:16px}
+-
+-.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease;color:#666;margin-top:10px}
+-
+-.faq-row.open .faq-a{max-height:200px}
+-
+-footer{padding:40px;text-align:center;color:#777;font-size:12px}
+-
+-@media(max-width:900px){
+-.hero-title{font-size:70px}
+-.ticket-grid{grid-template-columns:1fr 1fr}
+-}
+-
+-</style>
+-</head>
+-
+-<body>
+-
+-<nav>
+-<div class="logo">YE</div>
+-<ul>
+-<li><a href="#about">Show</a></li>
+-<li><a href="#seats">Seats</a></li>
+-<li><a href="#tickets">Tickets</a></li>
+-<li><a href="#faq">FAQ</a></li>
+-</ul>
+-<button class="cta" onclick="scrollTickets()">Buy Tickets</button>
+-</nav>
+-
+-<div class="hero">
+-
+-<iframe src="https://www.youtube.com/embed/6CHs4x2uqcQ" allowfullscreen></iframe>
+-
+-<div class="hero-bottom">
+-
+-<div class="hero-title">YE</div>
+-
+-<div class="meta">
+-<div>May 30 2026</div>
+-<div>Turk Telekom Stadium</div>
+-<div>Show 20:00</div>
+-</div>
+-
+-<div class="countdown">
+-<div class="time"><span id="days">0</span><p>DAYS</p></div>
+-<div class="time"><span id="hours">0</span><p>HOURS</p></div>
+-<div class="time"><span id="minutes">0</span><p>MIN</p></div>
+-<div class="time"><span id="seconds">0</span><p>SEC</p></div>
+-</div>
+-
+-</div>
+-
+-</div>
+-
+-<section id="about" class="reveal">
+-
+-<h2 class="section-title">The Show</h2>
+-
+-<div class="about">
+-<p>
+-YE arrives in Istanbul for a massive stadium performance featuring a full visual production, immersive stage design and music from across the catalog.
+-</p>
+-
+-<div class="spotify">
+-
+-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/album/2noRn2Aes5aoNVsU6iWThc" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+-
+-</div>
+-
+-</div>
+-
+-</section>
+-
+-<section id="seats" class="reveal">
+-
+-<h2 class="section-title">Seat Map</h2>
+-
+-<div class="seatmap">
+-
+-<svg viewBox="0 0 800 500">
+-
+-<rect class="seat vip" x="350" y="200" width="100" height="80"/>
+-
+-<rect class="seat floor" x="200" y="320" width="400" height="120"/>
+-
+-<rect class="seat seating" x="100" y="100" width="600" height="80"/>
+-
+-</svg>
+-
+-</div>
+-
+-</section>
+-
+-<section id="tickets" class="reveal">
+-
+-<h2 class="section-title">Tickets</h2>
+-
+-<div class="ticket-grid">
+-
+-<div class="ticket">
+-<div>General Admission</div>
+-<div class="price">₺2500</div>
+-</div>
+-
+-<div class="ticket">
+-<div>Seated</div>
+-<div class="price">₺4000</div>
+-</div>
+-
+-<div class="ticket">
+-<div>VIP Floor</div>
+-<div class="price">₺8500</div>
+-</div>
+-
+-<div class="ticket">
+-<div>VIP Lounge</div>
+-<div class="price">₺15000</div>
+-</div>
+-
+-</div>
+-
+-</section>
+-
+-<section id="faq" class="reveal">
+-
+-<h2 class="section-title">FAQ</h2>
+-
+-<div class="faq-row">
+-<div class="faq-q">When do tickets go on sale?</div>
+-<div class="faq-a">Tickets release Friday at 12:00 TRT.</div>
+-</div>
+-
+-<div class="faq-row">
+-<div class="faq-q">Is there an age restriction?</div>
+-<div class="faq-a">Under 18 must attend with an adult.</div>
+-</div>
+-
+-<div class="faq-row">
+-<div class="faq-q">What time do doors open?</div>
+-<div class="faq-a">Doors open at 18:00.</div>
+-</div>
+-
+-</section>
+-
+-<footer>
+-© 2026 YE Istanbul Live
++      </ul>
++    </div>
++  </div>
++  <div class="footer-bottom">
++    <span>© 2026 YE ISTANBUL</span>
++    <span>ALL RIGHTS RESERVED</span>
++  </div>
+ </footer>
+ 
+ <script>
++(function () {
++  const preloader = document.getElementById('preloader');
++  const body = document.body;
++
++  function hidePreloader() {
++    if (!preloader) return;
++    preloader.classList.add('hidden');
++    body.classList.add('loaded');
++  }
+ 
+-function scrollTickets(){
+-
+-document.getElementById("tickets").scrollIntoView({behavior:"smooth"})
+-
+-}
+-
+-const eventDate=new Date("May 30, 2026 20:00:00").getTime()
+-
+-setInterval(()=>{
+-
+-const now=new Date().getTime()
+-const distance=eventDate-now
+-
+-const days=Math.floor(distance/(1000*60*60*24))
+-const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60))
+-const minutes=Math.floor((distance%(1000*60*60))/(1000*60))
+-const seconds=Math.floor((distance%(1000*60))/1000)
+-
+-if(document.getElementById("days")){
+-
+-document.getElementById("days").innerText=days
+-
+-document.getElementById("hours").innerText=hours
++  window.addEventListener('load', function () {
++    setTimeout(hidePreloader, 600);
++  });
+ 
+-document.getElementById("minutes").innerText=minutes
++  // Safety timeout so the page never gets stuck on loading.
++  setTimeout(hidePreloader, 3000);
+ 
+-document.getElementById("seconds").innerText=seconds
++  const eventDate = new Date('2026-05-30T20:00:00+03:00').getTime();
++  const ids = ['days', 'hours', 'minutes', 'seconds'];
+ 
+-}
++  function updateCountdown() {
++    const now = Date.now();
++    const distance = Math.max(0, eventDate - now);
+ 
+-},1000)
++    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
++    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
++    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
++    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+ 
+-const observer=new IntersectionObserver(entries=>{
+-entries.forEach(entry=>{
+-if(entry.isIntersecting){entry.target.classList.add("active")}
+-})
+-},{threshold:.2})
+-
+-document.querySelectorAll(".reveal").forEach(el=>observer.observe(el))
++    const values = [days, hours, minutes, seconds].map(v => String(v).padStart(2, '0'));
++    ids.forEach((id, i) => {
++      const el = document.getElementById(id);
++      if (el) el.textContent = values[i];
++    });
++  }
+ 
++  updateCountdown();
++  setInterval(updateCountdown, 1000);
+ 
+-document.querySelectorAll(".seat").forEach(seat=>{
+-seat.addEventListener("click",()=>{
+-alert("Seat section selected")
+-scrollTickets()
+-})
+-})
++  const faqItems = document.querySelectorAll('.faq-item');
++  faqItems.forEach((item) => {
++    item.addEventListener('click', function () {
++      item.classList.toggle('open');
++    });
++  });
+ 
++  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
++  const navLinks = document.getElementById('navLinks');
+ 
+-document.querySelectorAll(".faq-row").forEach(row=>{
+-row.addEventListener("click",()=>{
+-row.classList.toggle("open")
+-})
+-})
++  window.closeMobileMenu = function () {
++    if (navLinks) navLinks.classList.remove('mobile-open');
++  };
+ 
++  if (mobileMenuBtn && navLinks) {
++    mobileMenuBtn.addEventListener('click', function () {
++      navLinks.classList.toggle('mobile-open');
++    });
++  }
++})();
+ </script>
+ 
+ </body>
+ </html>
   --off-black: #1A1A1A;
   --void: #0D0D0D;
   --blood: #8B0000;
