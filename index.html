@@ -4,13 +4,17 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>YE — ISTANBUL</title>
+<meta name="description" content="YE live at Turk Telekom Stadium, Istanbul. May 30 2026. Tickets via Weeztix." />
+<meta property="og:title" content="YE — ISTANBUL" />
+<meta property="og:description" content="YE live at Turk Telekom Stadium. May 30 2026." />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#0D0D0D" />
 
 <style>
 /* ============================================
    YEEZY DESIGN SYSTEM — ISTANBUL
    ============================================ */
 
-/* --- FONTS --- */
 @font-face {
   font-family: 'YeezyDisplay';
   src: local('Impact');
@@ -18,7 +22,6 @@
   font-display: swap;
 }
 
-/* --- RESET --- */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -49,7 +52,7 @@
 
 html {
   background: var(--cream);
-  scroll-behavior: auto;
+  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -61,6 +64,10 @@ body {
   line-height: 1.4;
   letter-spacing: -0.01em;
   overflow-x: hidden;
+  cursor: crosshair;
+}
+
+body.loaded {
   cursor: crosshair;
 }
 
@@ -411,7 +418,7 @@ body {
 
 .seat-zone {
   cursor: pointer;
-  transition: fill 0.15s;
+  transition: fill 0.15s, filter 0.15s;
 }
 
 .seat-zone:hover {
@@ -471,6 +478,10 @@ body {
   color: rgba(255,255,255,0.6);
 }
 
+.ticket-brutal-card:hover .ticket-strike {
+  color: var(--raw-red);
+}
+
 .ticket-tier {
   font-family: 'YeezyDisplay', 'Impact', 'Arial Black', sans-serif;
   font-size: clamp(20px, 3vw, 28px);
@@ -478,6 +489,7 @@ body {
   letter-spacing: -0.02em;
   color: var(--off-black);
   margin-bottom: var(--gap2);
+  transition: color 0.1s;
 }
 
 .ticket-price {
@@ -486,6 +498,7 @@ body {
   font-weight: bold;
   color: var(--off-black);
   margin-bottom: var(--gap);
+  transition: color 0.1s;
 }
 
 .ticket-price span {
@@ -498,6 +511,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: var(--steel);
+  transition: color 0.1s;
 }
 
 .ticket-strike {
@@ -508,6 +522,7 @@ body {
   font-size: 9px;
   color: var(--raw-red);
   letter-spacing: 0.1em;
+  transition: color 0.1s;
 }
 
 /* --- FAQ — FOLD --- */
@@ -648,7 +663,7 @@ body {
   gap: var(--gap2);
 }
 
-/* --- GLITCH OVERLAY --- */
+/* --- GLITCH OVERLAY (SCANLINES) --- */
 .glitch-overlay {
   position: fixed;
   inset: 0;
@@ -673,12 +688,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.6s, visibility 0.6s;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
 }
 
 .preloader.hidden {
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
 }
 
 .preloader-text {
@@ -694,6 +710,47 @@ body {
   50% { opacity: 1; }
 }
 
+/* --- MOBILE NAV OVERLAY --- */
+.mobile-nav-overlay {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .nav-links {
+    display: none;
+  }
+  
+  .nav-links.mobile-open {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    background: var(--cream);
+    padding: var(--gap3);
+    border-bottom: 1px solid rgba(0,0,0,0.15);
+    gap: var(--gap2);
+  }
+  
+  .mobile-menu-btn {
+    display: block;
+    background: none;
+    border: none;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--off-black);
+    padding: 8px;
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-menu-btn {
+    display: none;
+  }
+}
+
 /* --- UTILITY --- */
 .sr-only {
   position: absolute;
@@ -704,19 +761,6 @@ body {
   overflow: hidden;
   clip: rect(0,0,0,0);
   border: 0;
-}
-
-.mobile-hide {
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .mobile-hide {
-    display: block;
-  }
-  .desktop-hide {
-    display: none;
-  }
 }
 
 </style>
@@ -735,21 +779,23 @@ body {
 <!-- BRUTALIST NAVIGATION -->
 <nav class="nav-brutal">
   <a href="#" class="logo-mark">YE</a>
-  <ul class="nav-links mobile-hide">
-    <li><a href="#vision">VISION</a></li>
-    <li><a href="#seats">MAP</a></li>
-    <li><a href="#tickets">TICKETS</a></li>
-    <li><a href="#faq">FAQ</a></li>
+  <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#vision" onclick="closeMobileMenu()">VISION</a></li>
+    <li><a href="#seats" onclick="closeMobileMenu()">MAP</a></li>
+    <li><a href="#tickets" onclick="closeMobileMenu()">TICKETS</a></li>
+    <li><a href="#faq" onclick="closeMobileMenu()">FAQ</a></li>
+    <li><a href="https://weeztix.com" target="_blank" rel="noopener" class="btn-raw" style="display:inline-block;padding:8px 16px;">WEEZTIX</a></li>
   </ul>
-  <a href="https://weeztix.com" class="btn-raw" target="_blank" rel="noopener">WEEZTIX</a>
+  <a href="https://weeztix.com" target="_blank" rel="noopener" class="btn-raw mobile-hide">WEEZTIX</a>
 </nav>
 
 <!-- HERO MONOLITH -->
 <section class="hero-monolith">
   <div class="hero-media-container">
-    <!-- Replace with your own video/image -->
+    <!-- Replace with actual artist image or video -->
     <img 
-      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 900'%3E%3Crect fill='%231a1a1a' width='1440' height='900'/%3E%3Ctext x='720' y='450' text-anchor='middle' fill='%23333' font-family='Impact' font-size='80'%3E%F0%9F%95%8A%3C/text%3E%3C/svg%3E"
+      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 900'%3E%3Cdefs%3E%3CradialGradient id='g' cx='50%25' cy='50%25'%3E%3Cstop offset='0%25' stop-color='%232a2a2a'/%3E%3Cstop offset='100%25' stop-color='%230d0d0d'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='1440' height='900'/%3E%3Ctext x='720' y='460' text-anchor='middle' fill='%23333' font-family='Impact,Arial Black,sans-serif' font-size='60' letter-spacing='-2'%3E%F0%9F%95%8A%3C/text%3E%3C/svg%3E"
       alt="YE"
       style="width:100%;height:100%;object-fit:cover;"
     />
@@ -873,7 +919,7 @@ body {
     <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
       <!-- Stage -->
       <rect x="250" y="60" width="300" height="60" fill="#1A1A1A" />
-      <text x="400" y="95" text-anchor="middle" fill="#F0EDE8" font-family="Courier New" font-size="14" font-weight="bold">STAGE</text>
+      <text x="400" y="95" text-anchor="middle" fill="#F0EDE8" font-family="Courier New,monospace" font-size="14" font-weight="bold">STAGE</text>
       
       <!-- VIP Pit -->
       <rect class="seat-zone" x="280" y="150" width="240" height="100" fill="#8B0000" opacity="0.9" />
@@ -960,43 +1006,6 @@ body {
       <div class="faq-answer">
         Tickets are available now exclusively via Weeztix. No presale. No codes. First come, first served.
       </div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>Is there an age restriction?</span>
-        <span class="faq-toggle">+</span>
-      </div>
-      <div class="faq-answer">
-        All ages welcome. Under 18 must be accompanied by an adult. ID required for VIP floor access.
-      </div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>What time do doors open?</span>
-        <span class="faq-toggle">+</span>
-      </div>
-      <div class="faq-answer">
-        Doors open at 18:00. Show begins at 20:00 sharp. No late entry during the first movement.
-      </div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>Can I bring a phone or camera?</span>
-        <span class="faq-toggle">+</span>
-      </div>
-      <div class="faq-answer">
-        Phones will be secured in Yondr pouches upon entry. This is a phone-free experience. Be present.
-      </div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>What about Passolig?</span>
-        <span class="faq-toggle">+</span>
-      </div>
-      <div class="faq-answer">
-        Passolig is required for stadium entry. Link your Passolig card during checkout on Weeztix.
-      </div>
-    </div>
   </div>
 </section>
 
