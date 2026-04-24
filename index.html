@@ -1,224 +1,209 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang=en>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>YE — ISTANBUL</title>
-  <meta name="description" content="YE live at Atatürk Olympic Stadium, Istanbul. May 30 2026. The globe stage returns. Presented by Access Opera. Tickets via Bugece and Ticketofis." />
-  <meta property="og:title" content="YE — ISTANBUL" />
-  <meta property="og:description" content="YE live at Atatürk Olympic Stadium. May 30 2026. The globe stage returns." />
-  <meta property="og:type" content="website" />
-  <meta name="theme-color" content="#0D0D0D" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
-  <link rel="stylesheet" href="style.css" />
+<meta charset=UTF-8>
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>YE — ISTANBUL</title>
+<meta name=description content="YE live at Atatürk Olympic Stadium, Istanbul. May 30 2026. The globe stage returns. Presented by Access Opera. Tickets via Bugece and Ticketofis.">
+<meta property=og:title content="YE — ISTANBUL">
+<meta property=og:description content="YE live at Atatürk Olympic Stadium. May 30 2026. The globe stage returns.">
+<meta property=og:type content=website>
+<meta name=theme-color content=#0D0D0D>
+<link rel=preconnect href=https://fonts.googleapis.com>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel=stylesheet>
+<link rel=stylesheet href=style.css>
 </head>
 <body>
-
-<div class="preloader" id="preloader">
-  <div class="preloader-text">YE</div>
-  <div class="preloader-divider"></div>
-  <img src="opera.png" alt="Access Opera" class="preloader-logo" />
+<div class=preloader id=preloader>
+<div class=preloader-text>YE</div>
+<div class=preloader-divider></div>
+<img src=opera.png alt="Access Opera" class=preloader-logo>
 </div>
-<div class="seat-map-overlay" id="seatMapOverlay">
-  <button class="seat-map-close" id="seatMapClose">✕</button>
-  <img src="seat-map.png" alt="Venue Seat Map" id="seatMapImg" />
+<div class=seat-map-overlay id=seatMapOverlay>
+<button class=seat-map-close id=seatMapClose>✕</button>
+<img src=seat-map.png alt="Venue Seat Map" id=seatMapImg>
 </div>
-<div class="scanlines"></div>
-
-<nav class="nav-bar">
-  <div class="nav-left">
-    <a href="#" class="nav-logo">YE</a>
-    <div class="nav-separator"></div>
-    <img src="opera.png" alt="Access Opera" class="nav-logo-img" />
-  </div>
-  <button class="mobile-menu-btn" id="menuBtn" aria-label="Menu">☰</button>
-  <ul class="nav-menu" id="navMenu">
-    <li><a href="#vision">VISION</a></li>
-    <li><button class="nav-btn" id="seatMapHeaderBtn">MAP</button></li>
-    <li><a href="#tickets">TICKETS</a></li>
-    <li><a href="#promoters">PROMOTERS</a></li>
-    <li><a href="#faq">FAQ</a></li>
-  </ul>
+<div class=scanlines></div>
+<nav class=nav-bar>
+<div class=nav-left>
+<a href=# class=nav-logo>YE</a>
+<div class=nav-separator></div>
+<img src=opera.png alt="Access Opera" class=nav-logo-img>
+</div>
+<button class=mobile-menu-btn id=menuBtn aria-label=Menu>☰</button>
+<ul class=nav-menu id=navMenu>
+<li><a href=#vision>VISION</a></li>
+<li><button class=nav-btn id=seatMapHeaderBtn>MAP</button></li>
+<li><a href=#tickets>TICKETS</a></li>
+<li><a href=#promoters>PROMOTERS</a></li>
+<li><a href=#faq>FAQ</a></li>
+</ul>
 </nav>
-
-<section class="hero-section">
-  <div class="hero-bg">
-    <img src="front.jpg" alt="YE" class="desktop-img" />
-    <img src="front-mobile.jpg" alt="YE" class="mobile-img" />
-  </div>
-  <div class="hero-gradient"></div>
-  <div class="hero-text">
-    <p class="hero-presenter">ACCESS OPERA PRESENTS</p>
-    <h1 class="hero-ye">YE</h1>
-    <div class="hero-details">
-      <div class="hero-detail"><span class="detail-value">30.05.26</span><span class="detail-label">DATE</span></div>
-      <div class="hero-detail"><span class="detail-value">ATATÜRK OLYMPIC</span><span class="detail-label">VENUE</span></div>
-      <div class="hero-detail"><span class="detail-value">20:00</span><span class="detail-label">SHOW</span></div>
-      <div class="hero-detail"><span class="detail-value">ISTANBUL</span><span class="detail-label">CITY</span></div>
-    </div>
-  </div>
-</section>
-
-<section class="countdown-section">
-  <div class="countdown-row">
-    <div class="countdown-unit"><div class="countdown-number" id="days">00</div><div class="countdown-label">DAYS</div></div>
-    <div class="countdown-unit"><div class="countdown-number" id="hours">00</div><div class="countdown-label">HOURS</div></div>
-    <div class="countdown-unit"><div class="countdown-number" id="minutes">00</div><div class="countdown-label">MIN</div></div>
-    <div class="countdown-unit"><div class="countdown-number" id="seconds">00</div><div class="countdown-label">SEC</div></div>
-  </div>
-</section>
-
-<div class="reveal">
-<section id="vision" class="section-block">
-  <div class="vision-layout">
-    <div class="vision-left">
-      <div class="vision-heading-wrap">
-        <p class="section-num">01</p>
-        <h2 class="section-heading">THE<br>VISION</h2>
-      </div>
-  <div class="about-text">
-  <p><span class="tag-mono">ISTANBUL</span> YE is widely regarded as one of the most influential artists of the past two decades. His work has shaped music, fashion, design and global culture. His live performances are rare and known for their bold artistic vision and immersive scale.</p>
-  <p>This will not be a standard concert. The globe stage returns — a rotating sphere designed with Aus Taylor, YE performing masked atop a world that turns beneath him. The crowd surrounds 360 degrees. Fog. Live-corrected lights. Nothing automated.</p>
-  <p>This marks his first performance in Turkey and one of the largest stadium productions the country has ever seen. An experience designed for presence.</p>
+<section class=hero-section>
+<div class=hero-bg>
+<img src=front.jpg alt=YE class=desktop-img>
+<img src=front-mobile.jpg alt=YE class=mobile-img>
 </div>
-    </div>
-    <div class="embed-box">
-      <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/album/5poA9SAx0Xiz1cf17fWBLS?utm_source=generator" width="100%" height="352" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-    </div>
-  </div>
+<div class=hero-gradient></div>
+<div class=hero-text>
+<p class=hero-presenter>ACCESS OPERA PRESENTS</p>
+<h1 class=hero-ye>YE</h1>
+<div class=hero-details>
+<div class=hero-detail><span class=detail-value>30.05.26</span><span class=detail-label>DATE</span></div>
+<div class=hero-detail><span class=detail-value>ATATÜRK OLYMPIC</span><span class=detail-label>VENUE</span></div>
+<div class=hero-detail><span class=detail-value>20:00</span><span class=detail-label>SHOW</span></div>
+<div class=hero-detail><span class=detail-value>ISTANBUL</span><span class=detail-label>CITY</span></div>
+</div>
+</div>
+</section>
+<section class=countdown-section>
+<div class=countdown-row>
+<div class=countdown-unit><div class=countdown-number id=days>00</div><div class=countdown-label>DAYS</div></div>
+<div class=countdown-unit><div class=countdown-number id=hours>00</div><div class=countdown-label>HOURS</div></div>
+<div class=countdown-unit><div class=countdown-number id=minutes>00</div><div class=countdown-label>MIN</div></div>
+<div class=countdown-unit><div class=countdown-number id=seconds>00</div><div class=countdown-label>SEC</div></div>
+</div>
+</section>
+<div class=reveal>
+<section id=vision class=section-block>
+<div class=vision-layout>
+<div class=vision-left>
+<div class=vision-heading-wrap>
+<p class=section-num>01</p>
+<h2 class=section-heading>THE<br>VISION</h2>
+</div>
+<div class=about-text>
+<p><span class=tag-mono>ISTANBUL</span> YE is widely regarded as one of the most influential artists of the past two decades. His work has shaped music, fashion, design and global culture. His live performances are rare and known for their bold artistic vision and immersive scale.</p>
+<p>This will not be a standard concert. The globe stage returns — a rotating sphere designed with Aus Taylor, YE performing masked atop a world that turns beneath him. The crowd surrounds 360 degrees. Fog. Live-corrected lights. Nothing automated.</p>
+<p>This marks his first performance in Turkey and one of the largest stadium productions the country has ever seen. An experience designed for presence.</p>
+</div>
+</div>
+<div class=embed-box>
+<iframe data-testid=embed-iframe style=border-radius:12px src="https://open.spotify.com/embed/album/5poA9SAx0Xiz1cf17fWBLS?utm_source=generator" width=100% height=352 frameborder=0 allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading=lazy></iframe>
+</div>
+</div>
 </section>
 </div>
-
-<div class="divider-thick"></div>
-
-<div class="reveal">
-<section id="tickets" class="section-block">
-  <p class="section-num">02</p>
-  <h2 class="section-heading">TICKETS</h2>
-  <p class="ticket-header-note">
-    AVAILABLE AT 
-    <a href="https://bugece.co" target="_blank" rel="noopener">BUGECE.CO</a>
-    <span class="sep">&</span>
-    <a href="https://ticketofis.com" target="_blank" rel="noopener">TICKETOFIS.COM</a>
-  </p>
-  <div class="ticket-grid">
-    <div class="ticket-card">
-      <div class="ticket-label">TIER 1</div>
-      <div class="ticket-name">GENERAL<br>ADMISSION</div>
-      <div class="ticket-price-text">₺2.500 <span class="currency">TRY</span></div>
-      <div class="ticket-info-text">Upper Bowl</div>
-      <div class="ticket-divider"></div>
-      <ul class="ticket-features"><li>Stadium access</li><li>Upper bowl viewing</li><li>General facilities</li></ul>
-      <div class="ticket-btn-wrap"><a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a></div>
-    </div>
-    <div class="ticket-card">
-      <div class="ticket-label">TIER 2</div>
-      <div class="ticket-name">SEATED</div>
-      <div class="ticket-price-text">₺4.000 <span class="currency">TRY</span></div>
-      <div class="ticket-info-text">Lower Bowl</div>
-      <div class="ticket-divider"></div>
-      <ul class="ticket-features"><li>Reserved seating</li><li>Lower bowl sightlines</li><li>Priority entry lane</li></ul>
-      <div class="ticket-btn-wrap"><a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a></div>
-    </div>
-    <div class="ticket-card">
-      <div class="ticket-label">LIMITED</div>
-      <div class="ticket-name">VIP<br>FLOOR</div>
-      <div class="ticket-price-text">₺8.500 <span class="currency">TRY</span></div>
-      <div class="ticket-info-text">Standing Floor</div>
-      <div class="ticket-divider"></div>
-      <ul class="ticket-features"><li>Floor access</li><li>Dedicated bar</li><li>VIP entrance</li><li>Limited edition merchandise</li></ul>
-      <div class="ticket-btn-wrap"><a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a></div>
-    </div>
-    <div class="ticket-card featured">
-      <div class="ticket-label">EXCLUSIVE</div>
-      <div class="ticket-name">VIP<br>LOUNGE</div>
-      <div class="ticket-price-text">₺15.000 <span class="currency">TRY</span></div>
-      <div class="ticket-info-text">Premium Hospitality</div>
-      <div class="ticket-divider"></div>
-      <ul class="ticket-features"><li>Premium viewing deck</li><li>Open bar & dining</li><li>Private entrance</li><li>Exclusive merchandise</li><li>Parking included</li></ul>
-      <div class="ticket-btn-wrap"><a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a></div>
-    </div>
-  </div>
+<div class=divider-thick></div>
+<div class=reveal>
+<section id=tickets class=section-block>
+<p class=section-num>02</p>
+<h2 class=section-heading>TICKETS</h2>
+<p class=ticket-header-note>
+AVAILABLE AT
+<a href=https://bugece.co target=_blank rel=noopener>BUGECE.CO</a>
+<span class=sep>&</span>
+<a href=https://ticketofis.com target=_blank rel=noopener>TICKETOFIS.COM</a>
+</p>
+<div class=ticket-grid>
+<div class=ticket-card>
+<div class=ticket-label>TIER 1</div>
+<div class=ticket-name>GENERAL<br>ADMISSION</div>
+<div class=ticket-price-text>₺2.500 <span class=currency>TRY</span></div>
+<div class=ticket-info-text>Upper Bowl</div>
+<div class=ticket-divider></div>
+<ul class=ticket-features><li>Stadium access</li><li>Upper bowl viewing</li><li>General facilities</li></ul>
+<div class=ticket-btn-wrap><a href=https://bugece.co class=ticket-btn target=_blank rel=noopener>GET TICKETS</a></div>
+</div>
+<div class=ticket-card>
+<div class=ticket-label>TIER 2</div>
+<div class=ticket-name>SEATED</div>
+<div class=ticket-price-text>₺4.000 <span class=currency>TRY</span></div>
+<div class=ticket-info-text>Lower Bowl</div>
+<div class=ticket-divider></div>
+<ul class=ticket-features><li>Reserved seating</li><li>Lower bowl sightlines</li><li>Priority entry lane</li></ul>
+<div class=ticket-btn-wrap><a href=https://bugece.co class=ticket-btn target=_blank rel=noopener>GET TICKETS</a></div>
+</div>
+<div class=ticket-card>
+<div class=ticket-label>LIMITED</div>
+<div class=ticket-name>VIP<br>FLOOR</div>
+<div class=ticket-price-text>₺8.500 <span class=currency>TRY</span></div>
+<div class=ticket-info-text>Standing Floor</div>
+<div class=ticket-divider></div>
+<ul class=ticket-features><li>Floor access</li><li>Dedicated bar</li><li>VIP entrance</li><li>Limited edition merchandise</li></ul>
+<div class=ticket-btn-wrap><a href=https://bugece.co class=ticket-btn target=_blank rel=noopener>GET TICKETS</a></div>
+</div>
+<div class="ticket-card featured">
+<div class=ticket-label>EXCLUSIVE</div>
+<div class=ticket-name>VIP<br>LOUNGE</div>
+<div class=ticket-price-text>₺15.000 <span class=currency>TRY</span></div>
+<div class=ticket-info-text>Premium Hospitality</div>
+<div class=ticket-divider></div>
+<ul class=ticket-features><li>Premium viewing deck</li><li>Open bar & dining</li><li>Private entrance</li><li>Exclusive merchandise</li><li>Parking included</li></ul>
+<div class=ticket-btn-wrap><a href=https://bugece.co class=ticket-btn target=_blank rel=noopener>GET TICKETS</a></div>
+</div>
+</div>
 </section>
 </div>
-
-<div class="divider"></div>
-
-<div class="reveal">
-<section id="promoters" class="section-block">
-  <p class="section-num">03</p>
-  <h2 class="section-heading">PROMOTERS</h2>
-  <div class="promoters-layout">
-    <div class="promoters-main">
-      <p class="lead-tag">LEAD PROMOTER</p>
-      <h3>ACCESS<br>OPERA</h3>
-      <p>Access Opera is the exclusive lead promoter for YE at Atatürk Olympic Stadium. As one of Turkey's premier live entertainment companies, Access Opera has delivered landmark stadium shows and built a reputation for flawless production at the highest level.</p>
-      <p>For all media inquiries, brand partnerships, and hospitality packages:</p>
-      <p><a href="mailto:info@accessopera.com">INFO@ACCESSOPERA.COM</a></p>
-      <div class="press-note">Media assets and press accreditation — <a href="mailto:press@accessopera.com">REQUEST HERE</a></div>
-    </div>
-    <div class="promoters-side">
-      <div class="partner-block"><span class="partner-name">TEMACC</span><p>Event production and artist management. Large-scale stadium logistics and operations.</p></div>
-      <div class="partner-block"><span class="partner-name">ILS VISION</span><p>Stage design and technical production. Immersive visual environments and lighting.</p></div>
-    </div>
-  </div>
+<div class=divider></div>
+<div class=reveal>
+<section id=promoters class=section-block>
+<p class=section-num>03</p>
+<h2 class=section-heading>PROMOTERS</h2>
+<div class=promoters-layout>
+<div class=promoters-main>
+<p class=lead-tag>LEAD PROMOTER</p>
+<h3>ACCESS<br>OPERA</h3>
+<p>Access Opera is the exclusive lead promoter for YE at Atatürk Olympic Stadium. As one of Turkey's premier live entertainment companies, Access Opera has delivered landmark stadium shows and built a reputation for flawless production at the highest level.</p>
+<p>For all media inquiries, brand partnerships, and hospitality packages:</p>
+<p><a href=mailto:info@accessopera.com>INFO@ACCESSOPERA.COM</a></p>
+<div class=press-note>Media assets and press accreditation — <a href=mailto:press@accessopera.com>REQUEST HERE</a></div>
+</div>
+<div class=promoters-side>
+<div class=partner-block><span class=partner-name>TEMACC</span><p>Event production and artist management. Large-scale stadium logistics and operations.</p></div>
+<div class=partner-block><span class=partner-name>ILS VISION</span><p>Stage design and technical production. Immersive visual environments and lighting.</p></div>
+</div>
+</div>
 </section>
 </div>
-
-<div class="divider"></div>
-
-<div class="reveal">
-<section id="faq" class="section-block">
-  <p class="section-num">04</p>
-  <h2 class="section-heading">FAQ</h2>
-  <div class="faq-list">
-    <div class="faq-item"><div class="faq-row"><span>When does the general ticket sale start?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">The general ticket sale will start soon. Exact dates are announced on the official ticket page.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>What are the ticket prices?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">Ticket prices will be published when ticket sales open. Check Bugece or Ticketofis for current pricing.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>How many tickets can I buy?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">A maximum of 6 tickets per purchase per show is allowed. Orders that exceed the limit may be cancelled.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>Where can I buy tickets?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">Tickets are available exclusively through Bugece and Ticketofis. Do not buy tickets from unofficial resale platforms.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>Is there a ticket limit per person?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">Yes. Each person can purchase a maximum of 6 tickets per show.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>When will I receive my tickets?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">After purchasing your ticket you will receive an order confirmation. Tickets will be available for download shortly before the event.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>Do I need to print my tickets?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">No. Tickets can be scanned directly from your phone at the entrance.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>Are VIP tickets available?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">Yes. Various VIP packages are available including VIP Floor and VIP Lounge.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>Can I resell my tickets?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">Tickets can only be resold through official resale partners such as TicketSwap or Tixel.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>What time does the concert start?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">Doors open at 18:00. Show begins at 20:00 sharp. Times are subject to change.</div></div></div></div>
-  </div>
+<div class=divider></div>
+<div class=reveal>
+<section id=faq class=section-block>
+<p class=section-num>04</p>
+<h2 class=section-heading>FAQ</h2>
+<div class=faq-list>
+<div class=faq-item><div class=faq-row><span>When does the general ticket sale start?</span><span class=faq-icon>+</span></div><div class=faq-body><div><div class=faq-text>The general ticket sale will start soon. Exact dates are announced on the official ticket page.</div></div></div></div>
+<div class=faq-item><div class=faq-row><span>What are the ticket prices?</span><span class=faq-icon>+</span></div><div class=faq-body><div><div class=faq-text>Ticket prices will be published when ticket sales open. Check Bugece or Ticketofis for current pricing.</div></div></div></div>
+<div class=faq-item><div class=faq-row><span>How many tickets can I buy?</span><span class=faq-icon>+</span></div><div class=faq-body><div><div class=faq-text>A maximum of 6 tickets per purchase per show is allowed. Orders that exceed the limit may be cancelled.</div></div></div></div>
+<div class=faq-item><div class=faq-row><span>Where can I buy tickets?</span><span class=faq-icon>+</span></div><div class=faq-body><div><div class=faq-text>Tickets are available exclusively through Bugece and Ticketofis. Do not buy tickets from unofficial resale platforms.</div></div></div></div>
+<div class=faq-item><div class=faq-row><span>Is there a ticket limit per person?</span><span class=faq-icon>+</span></div><div class=faq-body><div><div class=faq-text>Yes. Each person can purchase a maximum of 6 tickets per show.</div></div></div></div>
+<div class=faq-item><div class=faq-row><span>When will I receive my tickets?</span><span class=faq-icon>+</span></div><div class=faq-body><div><div class=faq-text>After purchasing your ticket you will receive an order confirmation. Tickets will be available for download shortly before the event.</div></div></div></div>
+<div class=faq-item><div class=faq-row><span>Do I need to print my tickets?</span><span class=faq-icon>+</span></div><div class=faq-body><div><div class=faq-text>No. Tickets can be scanned directly from your phone at the entrance.</div></div></div></div>
+<div class=faq-item><div class=faq-row><span>Are VIP tickets available?</span><span class=faq-icon>+</span></div><div class=faq-body><div><div class=faq-text>Yes. Various VIP packages are available including VIP Floor and VIP Lounge.</div></div></div></div>
+<div class=faq-item><div class=faq-row><span>Can I resell my tickets?</span><span class=faq-icon>+</span></div><div class=faq-body><div><div class=faq-text>Tickets can only be resold through official resale partners such as TicketSwap or Tixel.</div></div></div></div>
+<div class=faq-item><div class=faq-row><span>What time does the concert start?</span><span class=faq-icon>+</span></div><div class=faq-body><div><div class=faq-text>Doors open at 18:00. Show begins at 20:00 sharp. Times are subject to change.</div></div></div></div>
+</div>
 </section>
 </div>
-
-<footer class="footer-section">
-  <div class="footer-grid">
-    <div>
-      <div class="footer-logo">YE</div>
-      <p class="footer-tagline">ISTANBUL — 30.05.26<br />ATATÜRK OLYMPIC STADIUM</p>
-      <p class="footer-presenter">PRESENTED BY ACCESS OPERA</p>
-    </div>
-    <div>
-      <ul class="footer-links">
-        <li><a href="https://bugece.co" target="_blank" rel="noopener">TICKETS — BUGECE</a></li>
-        <li><a href="https://ticketofis.com" target="_blank" rel="noopener">TICKETS — TICKETOFIS</a></li>
-        <li><a href="#vision">VISION</a></li>
-        <li><button id="seatMapFooterBtn">SEAT MAP</button></li>
-        <li><a href="#promoters">PROMOTERS</a></li>
-        <li><a href="#faq">FAQ</a></li>
-      </ul>
-    </div>
-    <div>
-      <ul class="footer-links">
-        <li><a href="#">PRIVACY</a></li>
-        <li><a href="#">TERMS</a></li>
-        <li><a href="mailto:info@accessopera.com">CONTACT</a></li>
-        <li><a href="mailto:press@accessopera.com">PRESS</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom"><span>© 2026 YE ISTANBUL</span><span>ACCESS OPERA</span></div>
+<footer class=footer-section>
+<div class=footer-grid>
+<div>
+<div class=footer-logo>YE</div>
+<p class=footer-tagline>ISTANBUL — 30.05.26<br>ATATÜRK OLYMPIC STADIUM</p>
+<p class=footer-presenter>PRESENTED BY ACCESS OPERA</p>
+</div>
+<div>
+<ul class=footer-links>
+<li><a href=https://bugece.co target=_blank rel=noopener>TICKETS — BUGECE</a></li>
+<li><a href=https://ticketofis.com target=_blank rel=noopener>TICKETS — TICKETOFIS</a></li>
+<li><a href=#vision>VISION</a></li>
+<li><button id=seatMapFooterBtn>SEAT MAP</button></li>
+<li><a href=#promoters>PROMOTERS</a></li>
+<li><a href=#faq>FAQ</a></li>
+</ul>
+</div>
+<div>
+<ul class=footer-links>
+<li><a href=#>PRIVACY</a></li>
+<li><a href=#>TERMS</a></li>
+<li><a href=mailto:info@accessopera.com>CONTACT</a></li>
+<li><a href=mailto:press@accessopera.com>PRESS</a></li>
+</ul>
+</div>
+</div>
+<div class=footer-bottom><span>© 2026 YE ISTANBUL</span><span>ACCESS OPERA</span></div>
 </footer>
-
-<script src="script.js"></script>
+<script src=script.js></script>
 </body>
 </html>
