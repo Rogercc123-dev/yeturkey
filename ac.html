@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Access Opera — Live Entertainment | Istanbul</title>
+<meta name="description" content="Access Opera is Turkey's premier live entertainment company. Producing landmark stadium shows, cultural events, and world-class experiences since 2010." />
+<meta property="og:title" content="Access Opera — Live Entertainment" />
+<meta property="og:description" content="Turkey's premier live entertainment company." />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#0D0D0D" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream: #F0EDE8;
+  --off-black: #1A1A1A;
+  --void: #0D0D0D;
+  --concrete: #9E9E9E;
+  --steel: #666666;
+}
+
+html {
+  background: var(--cream);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: 'IBM Plex Mono', monospace;
+  background: var(--cream);
+  color: var(--off-black);
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* PRELOADER */
+.preloader {
+  position: fixed;
+  inset: 0;
+  background: var(--cream);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: crosshair;
+}
+.preloader.hidden { opacity: 0; transform: scale(1.04); pointer-events: none; }
+.preloader-logo {
+  height: 64px;
+  width: auto;
+  opacity: 0.6;
+  animation: preloader-pulse 1.8s ease-in-out infinite;
+}
+.preloader-divider {
+  width: 40px;
+  height: 1px;
+  background: rgba(0,0,0,0.15);
+}
+.preloader-text {
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--steel);
+}
+@keyframes preloader-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.96); }
+  50% { opacity: 0.8; transform: scale(1); }
+}
+
+/* NAV */
+.nav-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 999;
+  background: rgba(240,237,232,0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 64px;
+}
+.nav-logo-img { height: 28px; width: auto; display: block; opacity: 0.85; }
+.nav-menu { display: flex; gap: 32px; list-style: none; align-items: center; }
+.nav-menu a, .nav-menu .nav-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px; text-transform: uppercase;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  color: var(--off-black);
+  padding: 4px 0;
+  border: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s, opacity 0.2s;
+  font-weight: 500;
+  opacity: 0.7;
+  cursor: crosshair;
+  background: none;
+}
+.nav-menu a:hover, .nav-menu .nav-btn:hover { border-bottom: 1px solid var(--off-black); opacity: 1; }
+.mobile-menu-btn { display: none; background: none; border: none; font-size: 24px; cursor: crosshair; color: var(--off-black); padding: 8px; }
+
+/* HERO */
+.hero-section {
+  margin-top: 64px;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  background: var(--void);
+  overflow: hidden;
+}
+.hero-bg { position: absolute; inset: 0; z-index: 1; }
+.hero-bg img { width: 100%; height: 100%; object-fit: cover; }
+.hero-bg .desktop-img { display: block; }
+.hero-bg .mobile-img { display: none; }
+.hero-gradient {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(13,13,13,0.92) 0%, rgba(13,13,13,0.4) 60%, rgba(13,13,13,0.7) 100%);
+  z-index: 2;
+}
+.hero-text { position: relative; z-index: 3; padding: 80px 40px; max-width: 800px; }
+.hero-badge {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fade-up 0.8s 0.1s forwards;
+}
+.hero-title {
+  font-size: clamp(48px, 10vw, 120px);
+  font-weight: 700;
+  color: #F0EDE8;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fade-up 0.8s 0.2s forwards;
+}
+.hero-sub {
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.6;
+  max-width: 500px;
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fade-up 0.8s 0.35s forwards;
+}
+.hero-btn {
+  display: inline-block;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cream);
+  background: transparent;
+  border: 1px solid var(--cream);
+  padding: 12px 28px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: crosshair;
+  opacity: 0;
+  animation: fade-up 0.8s 0.5s forwards;
+}
+.hero-btn:hover { background: var(--cream); color: var(--void); }
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* SECTIONS */
+.section-block { padding: 100px 40px; border-bottom: 1px solid rgba(0,0,0,0.06); }
+.section-container { max-width: 1280px; margin: 0 auto; }
+.section-label {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--steel);
+  margin-bottom: 16px;
+}
+.section-title {
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 40px;
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ABOUT GRID */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+.about-text p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--steel);
+  margin-bottom: 20px;
+}
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 20px; }
+.stat-number {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--off-black);
+  display: block;
+  margin-bottom: 4px;
+}
+.stat-label {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--concrete);
+}
+
+/* SHOWREEL */
+.showreel-box {
+  background: var(--void);
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.showreel-box iframe { width: 100%; height: 100%; border: none; }
+
+/* PROJECTS */
+.projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: rgba(0,0,0,0.1); }
+.project-card {
+  background: var(--cream);
+  padding: 48px 32px;
+  transition: background 0.3s ease;
+  text-decoration: none;
+  color: var(--off-black);
+  display: block;
+}
+.project-card:hover { background: #e8e5e0; }
+.project-year {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--concrete);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.project-name {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.project-desc {
+  font-size: 11px;
+  color: var(--steel);
+  line-height: 1.5;
+}
+
+/* SERVICES */
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+.service-item { border-top: 1px solid rgba(0,0,0,0.1); padding-top: 24px; }
+.service-title {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+}
+.service-desc {
+  font-size: 11px;
+  color: var(--steel);
+  line-height: 1.6;
+}
+
+/* TEAM */
+.team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
+.team-card { text-align: left; }
+.team-name {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.team-role {
+  font-size: 10px;
+  color: var(--concrete);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* CONTACT */
+.contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+.contact-info p { margin-bottom: 12px; font-size: 13px; }
+.contact-info a {
+  color: var(--off-black);
+  text-decoration: underline;
+  font-weight: 600;
+}
+.contact-email {
+  font-size: 24px;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--off-black);
+  display: inline-block;
+  margin: 20px 0;
+}
+.contact-email:hover { opacity: 0.6; }
+
+/* FOOTER */
+.footer-section {
+  background: var(--void);
+  color: var(--concrete);
+  padding: 64px 40px 40px;
+}
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1280px; margin: 0 auto; }
+.footer-logo-img { height: 32px; width: auto; opacity: 0.6; margin-bottom: 16px; }
+.footer-tagline { font-size: 10px; line-height: 1.5; margin-top: 12px; }
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 8px; }
+.footer-links a, .footer-links button {
+  color: var(--concrete);
+  text-decoration: none;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  cursor: crosshair;
+}
+.footer-links a:hover, .footer-links button:hover { opacity: 0.6; }
+.footer-bottom {
+  text-align: center;
+  padding-top: 48px;
+  margin-top: 48px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+/* SCANLINES */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.02;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+}
+
+/* MOBILE */
+@media (max-width: 767px) {
+  .hero-bg .desktop-img { display: none; }
+  .hero-bg .mobile-img { display: block; }
+  .hero-text { padding: 60px 24px; }
+  .hero-title { font-size: clamp(40px, 12vw, 70px); }
+  
+  .section-block { padding: 60px 24px; }
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .services-grid { grid-template-columns: 1fr; gap: 24px; }
+  .team-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+  .contact-layout { grid-template-columns: 1fr; gap: 40px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+  
+  .nav-menu { display: none; }
+  .nav-menu.open {
+    display: flex; flex-direction: column;
+    position: fixed; top: 64px; left: 0; right: 0;
+    background: var(--cream); padding: 28px 24px;
+    border-bottom: 1px solid rgba(0,0,0,0.08); gap: 18px; z-index: 998;
+  }
+  .mobile-menu-btn { display: block; }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .projects-grid { grid-template-columns: repeat(2, 1fr); }
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="preloader" id="preloader">
+  <img src="opera.png" alt="Access Opera" class="preloader-logo" />
+  <div class="preloader-divider"></div>
+  <div class="preloader-text">EST. 2010</div>
+</div>
+<div class="scanlines"></div>
+
+<nav class="nav-bar">
+  <img src="opera.png" alt="Access Opera" class="nav-logo-img" />
+  <button class="mobile-menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+  <ul class="nav-menu" id="navMenu">
+    <li><a href="#about">ABOUT</a></li>
+    <li><a href="#projects">PROJECTS</a></li>
+    <li><a href="#services">SERVICES</a></li>
+    <li><a href="#team">TEAM</a></li>
+    <li><a href="#contact">CONTACT</a></li>
+  </ul>
+</nav>
+
+<section class="hero-section">
+  <div class="hero-bg">
+    <img src="front.jpg" alt="Access Opera" class="desktop-img" />
+    <img src="front-mobile.jpg" alt="Access Opera" class="mobile-img" />
+  </div>
+  <div class="hero-gradient"></div>
+  <div class="hero-text">
+    <div class="hero-badge">PREMIER LIVE ENTERTAINMENT</div>
+    <h1 class="hero-title">ACCESS<br>OPERA</h1>
+    <p class="hero-sub">Istanbul's leading force in stadium productions, cultural events, and world-class live experiences since 2010.</p>
+    <a href="#contact" class="hero-btn">GET IN TOUCH</a>
+  </div>
+</section>
+
+<div class="reveal">
+<section id="about" class="section-block">
+  <div class="section-container">
+    <div class="section-label">/ ABOUT</div>
+    <h2 class="section-title">DEFINING LIVE<br>IN TURKEY</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Access Opera is Turkey's premier live entertainment company. Founded in Istanbul, we've built an unparalleled reputation for producing landmark stadium shows, large-scale cultural events, and premium live experiences.</p>
+        <p>From concept to execution, we handle every aspect of production — artist relations, logistics, staging, ticketing, and on-ground operations. Our team brings together decades of experience in the global entertainment industry.</p>
+        <p>We don't just produce events. We create moments that define a generation.</p>
+      </div>
+      <div class="stats-grid">
+        <div><span class="stat-number">15+</span><span class="stat-label">Major Events</span></div>
+        <div><span class="stat-number">500K+</span><span class="stat-label">Attendees</span></div>
+        <div><span class="stat-number">2010</span><span class="stat-label">Founded</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="reveal">
+<section id="showreel" class="section-block" style="padding-top: 0;">
+  <div class="section-container">
+    <div class="showreel-box">
+      <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&controls=1" title="Access Opera Showreel" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="reveal">
+<section id="projects" class="section-block">
+  <div class="section-container">
+    <div class="section-label">/ FEATURED PROJECTS</div>
+    <h2 class="section-title">LANDMARK<br>PRODUCTIONS</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-year">2026</div>
+        <div class="project-name">YE · ISTANBUL</div>
+        <div class="project-desc">Atatürk Olympic Stadium. The globe stage returns. 50,000+ capacity.</div>
+      </div>
+      <div class="project-card">
+        <div class="project-year">2024</div>
+        <div class="project-name">ISTANBUL JAZZ FEST</div>
+        <div class="project-desc">Three-day festival featuring international headliners across multiple stages.</div>
+      </div>
+      <div class="project-card">
+        <div class="project-year">2023</div>
+        <div class="project-name">BOSPHORUS LIGHTS</div>
+        <div class="project-desc">Large-scale multimedia spectacle celebrating Istanbul's cultural heritage.</div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="reveal">
+<section id="services" class="section-block" style="background: #e8e5e0;">
+  <div class="section-container">
+    <div class="section-label">/ WHAT WE DO</div>
+    <h2 class="section-title">SERVICES</h2>
+    <div class="services-grid">
+      <div class="service-item">
+        <div class="service-title">Event Production</div>
+        <div class="service-desc">End-to-end production management for stadium shows, festivals, and corporate events.</div>
+      </div>
+      <div class="service-item">
+        <div class="service-title">Artist Management</div>
+        <div class="service-desc">Booking, logistics, and tour coordination for international and local acts.</div>
+      </div>
+      <div class="service-item">
+        <div class="service-title">Technical Direction</div>
+        <div class="service-desc">Stage design, lighting, sound engineering, and immersive production.</div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="reveal">
+<section id="team" class="section-block">
+  <div class="section-container">
+    <div class="section-label">/ LEADERSHIP</div>
+    <h2 class="section-title">THE TEAM</h2>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-name">KEREM YILMAZ</div>
+        <div class="team-role">FOUNDER & CEO</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">ELIF DEMIR</div>
+        <div class="team-role">CREATIVE DIRECTOR</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">CAN ÖZDEMIR</div>
+        <div class="team-role">OPERATIONS HEAD</div>
+      </div>
+      <div class="team-card">
+        <div class="team-name">AYLA KAYA</div>
+        <div class="team-role">ARTIST RELATIONS</div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="reveal">
+<section id="contact" class="section-block" style="background: var(--void); color: var(--cream);">
+  <div class="section-container">
+    <div class="section-label" style="color: rgba(255,255,255,0.4);">/ CONNECT</div>
+    <h2 class="section-title" style="color: var(--cream);">LET'S WORK<br>TOGETHER</h2>
+    <div class="contact-layout">
+      <div class="contact-info">
+        <p>For booking inquiries, partnerships, and general questions:</p>
+        <a href="mailto:info@accessopera.com" class="contact-email" style="color: var(--cream);">INFO@ACCESSOPERA.COM</a>
+        <p style="margin-top: 24px;">Media & Press:</p>
+        <a href="mailto:press@accessopera.com" style="color: var(--cream); text-decoration: underline;">PRESS@ACCESSOPERA.COM</a>
+      </div>
+      <div class="contact-info">
+        <p>Istanbul, Turkey</p>
+        <p style="margin-top: 16px;">Follow us for announcements and behind-the-scenes:</p>
+        <p style="margin-top: 8px;">
+          <a href="#" style="color: var(--cream); text-decoration: underline;">INSTAGRAM</a> / 
+          <a href="#" style="color: var(--cream); text-decoration: underline;">LINKEDIN</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<footer class="footer-section">
+  <div class="footer-grid">
+    <div>
+      <img src="opera.png" alt="Access Opera" class="footer-logo-img" />
+      <div class="footer-tagline">PREMIER LIVE ENTERTAINMENT<br>SINCE 2010</div>
+    </div>
+    <div>
+      <ul class="footer-links">
+        <li><a href="#about">ABOUT</a></li>
+        <li><a href="#projects">PROJECTS</a></li>
+        <li><a href="#services">SERVICES</a></li>
+      </ul>
+    </div>
+    <div>
+      <ul class="footer-links">
+        <li><a href="#team">TEAM</a></li>
+        <li><a href="#contact">CONTACT</a></li>
+        <li><a href="#">CAREERS</a></li>
+      </ul>
+    </div>
+    <div>
+      <ul class="footer-links">
+        <li><a href="#">PRIVACY</a></li>
+        <li><a href="#">TERMS</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 ACCESS OPERA — ALL RIGHTS RESERVED</span>
+  </div>
+</footer>
+
+<script>
+(function() {
+  // PRELOADER
+  var preloader = document.getElementById('preloader');
+  window.addEventListener('load', function() { 
+    setTimeout(function() { 
+      preloader.classList.add('hidden'); 
+    }, 800); 
+  });
+  setTimeout(function() { 
+    preloader.classList.add('hidden'); 
+  }, 3500);
+
+  // MOBILE MENU
+  var menuBtn = document.getElementById('menuBtn');
+  var navMenu = document.getElementById('navMenu');
+  if (menuBtn && navMenu) {
+    menuBtn.addEventListener('click', function() { 
+      navMenu.classList.toggle('open'); 
+    });
+    navMenu.querySelectorAll('a').forEach(function(el) { 
+      el.addEventListener('click', function() { 
+        navMenu.classList.remove('open'); 
+      }); 
+    });
+  }
+
+  // SCROLL REVEAL
+  var revealElements = document.querySelectorAll('.reveal');
+  var observer = new IntersectionObserver(function(entries) { 
+    entries.forEach(function(entry) { 
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    }); 
+  }, { threshold: 0.12 });
+  revealElements.forEach(function(el) { 
+    observer.observe(el); 
+  });
+
+  // SMOOTH SCROLLING
+  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+      var targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+      var targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        e.preventDefault();
+        var navHeight = 64;
+        var targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navHeight;
+        window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+      }
+    });
+  });
+
+  // VIDEO PLACEHOLDER WARNING (remove in production)
+  var showreelIframe = document.querySelector('.showreel-box iframe');
+  if (showreelIframe && showreelIframe.src.includes('dQw4w9WgXcQ')) {
+    console.log('⚠️ Replace showreel YouTube URL with actual Access Opera showreel');
+  }
+})();
+</script>
+</body>
+</html>
