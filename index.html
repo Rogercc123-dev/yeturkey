@@ -23,7 +23,6 @@
   --void: #0D0D0D;
   --concrete: #9E9E9E;
   --steel: #666666;
-  --accent-gold: #C9A03D;
 }
 
 html {
@@ -42,54 +41,38 @@ body {
   cursor: crosshair;
 }
 
-/* PRELOADER - Now Access Opera focused */
+/* PRELOADER - Cream background, just logo */
 .preloader {
   position: fixed;
   inset: 0;
-  background: var(--void);
+  background: var(--cream);
   z-index: 10000;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 24px;
-  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  gap: 20px;
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: crosshair;
 }
 .preloader-divider {
-  width: 60px;
+  width: 40px;
   height: 1px;
-  background: rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.15);
 }
 .preloader.hidden { opacity: 0; transform: scale(1.04); pointer-events: none; }
-.preloader-logo-main {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: clamp(32px, 8vw, 64px);
-  font-weight: 700;
-  color: var(--cream);
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  animation: preloader-pulse 2s ease-in-out infinite;
-}
-.preloader-sub {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  color: rgba(255,255,255,0.4);
-  text-transform: uppercase;
-}
 .preloader-logo-img {
-  height: 32px;
+  height: 48px;
   width: auto;
-  opacity: 0.6;
-  margin-top: 8px;
+  opacity: 0.7;
+  animation: preloader-pulse 2s ease-in-out infinite;
 }
 @keyframes preloader-pulse {
   0%, 100% { opacity: 0.3; transform: scale(0.96); }
   50% { opacity: 1; transform: scale(1); }
 }
 
-/* NAV - Accent on Access Opera */
+/* NAV */
 .nav-bar {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -104,21 +87,7 @@ body {
   height: 56px;
 }
 .nav-left { display: flex; align-items: center; gap: 12px; }
-.nav-logo {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.15em;
-  color: var(--off-black);
-  text-decoration: none;
-  text-transform: uppercase;
-}
-.nav-logo strong {
-  font-weight: 700;
-  color: var(--void);
-}
-.nav-separator { width: 1px; height: 16px; background: rgba(0,0,0,0.15); }
-.nav-logo-img { height: 20px; width: auto; display: block; opacity: 0.8; }
+.nav-logo-img { height: 24px; width: auto; display: block; opacity: 0.8; }
 .nav-menu { display: flex; gap: 28px; list-style: none; align-items: center; }
 .nav-menu a, .nav-menu .nav-btn {
   font-family: 'IBM Plex Mono', monospace;
@@ -134,7 +103,7 @@ body {
 }
 .nav-menu a:hover, .nav-menu .nav-btn:hover { border-bottom: 1px solid var(--off-black); opacity: 1; }
 
-/* HERO - Now Access Opera leads */
+/* HERO */
 .hero-section {
   margin-top: 56px;
   min-height: 100vh;
@@ -150,36 +119,27 @@ body {
 .hero-bg .mobile-img { display: none; }
 .hero-gradient {
   position: absolute; inset: 0;
-  background: linear-gradient(0deg, rgba(13,13,13,0.95) 0%, rgba(13,13,13,0.2) 40%, rgba(13,13,13,0.6) 100%);
+  background: linear-gradient(0deg, rgba(13,13,13,0.94) 0%, rgba(13,13,13,0.15) 50%, rgba(13,13,13,0.5) 100%);
   z-index: 2;
 }
 .hero-text { position: relative; z-index: 3; margin-top: auto; padding: 40px 24px; }
 .hero-presenter {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px; text-transform: uppercase;
-  letter-spacing: 0.25em;
-  color: var(--accent-gold);
-  margin-bottom: 8px;
-  opacity: 0; animation: fade-up 1s 0.15s forwards;
-}
-.hero-presenter-brand {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 13px; text-transform: uppercase;
+  font-size: 10px; text-transform: uppercase;
   letter-spacing: 0.2em;
-  color: rgba(255,255,255,0.7);
-  margin-bottom: 20px;
-  font-weight: 600;
-  opacity: 0; animation: fade-up 1s 0.25s forwards;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 16px;
+  opacity: 0; animation: fade-up 1s 0.15s forwards;
 }
 .hero-ye {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: clamp(70px, 15vw, 200px);
+  font-size: clamp(90px, 18vw, 260px);
   font-weight: 700; color: #F0EDE8;
-  line-height: 0.85; letter-spacing: -0.04em;
-  margin-bottom: 28px;
-  opacity: 0; animation: fade-up 1s 0.4s forwards;
+  line-height: 0.8; letter-spacing: -0.05em;
+  margin-bottom: 24px;
+  opacity: 0; animation: fade-up 1s 0.3s forwards;
 }
-.hero-details { display: flex; gap: 40px; flex-wrap: wrap; opacity: 0; animation: fade-up 1s 0.7s forwards; }
+.hero-details { display: flex; gap: 40px; flex-wrap: wrap; opacity: 0; animation: fade-up 1s 0.6s forwards; }
 .hero-detail { display: flex; flex-direction: column; gap: 4px; }
 .hero-detail .detail-value {
   font-family: 'IBM Plex Mono', monospace;
@@ -235,7 +195,7 @@ body {
 .divider { width: 100%; height: 1px; background: var(--off-black); opacity: 0.12; }
 .divider-thick { width: 100%; height: 3px; background: var(--off-black); }
 
-/* VISION */
+/* VISION - Original version restored */
 .vision-layout { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start; }
 .vision-left { display: flex; flex-direction: column; }
 .vision-heading-wrap { margin-bottom: 24px; }
@@ -245,13 +205,8 @@ body {
 .about-text p { margin-bottom: 20px; }
 .tag-mono {
   display: inline-block; background: var(--off-black); color: var(--cream);
-  padding: 4px 12px; border-radius: 3px;
-  font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
-}
-.tag-mono-accent {
-  display: inline-block; background: var(--accent-gold); color: var(--void);
-  padding: 4px 12px; border-radius: 3px;
-  font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+  padding: 3px 10px; border-radius: 3px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
 }
 .embed-box { background: transparent; overflow: hidden; border-radius: 12px; }
 .embed-box iframe { display: block; width: 100%; border: none; border-radius: 12px; }
@@ -259,7 +214,7 @@ body {
 /* SEAT MAP OVERLAY */
 .seat-map-overlay {
   display: none; position: fixed; inset: 0;
-  background: rgba(13,13,13,0.95); z-index: 10001;
+  background: rgba(13,13,13,0.92); z-index: 10001;
   align-items: center; justify-content: center; cursor: crosshair;
 }
 .seat-map-overlay.open { display: flex; }
@@ -287,7 +242,7 @@ body {
   transition: border-color 0.3s ease; background: var(--cream);
   display: flex; flex-direction: column; min-height: 280px;
 }
-.ticket-card.featured { border-color: var(--accent-gold); border-width: 1.5px; }
+.ticket-card.featured { border-color: var(--off-black); border-width: 1.5px; }
 .ticket-label {
   font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 700;
   color: var(--steel); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 16px;
@@ -325,13 +280,13 @@ body {
 }
 .ticket-btn:hover { background: var(--off-black); color: var(--cream); }
 
-/* PROMOTERS - Enhanced Access Opera section */
+/* PROMOTERS - Enhanced with stats but no gold */
 .promoters-layout { display: grid; grid-template-columns: 1fr; gap: 40px; }
 .promoters-main { font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.8; letter-spacing: 0.02em; }
 .promoters-main .lead-tag {
   display: inline-block; font-family: 'IBM Plex Mono', monospace;
   font-size: 10px; font-weight: 700; letter-spacing: 0.15em;
-  color: var(--accent-gold); text-transform: uppercase; margin-bottom: 12px;
+  color: var(--steel); text-transform: uppercase; margin-bottom: 12px;
 }
 .promoters-main h3 {
   font-family: 'IBM Plex Mono', monospace; font-size: 28px;
@@ -395,24 +350,16 @@ body {
   font-size: 11px; color: var(--steel); line-height: 1.6; font-weight: 400;
 }
 
-/* FOOTER - Access Opera primary */
+/* FOOTER */
 .footer-section {
-  background: var(--void); color: var(--concrete);
+  background: var(--off-black); color: var(--concrete);
   padding: 64px 24px; font-family: 'IBM Plex Mono', monospace;
   font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
 }
 .footer-grid { display: grid; grid-template-columns: 1fr; gap: 40px; }
-.footer-logo {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 14px; font-weight: 600; letter-spacing: 0.2em;
-  color: var(--cream); line-height: 1.3;
-}
-.footer-logo-large {
-  font-size: 42px; font-weight: 700; letter-spacing: -0.04em;
-  margin-bottom: 16px; display: block;
-}
+.footer-logo-img { height: 32px; width: auto; opacity: 0.7; margin-bottom: 16px; }
 .footer-tagline { margin-top: 12px; color: var(--concrete); font-size: 10px; }
-.footer-presenter { margin-top: 8px; color: var(--accent-gold); font-weight: 600; letter-spacing: 0.1em; font-size: 9px; }
+.footer-presenter { margin-top: 8px; color: var(--cream); font-weight: 600; letter-spacing: 0.1em; font-size: 9px; }
 .footer-links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
 .footer-links a, .footer-links button {
   color: var(--concrete); text-decoration: none; transition: opacity 0.2s;
@@ -438,9 +385,8 @@ body {
 
   .hero-section { min-height: 100svh; }
   .hero-text { padding: 32px 20px; }
-  .hero-ye { font-size: clamp(60px, 18vw, 120px); margin-bottom: 20px; }
-  .hero-presenter { font-size: 9px; letter-spacing: 0.2em; }
-  .hero-presenter-brand { font-size: 10px; margin-bottom: 12px; }
+  .hero-ye { font-size: clamp(70px, 22vw, 140px); margin-bottom: 20px; }
+  .hero-presenter { font-size: 9px; letter-spacing: 0.18em; margin-bottom: 12px; }
   .hero-details { gap: 20px; }
   .hero-detail .detail-value { font-size: 12px; }
   .hero-detail .detail-label { font-size: 7px; }
@@ -492,7 +438,6 @@ body {
   .faq-row { font-size: 10px; }
 
   .footer-section { padding: 48px 20px; }
-  .footer-logo-large { font-size: 32px; }
 }
 
 /* DESKTOP */
@@ -513,11 +458,9 @@ body {
 <body>
 
 <div class="preloader" id="preloader">
-  <div class="preloader-logo-main">ACCESS</div>
-  <div class="preloader-logo-main" style="font-size: clamp(28px, 7vw, 56px); margin-top: -8px;">OPERA</div>
-  <div class="preloader-divider"></div>
-  <div class="preloader-sub">PRESENTS</div>
   <img src="opera.png" alt="Access Opera" class="preloader-logo-img" />
+  <div class="preloader-divider"></div>
+  <img src="opera.png" alt="Access Opera" class="preloader-logo-img" style="height: 32px; opacity: 0.4;" />
 </div>
 <div class="seat-map-overlay" id="seatMapOverlay">
   <button class="seat-map-close" id="seatMapClose">✕</button>
@@ -527,8 +470,6 @@ body {
 
 <nav class="nav-bar">
   <div class="nav-left">
-    <a href="#" class="nav-logo"><strong>ACCESS</strong> OPERA</a>
-    <div class="nav-separator"></div>
     <img src="opera.png" alt="Access Opera" class="nav-logo-img" />
   </div>
   <button class="mobile-menu-btn" id="menuBtn" aria-label="Menu">☰</button>
@@ -548,8 +489,7 @@ body {
   </div>
   <div class="hero-gradient"></div>
   <div class="hero-text">
-    <p class="hero-presenter">EXCLUSIVE PRESENTATION</p>
-    <p class="hero-presenter-brand">ACCESS OPERA</p>
+    <p class="hero-presenter">ACCESS OPERA PRESENTS</p>
     <h1 class="hero-ye">YE</h1>
     <div class="hero-details">
       <div class="hero-detail"><span class="detail-value">30.05.26</span><span class="detail-label">DATE</span></div>
@@ -578,10 +518,9 @@ body {
         <h2 class="section-heading">THE<br>VISION</h2>
       </div>
   <div class="about-text">
-  <p><span class="tag-mono-accent">ACCESS OPERA × YE</span> <span class="tag-mono">ISTANBUL 2026</span></p>
-  <p>YE is widely regarded as one of the most influential artists of the past two decades. His work has shaped music, fashion, design and global culture. His live performances are rare and known for their bold artistic vision and immersive scale.</p>
+  <p><span class="tag-mono">ISTANBUL</span> YE is widely regarded as one of the most influential artists of the past two decades. His work has shaped music, fashion, design and global culture. His live performances are rare and known for their bold artistic vision and immersive scale.</p>
   <p>This will not be a standard concert. The globe stage returns — a rotating sphere designed with Aus Taylor, YE performing masked atop a world that turns beneath him. The crowd surrounds 360 degrees. Fog. Live-corrected lights. Nothing automated.</p>
-  <p>This marks his first performance in Turkey and one of the largest stadium productions the country has ever seen. An experience designed for presence, presented exclusively by Access Opera.</p>
+  <p>This marks his first performance in Turkey and one of the largest stadium productions the country has ever seen. An experience designed for presence.</p>
 </div>
     </div>
     <div class="embed-box">
@@ -652,14 +591,14 @@ body {
   <h2 class="section-heading">PROMOTERS</h2>
   <div class="promoters-layout">
     <div class="promoters-main">
-      <p class="lead-tag">LEAD PROMOTER & PRODUCER</p>
-      <h3>ACCESS OPERA</h3>
+      <p class="lead-tag">LEAD PROMOTER</p>
+      <h3>ACCESS<br>OPERA</h3>
       <div class="ao-stats">
         <div class="stat"><span class="stat-number">15+</span><span class="stat-label">Major Events</span></div>
         <div class="stat"><span class="stat-number">500K+</span><span class="stat-label">Attendees</span></div>
         <div class="stat"><span class="stat-number">2026</span><span class="stat-label">Landmark Year</span></div>
       </div>
-      <p>Access Opera is Turkey's premier live entertainment company and the exclusive lead promoter for YE at Atatürk Olympic Stadium. With a track record of delivering landmark stadium shows, Access Opera has built an unparalleled reputation for flawless production at the highest level.</p>
+      <p>Access Opera is the exclusive lead promoter for YE at Atatürk Olympic Stadium. As one of Turkey's premier live entertainment companies, Access Opera has delivered landmark stadium shows and built a reputation for flawless production at the highest level.</p>
       <p>For all media inquiries, brand partnerships, and hospitality packages:</p>
       <p><a href="mailto:info@accessopera.com">INFO@ACCESSOPERA.COM</a></p>
       <div class="press-note">Media assets and press accreditation — <a href="mailto:press@accessopera.com">REQUEST HERE</a></div>
@@ -696,10 +635,9 @@ body {
 <footer class="footer-section">
   <div class="footer-grid">
     <div>
-      <span class="footer-logo-large">ACCESS<br>OPERA</span>
-      <div class="footer-logo">PRESENTS</div>
+      <img src="opera.png" alt="Access Opera" class="footer-logo-img" />
       <p class="footer-tagline">YE · ISTANBUL — 30.05.26<br />ATATÜRK OLYMPIC STADIUM</p>
-      <p class="footer-presenter">EXCLUSIVE PRODUCTION</p>
+      <p class="footer-presenter">PRESENTED BY ACCESS OPERA</p>
     </div>
     <div>
       <ul class="footer-links">
@@ -727,7 +665,7 @@ body {
 (function() {
   var preloader = document.getElementById('preloader');
   window.addEventListener('load', function() { setTimeout(function() { preloader.classList.add('hidden'); }, 800); });
-  setTimeout(function() { preloader.classList.add('hidden'); }, 4500);
+  setTimeout(function() { preloader.classList.add('hidden'); }, 4000);
 
   var eventDate = new Date('2026-05-30T20:00:00+03:00').getTime();
   var prevValues = ['', '', '', ''];
