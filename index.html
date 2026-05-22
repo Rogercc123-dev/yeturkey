@@ -1,331 +1,354 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>access opera</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>access opera — systems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
 <style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;text-transform:lowercase !important}
-:root{
-  --void:#08080a;
-  --deep:#0c0c10;
-  --panel:#101014;
-  --border:rgba(255,255,255,0.04);
-  --border-bright:rgba(255,255,255,0.1);
-  --akira-red:#b81d18;
-  --akira-dim:#5a0e0b;
-  --istanbul-orange:#ff5500;
-  --white:#d1d2d6;
-  --muted:#54565e;
-  --dark-gray:#24252a;
-  --type-main:'ocr a bt', 'ocr-a', 'space mono', monospace;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; text-transform: lowercase !important; }
+
+:root {
+  --cream: #f0ede8;
+  --off-black: #1a1a1a;
+  --void: #0d0d0d;
+  --concrete: #9e9e9e;
+  --steel: #666666;
+  --istanbul-orange: #ff5500;
+  --line: rgba(26,26,26,0.12);
 }
-html{scroll-behavior:smooth;font-size:16px}
-body{background:var(--void);color:var(--white);font-family:var(--type-main);overflow-x:hidden;cursor:none;letter-spacing:-0.04em}
 
-/* TACTICAL CURSOR */
-#c{position:fixed;width:4px;height:4px;background:var(--akira-red);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
-#cr{position:fixed;width:20px;height:20px;border:1px solid rgba(184,29,24,0.25);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.12s}
+html {
+  background: var(--cream);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
 
-/* BRUTALIST SCREEN TEXTURES */
-body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.12) 2px,rgba(0,0,0,0.12) 4px);pointer-events:none;z-index:8000}
-body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.003) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.003) 1px,transparent 1px);background-size:50px 50px;pointer-events:none;z-index:7999}
+body {
+  font-family: 'ibm plex mono', 'ocr a bt', 'ocr-a', monospace;
+  background: var(--cream);
+  color: var(--off-black);
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  overflow-x: hidden;
+}
 
-/* ─── NAVIGATION MAP ─── */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 24px;height:48px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(8,8,10,0.92);backdrop-filter:blur(6px)}
-.nav-logo{font-family:var(--type-main);font-size:11px;color:var(--white);text-decoration:none}
-.nav-logo span{color:var(--akira-red)}
-.nav-center{display:flex;gap:20px;list-style:none;position:absolute;left:50%;transform:translateX(-50%)}
-.nav-center a{font-family:var(--type-main);font-size:10px;color:var(--muted);text-decoration:none;transition:color .2s}
-.nav-center a:hover{color:var(--white)}
-.nav-right{display:flex;align-items:center;gap:12px}
-.nav-tag{font-family:var(--type-main);font-size:9px;color:var(--dark-gray)}
-.nav-contact{font-family:var(--type-main);font-size:10px;color:var(--white);text-decoration:none;border:1px solid var(--border-bright);padding:4px 12px;background:var(--panel)}
-.nav-contact:hover{border-color:var(--akira-red);color:var(--akira-red)}
+/* NAVIGATION */
+.nav-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 999;
+  background: var(--cream);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 56px;
+}
+.nav-left { display: flex; align-items: center; gap: 10px; }
+.nav-logo {
+  font-size: 20px; font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--off-black);
+  text-decoration: none;
+}
+.nav-menu { display: flex; gap: 28px; list-style: none; align-items: center; }
+.nav-menu a {
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  color: var(--off-black);
+  padding: 4px 0;
+  border-bottom: 1px solid transparent;
+  transition: opacity 0.2s;
+  font-weight: 500; opacity: 0.7;
+}
+.nav-menu a:hover { opacity: 1; border-bottom: 1px solid var(--off-black); }
 
-/* ─── HERO SYSTEM ─── */
-#hero{position:relative;height:100vh;display:flex;align-items:flex-end;overflow:hidden;padding:0 24px 48px;background:var(--void)}
-.hero-bg-canvas{position:absolute;inset:0;z-index:0;opacity:0.35}
-.hero-content{position:relative;z-index:10;width:100%;display:grid;grid-template-columns:1fr auto;align-items:flex-end;gap:24px}
-.hero-eyebrow{font-family:var(--type-main);font-size:10px;color:var(--akira-red);margin-bottom:12px}
-h1.hero-title{font-family:var(--type-main);font-size:clamp(44px,7.5vw,90px);line-height:0.85;color:var(--white);font-weight:normal}
-h1.hero-title span.hollow{-webkit-text-stroke:1px rgba(210,212,214,0.15);color:transparent}
-h1.hero-title span.red{color:var(--akira-red)}
-.hero-sub{font-family:var(--type-main);font-size:11px;color:var(--muted);margin-top:20px;max-width:380px;line-height:1.5}
-.hero-actions{margin-top:28px;display:flex;align-items:center;gap:16px}
-.btn-red{font-family:var(--type-main);font-size:10px;background:var(--panel);border:1px solid var(--akira-red);color:var(--white);padding:10px 24px;text-decoration:none;transition:all .2s}
-.btn-red:hover{background:var(--akira-red);color:var(--white)}
-.btn-ghost{font-family:var(--type-main);font-size:10px;color:var(--muted);text-decoration:none}
-.btn-ghost:hover{color:var(--white)}
-.hero-stat-block{display:flex;flex-direction:column;align-items:flex-end;gap:12px}
-.hero-stat{border-right:1px solid var(--dark-gray);padding-right:16px}
-.hero-stat .n{font-family:var(--type-main);font-size:28px;color:var(--white);line-height:1}
-.hero-stat .n span{color:var(--akira-red);font-size:18px}
-.hero-stat .l{font-family:var(--type-main);font-size:9px;color:var(--muted);margin-top:4px}
+/* HERO SECT */
+.hero-section {
+  margin-top: 56px;
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: var(--cream);
+  border-bottom: 1px solid var(--line);
+  padding: 80px 24px;
+  justify-content: flex-end;
+}
+.hero-text { max-width: 900px; }
+.hero-presenter {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--steel);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+.hero-title {
+  font-size: clamp(40px, 7vw, 100px);
+  font-weight: 700; color: var(--off-black);
+  line-height: 0.9; letter-spacing: -0.04em;
+  margin-bottom: 32px;
+}
+.hero-title span.hollow {
+  -webkit-text-stroke: 1px var(--off-black);
+  color: transparent;
+}
+.hero-details { display: flex; gap: 48px; flex-wrap: wrap; margin-top: 40px; }
+.hero-detail { display: flex; flex-direction: column; gap: 4px; }
+.hero-detail .detail-value {
+  font-size: 14px; color: var(--off-black); letter-spacing: 0.02em; font-weight: 600;
+}
+.hero-detail .detail-label {
+  font-size: 9px; letter-spacing: 0.1em; color: var(--steel);
+}
 
-/* INDUSTRIAL TICKER */
-.ticker{border-top:1px solid var(--border);border-bottom:1px solid var(--border);height:28px;overflow:hidden;display:flex;align-items:center;background:var(--deep)}
-.ticker-track{display:flex;animation:tick 30s linear infinite;white-space:nowrap}
-.ticker-track span{font-family:var(--type-main);font-size:10px;color:var(--muted);padding:0 24px}
-.ticker-track span.accent{color:var(--akira-red)}
-@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* SECTION STRUCTURE */
+.section-block { width: 100%; position: relative; padding: 80px 24px; border-bottom: 1px solid var(--line); }
+.section-num {
+  font-size: 11px; color: var(--steel); letter-spacing: 0.1em; margin-bottom: 12px; font-weight: 600; opacity: 0.6;
+}
+.section-heading {
+  font-size: clamp(32px, 5vw, 64px); font-weight: 700;
+  letter-spacing: -0.03em; line-height: 1.0; margin-bottom: 48px;
+}
 
-/* CORE BLOCKS */
-#about, #globe-section, #roster, #services, #work, #contact{padding:80px 24px;border-top:1px solid var(--border);position:relative}
-.section-label{font-family:var(--type-main);font-size:9px;color:var(--muted);margin-bottom:12px}
-.section-title{font-family:var(--type-main);font-size:clamp(26px,3.5vw,44px);color:var(--white);font-weight:normal;line-height:0.9}
+/* CONTENT LAYOUTS */
+.layout-split { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start; }
+.body-text { font-size: 14px; line-height: 1.7; letter-spacing: 0.01em; color: var(--off-black); }
+.body-text p { margin-bottom: 24px; }
 
-/* ABOUT SYSTEM */
-.about-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:48px}
-.about-body{font-size:11px;line-height:1.6;color:var(--muted)}
-.about-body strong{color:var(--white);font-weight:normal}
-.about-pillars{margin-top:28px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.pillar{background:var(--panel);padding:16px;border:1px solid var(--border)}
-.pillar-title{font-size:11px;color:var(--white);margin-bottom:4px}
-.pillar-text{font-size:10px;color:var(--muted);line-height:1.4}
+/* GLOBE FRAME */
+.globe-container {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  height: 480px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+#globe-canvas { display: block; cursor: grab; }
+.globe-legend {
+  position: absolute; bottom: 16px; left: 16px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 10px; color: var(--steel); }
+.legend-dot { width: 6px; height: 6px; border-radius: 50%; }
+.legend-dot.orange { background: var(--istanbul-orange); }
+.legend-dot.dark { background: var(--steel); }
 
-/* MONOTONE GEOGRAPHY ENGINE */
-#globe-section{background:var(--deep)}
-#globe-canvas-wrap{position:relative;height:450px;width:100%;display:flex;align-items:center;justify-content:center}
-#globe-canvas{display:block;cursor:grab}
-.globe-legend{display:flex;gap:20px;justify-content:center;padding-top:16px}
-.legend-item{display:flex;align-items:center;gap:6px;font-size:9px;color:var(--muted)}
-.legend-dot{width:4px;height:4px;border-radius:50%}
-.legend-dot.orange{background:var(--istanbul-orange)}
-.legend-dot.dark{background:var(--dark-gray)}
+/* DATA CARDS / ROSTER */
+.matrix-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.matrix-card {
+  border: 1px solid var(--line);
+  padding: 24px; background: rgba(0,0,0,0.01);
+  display: flex; justify-content: space-between; align-items: flex-end;
+}
+.matrix-id { font-size: 10px; color: var(--steel); }
+.matrix-name { font-size: 16px; font-weight: 600; margin-top: 4px; }
+.matrix-status { font-size: 12px; font-weight: 600; color: var(--off-black); }
 
-/* ROSTER ARCHITECTURE */
-.roster-list{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:24px}
-.roster-item{background:var(--panel);padding:16px;border:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-end}
-.roster-name{font-size:14px;color:var(--white);margin-top:4px}
-.roster-stat{font-size:18px;color:var(--akira-red)}
-.roster-num{font-size:9px;color:var(--muted)}
+/* CAPABILITIES TABLE */
+.info-table { width: 100%; border-collapse: collapse; }
+.info-table tr { border-bottom: 1px solid var(--line); }
+.info-table td { padding: 20px 8px; font-size: 13px; color: var(--steel); }
+.info-table td.accent-column { color: var(--off-black); font-weight: 600; }
 
-/* CAPABILITIES CATALOG */
-.services-table{width:100%;margin-top:24px;border-collapse:collapse}
-.services-table tr{border-bottom:1px solid var(--border)}
-.services-table tr:hover{background:var(--panel)}
-.services-table td{padding:16px 8px;font-size:11px;color:var(--muted)}
-.svc-name{color:var(--white)}
-.svc-arrow{color:var(--akira-red);text-align:right;width:40px}
+/* CASE LOGS */
+.logs-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.log-card {
+  border: 1px solid var(--line); padding: 32px 24px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  min-height: 160px; background: rgba(0,0,0,0.01);
+}
+.log-card:hover { background: rgba(0,0,0,0.02); }
+.log-tag { font-size: 9px; color: var(--steel); }
+.log-title { font-size: 18px; font-weight: 700; margin-top: 24px; }
 
-/* DEPLOYED RUNTIME LOGS */
-.work-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:24px}
-.work-item{background:var(--panel);aspect-ratio:16/9;padding:16px;display:flex;flex-direction:column;justify-content:between;border:1px solid var(--border);position:relative}
-.work-item::before{content:'[case_log]';font-size:9px;color:var(--dark-gray);position:absolute;top:16px;left:16px}
-.work-title{font-size:14px;color:var(--white);margin-top:auto}
+/* INPUT FORM */
+.form-box { max-width: 600px; }
+.form-group { margin-bottom: 16px; }
+.form-group input, .form-group textarea {
+  width: 100%; background: transparent;
+  border: 1px solid var(--line); padding: 14px;
+  font-family: inherit; font-size: 13px; color: var(--off-black);
+  outline: none; transition: border-color 0.2s;
+}
+.form-group input:focus, .form-group textarea:focus { border-color: var(--off-black); }
+.submit-button {
+  background: var(--off-black); color: var(--cream);
+  border: none; padding: 14px 28px; font-family: inherit;
+  font-size: 11px; font-weight: 600; cursor: pointer; transition: opacity 0.2s;
+}
+.submit-button:hover { opacity: 0.9; }
 
-/* INTAKE GATEWAY */
-.contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:48px}
-.form-group input, .form-group textarea{width:100%;background:var(--panel);border:1px solid var(--border);padding:12px;font-family:var(--type-main);font-size:11px;color:var(--white);outline:none;margin-bottom:6px}
-.form-group input:focus, .form-group textarea:focus{border-color:var(--akira-red)}
-button.submit-btn{width:100%;font-family:var(--type-main);font-size:10px;background:transparent;border:1px solid var(--border-bright);color:var(--white);padding:12px;cursor:none;transition:all 0.2s}
-button.submit-btn:hover{background:var(--akira-red);border-color:var(--akira-red)}
+/* FOOTER */
+.footer { padding: 64px 24px; background: var(--off-black); color: var(--concrete); }
+.footer-grid { display: grid; grid-template-columns: 1fr; gap: 40px; }
+.footer-logo { font-size: 32px; font-weight: 700; color: var(--cream); letter-spacing: -0.04em; }
+.footer-text { margin-top: 8px; color: var(--concrete); font-size: 11px; }
+.footer-bottom { margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; font-size: 10px; }
 
-footer{border-top:1px solid var(--border);padding:16px 24px;display:flex;justify-content:space-between;align-items:center;font-size:9px;color:var(--muted)}
+/* RESPONSIVE LAYOUTS */
+@media (min-width: 768px) {
+  .layout-split { grid-template-columns: 1fr 1fr; gap: 64px; }
+  .matrix-grid { grid-template-columns: 1fr 1fr 1fr; }
+  .logs-grid { grid-template-columns: 1fr 1fr; }
+  .footer-grid { grid-template-columns: 2fr 1fr; }
+}
 </style>
 </head>
+
 <body>
 
-<div id="c"></div><div id="cr"></div>
-
-<nav>
-  <a href="#" class="nav-logo">access opera<span>_</span></a>
-  <ul class="nav-center">
-    <li><a href="#about">manifesto</a></li>
-    <li><a href="#globe-section">telemetry</a></li>
-    <li><a href="#roster">roster</a></li>
-    <li><a href="#services">divisions</a></li>
-  </ul>
-  <div class="nav-right">
-    <span class="nav-tag">sys_active</span>
-    <a href="#contact" class="nav-contact">init_intake</a>
+<nav class="nav-bar">
+  <div class="nav-left">
+    <a href="#" class="nav-logo">access opera</a>
   </div>
+  <ul class="nav-menu">
+    <li><a href="#manifesto">manifesto</a></li>
+    <li><a href="#telemetry">telemetry</a></li>
+    <li><a href="#roster">roster</a></li>
+    <li><a href="#services">services</a></li>
+    <li><a href="#intake">contact</a></li>
+  </ul>
 </nav>
 
-<section id="hero">
-  <canvas class="hero-bg-canvas" id="bgCanvas"></canvas>
-  <div class="hero-content">
-    <div class="hero-left">
-      <div class="hero-eyebrow">[division_core]</div>
-      <h1 class="hero-title">architecting <br><span class="hollow">cultural mass</span> <br>at <span class="red">stadium scale</span></h1>
-      <p class="hero-sub">we deploy integrated operational intelligence spanning live touring, spatial creative environments, and high-fidelity archival content pipelines.</p>
-      <div class="hero-actions">
-        <a href="#contact" class="btn-red">request_access</a>
-        <a href="#about" class="btn-ghost">read_manifesto</a>
-      </div>
-    </div>
-    <div class="hero-right">
-      <div class="hero-stat-block">
-        <div class="hero-stat"><div class="n">90k<span>//</span></div><div class="l">istanbul terminal</div></div>
-        <div class="hero-stat"><div class="n">01<span>//</span></div><div class="l">active deployment</div></div>
-      </div>
+<section class="hero-section">
+  <div class="hero-text">
+    <p class="hero-presenter">creative consulting agency</p>
+    <h1 class="hero-title">merging <span class="hollow">classical foundations</span> with contemporary culture</h1>
+    <div class="hero-details">
+      <div class="hero-detail"><span class="detail-value">stadium scale</span><span class="detail-label">operations</span></div>
+      <div class="hero-detail"><span class="detail-value">istanbul node</span><span class="detail-label">active deployment</span></div>
     </div>
   </div>
 </section>
 
-<div class="ticker">
-  <div class="ticker-track">
-    <span>stadium scale network infrastructure</span><span class="accent">//</span>
-    <span>creative blueprinting</span><span class="accent">//</span>
-    <span>live touring executions</span><span class="accent">//</span>
-    <span>istanbul node active</span><span class="accent">//</span>
-    <span>stadium scale network infrastructure</span><span class="accent">//</span>
-    <span>creative blueprinting</span><span class="accent">//</span>
+<section id="manifesto" class="section-block">
+  <p class="section-num">01</p>
+  <h2 class="section-heading">manifesto</h2>
+  <div class="layout-split">
+    <div class="body-text">
+      <p>access opera operates as an architectural production framework configured for scale-altering projects. we strip out conventional administrative layers to execute high-fidelity creative alignments directly into live stadium networks, spatial stage designs, and historic cultural pipelines.</p>
+    </div>
+    <div class="body-text">
+      <p>our positioning addresses the gap separating traditional artistic infrastructure from the heavy demands of modern cultural phenomena. we design and manage ecosystems where classical methodology matches pop execution seamlessly.</p>
+    </div>
   </div>
-</div>
+</section>
 
-<section id="about">
-  <div class="section-label">[log_01 // operational overview]</div>
-  <div class="about-grid">
-    <h2 class="section-title">hyperculture <br>framework</h2>
-    <div class="about-body">
-      <p>access opera operates as a strategic execution matrix engineered for properties that redefine traditional entertainment models. we replace standard agency configurations with a unified industrial operating layer.</p>
-      <div class="about-pillars">
-        <div class="pillar">
-          <div class="pillar-title">tour operations</div>
-          <div class="pillar-text">routing protocols, venue mechanics, and stadium structural engineering.</div>
-        </div>
-        <div class="pillar">
-          <div class="pillar-title">spatial identity</div>
-          <div class="pillar-text">minimalist stage blueprints, visual systems, and aesthetic direction.</div>
-        </div>
+<section id="telemetry" class="section-block">
+  <p class="section-num">02</p>
+  <h2 class="section-heading">spatial telemetry</h2>
+  <div class="layout-split">
+    <div class="globe-container">
+      <canvas id="globe-canvas"></canvas>
+      <div class="globe-legend">
+        <div class="legend-item"><span class="legend-dot dark"></span> baseline data vector</div>
+        <div class="legend-item"><span class="legend-dot orange"></span> active hub: istanbul terminal</div>
       </div>
     </div>
+    <div class="body-text">
+      <p>our operational coverage expands across key regional transit loops. through dedicated production hubs, we align logistical networks with creative asset deployments globally.</p>
+      <p>the current priority mapping focuses tracking coordinates on the active atatürk olympic stadium infrastructure network layout in istanbul.</p>
+    </div>
   </div>
 </section>
 
-<section id="globe-section">
-  <div class="section-label">[log_02 // spatial telemetry]</div>
-  <h2 class="section-title">geographical routing matrix</h2>
-  <div id="globe-canvas-wrap">
-    <canvas id="globe-canvas"></canvas>
-  </div>
-  <div class="globe-legend">
-    <div class="legend-item"><span class="legend-dot dark"></span> passive network vectors</div>
-    <div class="legend-item"><span class="legend-dot orange"></span> active terminal: istanbul node</div>
-  </div>
-</section>
-
-<section id="roster">
-  <div class="section-label">[log_03 // tracked inventory]</div>
-  <h2 class="section-title">managed asset logs</h2>
-  <div class="roster-list">
-    <div class="roster-item">
-      <div><div class="roster-num">id_001</div><div class="roster-name">primary creative</div></div>
-      <div class="roster-stat">active</div>
+<section id="roster" class="section-block">
+  <p class="section-num">03</p>
+  <h2 class="section-heading">asset logging</h2>
+  <div class="matrix-grid">
+    <div class="matrix-card">
+      <div><div class="matrix-id">id_001</div><div class="matrix-name">primary design lead</div></div>
+      <div class="matrix-status">assigned</div>
     </div>
-    <div class="roster-item">
-      <div><div class="roster-num">id_002</div><div class="roster-name">touring unit</div></div>
-      <div class="roster-stat">standby</div>
+    <div class="matrix-card">
+      <div><div class="matrix-id">id_002</div><div class="matrix-name">touring unit manager</div></div>
+      <div class="matrix-status">standby</div>
     </div>
-    <div class="roster-item">
-      <div><div class="roster-num">id_003</div><div class="roster-name">media terminal</div></div>
-      <div class="roster-stat">standby</div>
+    <div class="matrix-card">
+      <div><div class="matrix-id">id_003</div><div class="matrix-name">spatial execution framework</div></div>
+      <div class="matrix-status">active</div>
     </div>
   </div>
 </section>
 
 <section id="services">
-  <div class="section-label">[log_04 // active divisions]</div>
-  <h2 class="section-title">functional catalog</h2>
-  <table class="services-table">
-    <tr><td>01</td><td class="svc-name">stadium tour operations</td><td>global routing logistics and venue terminal protocols</td><td class="svc-arrow">-&gt;</td></tr>
-    <tr><td>02</td><td class="svc-name">aesthetic strategy</td><td>systemic spatial design and industrial image formatting</td><td class="svc-arrow">-&gt;</td></tr>
-    <tr><td>03</td><td class="svc-name">archival media pipelines</td><td>high-fidelity raw documentary capture and execution log assets</td><td class="svc-arrow">-&gt;</td></tr>
-  </table>
-</section>
-
-<section id="work">
-  <div class="section-label">[log_05 // archived runtimes]</div>
-  <h2 class="section-title">historical deployments</h2>
-  <div class="work-grid">
-    <div class="work-item"><div class="work-title">stadium terminal execution // ist_90k</div></div>
-    <div class="work-item"><div class="work-title">spatial environment system // la_campaign</div></div>
+  <div class="section-block">
+    <p class="section-num">04</p>
+    <h2 class="section-heading">services catalogue</h2>
+    <table class="info-table">
+      <tr><td>01</td><td class="accent-column">stadium performance development</td><td>integrated network routing, physical venue mapping, and logistics coordination.</td></tr>
+      <tr><td>02</td><td class="accent-column">spatial architecture</td><td>minimalist spatial execution blueprints, direction layouts, and staging infrastructure.</td></tr>
+      <tr><td>03</td><td class="accent-column">content pipeline design</td><td>documentary curation asset tracking and visual media processing engines.</td></tr>
+    </table>
   </div>
 </section>
 
-<section id="contact">
-  <div class="section-label">[log_06 // system gateway]</div>
-  <div class="contact-grid">
-    <h2 class="section-title">handshake <br>initialization</h2>
-    <form class="contact-right" onsubmit="event.preventDefault();">
-      <div class="form-group"><input type="text" placeholder="identity token / name"></div>
-      <div class="form-group"><input type="email" placeholder="network node address / email"></div>
-      <div class="form-group"><textarea placeholder="transmission core parameters / details"></textarea></div>
-      <button class="submit-btn">transmit_system_packet</button>
+<section class="section-block">
+  <p class="section-num">05</p>
+  <h2 class="section-heading">selected executions</h2>
+  <div class="logs-grid">
+    <div class="log-card">
+      <div class="log-tag">case profile_ist_90k</div>
+      <div class="log-title">stadium terminal integration // globe stage execution</div>
+    </div>
+    <div class="log-card">
+      <div class="log-tag">case profile_la_camp</div>
+      <div class="log-title">spatial brand blueprint // directional installation assets</div>
+    </div>
+  </div>
+</section>
+
+<section id="intake" class="section-block">
+  <p class="section-num">06</p>
+  <h2 class="section-heading">system intake</h2>
+  <div class="form-box">
+    <form onsubmit="event.preventDefault();">
+      <div class="form-group"><input type="text" placeholder="identity marker / name" required /></div>
+      <div class="form-group"><input type="email" placeholder="routing terminal address / email" required /></div>
+      <div class="form-group"><textarea placeholder="transmission parameters / requirements" rows="5" required></textarea></div>
+      <button type="submit" class="submit-button">transmit packet</button>
     </form>
   </div>
 </section>
 
-<footer>
-  <div>&copy; 2026 access opera tracking corp. all data outputs parsed.</div>
-  <div>terminal_state: locked</div>
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">access opera</div>
+      <p class="footer-text">stadium architectural touring operations and creative alignment layers.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 access opera tracking. all rights reserved.</span>
+    <span>status: locked</span>
+  </div>
 </footer>
 
 <script>
-// RAW HARDWARE CURSOR MECHANICS
-const c = document.getElementById('c'), cr = document.getElementById('cr');
-window.addEventListener('mousemove', e => {
-  c.style.left = e.clientX + 'px'; c.style.top = e.clientY + 'px';
-  cr.style.left = e.clientX + 'px'; cr.style.top = e.clientY + 'px';
-});
-
-// BACKGROUND CANVAS MATRIX (30% AKIRA LIGHT LINE EXTRACTIONS + 10% TRON DATA GRID)
-(function initBg(){
-  const cv = document.getElementById('bgCanvas');
-  const ctx = cv.getContext('2d');
-  let W, H;
-  function resize(){ W = cv.width = cv.offsetWidth; H = cv.height = cv.offsetHeight; }
-  resize(); window.addEventListener('resize', resize);
-
-  const lines = [];
-  for(let i=0; i<8; i++) lines.push({
-    y: Math.random() * 800,
-    speed: Math.random() * 1.5 + 0.5,
-    length: Math.random() * 300 + 100,
-    opacity: Math.random() * 0.12 + 0.03
-  });
-
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    ctx.fillStyle = '#08080a';
-    ctx.fillRect(0,0,W,H);
-
-    // Muted technical coordinate mapping grid
-    ctx.strokeStyle = 'rgba(255,255,255,0.01)';
-    ctx.lineWidth = 0.5;
-    for(let x=0; x<W; x+=80){ ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
-    for(let y=0; y<H; y+=80){ ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
-
-    // Akira dynamic horizontal trace runs
-    lines.forEach(l => {
-      l.y -= l.speed;
-      if(l.y < -l.length) l.y = H + l.length;
-      const gradient = ctx.createLinearGradient(0, l.y, 0, l.y + l.length);
-      gradient.addColorStop(0, 'transparent');
-      gradient.addColorStop(0.5, `rgba(184,29,24,${l.opacity})`);
-      gradient.addColorStop(1, 'transparent');
-      ctx.strokeStyle = gradient;
-      ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(W * 0.3, l.y); ctx.lineTo(W * 0.7, l.y + l.length * 0.2); ctx.stroke();
-    });
-
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
-
-// INDUSTRIAL YEEZY EARTH GLOBE PLATFORM (MATTE EARTH SHADE + EXPLICIT ISTANBUL TRACER)
+// MATTE CLAY GLOBE ARCHITECTURE (YEEZY MINIMALISM + SHARP ISTANBUL PIN)
 (function initGlobe(){
-  const wrap = document.getElementById('globe-canvas-wrap');
+  const wrap = document.querySelector('.globe-container');
   const canvas = document.getElementById('globe-canvas');
-  const W = wrap.offsetWidth, H = 450;
+  const W = wrap.offsetWidth, H = 480;
   
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(40, W/H, 1, 1000);
-  camera.position.z = 240;
+  camera.position.z = 230;
   
   const renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true, alpha: true});
   renderer.setSize(W, H);
@@ -334,28 +357,26 @@ window.addEventListener('mousemove', e => {
   const globeGroup = new THREE.Group();
   scene.add(globeGroup);
   
-  // 1. Solid Matte industrial charcoal earth skin (Pure Yeezy architecture)
-  const sphereGeo = new THREE.SphereGeometry(65, 45, 45);
+  // Matte clay sand/slate earth sphere body matching Yeezy tone rules
+  const sphereGeo = new THREE.SphereGeometry(62, 40, 40);
   const sphereMat = new THREE.MeshBasicMaterial({
-    color: 0x121217,
-    wireframe: false,
-    transparent: true,
-    opacity: 0.98
+    color: 0x1a1a1a, // clean solid dark charcoal body
+    wireframe: false
   });
   const earthBody = new THREE.Mesh(sphereGeo, sphereMat);
   globeGroup.add(earthBody);
 
-  // 2. Structural data tracking envelope (Fine system grid)
-  const structuralWireMat = new THREE.MeshBasicMaterial({
-    color: 0x1c1d24,
+  // Delicate structural latitude tracking grid lines
+  const wireSkeletonMat = new THREE.MeshBasicMaterial({
+    color: 0x333333,
     wireframe: true,
     transparent: true,
-    opacity: 0.35
+    opacity: 0.15
   });
-  const designSkeleton = new THREE.Mesh(new THREE.SphereGeometry(65.4, 24, 24), structuralWireMat);
+  const designSkeleton = new THREE.Mesh(new THREE.SphereGeometry(62.3, 20, 20), wireSkeletonMat);
   globeGroup.add(designSkeleton);
 
-  // Geographic spatial vector standard engine
+  // Geographic mapping translation engine
   function latLonToVector(lat, lon, radius) {
     const phi = (90 - lat) * (Math.PI / 180);
     const theta = (lon + 180) * (Math.PI / 180);
@@ -366,62 +387,62 @@ window.addEventListener('mousemove', e => {
     );
   }
 
-  // 3. Isolated Target Node Terminal: Istanbul Blueprint (41° N, 29° E)
-  const istanbulVector = latLonToVector(41.0082, 28.9784, 65.6);
+  // Istanbul target point coordinates (41.0082° N, 28.9784° E)
+  const istanbulVector = latLonToVector(41.0082, 28.9784, 62.5);
   
-  // Base fixed hardware orange node pin
-  const corePinGeo = new THREE.SphereGeometry(1.6, 16, 16);
+  // Tactical orange focus pin point
+  const corePinGeo = new THREE.SphereGeometry(1.8, 16, 16);
   const corePinMat = new THREE.MeshBasicMaterial({color: 0xff5500});
   const istanbulMarker = new THREE.Mesh(corePinGeo, corePinMat);
   istanbulMarker.position.copy(istanbulVector);
   globeGroup.add(istanbulMarker);
 
-  // Expanding target detection ring
+  // Tactical target tracking pulse outer boundary ring
   const telemetryRingGeo = new THREE.RingGeometry(2.5, 4.5, 32);
   const telemetryRingMat = new THREE.MeshBasicMaterial({
     color: 0xff5500, 
     side: THREE.DoubleSide,
     transparent: true,
-    opacity: 0.7
+    opacity: 0.6
   });
   const telemetryRing = new THREE.Mesh(telemetryRingGeo, telemetryRingMat);
   telemetryRing.position.copy(istanbulVector);
-  telemetryRing.lookAt(new THREE.Vector3(0,0,0)); // flush against sphere terrain face
+  telemetryRing.lookAt(new THREE.Vector3(0,0,0)); // perfectly snap against curve of earth surface
   globeGroup.add(telemetryRing);
 
-  // Physical mouse tracking controls
+  // Direct physical interactive click & drag physics handling
   let isDragging = false, lastMousePos = {x: 0, y: 0};
-  window.addEventListener('mousedown', () => { isDragging = true; });
+  canvas.addEventListener('mousedown', () => { isDragging = true; });
   window.addEventListener('mouseup', () => { isDragging = false; });
   window.addEventListener('mousemove', (e) => {
     const moveDelta = {x: e.clientX - lastMousePos.x, y: e.clientY - lastMousePos.y};
     if(isDragging) {
-      globeGroup.rotation.y += moveDelta.x * 0.004;
-      globeGroup.rotation.x += moveDelta.y * 0.004;
+      globeGroup.rotation.y += moveDelta.x * 0.005;
+      globeGroup.rotation.x += moveDelta.y * 0.005;
     }
     lastMousePos = {x: e.clientX, y: e.clientY};
   });
 
-  // Structural runtime execution loop
-  let step = 0;
-  function renderRuntime() {
-    requestAnimationFrame(renderRuntime);
+  // Base tick timeline loop updates
+  let tick = 0;
+  function updateGlobeRuntime() {
+    requestAnimationFrame(updateGlobeRuntime);
     
     if (!isDragging) {
-      globeGroup.rotation.y += 0.0012; // controlled system mapping rotation speed
+      globeGroup.rotation.y += 0.0015; // smooth environmental rotation matching tracking rates
     }
     
-    // Smooth telemetry wave pacing loop
-    step += 0.045;
-    const currentScale = 1 + Math.sin(step) * 0.35;
+    // Smooth target identifier wave amplitude loop
+    tick += 0.05;
+    const currentScale = 1 + Math.sin(tick) * 0.4;
     telemetryRing.scale.set(currentScale, currentScale, 1);
-    telemetryRingMat.opacity = 0.75 - (Math.sin(step) * 0.35);
+    telemetryRingMat.opacity = 0.7 - (Math.sin(tick) * 0.3);
 
     renderer.render(scene, camera);
   }
-  renderRuntime();
+  updateGlobeRuntime();
 
-  // Screen layout mutations observer
+  // Resize boundaries layout updates
   window.addEventListener('resize', () => {
     const updatedW = wrap.offsetWidth;
     camera.aspect = updatedW / H;
