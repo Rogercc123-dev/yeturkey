@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>access opera.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   * { 
     box-sizing: border-box; 
@@ -13,128 +16,209 @@
   }
   
   body {
-    background: #f4f4f0; /* Classic Yeezy Bone/Cream */
+    background: #f4f4f0; 
     color: #000;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: 700;
-    line-height: 1;
-    overflow-x: hidden;
-  }
-
-  /* RAW GRID ARCHITECTURE */
-  .section {
-    min-height: 100vh;
-    padding: 4vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  /* MASSIVE TYPOGRAPHY */
-  h1 {
-    font-size: 15vw;
-    letter-spacing: -0.06em; /* Extremely tight tracking */
-    margin-bottom: 3rem;
-  }
-
-  p {
-    font-size: 5vw;
-    letter-spacing: -0.05em;
+    font-family: 'ibm plex mono', monospace;
+    font-weight: 600;
     line-height: 1.1;
-    max-width: 90vw;
+    overflow-x: hidden;
+    letter-spacing: -0.05em;
   }
 
-  /* HARSH UTILITY GRID */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2vw;
-    margin-top: 10vh;
+  /* LAYOUT STRUCTURE */
+  .container {
+    padding: 4vw;
   }
 
-  .item {
-    font-size: 3vw;
-    letter-spacing: -0.03em;
-    border-top: 3px solid #000;
-    padding-top: 2vh;
+  .section {
+    margin-bottom: 12vh;
+  }
+
+  /* TYPOGRAPHY */
+  h1 {
+    font-size: 11vw;
+    font-weight: 700;
+    letter-spacing: -0.06em;
+    margin-bottom: 6vh;
+    border-bottom: 4px solid #000;
     padding-bottom: 2vh;
   }
 
-  a {
-    color: #000;
-    text-decoration: none;
+  h2 {
+    font-size: 6vw;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    margin-bottom: 3vh;
   }
 
-  a:hover {
-    background: #000;
+  p {
+    font-size: 3vw;
+    max-width: 80vw;
+    margin-bottom: 1.5vh;
+  }
+
+  /* MONOTONE IMAGE PLACEHOLDER */
+  .image-wrapper {
+    width: 100%;
+    margin-bottom: 4vh;
+    position: relative;
+    background: #111;
+  }
+
+  .monotone-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: grayscale(100%) contrast(1.2);
+    opacity: 0.9;
+  }
+
+  .img-caption {
+    position: absolute;
+    bottom: 2vw;
+    left: 2vw;
     color: #f4f4f0;
+    font-size: 2vw;
+    background: #000;
+    padding: 1vw 2vw;
   }
 
-  /* BRUTALIST 3D CANVAS */
+  /* GRID SYSTEMS */
+  .list-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-top: 3px solid #000;
+  }
+
+  .list-item {
+    font-size: 4vw;
+    padding: 3vh 0;
+    border-bottom: 1px solid #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .list-item span.tag {
+    font-size: 2vw;
+    color: #666;
+  }
+
+  /* BRUTALIST 3D CANVAS DIVIDER */
   #canvas-container {
     width: 100%;
-    height: 50vh;
+    height: 30vh;
     background: #000;
     margin: 8vh 0;
     cursor: crosshair;
   }
 
+  /* LINKS */
+  a {
+    color: #000;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  a:hover {
+    background: #000;
+    color: #f4f4f0;
+    padding: 0 1vw;
+  }
+
   @media(max-width: 768px) {
-    p { font-size: 9vw; max-width: 100%; }
-    .grid { grid-template-columns: 1fr; margin-top: 5vh; }
-    .item { font-size: 6vw; border-top: 2px solid #000; }
-    #canvas-container { height: 40vh; }
+    h1 { font-size: 14vw; }
+    h2 { font-size: 8vw; }
+    p { font-size: 4.5vw; max-width: 100%; }
+    .list-item { font-size: 6vw; flex-direction: column; align-items: flex-start; gap: 1vh; }
+    .list-item span.tag { font-size: 3.5vw; }
+    .img-caption { font-size: 3.5vw; }
   }
 </style>
 </head>
 <body>
 
-  <div class="section">
+  <div class="container">
+    
     <h1>access opera.</h1>
-    <p>mary.</p>
-    <p>nebuchadnezzar.</p>
-    <p>istanbul 90k.</p>
+
+    <div class="section">
+      <div class="image-wrapper">
+        <img src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&q=80&w=2000" alt="ye stadium performance" class="monotone-img">
+        <div class="img-caption">ye. istanbul.</div>
+      </div>
+      <h2>the globe returns.</h2>
+      <p>atatürk olympic stadium.</p>
+      <p>capacity: 90,000.</p>
+      <p>status: sold out.</p>
+    </div>
 
     <div id="canvas-container"></div>
 
-    <p>we build the moments.</p>
-
-    <div class="grid">
-      <div class="item">production.</div>
-      <div class="item">artist management.</div>
-      <div class="item">creative consulting.</div>
-      <div class="item"><a href="mailto:info@accessopera.com">contact.</a></div>
+    <div class="section">
+      <h2>clients.</h2>
+      <div class="list-grid">
+        <div class="list-item">
+          <div>ye</div>
+          <span class="tag">music / creative</span>
+        </div>
+        <div class="list-item">
+          <div>tba</div>
+          <span class="tag">live / touring</span>
+        </div>
+        <div class="list-item">
+          <div>tba</div>
+          <span class="tag">film / direction</span>
+        </div>
+      </div>
     </div>
+
+    <div class="section">
+      <h2>services.</h2>
+      <div class="list-grid">
+        <div class="list-item">production</div>
+        <div class="list-item">artist management</div>
+        <div class="list-item">creative consulting</div>
+        <div class="list-item">film & stage execution</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>contact.</h2>
+      <p>los angeles / istanbul</p>
+      <p><a href="mailto:info@accessopera.com">info@accessopera.com</a></p>
+    </div>
+
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script>
-    // YEEZY SUPPLY BRUTALIST WIREFRAME ROTATION
+    // UTILITARIAN WIREFRAME ROTATION ENGINE
     const cont = document.getElementById('canvas-container');
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(50, cont.clientWidth / cont.clientHeight, 0.1, 1000);
-    camera.position.z = 3;
+    camera.position.z = 3.5;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(cont.clientWidth, cont.clientHeight);
     cont.appendChild(renderer.domElement);
 
-    // Raw geometric knot, zero lighting, pure wireframe
-    const geo = new THREE.TorusKnotGeometry(0.8, 0.3, 100, 16);
+    // Raw industrial wireframe geometry
+    const geo = new THREE.TorusKnotGeometry(1, 0.4, 120, 20);
     const mat = new THREE.MeshBasicMaterial({ color: 0xf4f4f0, wireframe: true });
     const mesh = new THREE.Mesh(geo, mat);
     scene.add(mesh);
 
-    // Unrelenting spin
+    // Continuous rotation
     function animate() {
       requestAnimationFrame(animate);
-      mesh.rotation.x += 0.002;
-      mesh.rotation.y += 0.004;
+      mesh.rotation.x += 0.0015;
+      mesh.rotation.y += 0.003;
       renderer.render(scene, camera);
     }
     animate();
 
-    // Snap to resize
+    // Window resize handler
     window.addEventListener('resize', () => {
       camera.aspect = cont.clientWidth / cont.clientHeight;
       camera.updateProjectionMatrix();
