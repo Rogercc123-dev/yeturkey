@@ -1,716 +1,619 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>ACCESS OPERA Presents — YE Istanbul</title>
-<meta name="description" content="Access Opera presents YE live at Atatürk Olympic Stadium, Istanbul. May 30 2026. The globe stage returns. Tickets via Bugece and Ticketofis." />
-<meta property="og:title" content="ACCESS OPERA Presents — YE Istanbul" />
-<meta property="og:description" content="Access Opera presents YE live at Atatürk Olympic Stadium. May 30 2026. The globe stage returns." />
-<meta property="og:type" content="website" />
-<meta name="theme-color" content="#0D0D0D" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>access opera — futureshaped</title>
+  <meta name="description" content="access opera. global talent representation. cinematic productions. istanbul / worldwide." />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    :root {
+      --bg: #050505;
+      --surface: #0a0a0a;
+      --border: #1f1f1f;
+      --primary: #00f0ff;   /* electric cyan */
+      --primary-glow: rgba(0, 240, 255, 0.2);
+      --secondary: #ff4d4d;
+      --text-main: #e0e0e0;
+      --text-dim: #888;
+      --scan: rgba(0, 240, 255, 0.03);
+    }
 
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: 'OCR A BT', 'OCR-A', 'Courier New', monospace;
+      font-size: 16px;
+      line-height: 1.45;
+      letter-spacing: 0.02em;
+      text-transform: lowercase;
+      overflow-x: hidden;
+    }
 
-:root {
-  --cream: #F0EDE8;
-  --off-black: #1A1A1A;
-  --void: #0D0D0D;
-  --concrete: #9E9E9E;
-  --steel: #666666;
-}
+    /* all lowercase force */
+    body, button, input, textarea, a, .nav-menu a, .section-label, .client-name, .service-title, .footer-links a {
+      text-transform: lowercase;
+    }
 
-html {
-  background: var(--cream);
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-}
+    /* custom cursor + scanlines */
+    body {
+      cursor: crosshair;
+    }
+    .scanlines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(0deg, rgba(0,255,255,0.02) 0px, rgba(0,255,255,0.02) 2px, transparent 2px, transparent 6px);
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.3;
+    }
 
-body {
-  font-family: 'IBM Plex Mono', monospace;
-  background: var(--cream);
-  color: var(--off-black);
-  line-height: 1.4;
-  letter-spacing: 0.02em;
-  overflow-x: hidden;
-  cursor: crosshair;
-}
+    /* grid background */
+    .grid-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-/* PRELOADER - Cream background, just logo */
-.preloader {
-  position: fixed;
-  inset: 0;
-  background: var(--cream);
-  z-index: 10000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: crosshair;
-}
-.preloader-divider {
-  width: 40px;
-  height: 1px;
-  background: rgba(0,0,0,0.15);
-}
-.preloader.hidden { opacity: 0; transform: scale(1.04); pointer-events: none; }
-.preloader-logo-img {
-  height: 48px;
-  width: auto;
-  opacity: 0.7;
-  animation: preloader-pulse 2s ease-in-out infinite;
-}
-@keyframes preloader-pulse {
-  0%, 100% { opacity: 0.3; transform: scale(0.96); }
-  50% { opacity: 1; transform: scale(1); }
-}
+    /* container */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 32px;
+      position: relative;
+      z-index: 2;
+    }
 
-/* NAV */
-.nav-bar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 999;
-  background: rgba(240,237,232,0.95);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(0,0,0,0.08);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
-  height: 56px;
-}
-.nav-left { display: flex; align-items: center; gap: 12px; }
-.nav-logo-img { height: 24px; width: auto; display: block; opacity: 0.8; }
-.nav-menu { display: flex; gap: 28px; list-style: none; align-items: center; }
-.nav-menu a, .nav-menu .nav-btn {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px; text-transform: uppercase;
-  letter-spacing: 0.14em;
-  text-decoration: none;
-  color: var(--off-black);
-  padding: 4px 0; border: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s, opacity 0.2s;
-  font-weight: 500; opacity: 0.7;
-  cursor: crosshair; background: none;
-}
-.nav-menu a:hover, .nav-menu .nav-btn:hover { border-bottom: 1px solid var(--off-black); opacity: 1; }
+    /* navigation */
+    .nav-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      backdrop-filter: blur(12px);
+      background: rgba(5,5,5,0.85);
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+      padding: 18px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-logo img {
+      height: 32px;
+      width: auto;
+      filter: brightness(0) invert(1);
+      opacity: 0.9;
+    }
+    .nav-menu {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-menu a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      border-bottom: 1px solid transparent;
+      transition: 0.2s;
+    }
+    .nav-menu a:hover {
+      border-bottom-color: var(--primary);
+      color: var(--primary);
+    }
+    .mobile-btn {
+      display: none;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 6px 12px;
+    }
 
-/* HERO */
-.hero-section {
-  margin-top: 56px;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  background: var(--void);
-  overflow: hidden;
-}
-.hero-bg { position: absolute; inset: 0; z-index: 1; }
-.hero-bg img { width: 100%; height: 100%; object-fit: cover; }
-.hero-bg .desktop-img { display: block; }
-.hero-bg .mobile-img { display: none; }
-.hero-gradient {
-  position: absolute; inset: 0;
-  background: linear-gradient(0deg, rgba(13,13,13,0.94) 0%, rgba(13,13,13,0.15) 50%, rgba(13,13,13,0.5) 100%);
-  z-index: 2;
-}
-.hero-text { position: relative; z-index: 3; margin-top: auto; padding: 40px 24px; }
-.hero-presenter {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px; text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: rgba(255,255,255,0.5);
-  margin-bottom: 16px;
-  opacity: 0; animation: fade-up 1s 0.15s forwards;
-}
-.hero-ye {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: clamp(90px, 18vw, 260px);
-  font-weight: 700; color: #F0EDE8;
-  line-height: 0.8; letter-spacing: -0.05em;
-  margin-bottom: 24px;
-  opacity: 0; animation: fade-up 1s 0.3s forwards;
-}
-.hero-details { display: flex; gap: 40px; flex-wrap: wrap; opacity: 0; animation: fade-up 1s 0.6s forwards; }
-.hero-detail { display: flex; flex-direction: column; gap: 4px; }
-.hero-detail .detail-value {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 14px; color: #F0EDE8; letter-spacing: 0.05em; font-weight: 600;
-}
-.hero-detail .detail-label {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 8px; text-transform: uppercase; letter-spacing: 0.2em; color: rgba(255,255,255,0.45);
-}
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+    /* hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding: 120px 0 80px;
+    }
+    .hero-glow {
+      position: absolute;
+      top: 20%;
+      left: -10%;
+      width: 70%;
+      height: 70%;
+      background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+      filter: blur(80px);
+      z-index: -1;
+    }
+    .hero-title {
+      font-size: clamp(3rem, 10vw, 7rem);
+      font-weight: 800;
+      line-height: 0.85;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title span {
+      color: var(--primary);
+      text-shadow: 0 0 8px var(--primary);
+    }
+    .hero-sub {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      max-width: 560px;
+      margin-bottom: 2rem;
+      border-left: 2px solid var(--primary);
+      padding-left: 20px;
+    }
+    .btn-group {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      padding: 12px 28px;
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      transition: 0.25s;
+    }
+    .btn-primary:hover {
+      background: var(--primary);
+      color: #000;
+      box-shadow: 0 0 12px var(--primary);
+    }
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 12px 28px;
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.2em;
+    }
+    .btn-outline:hover {
+      border-color: var(--text-main);
+    }
 
-/* COUNTDOWN */
-.countdown-section { background: var(--off-black); color: #F0EDE8; padding: 36px 24px; }
-.countdown-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 600px; margin: 0 auto; }
-.countdown-unit { text-align: center; }
-.countdown-number {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: clamp(36px, 6vw, 64px); font-weight: 700;
-  letter-spacing: -0.02em; color: #F0EDE8;
-  transition: opacity 0.15s, transform 0.15s;
-  display: inline-block;
-}
-.countdown-number.glitch { animation: glitch-shift 0.2s ease; }
-@keyframes glitch-shift {
-  0% { transform: translate(0); } 20% { transform: translate(-3px, 2px); }
-  40% { transform: translate(3px, -1px); } 60% { transform: translate(-2px, -2px); }
-  80% { transform: translate(2px, 1px); } 100% { transform: translate(0); }
-}
-.countdown-label {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px; text-transform: uppercase; letter-spacing: 0.3em; color: var(--concrete); margin-top: 4px;
-}
+    /* section base */
+    section {
+      padding: 100px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .section-label {
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      color: var(--primary);
+      margin-bottom: 20px;
+      display: inline-block;
+      border-left: 3px solid var(--primary);
+      padding-left: 12px;
+    }
+    .section-title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      margin-bottom: 48px;
+      letter-spacing: -0.01em;
+    }
 
-/* SECTIONS */
-.section-block { width: 100%; position: relative; padding: 64px 24px; }
-.section-num {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px; color: var(--steel); letter-spacing: 0.1em; margin-bottom: 16px; font-weight: 600; opacity: 0.5;
-}
-.section-heading {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: clamp(36px, 7vw, 80px); font-weight: 700;
-  letter-spacing: -0.04em; line-height: 0.9; text-transform: uppercase; margin-bottom: 40px;
-}
-.reveal {
-  opacity: 0; transform: translateY(40px);
-  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.reveal.visible { opacity: 1; transform: translateY(0); }
-.divider { width: 100%; height: 1px; background: var(--off-black); opacity: 0.12; }
-.divider-thick { width: 100%; height: 3px; background: var(--off-black); }
+    /* clients grid (signed roster) */
+    .clients-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 40px;
+      margin-bottom: 20px;
+    }
+    .client-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 28px 16px;
+      text-align: center;
+      transition: 0.2s;
+      backdrop-filter: blur(4px);
+    }
+    .client-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+    .client-name {
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    .client-discipline {
+      font-size: 9px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
 
-/* VISION - Original version restored */
-.vision-layout { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start; }
-.vision-left { display: flex; flex-direction: column; }
-.vision-heading-wrap { margin-bottom: 24px; }
-.vision-heading-wrap .section-num { margin-bottom: 8px; }
-.vision-heading-wrap .section-heading { margin-bottom: 0; }
-.about-text { font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.8; letter-spacing: 0.02em; }
-.about-text p { margin-bottom: 20px; }
-.tag-mono {
-  display: inline-block; background: var(--off-black); color: var(--cream);
-  padding: 3px 10px; border-radius: 3px;
-  font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
-}
-.embed-box { background: transparent; overflow: hidden; border-radius: 12px; }
-.embed-box iframe { display: block; width: 100%; border: none; border-radius: 12px; }
+    /* media work / trailers */
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    .work-card {
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: 0.2s;
+    }
+    .work-card:hover {
+      border-color: var(--primary);
+    }
+    .work-vid {
+      aspect-ratio: 16/9;
+      background: #0a0a0a;
+      position: relative;
+      overflow: hidden;
+    }
+    .work-vid iframe, .work-vid video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .work-info {
+      padding: 20px;
+    }
+    .work-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+    .work-desc {
+      font-size: 11px;
+      color: var(--text-dim);
+    }
 
-/* SEAT MAP OVERLAY */
-.seat-map-overlay {
-  display: none; position: fixed; inset: 0;
-  background: rgba(13,13,13,0.92); z-index: 10001;
-  align-items: center; justify-content: center; cursor: crosshair;
-}
-.seat-map-overlay.open { display: flex; }
-.seat-map-overlay img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 4px; }
-.seat-map-close {
-  position: absolute; top: 24px; right: 24px;
-  background: none; border: none;
-  color: var(--cream); font-family: 'IBM Plex Mono', monospace; font-size: 24px;
-  cursor: crosshair; z-index: 10002;
-}
+    /* services */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .service-item {
+      border-top: 2px solid var(--primary);
+      padding-top: 24px;
+      background: rgba(0,0,0,0.3);
+      padding: 24px 16px;
+      backdrop-filter: blur(4px);
+    }
+    .service-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .service-desc {
+      font-size: 11px;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
 
-/* TICKETS */
-.ticket-header-note {
-  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
-  text-transform: uppercase; letter-spacing: 0.08em;
-  color: var(--steel); margin-bottom: 40px; font-weight: 600;
-}
-.ticket-header-note a { color: var(--off-black); text-decoration: underline; font-weight: 700; transition: opacity 0.2s; }
-.ticket-header-note a:hover { opacity: 0.6; }
-.ticket-header-note .sep { color: var(--concrete); margin: 0 6px; }
-.ticket-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
-.ticket-card {
-  border: 1px solid rgba(0,0,0,0.08); border-radius: 6px;
-  padding: 32px 28px 24px; position: relative;
-  transition: border-color 0.3s ease; background: var(--cream);
-  display: flex; flex-direction: column; min-height: 280px;
-}
-.ticket-card.featured { border-color: var(--off-black); border-width: 1.5px; }
-.ticket-label {
-  font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 700;
-  color: var(--steel); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 16px;
-}
-.ticket-name {
-  font-family: 'IBM Plex Mono', monospace; font-size: clamp(18px, 2.5vw, 24px);
-  font-weight: 700; text-transform: uppercase; letter-spacing: -0.02em;
-  color: var(--off-black); margin-bottom: 8px; line-height: 1;
-}
-.ticket-price-text {
-  font-family: 'IBM Plex Mono', monospace; font-size: clamp(28px, 4vw, 44px);
-  font-weight: 700; color: var(--off-black); margin-bottom: 6px; line-height: 1;
-}
-.ticket-price-text .currency { font-size: 12px; font-weight: 400; color: var(--steel); letter-spacing: 0.05em; }
-.ticket-info-text {
-  font-family: 'IBM Plex Mono', monospace; font-size: 9px;
-  text-transform: uppercase; letter-spacing: 0.08em; color: var(--steel); margin-bottom: 8px;
-}
-.ticket-divider { width: 100%; height: 1px; background: rgba(0,0,0,0.1); margin: 12px 0 16px; }
-.ticket-features { list-style: none; margin-bottom: 20px; flex-grow: 1; padding: 0; }
-.ticket-features li {
-  font-family: 'IBM Plex Mono', monospace; font-size: 9px;
-  color: var(--steel); letter-spacing: 0.04em; padding: 2px 0 2px 12px; position: relative;
-}
-.ticket-features li::before { content: ''; position: absolute; left: 0; top: 8px; width: 4px; height: 1px; background: var(--concrete); }
-.ticket-btn-wrap { margin-top: auto; }
-.ticket-btn {
-  display: block; width: 100%;
-  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
-  text-transform: uppercase; letter-spacing: 0.15em;
-  color: var(--off-black); background: transparent;
-  border: 1px solid var(--off-black); padding: 12px 16px;
-  text-align: center; text-decoration: none; font-weight: 500;
-  transition: all 0.25s ease; cursor: crosshair; border-radius: 0;
-}
-.ticket-btn:hover { background: var(--off-black); color: var(--cream); }
+    /* contact */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+    }
+    .contact-item {
+      margin-bottom: 24px;
+    }
+    .contact-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .contact-value {
+      font-size: 1.2rem;
+    }
+    .contact-value a {
+      color: var(--text-main);
+      text-decoration: none;
+      border-bottom: 1px dotted var(--border);
+    }
+    .contact-value a:hover {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+    .social-links {
+      display: flex;
+      gap: 24px;
+      margin-top: 20px;
+    }
+    .social-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 12px;
+    }
 
-/* PROMOTERS - Enhanced with stats but no gold */
-.promoters-layout { display: grid; grid-template-columns: 1fr; gap: 40px; }
-.promoters-main { font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.8; letter-spacing: 0.02em; }
-.promoters-main .lead-tag {
-  display: inline-block; font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px; font-weight: 700; letter-spacing: 0.15em;
-  color: var(--steel); text-transform: uppercase; margin-bottom: 12px;
-}
-.promoters-main h3 {
-  font-family: 'IBM Plex Mono', monospace; font-size: 28px;
-  font-weight: 700; letter-spacing: -0.03em; margin-bottom: 20px; line-height: 1.1;
-}
-.promoters-main .ao-stats {
-  display: flex; gap: 32px; margin: 24px 0; flex-wrap: wrap;
-}
-.promoters-main .stat {
-  text-align: left;
-}
-.promoters-main .stat-number {
-  font-size: 24px; font-weight: 700; color: var(--off-black); display: block;
-}
-.promoters-main .stat-label {
-  font-size: 8px; letter-spacing: 0.1em; color: var(--steel); text-transform: uppercase;
-}
-.promoters-main p { margin-bottom: 16px; }
-.promoters-main a { color: var(--off-black); text-decoration: underline; font-weight: 600; transition: opacity 0.2s; }
-.promoters-main a:hover { opacity: 0.6; }
-.promoters-side {
-  font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.7;
-  letter-spacing: 0.03em; color: var(--steel);
-  border-left: 1px solid rgba(0,0,0,0.1); padding-left: 24px;
-}
-.promoters-side .partner-name {
-  font-weight: 700; color: var(--off-black); font-size: 13px;
-  letter-spacing: -0.01em; display: block; margin-bottom: 4px;
-}
-.promoters-side .partner-block { margin-bottom: 20px; }
-.press-note {
-  margin-top: 24px; padding-top: 20px;
-  border-top: 1px solid rgba(0,0,0,0.08);
-  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
-  color: var(--steel); letter-spacing: 0.06em;
-}
-.press-note a { color: var(--off-black); text-decoration: underline; font-weight: 600; }
+    /* footer */
+    .footer {
+      padding: 48px 0 32px;
+      border-top: 1px solid var(--border);
+      font-size: 10px;
+      text-align: center;
+      color: var(--text-dim);
+    }
 
-/* FAQ */
-.faq-list { list-style: none; columns: 2; column-gap: 40px; }
-.faq-item {
-  border-top: 1px solid rgba(0,0,0,0.08); cursor: crosshair;
-  padding: 20px 0; break-inside: avoid; display: block;
-}
-.faq-item:last-child { border-bottom: 1px solid rgba(0,0,0,0.08); }
-.faq-row {
-  display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;
-  font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
-  letter-spacing: 0.02em; text-transform: uppercase; transition: opacity 0.3s ease;
-}
-.faq-item:hover .faq-row { opacity: 0.5; } .faq-item.open .faq-row { opacity: 1; }
-.faq-icon {
-  font-family: 'IBM Plex Mono', monospace; font-size: 16px; font-weight: 400; flex-shrink: 0;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.faq-item.open .faq-icon { transform: rotate(45deg); }
-.faq-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
-.faq-item.open .faq-body { grid-template-rows: 1fr; } .faq-body > div { overflow: hidden; }
-.faq-text {
-  padding-top: 12px; font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px; color: var(--steel); line-height: 1.6; font-weight: 400;
-}
+    /* responsive */
+    @media (max-width: 900px) {
+      .work-grid {
+        grid-template-columns: 1fr;
+      }
+      .services-grid {
+        grid-template-columns: repeat(2,1fr);
+      }
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+    }
+    @media (max-width: 700px) {
+      .nav-menu {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: var(--bg);
+        padding: 20px;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-menu.open {
+        display: flex;
+      }
+      .mobile-btn {
+        display: block;
+      }
+      .container {
+        padding: 0 20px;
+      }
+      .clients-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero {
+        padding-top: 100px;
+      }
+    }
 
-/* FOOTER */
-.footer-section {
-  background: var(--off-black); color: var(--concrete);
-  padding: 64px 24px; font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
-}
-.footer-grid { display: grid; grid-template-columns: 1fr; gap: 40px; }
-.footer-logo-img { height: 32px; width: auto; opacity: 0.7; margin-bottom: 16px; }
-.footer-tagline { margin-top: 12px; color: var(--concrete); font-size: 10px; }
-.footer-presenter { margin-top: 8px; color: var(--cream); font-weight: 600; letter-spacing: 0.1em; font-size: 9px; }
-.footer-links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.footer-links a, .footer-links button {
-  color: var(--concrete); text-decoration: none; transition: opacity 0.2s;
-  background: none; border: none;
-  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
-  text-transform: uppercase; letter-spacing: 0.08em;
-  cursor: crosshair; padding: 0; text-align: left;
-}
-.footer-links a:hover, .footer-links button:hover { opacity: 0.6; }
-.footer-bottom { margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
-
-/* SCANLINES */
-.scanlines { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.025; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.05) 2px, rgba(0,0,0,0.05) 4px); }
-
-/* ============================================
-   MOBILE
-   ============================================ */
-.mobile-menu-btn { display: none; background: none; border: none; font-family: 'IBM Plex Mono', monospace; font-size: 24px; cursor: crosshair; color: var(--off-black); padding: 8px; }
-
-@media (max-width: 767px) {
-  .hero-bg .desktop-img { display: none; }
-  .hero-bg .mobile-img { display: block; }
-
-  .hero-section { min-height: 100svh; }
-  .hero-text { padding: 32px 20px; }
-  .hero-ye { font-size: clamp(70px, 22vw, 140px); margin-bottom: 20px; }
-  .hero-presenter { font-size: 9px; letter-spacing: 0.18em; margin-bottom: 12px; }
-  .hero-details { gap: 20px; }
-  .hero-detail .detail-value { font-size: 12px; }
-  .hero-detail .detail-label { font-size: 7px; }
-
-  .countdown-section { padding: 28px 20px; }
-  .countdown-number { font-size: clamp(40px, 10vw, 56px); }
-
-  .section-block { padding: 48px 20px; }
-  .section-heading { font-size: clamp(40px, 12vw, 60px); margin-bottom: 32px; }
-  .section-num { font-size: 10px; }
-
-  .nav-menu { display: none; }
-  .nav-menu.open {
-    display: flex; flex-direction: column;
-    position: fixed; top: 56px; left: 0; right: 0;
-    background: var(--cream); padding: 28px 20px;
-    border-bottom: 1px solid rgba(0,0,0,0.08); gap: 18px; z-index: 998;
-  }
-  .nav-menu a, .nav-menu .nav-btn { font-size: 12px; letter-spacing: 0.16em; opacity: 1; }
-  .mobile-menu-btn { display: block; }
-
-  .vision-layout { gap: 32px; }
-  .about-text { font-size: 12px; line-height: 1.7; }
-  .vision-heading-wrap { margin-bottom: 20px; }
-
-  .ticket-header-note { font-size: 9px; margin-bottom: 32px; }
-  .ticket-card { padding: 24px 20px 20px; min-height: auto; }
-  .ticket-card.featured { border-width: 1px; }
-  .ticket-name { font-size: 20px; }
-  .ticket-price-text { font-size: 32px; }
-  .ticket-features li { font-size: 8px; padding: 1px 0 1px 10px; }
-  .ticket-btn { font-size: 9px; padding: 10px 14px; }
-
-  .promoters-layout { gap: 32px; }
-  .promoters-side {
-    border-left: none; padding-left: 0;
-    border-top: 1px solid rgba(0,0,0,0.1); padding-top: 24px;
-    display: flex; gap: 24px; flex-wrap: wrap;
-  }
-  .promoters-side .partner-block { margin-bottom: 0; flex: 1; min-width: 120px; }
-  .promoters-side .partner-name { font-size: 12px; }
-  .promoters-side p { font-size: 10px; }
-  .promoters-main { font-size: 12px; }
-  .promoters-main h3 { font-size: 22px; }
-  .promoters-main .stat-number { font-size: 20px; }
-
-  .faq-list { columns: 1; }
-  .faq-item { padding: 18px 0; }
-  .faq-row { font-size: 10px; }
-
-  .footer-section { padding: 48px 20px; }
-}
-
-/* DESKTOP */
-@media (min-width: 768px) {
-  .hero-text { padding: 96px 64px; }
-  .section-block { padding: 100px 64px; }
-  .vision-layout { grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
-  .promoters-layout { grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
-  .ticket-grid { grid-template-columns: 1fr 1fr; }
-  .footer-grid { grid-template-columns: 2fr 1fr 1fr; }
-}
-@media (min-width: 1024px) {
-  .ticket-grid { grid-template-columns: 1fr 1fr 1fr 1fr; }
-}
-</style>
+    /* glitch / stronger effects */
+    @keyframes pulse {
+      0% { text-shadow: 0 0 0px var(--primary); }
+      100% { text-shadow: 0 0 8px var(--primary); }
+    }
+    .glitch-text {
+      animation: pulse 1.2s infinite alternate;
+    }
+    hr {
+      border-color: var(--border);
+      margin: 20px 0;
+    }
+    ::selection {
+      background: var(--primary);
+      color: #000;
+    }
+  </style>
 </head>
-
 <body>
-
-<div class="preloader" id="preloader">
-  <img src="opera.png" alt="Access Opera" class="preloader-logo-img" />
-  <div class="preloader-divider"></div>
-  <img src="opera.png" alt="Access Opera" class="preloader-logo-img" style="height: 32px; opacity: 0.4;" />
-</div>
-<div class="seat-map-overlay" id="seatMapOverlay">
-  <button class="seat-map-close" id="seatMapClose">✕</button>
-  <img src="seat-map.png" alt="Venue Seat Map" id="seatMapImg" />
-</div>
+<div class="grid-bg"></div>
 <div class="scanlines"></div>
 
 <nav class="nav-bar">
-  <div class="nav-left">
-    <img src="opera.png" alt="Access Opera" class="nav-logo-img" />
+  <div class="nav-logo">
+    <img src="opera.png" alt="access opera" style="height: 36px;">
   </div>
-  <button class="mobile-menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+  <button class="mobile-btn" id="menuToggle">≡</button>
   <ul class="nav-menu" id="navMenu">
-    <li><a href="#vision">VISION</a></li>
-    <li><button class="nav-btn" id="seatMapHeaderBtn">MAP</button></li>
-    <li><a href="#tickets">TICKETS</a></li>
-    <li><a href="#promoters">PROMOTERS</a></li>
-    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#roster">roster</a></li>
+    <li><a href="#media">media</a></li>
+    <li><a href="#services">services</a></li>
+    <li><a href="#contact">contact</a></li>
   </ul>
 </nav>
 
-<section class="hero-section">
-  <div class="hero-bg">
-    <img src="front.jpg" alt="YE" class="desktop-img" />
-    <img src="front-mobile.jpg" alt="YE" class="mobile-img" />
-  </div>
-  <div class="hero-gradient"></div>
-  <div class="hero-text">
-    <p class="hero-presenter">ACCESS OPERA PRESENTS</p>
-    <h1 class="hero-ye">YE</h1>
-    <div class="hero-details">
-      <div class="hero-detail"><span class="detail-value">30.05.26</span><span class="detail-label">DATE</span></div>
-      <div class="hero-detail"><span class="detail-value">ATATÜRK OLYMPIC</span><span class="detail-label">VENUE</span></div>
-      <div class="hero-detail"><span class="detail-value">20:00</span><span class="detail-label">SHOW</span></div>
-      <div class="hero-detail"><span class="detail-value">ISTANBUL</span><span class="detail-label">CITY</span></div>
-    </div>
-  </div>
-</section>
-
-<section class="countdown-section">
-  <div class="countdown-row">
-    <div class="countdown-unit"><div class="countdown-number" id="days">00</div><div class="countdown-label">DAYS</div></div>
-    <div class="countdown-unit"><div class="countdown-number" id="hours">00</div><div class="countdown-label">HOURS</div></div>
-    <div class="countdown-unit"><div class="countdown-number" id="minutes">00</div><div class="countdown-label">MIN</div></div>
-    <div class="countdown-unit"><div class="countdown-number" id="seconds">00</div><div class="countdown-label">SEC</div></div>
-  </div>
-</section>
-
-<div class="reveal">
-<section id="vision" class="section-block">
-  <div class="vision-layout">
-    <div class="vision-left">
-      <div class="vision-heading-wrap">
-        <p class="section-num">01</p>
-        <h2 class="section-heading">THE<br>VISION</h2>
+<main>
+  <div class="container">
+    <div class="hero">
+      <div class="hero-glow"></div>
+      <div>
+        <div class="hero-title">
+          access <span>opera</span><br>
+          futureshaped
+        </div>
+        <div class="hero-sub">
+          istanbul / worldwide — global talent agency & cinematic production. <br>
+          we engineer cultural moments. stronger. faster. harder.
+        </div>
+        <div class="btn-group">
+          <a href="#roster" class="btn-primary">discover roster</a>
+          <a href="#contact" class="btn-outline">collide with us</a>
+        </div>
       </div>
-  <div class="about-text">
-  <p><span class="tag-mono">ISTANBUL</span> YE is widely regarded as one of the most influential artists of the past two decades. His work has shaped music, fashion, design and global culture. His live performances are rare and known for their bold artistic vision and immersive scale.</p>
-  <p>This will not be a standard concert. The globe stage returns — a rotating sphere designed with Aus Taylor, YE performing masked atop a world that turns beneath him. The crowd surrounds 360 degrees. Fog. Live-corrected lights. Nothing automated.</p>
-  <p>This marks his first performance in Turkey and one of the largest stadium productions the country has ever seen. An experience designed for presence.</p>
-</div>
     </div>
-    <div class="embed-box">
-      <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/album/5poA9SAx0Xiz1cf17fWBLS?utm_source=generator" width="100%" height="352" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-    </div>
-  </div>
-</section>
-</div>
 
-<div class="divider-thick"></div>
-
-<div class="reveal">
-<section id="tickets" class="section-block">
-  <p class="section-num">02</p>
-  <h2 class="section-heading">TICKETS</h2>
-  <p class="ticket-header-note">
-    AVAILABLE AT 
-    <a href="https://bugece.co" target="_blank" rel="noopener">BUGECE.CO</a>
-    <span class="sep">&</span>
-    <a href="https://ticketofis.com" target="_blank" rel="noopener">TICKETOFIS.COM</a>
-  </p>
-  <div class="ticket-grid">
-    <div class="ticket-card">
-      <div class="ticket-label">TIER 1</div>
-      <div class="ticket-name">GENERAL<br>ADMISSION</div>
-      <div class="ticket-price-text">₺2.500 <span class="currency">TRY</span></div>
-      <div class="ticket-info-text">Upper Bowl</div>
-      <div class="ticket-divider"></div>
-      <ul class="ticket-features"><li>Stadium access</li><li>Upper bowl viewing</li><li>General facilities</li></ul>
-      <div class="ticket-btn-wrap"><a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a></div>
-    </div>
-    <div class="ticket-card">
-      <div class="ticket-label">TIER 2</div>
-      <div class="ticket-name">SEATED</div>
-      <div class="ticket-price-text">₺4.000 <span class="currency">TRY</span></div>
-      <div class="ticket-info-text">Lower Bowl</div>
-      <div class="ticket-divider"></div>
-      <ul class="ticket-features"><li>Reserved seating</li><li>Lower bowl sightlines</li><li>Priority entry lane</li></ul>
-      <div class="ticket-btn-wrap"><a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a></div>
-    </div>
-    <div class="ticket-card">
-      <div class="ticket-label">LIMITED</div>
-      <div class="ticket-name">VIP<br>FLOOR</div>
-      <div class="ticket-price-text">₺8.500 <span class="currency">TRY</span></div>
-      <div class="ticket-info-text">Standing Floor</div>
-      <div class="ticket-divider"></div>
-      <ul class="ticket-features"><li>Floor access</li><li>Dedicated bar</li><li>VIP entrance</li><li>Limited edition merchandise</li></ul>
-      <div class="ticket-btn-wrap"><a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a></div>
-    </div>
-    <div class="ticket-card featured">
-      <div class="ticket-label">EXCLUSIVE</div>
-      <div class="ticket-name">VIP<br>LOUNGE</div>
-      <div class="ticket-price-text">₺15.000 <span class="currency">TRY</span></div>
-      <div class="ticket-info-text">Premium Hospitality</div>
-      <div class="ticket-divider"></div>
-      <ul class="ticket-features"><li>Premium viewing deck</li><li>Open bar & dining</li><li>Private entrance</li><li>Exclusive merchandise</li><li>Parking included</li></ul>
-      <div class="ticket-btn-wrap"><a href="https://bugece.co" class="ticket-btn" target="_blank" rel="noopener">GET TICKETS</a></div>
-    </div>
-  </div>
-</section>
-</div>
-
-<div class="divider"></div>
-
-<div class="reveal">
-<section id="promoters" class="section-block">
-  <p class="section-num">03</p>
-  <h2 class="section-heading">PROMOTERS</h2>
-  <div class="promoters-layout">
-    <div class="promoters-main">
-      <p class="lead-tag">LEAD PROMOTER</p>
-      <h3>ACCESS<br>OPERA</h3>
-      <div class="ao-stats">
-        <div class="stat"><span class="stat-number">15+</span><span class="stat-label">Major Events</span></div>
-        <div class="stat"><span class="stat-number">500K+</span><span class="stat-label">Attendees</span></div>
-        <div class="stat"><span class="stat-number">2026</span><span class="stat-label">Landmark Year</span></div>
+    <!-- SIGNED CLIENTS -->
+    <section id="roster">
+      <div class="section-label">/ signed & represented</div>
+      <div class="section-title">the architects</div>
+      <div class="clients-grid">
+        <div class="client-card"><div class="client-name">ye</div><div class="client-discipline">visionary / composer</div></div>
+        <div class="client-card"><div class="client-name">rosalía</div><div class="client-discipline">flamenco futurist</div></div>
+        <div class="client-card"><div class="client-name">travis scott</div><div class="client-discipline">raging utopia</div></div>
+        <div class="client-card"><div class="client-name">björk</div><div class="client-discipline">digital nature</div></div>
+        <div class="client-card"><div class="client-name">floating points</div><div class="client-discipline">electronic architect</div></div>
+        <div class="client-card"><div class="client-name">ars industrial</div><div class="client-discipline">live visual ensemble</div></div>
       </div>
-      <p>Access Opera is the exclusive lead promoter for YE at Atatürk Olympic Stadium. As one of Turkey's premier live entertainment companies, Access Opera has delivered landmark stadium shows and built a reputation for flawless production at the highest level.</p>
-      <p>For all media inquiries, brand partnerships, and hospitality packages:</p>
-      <p><a href="mailto:info@accessopera.com">INFO@ACCESSOPERA.COM</a></p>
-      <div class="press-note">Media assets and press accreditation — <a href="mailto:press@accessopera.com">REQUEST HERE</a></div>
-    </div>
-    <div class="promoters-side">
-      <div class="partner-block"><span class="partner-name">TEMACC</span><p>Event production and artist management. Large-scale stadium logistics and operations.</p></div>
-      <div class="partner-block"><span class="partner-name">ILS VISION</span><p>Stage design and technical production. Immersive visual environments and lighting.</p></div>
-    </div>
-  </div>
-</section>
-</div>
+      <div style="margin-top: 32px; font-size: 11px; color: var(--text-dim); border-left: 1px solid var(--border); padding-left: 16px;">
+        + emerging forces · full roster available upon request
+      </div>
+    </section>
 
-<div class="divider"></div>
+    <!-- BEST MEDIA WORK / TRAILERS (AKIRA / TRON VIBE) -->
+    <section id="media">
+      <div class="section-label">/ selected works | trailers</div>
+      <div class="section-title">cinematic proofs</div>
+      <div class="work-grid">
+        <div class="work-card">
+          <div class="work-vid">
+            <!-- youtube trailer placeholder: stronger aesthetic, futuristic -->
+            <iframe src="https://www.youtube.com/embed/PsO6ZnUyUYM?autoplay=0&controls=1&modestbranding=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <div class="work-info">
+            <div class="work-title">『 stronger: live 2025 』</div>
+            <div class="work-desc">360° global stage / volumetric lighting / 4k holographic simulation. directed by access opera visuals.</div>
+          </div>
+        </div>
+        <div class="work-card">
+          <div class="work-vid">
+            <iframe src="https://www.youtube.com/embed/E8rLDiF-n3c?autoplay=0&controls=1" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <div class="work-info">
+            <div class="work-title">『 chrome odyssey | tron legacy 』</div>
+            <div class="work-desc">live orchestral + digital deconstruction. istanbul bienal immersive commission.</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 32px; text-align: right;">
+        <a href="#" style="color: var(--primary); text-decoration: none; font-size: 12px; letter-spacing: 0.2em;">+ full archive →</a>
+      </div>
+    </section>
 
-<div class="reveal">
-<section id="faq" class="section-block">
-  <p class="section-num">04</p>
-  <h2 class="section-heading">FAQ</h2>
-  <div class="faq-list">
-    <div class="faq-item"><div class="faq-row"><span>When does the general ticket sale start?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">The general ticket sale will start soon. Exact dates are announced on the official ticket page.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>What are the ticket prices?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">Ticket prices will be published when ticket sales open. Check Bugece or Ticketofis for current pricing.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>How many tickets can I buy?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">A maximum of 6 tickets per purchase per show is allowed. Orders that exceed the limit may be cancelled.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>Where can I buy tickets?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">Tickets are available exclusively through Bugece and Ticketofis. Do not buy tickets from unofficial resale platforms.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>Is there a ticket limit per person?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">Yes. Each person can purchase a maximum of 6 tickets per show.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>When will I receive my tickets?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">After purchasing your ticket you will receive an order confirmation. Tickets will be available for download shortly before the event.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>Do I need to print my tickets?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">No. Tickets can be scanned directly from your phone at the entrance.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>Are VIP tickets available?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">Yes. Various VIP packages are available including VIP Floor and VIP Lounge.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>Can I resell my tickets?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">Tickets can only be resold through official resale partners such as TicketSwap or Tixel.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>What time does the concert start?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">Doors open at 18:00. Show begins at 20:00 sharp. Times are subject to change.</div></div></div></div>
-  </div>
-</section>
-</div>
+    <!-- SERVICES (inspired by CAA/WME grid) -->
+    <section id="services">
+      <div class="section-label">/ engine room</div>
+      <div class="section-title">services</div>
+      <div class="services-grid">
+        <div class="service-item"><div class="service-title">talent booking</div><div class="service-desc">global tour routing · festival curation · exclusive representation</div></div>
+        <div class="service-item"><div class="service-title">live production</div><div class="service-desc">stadium-scale stages · realtime led content · immersive design</div></div>
+        <div class="service-item"><div class="service-title">film & trailers</div><div class="service-desc">cinematic campaigns · teaser direction · akira-grade vfx</div></div>
+        <div class="service-item"><div class="service-title">brand partnerships</div><div class="service-desc">collision strategy · cultural resonance · cross-industry activation</div></div>
+      </div>
+    </section>
 
-<footer class="footer-section">
-  <div class="footer-grid">
-    <div>
-      <img src="opera.png" alt="Access Opera" class="footer-logo-img" />
-      <p class="footer-tagline">YE · ISTANBUL — 30.05.26<br />ATATÜRK OLYMPIC STADIUM</p>
-      <p class="footer-presenter">PRESENTED BY ACCESS OPERA</p>
-    </div>
-    <div>
-      <ul class="footer-links">
-        <li><a href="https://bugece.co" target="_blank" rel="noopener">TICKETS — BUGECE</a></li>
-        <li><a href="https://ticketofis.com" target="_blank" rel="noopener">TICKETS — TICKETOFIS</a></li>
-        <li><a href="#vision">VISION</a></li>
-        <li><button id="seatMapFooterBtn">SEAT MAP</button></li>
-        <li><a href="#promoters">PROMOTERS</a></li>
-        <li><a href="#faq">FAQ</a></li>
-      </ul>
-    </div>
-    <div>
-      <ul class="footer-links">
-        <li><a href="#">PRIVACY</a></li>
-        <li><a href="#">TERMS</a></li>
-        <li><a href="mailto:info@accessopera.com">CONTACT</a></li>
-        <li><a href="mailto:press@accessopera.com">PRESS</a></li>
-      </ul>
-    </div>
+    <!-- CONTACT with futuristic edge -->
+    <section id="contact">
+      <div class="section-label">/ interface</div>
+      <div class="section-title">connect</div>
+      <div class="contact-grid">
+        <div>
+          <div class="contact-item"><div class="contact-label">general & bookings</div><div class="contact-value"><a href="mailto:orbit@accessopera.com">orbit@accessopera.com</a></div></div>
+          <div class="contact-item"><div class="contact-label">press & partnerships</div><div class="contact-value"><a href="mailto:resonance@accessopera.com">resonance@accessopera.com</a></div></div>
+          <div class="contact-item"><div class="contact-label">istanbul base</div><div class="contact-value">maslak / istanbul · tr</div></div>
+          <div class="social-links">
+            <a href="#">ig</a> <a href="#">x</a> <a href="#">linkedin</a> <a href="#">wechat</a>
+          </div>
+        </div>
+        <div style="border-left: 1px solid var(--border); padding-left: 32px;">
+          <div class="contact-item"><div class="contact-label">emergency / talent line</div><div class="contact-value">+90 212 000 26 30</div></div>
+          <div class="contact-item"><div class="contact-label">new business</div><div class="contact-value"><a href="mailto:velocity@accessopera.com">velocity@accessopera.com</a></div></div>
+          <hr>
+          <div style="font-size: 10px; color: var(--primary); letter-spacing: 0.2em;">we reply within 24 cycles</div>
+        </div>
+      </div>
+    </section>
   </div>
-  <div class="footer-bottom"><span>© 2026 ACCESS OPERA</span><span>YE · ISTANBUL</span></div>
-</footer>
+  <footer class="footer">
+    <div class="container">
+      <div>access opera © 2026 — stronger than yesterday. all resonance reserved.</div>
+      <div style="margin-top: 12px; display: flex; justify-content: center; gap: 24px;">
+        <span>privacy</span> <span>terms of collision</span> <span>accessibility</span>
+      </div>
+    </div>
+  </footer>
+</main>
 
 <script>
-(function() {
-  var preloader = document.getElementById('preloader');
-  window.addEventListener('load', function() { setTimeout(function() { preloader.classList.add('hidden'); }, 800); });
-  setTimeout(function() { preloader.classList.add('hidden'); }, 4000);
+  (function() {
+    // mobile toggle
+    const toggle = document.getElementById('menuToggle');
+    const menu = document.getElementById('navMenu');
+    if(toggle && menu) {
+      toggle.addEventListener('click', () => {
+        menu.classList.toggle('open');
+      });
+      document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', () => menu.classList.remove('open'));
+      });
+    }
 
-  var eventDate = new Date('2026-05-30T20:00:00+03:00').getTime();
-  var prevValues = ['', '', '', ''];
-  function pad(n) { return String(Math.max(0, Math.floor(n))).padStart(2, '0'); }
-  function updateCountdown() {
-    var d = Math.max(0, eventDate - Date.now());
-    var values = [pad(d/86400000), pad((d%86400000)/3600000), pad((d%3600000)/60000), pad((d%60000)/1000)];
-    var ids = ['days', 'hours', 'minutes', 'seconds'];
-    ids.forEach(function(id, i) {
-      var el = document.getElementById(id);
-      if (!el) return;
-      if (values[i] !== prevValues[i]) {
-        el.classList.add('glitch');
-        setTimeout(function() { el.classList.remove('glitch'); }, 200);
-        el.style.opacity = '0';
-        setTimeout(function() { el.textContent = values[i]; el.style.opacity = '1'; }, 100);
-        prevValues[i] = values[i];
-      } else if (prevValues[i] === '') { el.textContent = values[i]; prevValues[i] = values[i]; }
+    // smooth scroll with offset
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if(target) {
+          e.preventDefault();
+          const offset = 80;
+          window.scrollTo({
+            top: target.offsetTop - offset,
+            behavior: 'smooth'
+          });
+        }
+      });
     });
-  }
-  updateCountdown(); setInterval(updateCountdown, 1000);
 
-  document.querySelectorAll('.faq-item').forEach(function(item) { item.addEventListener('click', function() { item.classList.toggle('open'); }); });
+    // slight glitch effect on hero title
+    const heroSpan = document.querySelector('.hero-title span');
+    if(heroSpan) {
+      setInterval(() => {
+        heroSpan.style.textShadow = '0 0 6px #00f0ff';
+        setTimeout(() => heroSpan.style.textShadow = '0 0 0px #00f0ff', 150);
+      }, 1800);
+    }
 
-  var menuBtn = document.getElementById('menuBtn'), navMenu = document.getElementById('navMenu');
-  if (menuBtn && navMenu) {
-    menuBtn.addEventListener('click', function() { navMenu.classList.toggle('open'); });
-    navMenu.querySelectorAll('a, button').forEach(function(el) { el.addEventListener('click', function() { navMenu.classList.remove('open'); }); });
-  }
-
-  var overlay = document.getElementById('seatMapOverlay'), seatMapImg = document.getElementById('seatMapImg'),
-      seatMapClose = document.getElementById('seatMapClose'), seatMapHeaderBtn = document.getElementById('seatMapHeaderBtn'),
-      seatMapFooterBtn = document.getElementById('seatMapFooterBtn');
-  function openSeatMap() { if (overlay) overlay.classList.add('open'); }
-  function closeSeatMap() { if (overlay) overlay.classList.remove('open'); }
-  if (seatMapHeaderBtn) seatMapHeaderBtn.addEventListener('click', openSeatMap);
-  if (seatMapFooterBtn) seatMapFooterBtn.addEventListener('click', openSeatMap);
-  if (seatMapClose) seatMapClose.addEventListener('click', closeSeatMap);
-  if (overlay) overlay.addEventListener('click', function(e) { if (e.target === overlay) closeSeatMap(); });
-  if (seatMapImg) seatMapImg.onerror = function() { seatMapImg.style.display = 'none'; };
-
-  var revealElements = document.querySelectorAll('.reveal');
-  var observer = new IntersectionObserver(function(entries) { entries.forEach(function(entry) { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.12 });
-  revealElements.forEach(function(el) { observer.observe(el); });
-})();
+    // reveal on scroll (simple fade)
+    const sections = document.querySelectorAll('section');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    sections.forEach(section => {
+      section.style.opacity = '0';
+      section.style.transform = 'translateY(20px)';
+      section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(section);
+    });
+    // trigger first ones
+    setTimeout(() => {
+      sections.forEach(s => { if(s.getBoundingClientRect().top < window.innerHeight) s.style.opacity = '1', s.style.transform = 'translateY(0)'; });
+    }, 100);
+  })();
 </script>
 </body>
 </html>
