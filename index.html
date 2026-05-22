@@ -1,4 +1,3 @@
-HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,277 +10,354 @@ HTML
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; text-transform: lowercase !important; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --cream: #f0ede8;
-  --off-black: #1a1a1a;
-  --void: #0d0d0d;
-  --concrete: #9e9e9e;
-  --steel: #666666;
-  --active-orange: #ff5500;
-  --line: rgba(26,26,26,0.12);
+  --void: #060608;
+  --surface: #0e0f12;
+  --panel: #13151a;
+  --pure-white: #ffffff;
+  --dim-white: rgba(255, 255, 255, 0.85);
+  --concrete: #8a8a93;
+  --steel: #4b4b54;
+  --stadium-orange: #ff4500;
+  --stadium-glow: rgba(255, 69, 0, 0.15);
+  --line: rgba(255, 255, 255, 0.07);
 }
 
 html {
-  background: var(--cream);
+  background: var(--void);
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
 }
 
 body {
-  font-family: 'ibm plex mono', monospace;
-  background: var(--cream);
-  color: var(--off-black);
-  line-height: 1.4;
+  font-family: 'IBM Plex Mono', monospace;
+  background: var(--void);
+  color: var(--dim-white);
+  line-height: 1.5;
   letter-spacing: 0.02em;
   overflow-x: hidden;
+  cursor: none; /* Hide default cursor to enable customized experience */
 }
 
-/* NAVIGATION */
+/* CUSTOM REACTIVE CURSOR SYSTEM */
+#cursor-dot {
+  position: fixed; width: 6px; height: 6px;
+  background: var(--stadium-orange); border-radius: 50%;
+  pointer-events: none; z-index: 10000;
+  transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+#cursor-ring {
+  position: fixed; width: 34px; height: 34px;
+  border: 1px solid rgba(255, 69, 0, 0.3); border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s, border-color 0.3s;
+}
+
+/* SCREEN GRAPHICS & BACKDROP GLOWS */
+.scanlines {
+  position: fixed; inset: 0; pointer-events: none; z-index: 999;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px);
+}
+.ambient-glow-1 {
+  position: absolute; top: -10%; left: 20%; width: 60vw; height: 60vw;
+  background: radial-gradient(circle, var(--stadium-glow) 0%, transparent 70%);
+  pointer-events: none; z-index: 0; filter: blur(40px);
+}
+
+/* FIXED NAVIGATION */
 .nav-bar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 999;
-  background: var(--cream);
+  position: fixed; top: 0; left: 0; right: 0; z-index: 995;
+  background: rgba(6, 6, 8, 0.8); backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
-  height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 64px; text-transform: lowercase;
 }
 .nav-logo {
-  font-size: 20px; font-weight: 700;
-  letter-spacing: -0.04em;
-  color: var(--off-black);
-  text-decoration: none;
+  font-size: 15px; font-weight: 700; letter-spacing: -0.02em;
+  color: var(--pure-white); text-decoration: none; display: flex; align-items: center; gap: 8px;
 }
-.nav-menu { display: flex; gap: 28px; list-style: none; align-items: center; }
+.nav-logo .dot { width: 6px; height: 6px; background: var(--stadium-orange); border-radius: 50%; }
+.nav-menu { display: flex; gap: 32px; list-style: none; align-items: center; }
 .nav-menu a {
-  font-size: 11px;
-  letter-spacing: 0.05em;
-  text-decoration: none;
-  color: var(--off-black);
-  padding: 4px 0;
-  border-bottom: 1px solid transparent;
-  transition: opacity 0.2s;
-  font-weight: 500; opacity: 0.7;
+  font-size: 11px; text-decoration: none; color: var(--concrete);
+  font-weight: 500; transition: color 0.2s;
 }
-.nav-menu a:hover { opacity: 1; border-bottom: 1px solid var(--off-black); }
+.nav-menu a:hover { color: var(--pure-white); }
 
-/* HERO SECT */
+/* HERO SECTION WITH INFINITE MOVEMENT */
 .hero-section {
-  margin-top: 56px;
-  min-height: 80vh;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  background: var(--cream);
+  position: relative; min-height: 100vh; display: flex; flex-direction: column;
+  justify-content: flex-end; padding: 120px 40px 80px 40px; overflow: hidden;
   border-bottom: 1px solid var(--line);
-  padding: 80px 24px;
-  justify-content: flex-end;
 }
-.hero-text { max-width: 900px; }
-.hero-presenter {
-  font-size: 11px;
-  letter-spacing: 0.15em;
-  color: var(--steel);
-  margin-bottom: 16px;
-  font-weight: 500;
+.hero-content { position: relative; z-index: 10; max-width: 1100px; text-transform: lowercase; }
+.hero-eyebrow {
+  font-size: 11px; font-weight: 600; color: var(--stadium-orange);
+  letter-spacing: 0.15em; margin-bottom: 24px; display: flex; align-items: center; gap: 12px;
 }
+.hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--stadium-orange); }
 .hero-title {
-  font-size: clamp(38px, 6.5vw, 90px);
-  font-weight: 700; color: var(--off-black);
-  line-height: 0.95; letter-spacing: -0.04em;
-  margin-bottom: 32px;
+  font-size: clamp(40px, 8.5vw, 110px); font-weight: 700; color: var(--pure-white);
+  line-height: 0.95; letter-spacing: -0.04em; margin-bottom: 32px;
 }
 .hero-title span.hollow {
-  -webkit-text-stroke: 1px var(--off-black);
-  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3); color: transparent;
 }
 
-/* SECTION STRUCTURE */
-.section-block { width: 100%; position: relative; padding: 80px 24px; border-bottom: 1px solid var(--line); }
-.section-num {
-  font-size: 11px; color: var(--steel); letter-spacing: 0.1em; margin-bottom: 12px; font-weight: 600; opacity: 0.6;
+/* HIGH VELOCITY MOTION TICKER */
+.ticker-wrap {
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  background: var(--surface); height: 44px; display: flex; align-items: center;
+  overflow: hidden; position: relative; z-index: 20; text-transform: lowercase;
 }
+.ticker-track {
+  display: flex; white-space: nowrap; animation: marquee infinite linear 25s;
+}
+.ticker-track span {
+  font-size: 10px; font-weight: 500; color: var(--concrete);
+  padding: 0 32px; display: flex; align-items: center; gap: 12px;
+}
+.ticker-track span::after { content: '///'; color: var(--steel); margin-left: 24px; }
+.ticker-track span.highlight { color: var(--pure-white); }
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* SECTION ARCHITECTURE */
+.section-block { width: 100%; position: relative; padding: 120px 40px; border-bottom: 1px solid var(--line); }
+.section-num { font-size: 11px; color: var(--stadium-orange); font-weight: 600; margin-bottom: 16px; }
 .section-heading {
-  font-size: clamp(32px, 5vw, 64px); font-weight: 700;
-  letter-spacing: -0.03em; line-height: 1.0; margin-bottom: 48px;
+  font-size: clamp(36px, 6vw, 76px); font-weight: 700; color: var(--pure-white);
+  letter-spacing: -0.03em; line-height: 1.0; margin-bottom: 64px; text-transform: lowercase;
 }
 
-/* CONTENT LAYOUTS */
-.layout-split { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start; }
-.body-text { font-size: 14px; line-height: 1.7; letter-spacing: 0.01em; color: var(--off-black); }
+/* EDITORIAL GRID BREAKS */
+.layout-split { display: grid; grid-template-columns: 1fr; gap: 48px; align-items: start; }
+.body-text { font-size: 15px; line-height: 1.75; color: var(--dim-white); }
 .body-text p { margin-bottom: 24px; }
+.body-text strong { color: var(--pure-white); font-weight: 600; }
 
-/* MAP FRAME */
-.globe-container {
-  background: rgba(0, 0, 0, 0.01);
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  height: 480px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
+/* RE-ENGINEERED BORDERLESS GLOBAL NODE MAP */
+.globe-viewport {
+  position: relative; width: 100%; height: 540px;
+  display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle, rgba(19,21,26,0.5) 0%, transparent 80%);
 }
-#globe-canvas { display: block; cursor: grab; }
-.globe-legend {
-  position: absolute; bottom: 16px; left: 16px;
-  display: flex; flex-direction: column; gap: 6px;
+#globe-canvas { display: block; filter: drop-shadow(0 0 30px rgba(255, 69, 0, 0.05)); }
+.globe-overlay-data {
+  position: absolute; bottom: 24px; left: 0; display: flex; flex-direction: column; gap: 8px;
 }
-.legend-item { display: flex; align-items: center; gap: 8px; font-size: 10px; color: var(--steel); }
-.legend-dot { width: 6px; height: 6px; border-radius: 50%; }
-.legend-dot.orange { background: var(--active-orange); }
+.data-node { display: flex; align-items: center; gap: 12px; font-size: 11px; color: var(--concrete); text-transform: lowercase; }
+.data-node .ping {
+  width: 8px; height: 8px; background: var(--stadium-orange); border-radius: 50%;
+  box-shadow: 0 0 12px var(--stadium-orange); animation: nodePulse 2s infinite;
+}
+@keyframes nodePulse {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.8); opacity: 0.5; }
+}
 
-/* SERVICES EXPERT MATRIX */
-.services-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
-.services-card {
-  border: 1px solid var(--line);
-  padding: 32px 24px; background: rgba(0,0,0,0.01);
+/* INTERACTIVE REACTIVE SERVICES GRID */
+.services-stack { display: flex; flex-direction: column; width: 100%; }
+.services-row {
+  display: grid; grid-template-columns: 1fr; padding: 32px 0;
+  border-bottom: 1px solid var(--line); position: relative;
+  transition: padding-left 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  text-transform: lowercase;
 }
-.services-label { font-size: 11px; color: var(--steel); font-weight: 600; margin-bottom: 16px; }
-.services-name { font-size: 22px; font-weight: 700; color: var(--off-black); margin-bottom: 16px; }
-.services-list { list-style: none; padding-left: 0; }
-.services-list li { font-size: 13px; color: var(--steel); padding: 4px 0; position: relative; padding-left: 16px; }
-.services-list li::before { content: "—"; position: absolute; left: 0; color: var(--concrete); }
+.services-row:first-child { border-top: 1px solid var(--line); }
+.services-row:hover {
+  padding-left: 24px; background: rgba(255,255,255,0.01);
+}
+.services-row::after {
+  content: ''; position: absolute; bottom: -1px; left: 0; width: 0; height: 1px;
+  background: var(--stadium-orange); transition: width 0.4s ease;
+}
+.services-row:hover::after { width: 100%; }
 
-/* ARCHIVE CARDS */
-.archive-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.svc-header { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.svc-idx { font-size: 11px; color: var(--steel); font-weight: 600; }
+.svc-title { font-size: 26px; font-weight: 700; color: var(--pure-white); }
+.svc-details { list-style: none; display: flex; flex-wrap: wrap; gap: 12px 24px; }
+.svc-details li { font-size: 13px; color: var(--concrete); display: flex; align-items: center; gap: 8px; }
+.svc-details li::before { content: '→'; color: var(--stadium-orange); }
+
+/* PRODUCTION ARCHIVE POSTERS FRAME */
+.archive-grid { display: grid; grid-template-columns: 1fr; gap: 24px; text-transform: lowercase; }
 .archive-card {
-  border: 1px solid var(--line); padding: 40px 24px;
-  display: flex; flex-direction: column; justify-content: space-between;
-  min-height: 180px; background: rgba(0,0,0,0.01);
+  position: relative; border: 1px solid var(--line); background: var(--surface);
+  padding: 48px 32px; display: flex; flex-direction: column; justify-content: space-between;
+  min-height: 240px; overflow: hidden; transition: border-color 0.3s, transform 0.3s;
 }
-.archive-tag { font-size: 10px; color: var(--steel); font-weight: 600; }
-.archive-title { font-size: 20px; font-weight: 700; margin-top: 32px; }
+.archive-card:hover {
+  border-color: rgba(255, 69, 0, 0.4); transform: translateY(-4px);
+}
+.archive-bg-glow {
+  position: absolute; bottom: -50px; right: -50px; width: 180px; height: 180px;
+  background: radial-gradient(circle, rgba(255,69,0,0.08) 0%, transparent 70%);
+  pointer-events: none; transition: transform 0.4s ease;
+}
+.archive-card:hover .archive-bg-glow { transform: scale(1.5); }
+.archive-tag { font-size: 11px; color: var(--stadium-orange); font-weight: 600; letter-spacing: 0.05em; }
+.archive-title { font-size: 28px; font-weight: 700; color: var(--pure-white); margin-top: 40px; position: relative; z-index: 5; }
 
-/* INPUT FORM */
-.form-box { max-width: 600px; }
-.form-group { margin-bottom: 16px; }
+/* HIGH-CONTRAST INTAKE FORM FIELDS */
+.form-box { max-width: 700px; text-transform: lowercase; }
+.form-group { margin-bottom: 24px; position: relative; }
 .form-group input, .form-group textarea {
-  width: 100%; background: transparent;
-  border: 1px solid var(--line); padding: 14px;
-  font-family: inherit; font-size: 13px; color: var(--off-black);
-  outline: none; transition: border-color 0.2s;
+  width: 100%; background: transparent; border: none;
+  border-bottom: 1px solid var(--line); padding: 16px 4px;
+  font-family: inherit; font-size: 14px; color: var(--pure-white);
+  outline: none; transition: border-color 0.3s;
 }
-.form-group input:focus, .form-group textarea:focus { border-color: var(--off-black); }
+.form-group input:focus, .form-group textarea:focus { border-bottom-color: var(--stadium-orange); }
+.submit-btn-wrap { margin-top: 40px; }
 .submit-button {
-  background: var(--off-black); color: var(--cream);
-  border: none; padding: 14px 28px; font-family: inherit;
-  font-size: 11px; font-weight: 600; cursor: pointer; transition: opacity 0.2s;
+  background: transparent; color: var(--pure-white);
+  border: 1px solid var(--stadium-orange); padding: 16px 40px; font-family: inherit;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.1em; cursor: none;
+  position: relative; overflow: hidden; transition: color 0.3s;
 }
-.submit-button:hover { opacity: 0.9; }
+.submit-button::before {
+  content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+  background: var(--stadium-orange); z-index: -1; transition: left 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.submit-button:hover { color: var(--void); }
+.submit-button:hover::before { left: 0; }
 
-/* FOOTER */
-.footer { padding: 64px 24px; background: var(--off-black); color: var(--concrete); }
-.footer-grid { display: grid; grid-template-columns: 1fr; gap: 40px; }
-.footer-logo { font-size: 32px; font-weight: 700; color: var(--cream); letter-spacing: -0.04em; }
-.footer-text { margin-top: 8px; color: var(--concrete); font-size: 12px; max-width: 400px; line-height: 1.6; }
-.footer-bottom { margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; font-size: 10px; }
+/* SYSTEM FOOTER */
+.footer { padding: 80px 40px; background: var(--surface); border-top: 1px solid var(--line); text-transform: lowercase; }
+.footer-logo { font-size: 24px; font-weight: 700; color: var(--pure-white); margin-bottom: 16px; }
+.footer-text { color: var(--concrete); font-size: 12px; max-width: 440px; line-height: 1.7; }
+.footer-bottom {
+  margin-top: 64px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.04);
+  display: flex; justify-content: space-between; font-size: 11px; color: var(--steel);
+}
 
-/* RESPONSIVE LAYOUTS */
+/* SCREEN LAYOUT SCALE ADAPTATIONS */
 @media (min-width: 768px) {
-  .layout-split { grid-template-columns: 1fr 1fr; gap: 64px; }
-  .services-grid { grid-template-columns: 1fr 1fr 1fr; }
-  .archive-grid { grid-template-columns: 1fr 1fr; }
-  .footer-grid { grid-template-columns: 2fr 1fr; }
+  .layout-split { grid-template-columns: 1fr 1fr; gap: 80px; }
+  .services-row { grid-template-columns: 1fr 2fr; padding: 40px 0; align-items: center; }
+  .svc-header { margin-bottom: 0; }
+  .archive-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
 }
 </style>
 </head>
 
 <body>
 
+<div class="scanlines"></div>
+<div class="ambient-glow-1"></div>
+
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
 <nav class="nav-bar">
-  <div class="nav-left">
-    <a href="#" class="nav-logo">access opera</a>
-  </div>
+  <a href="#" class="nav-logo">access opera <div class="dot"></div></a>
   <ul class="nav-menu">
-    <li><a href="#profile">profile</a></li>
-    <li><a href="#network">global focus</a></li>
-    <li><a href="#services">services</a></li>
-    <li><a href="#archive">archive</a></li>
-    <li><a href="#contact">contact</a></li>
+    <li><a href="#profile" class="hover-target">profile</a></li>
+    <li><a href="#network" class="hover-target">operations</a></li>
+    <li><a href="#services" class="hover-target">services</a></li>
+    <li><a href="#archive" class="hover-target">archive</a></li>
+    <li><a href="#contact" class="hover-target">contact</a></li>
   </ul>
 </nav>
 
 <section class="hero-section">
-  <div class="hero-text">
-    <p class="hero-presenter">multi-solution creative consulting agency</p>
-    <h1 class="hero-title">bridging <span class="hollow">classical tradition</span> with contemporary icons</h1>
+  <div class="hero-content">
+    <p class="hero-eyebrow">creative consulting — fine arts & entertainment</p>
+    <h1 class="hero-title">orchestrating <span class="hollow">grand art</span> on stage <span class="hollow">&amp;</span> film.</h1>
   </div>
 </section>
 
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span>stadium scale execution</span>
+    <span class="highlight">the musical agency behind kanye west's operas</span>
+    <span>classical music tradition meeting modern icons</span>
+    <span>production / casting / brand Consulting</span>
+    <span>stadium scale execution</span>
+    <span class="highlight">the musical agency behind kanye west's operas</span>
+    <span>classical music tradition meeting modern icons</span>
+    <span>production / casting / brand Consulting</span>
+  </div>
+</div>
+
 <section id="profile" class="section-block">
-  <p class="section-num">01</p>
+  <p class="section-num">// 01 _ framework</p>
   <h2 class="section-heading">profile</h2>
   <div class="layout-split">
     <div class="body-text">
-      <p>access opera (ao) operates as a multi-solution consulting gateway across fine arts and popular entertainment platforms. we act as the direct structural bridge separating classical music heritage from the innovative execution demands of today's cultural icons.</p>
+      <p>access opera (ao) operates as an elite multi-solution creative consulting agency bridging the architectural lineage of <strong>classical music tradition</strong> with the cultural scale of today’s modern icons.</p>
     </div>
     <div class="body-text">
-      <p>our mission focuses on expanding access to the fine arts by intersecting contemporary music communities with classical foundations—encouraging a highly relevant, sustainable, and profitable performing arts market on film and stage.</p>
+      <p>we are committed to maximizing access to high art forms by intersecting contemporary music spheres with classical foundations—driving a highly innovative, sustainable, and <strong>profitable performing arts market</strong> globally.</p>
     </div>
   </div>
 </section>
 
 <section id="network" class="section-block">
-  <p class="section-num">02</p>
-  <h2 class="section-heading">global operations</h2>
+  <p class="section-num">// 02 _ global nodes</p>
+  <h2 class="section-heading">operational alignment</h2>
   <div class="layout-split">
-    <div class="globe-container">
+    <div class="globe-viewport">
       <canvas id="globe-canvas"></canvas>
-      <div class="globe-legend">
-        <div class="legend-item"><span class="legend-dot orange"></span> active project alignment node: istanbul</div>
+      <div class="globe-overlay-data">
+        <div class="data-node"><div class="ping"></div> active pipeline focus // istanbul stadium deployment</div>
       </div>
     </div>
-    <div class="body-text">
-      <p>our consulting reach balances multi-city production pipelines. from casting networks to staging architecture, we guide projects through global entertainment layers.</p>
-      <p>the current projection mapping aligns key coordination coordinates directly onto our active stadium production framework layout in istanbul.</p>
+    <div class="body-text" style="margin-top: auto; margin-bottom: auto;">
+      <p>our agency framework orchestrates projects across fluid cross-continental networks. from deep architectural casting pipelines to extensive stadium staging infrastructure, we maneuver high-stakes entertainment operations with precision.</p>
+      <p>the real-time canvas configuration locks absolute synchronization tracking variables mapping directly onto our ongoing live production footprint in <strong>istanbul</strong>.</p>
     </div>
   </div>
 </section>
 
 <section id="services" class="section-block">
-  <p class="section-num">03</p>
-  <h2 class="section-heading">agency services</h2>
-  <div class="services-grid">
+  <p class="section-num">// 03 _ capabilities</p>
+  <h2 class="section-heading">divisions</h2>
+  <div class="services-stack">
     
-    <div class="services-card">
-      <div class="services-label">01 // execution</div>
-      <div class="services-name">production</div>
-      <ul class="services-list">
-        <li>film & stage execution</li>
-        <li>fine arts events</li>
+    <div class="services-row hover-target">
+      <div class="svc-header">
+        <span class="svc-idx">division _ 01</span>
+        <h3 class="svc-title">production</h3>
+      </div>
+      <ul class="svc-details">
+        <li>film &amp; stage execution</li>
+        <li>arts events</li>
         <li>presentations</li>
-        <li>casting protocols</li>
+        <li>casting workflows</li>
       </ul>
     </div>
 
-    <div class="services-card">
-      <div class="services-label">02 // development</div>
-      <div class="services-name">artist management</div>
-      <ul class="services-list">
-        <li>career strategy</li>
-        <li>classical & pop talent</li>
+    <div class="services-row hover-target">
+      <div class="svc-header">
+        <span class="svc-idx">division _ 02</span>
+        <h3 class="svc-title">artist management</h3>
+      </div>
+      <ul class="svc-details">
+        <li>career strategy development</li>
+        <li>classical &amp; pop networks</li>
         <li>major deal generation</li>
-        <li>platinum-level support</li>
+        <li>platinum-tier branding</li>
       </ul>
     </div>
 
-    <div class="services-card">
-      <div class="services-label">03 // identity</div>
-      <div class="services-name">consulting</div>
-      <ul class="services-list">
-        <li>image & brand consulting</li>
-        <li>concept design</li>
-        <li>infrastructure development</li>
-        <li>project management</li>
+    <div class="services-row hover-target">
+      <div class="svc-header">
+        <span class="svc-idx">division _ 03</span>
+        <h3 class="svc-title">consulting</h3>
+      </div>
+      <ul class="svc-details">
+        <li>image &amp; identity design</li>
+        <li>concept configuration</li>
+        <li>infrastructure engineering</li>
+        <li>project architecture management</li>
       </ul>
     </div>
 
@@ -289,117 +365,171 @@ body {
 </section>
 
 <section id="archive" class="section-block">
-  <p class="section-num">04</p>
-  <h2 class="section-heading">selected production archive</h2>
+  <p class="section-num">// 04 _ track record</p>
+  <h2 class="section-heading">selected portfolio deployments</h2>
   <div class="archive-grid">
-    <div class="archive-card">
-      <div class="archive-tag">musical agency deployment</div>
-      <div class="archive-title">kanye west — mary opera</div>
+    <div class="archive-card hover-target">
+      <div class="archive-tag">musical agency execution</div>
+      <h3 class="archive-title">kanye west <br>— mary opera</h3>
+      <div class="archive-bg-glow"></div>
     </div>
-    <div class="archive-card">
-      <div class="archive-tag">musical agency deployment</div>
-      <div class="archive-title">kanye west — nebuchadnezzar opera</div>
+    <div class="archive-card hover-target">
+      <div class="archive-tag">musical agency execution</div>
+      <h3 class="archive-title">kanye west <br>— nebuchadnezzar opera</h3>
+      <div class="archive-bg-glow"></div>
     </div>
   </div>
 </section>
 
 <section id="contact" class="section-block">
-  <p class="section-num">05</p>
+  <p class="section-num">// 05 _ acceleration</p>
   <h2 class="section-heading">general inquiries</h2>
   <div class="form-box">
     <form onsubmit="event.preventDefault();">
-      <div class="form-group"><input type="text" placeholder="your identity / name" required /></div>
-      <div class="form-group"><input type="email" placeholder="contact address / email" required /></div>
-      <div class="form-group"><textarea placeholder="project parameters / career goals" rows="5" required></textarea></div>
-      <button type="submit" class="submit-button">submit inquiry</button>
+      <div class="form-group"><input type="text" placeholder="identity / enterprise title" required class="hover-target" /></div>
+      <div class="form-group"><input type="email" placeholder="secure communication node / email address" required class="hover-target" /></div>
+      <div class="form-group"><textarea placeholder="project parameters / scale target metrics / structural objectives" rows="4" required class="hover-target"></textarea></div>
+      <div class="submit-btn-wrap">
+        <button type="submit" class="submit-button hover-target">initiate communication gateway</button>
+      </div>
     </form>
   </div>
 </section>
 
 <footer class="footer">
-  <div class="footer-grid">
-    <div>
-      <div class="footer-logo">access opera</div>
-      <p class="footer-text">musical agency behind landmark grand art on film and stage. connecting classical music traditions with modern icons.</p>
-    </div>
-  </div>
+  <div class="footer-logo">access opera</div>
+  <p class="footer-text">the musical agency directing landmark grand art across film and global stages. syncing classical music traditions with modern cultural giants.</p>
   <div class="footer-bottom">
-    <span>&copy; 2026 access opera consulting group. all rights reserved.</span>
+    <span>&copy; 2026 access opera tracking collective. all rights reserved.</span>
+    <span>status // operational acceleration</span>
   </div>
 </footer>
 
 <script>
-// CLEAN LANDSCAPE GLOBE WITH SOLID CANVAS EARTH TEXTURE SECTIONS
-(function initGlobe(){
-  const wrap = document.querySelector('.globe-container');
+// FLUID MULTI-ELEMENT MAGNETIC CURSOR MECHANICS
+(function initCursor(){
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0, ringY = 0;
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    dot.style.left = mouseX + 'px';
+    dot.style.top = mouseY + 'px';
+  });
+
+  function tickRing() {
+    ringX += (mouseX - ringX) * 0.15;
+    ringY += (mouseY - ringY) * 0.15;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(tickRing);
+  }
+  tickRing();
+
+  // Add reactive swelling on interactive hover classes
+  const targets = document.querySelectorAll('.hover-target');
+  targets.forEach(t => {
+    t.addEventListener('mouseenter', () => {
+      dot.style.width = '12px'; dot.style.height = '12px';
+      dot.style.backgroundColor = '#ffffff';
+      ring.style.width = '50px'; ring.style.height = '50px';
+      ring.style.borderColor = '#ff4500';
+    });
+    t.addEventListener('mouseleave', () => {
+      dot.style.width = '6px'; dot.style.height = '6px';
+      dot.style.backgroundColor = '#ff4500';
+      ring.style.width = '34px'; ring.style.height = '34px';
+      ring.style.borderColor = 'rgba(255, 69, 0, 0.3)';
+    });
+  });
+})();
+
+// BORDERLESS REAL-TIME GLOBAL LANDMASS GRAPHICS GLOBE
+(function initVisualGlobe(){
+  const container = document.querySelector('.globe-viewport');
   const canvas = document.getElementById('globe-canvas');
-  const W = wrap.offsetWidth, H = 480;
+  const W = container.offsetWidth, H = 540;
   
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(45, W/H, 1, 1000);
-  camera.position.z = 220;
+  const camera = new THREE.PerspectiveCamera(45, W / H, 1, 1000);
+  camera.position.z = 210;
   
   const renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true, alpha: true});
   renderer.setSize(W, H);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  // Lighting environment layers adding volumetric depth to materials
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+  scene.add(ambientLight);
+
+  const keyLight = new THREE.DirectionalLight(0xff4500, 1.2);
+  keyLight.position.set(100, 150, 50);
+  scene.add(keyLight);
+
+  const fillLight = new THREE.DirectionalLight(0x3a3d52, 0.8);
+  fillLight.position.set(-100, -50, -50);
+  scene.add(fillLight);
   
   const globeGroup = new THREE.Group();
   scene.add(globeGroup);
 
-  // Generates a clean procedural procedural earth landmass texture onto a canvas element
-  function generateEarthTexture() {
-    const canvas = document.createElement('canvas');
-    canvas.width = 2048; canvas.height = 1024;
-    const ctx = canvas.getContext('2d');
+  // Procedural canvas world landscape texture pipeline
+  function buildProceduralMap() {
+    const mapCanvas = document.createElement('canvas');
+    mapCanvas.width = 2048; mapCanvas.height = 1024;
+    const ctx = mapCanvas.getContext('2d');
     
-    // Base deep slate off-black ocean layer
-    ctx.fillStyle = '#1a1a1a';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Smooth matte void ocean floor background
+    ctx.fillStyle = '#0e0f12';
+    ctx.fillRect(0, 0, mapCanvas.width, mapCanvas.height);
     
-    // Abstract editorial landmass textures matching minimal organic shapes
-    ctx.fillStyle = '#262626';
+    // Flat luxury carbon texture for continent tracking landmass indicators
+    ctx.fillStyle = '#22252e';
     
-    // Simple block arrays approximating continent coordinates for structural visualization
-    const landmasses = [
-      {x: 200, y: 150, w: 400, h: 350}, // north america
-      {x: 350, y: 500, w: 250, h: 400}, // south america
-      {x: 900, y: 100, w: 800, h: 450}, // eurasia
-      {x: 950, y: 450, w: 300, h: 400}, // africa
-      {x: 1500, y: 600, w: 350, h: 250} // australia
+    const continents = [
+      {x: 250, y: 180, w: 380, h: 320}, // north america
+      {x: 400, y: 520, w: 220, h: 380}, // south america
+      {x: 950, y: 120, w: 750, h: 420}, // eurasia
+      {x: 1000, y: 480, w: 280, h: 360}, // africa
+      {x: 1550, y: 620, w: 300, h: 220}  // australia
     ];
     
-    landmasses.forEach(l => {
+    continents.forEach(c => {
       ctx.beginPath();
-      ctx.roundRect(l.x, l.y, l.w, l.h, 60);
+      ctx.rect(c.x, c.y, c.w, c.h);
       ctx.fill();
     });
 
-    return new THREE.CanvasTexture(canvas);
+    return new THREE.CanvasTexture(mapCanvas);
   }
 
-  const texture = generateEarthTexture();
+  const textureMap = buildProceduralMap();
 
-  // Primary Earth Mesh Sphere
-  const sphereGeo = new THREE.SphereGeometry(62, 45, 45);
-  const sphereMat = new THREE.MeshBasicMaterial({
-    map: texture,
-    transparent: false
+  // Primary Earth Sphere Geo wrapped with Phong materials for crisp reflection physics
+  const sphereGeometry = new THREE.SphereGeometry(62, 50, 50);
+  const sphereMaterial = new THREE.MeshPhongMaterial({
+    map: textureMap,
+    shininess: 15,
+    bumpScale: 1
   });
-  const earthBody = new THREE.Mesh(sphereGeo, sphereMat);
-  globeGroup.add(earthBody);
+  const earthMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
+  globeGroup.add(earthMesh);
 
-  // Clean layout tracking grid line lines wrapper
-  const wireSkeletonMat = new THREE.MeshBasicMaterial({
-    color: 0x9e9e9e,
+  // Fine wireframe skeleton overlay adding sharp technological structure lines
+  const meshWireMaterial = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
     wireframe: true,
     transparent: true,
-    opacity: 0.08
+    opacity: 0.04
   });
-  const designSkeleton = new THREE.Mesh(new THREE.SphereGeometry(62.4, 24, 24), wireSkeletonMat);
-  globeGroup.add(designSkeleton);
+  const overlaySkeleton = new THREE.Mesh(new THREE.SphereGeometry(62.3, 30, 30), meshWireMaterial);
+  globeGroup.add(overlaySkeleton);
 
-  // Translates simple geographical coordinates to 3D matrix space vectors
-  function latLonToVector(lat, lon, radius) {
+  // Geographic coordinates transformation utility matrix functions
+  function getPositionVector(lat, lon, radius) {
     const phi = (90 - lat) * (Math.PI / 180);
     const theta = (lon + 180) * (Math.PI / 180);
     return new THREE.Vector3(
@@ -409,63 +539,67 @@ body {
     );
   }
 
-  // Active Project Alignment Pin Point: Istanbul (41.0082° N, 28.9784° E)
-  const istanbulVector = latLonToVector(41.0082, 28.9784, 62.6);
+  // Istanbul coordinates deployment point anchoring
+  const targetNodeVector = getPositionVector(41.0082, 28.9784, 62.5);
   
-  const corePinGeo = new THREE.SphereGeometry(1.8, 16, 16);
-  const corePinMat = new THREE.MeshBasicMaterial({color: 0xff5500});
-  const istanbulMarker = new THREE.Mesh(corePinGeo, corePinMat);
-  istanbulMarker.position.copy(istanbulVector);
-  globeGroup.add(istanbulMarker);
+  // Pin point core anchor indicator
+  const pinGeo = new THREE.SphereGeometry(1.5, 16, 16);
+  const pinMat = new THREE.MeshBasicMaterial({color: 0xff4500});
+  const nodePinMarker = new THREE.Mesh(pinGeo, pinMat);
+  nodePinMarker.position.copy(targetNodeVector);
+  globeGroup.add(nodePinMarker);
 
-  const telemetryRingGeo = new THREE.RingGeometry(2.5, 4.5, 32);
-  const telemetryRingMat = new THREE.MeshBasicMaterial({
-    color: 0xff5500, 
+  // Volumetric expanding tracking ping indicator ring
+  const pingRingGeo = new THREE.RingGeometry(2, 4.5, 32);
+  const pingRingMat = new THREE.MeshBasicMaterial({
+    color: 0xff4500,
     side: THREE.DoubleSide,
     transparent: true,
-    opacity: 0.6
+    opacity: 0.7
   });
-  const telemetryRing = new THREE.Mesh(telemetryRingGeo, telemetryRingMat);
-  telemetryRing.position.copy(istanbulVector);
-  telemetryRing.lookAt(new THREE.Vector3(0,0,0));
-  globeGroup.add(telemetryRing);
+  const pingRingMesh = new THREE.Mesh(pingRingGeo, pingRingMat);
+  pingRingMesh.position.copy(targetNodeVector);
+  pingRingMesh.lookAt(new THREE.Vector3(0,0,0));
+  globeGroup.add(pingRingMesh);
 
-  // Click & drag handling mechanics
-  let isDragging = false, lastMousePos = {x: 0, y: 0};
-  canvas.addEventListener('mousedown', () => { isDragging = true; });
-  window.addEventListener('mouseup', () => { isDragging = false; });
+  // Drag interaction capture parameters
+  let isInteracting = false, lastPos = {x: 0, y: 0};
+  canvas.addEventListener('mousedown', () => { isInteracting = true; });
+  window.addEventListener('mouseup', () => { isInteracting = false; });
   window.addEventListener('mousemove', (e) => {
-    const moveDelta = {x: e.clientX - lastMousePos.x, y: e.clientY - lastMousePos.y};
-    if(isDragging) {
-      globeGroup.rotation.y += moveDelta.x * 0.005;
-      globeGroup.rotation.x += moveDelta.y * 0.005;
+    const delta = {x: e.clientX - lastPos.x, y: e.clientY - lastPos.y};
+    if (isInteracting) {
+      globeGroup.rotation.y += delta.x * 0.004;
+      globeGroup.rotation.x += delta.y * 0.004;
     }
-    lastMousePos = {x: e.clientX, y: e.clientY};
+    lastPos = {x: e.clientX, y: e.clientY};
   });
 
-  // Animation cycle loops
-  let tick = 0;
-  function updateGlobeRuntime() {
-    requestAnimationFrame(updateGlobeRuntime);
+  // Infinite system animation engine execution updates
+  let pulseTimer = 0;
+  function runLoop() {
+    requestAnimationFrame(runLoop);
     
-    if (!isDragging) {
-      globeGroup.rotation.y += 0.0012;
+    if (!isInteracting) {
+      globeGroup.rotation.y += 0.0015;
     }
     
-    tick += 0.05;
-    const currentScale = 1 + Math.sin(tick) * 0.35;
-    telemetryRing.scale.set(currentScale, currentScale, 1);
-    telemetryRingMat.opacity = 0.7 - (Math.sin(tick) * 0.3);
+    // Wave pulse dynamic loop computations for node animations
+    pulseTimer += 0.06;
+    const matrixScale = 1 + Math.sin(pulseTimer) * 0.4;
+    pingRingMesh.scale.set(matrixScale, matrixScale, 1);
+    pingRingMat.opacity = 0.8 - (Math.sin(pulseTimer) * 0.3);
 
     renderer.render(scene, camera);
   }
-  updateGlobeRuntime();
+  runLoop();
 
+  // Fluid browser resize alignment hooks
   window.addEventListener('resize', () => {
-    const updatedW = wrap.offsetWidth;
-    camera.aspect = updatedW / H;
+    const nextW = container.offsetWidth;
+    camera.aspect = nextW / H;
     camera.updateProjectionMatrix();
-    renderer.setSize(updatedW, H);
+    renderer.setSize(nextW, H);
   });
 })();
 </script>
