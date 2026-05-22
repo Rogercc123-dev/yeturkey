@@ -3,66 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>access opera — cultural velocity</title>
-  <meta name="description" content="access opera: global talent agency & cinematic production. ye, rosalía, björk. istanbul / worldwide." />
+  <title>ACCESS OPERA — hyperculture agency</title>
+  <meta name="description" content="access opera: global touring, creative direction, live production. istanbul / worldwide." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,800&display=swap" rel="stylesheet" />
   <style>
-    /* ----- RESET / BASE (industrial, no neon) ----- */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    /* ----------------------------------------------
+       DEEP INDUSTRIAL LUXURY – no neon, just smoked chrome, infrared amber, electric white
+    ------------------------------------------------ */
     :root {
-      --bg-deep: #050505;
-      --bg-surface: #0c0c0c;
-      --border-1: #1f1f1f;
-      --border-2: #2a2a2a;
-      --text-main: #ececec;
-      --text-dim: #8f8f8f;
-      --accent: #2e7a7a;      /* muted teal – industrial, calm */
-      --accent-soft: rgba(46, 122, 122, 0.12);
-      --glow-pulse: rgba(46, 122, 122, 0.08);
+      --obsidian: #050505;
+      --smoked-graphite: #111111;
+      --titanium: #1a1a1a;
+      --midnight-blue: #0a0f14;
+      --infrared: #c03b2b;
+      --amber-glow: #c97e3a;
+      --electric-white: #f0f0f0;
+      --silver-oxide: #8a8a8a;
+      --border-dim: #242424;
+      --text-dim: #aaaaaa;
     }
 
     body {
-      background: var(--bg-deep);
-      color: var(--text-main);
-      font-family: 'OCR A BT', 'OCR-A', 'Courier New', monospace;
-      font-size: 15px;
-      line-height: 1.45;
-      text-transform: lowercase;
-      letter-spacing: 0.01em;
+      background: var(--obsidian);
+      color: var(--electric-white);
+      font-family: 'Inter', 'Helvetica Now Display', 'Helvetica Neue', sans-serif;
+      font-weight: 400;
+      line-height: 1.4;
       overflow-x: hidden;
+      cursor: default;
     }
 
-    /* force lowercase everywhere */
-    body, button, input, a, .nav-links a, .section-label, .client-name, .service-title, .footer a, .stat-number, .counter {
-      text-transform: lowercase;
-    }
-
-    /* background grid (alive animation) */
-    .grid-dynamic {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        linear-gradient(rgba(46,122,122,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(46,122,122,0.04) 1px, transparent 1px);
-      background-size: 48px 48px;
-      pointer-events: none;
-      z-index: 0;
-      animation: gridMove 18s linear infinite;
-    }
-
-    @keyframes gridMove {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(48px, 48px); }
-    }
-
-    .scanlines {
+    /* industrial texture overlay */
+    .noise-overlay {
       position: fixed;
       top: 0;
       left: 0;
@@ -70,494 +48,499 @@
       height: 100%;
       background: repeating-linear-gradient(0deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 2px, transparent 2px, transparent 8px);
       pointer-events: none;
-      z-index: 1;
+      z-index: 100;
+      opacity: 0.4;
     }
 
+    .grid-scan {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: linear-gradient(rgba(60,60,60,0.08) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(60,60,60,0.08) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 101;
+      animation: gridMove 22s linear infinite;
+      opacity: 0.35;
+    }
+
+    @keyframes gridMove {
+      0% { transform: translate(0,0); }
+      100% { transform: translate(48px, 48px); }
+    }
+
+    /* cursor reactive lighting (simulated) */
+    .cursor-light {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 999;
+      background: radial-gradient(circle 180px at var(--x, 50%) var(--y, 50%), rgba(192,59,43,0.08), transparent 70%);
+      transition: background 0.08s;
+    }
+
+    /* main container */
     .container {
-      max-width: 1280px;
+      max-width: 1440px;
       margin: 0 auto;
-      padding: 0 32px;
+      padding: 0 40px;
       position: relative;
-      z-index: 3;
+      z-index: 10;
     }
 
-    /* ---------- TYPOGRAPHY / MOTION ---------- */
+    /* typography - wide grotesk */
+    h1, h2, h3, .kinetic-text, .section-title, .manifesto-text {
+      font-family: 'Inter', 'Helvetica Now Display', sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+
     .section-label {
-      font-size: 11px;
-      letter-spacing: 0.22em;
-      color: var(--accent);
-      margin-bottom: 16px;
+      font-size: 12px;
+      letter-spacing: 0.25em;
+      color: var(--infrared);
+      margin-bottom: 20px;
       display: inline-block;
-      border-left: 2px solid var(--accent);
-      padding-left: 14px;
+      border-left: 2px solid var(--infrared);
+      padding-left: 16px;
     }
 
     .section-title {
-      font-size: clamp(2.2rem, 5.5vw, 4rem);
-      font-weight: 600;
-      line-height: 1.05;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.1;
       margin-bottom: 48px;
-      color: #f5f5f5;
+      letter-spacing: -0.02em;
     }
 
-    /* ----- NAVIGATION (sleek, fixed) ----- */
+    /* navigation */
     .navbar {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      background: rgba(5,5,5,0.88);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border-1);
-      z-index: 1000;
-      padding: 18px 32px;
+      background: rgba(5,5,5,0.78);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-dim);
+      z-index: 200;
+      padding: 20px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
     }
-
-    .logo img {
-      height: 36px;
-      width: auto;
-      filter: brightness(0.9) contrast(1.1);
-      opacity: 0.92;
+    .logo {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--electric-white);
+      text-transform: lowercase;
     }
-
     .nav-links {
       display: flex;
-      gap: 38px;
+      gap: 40px;
       list-style: none;
     }
-
     .nav-links a {
-      color: var(--text-main);
+      color: var(--electric-white);
       text-decoration: none;
       font-size: 11px;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       transition: 0.2s;
-      border-bottom: 1px solid transparent;
-      padding-bottom: 4px;
     }
+    .nav-links a:hover { color: var(--infrared); }
+    .mobile-btn { display: none; background: none; border: 1px solid var(--border-dim); color: white; padding: 6px 12px; cursor: pointer; }
 
-    .nav-links a:hover {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-    }
-
-    .mobile-btn {
-      display: none;
-      background: none;
-      border: 1px solid var(--border-1);
-      color: var(--text-main);
-      font-size: 22px;
-      padding: 4px 12px;
-      cursor: pointer;
-    }
-
-    /* ----- HERO (YE ISTANBUL FEATURE / ALIVE) ----- */
+    /* hero */
     .hero {
-      min-height: 95vh;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       padding: 140px 0 80px;
       position: relative;
     }
-
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 48px;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
       align-items: center;
     }
-
-    .hero-eyebrow {
-      font-size: 11px;
-      letter-spacing: 0.28em;
-      color: var(--accent);
-      margin-bottom: 18px;
+    .kinetic-block {
+      position: relative;
     }
-
-    .hero-title {
-      font-size: clamp(3rem, 8vw, 5.2rem);
-      font-weight: 700;
+    .kinetic-title {
+      font-size: clamp(3rem, 7vw, 5.8rem);
+      font-weight: 800;
       line-height: 0.92;
       letter-spacing: -0.02em;
-      margin-bottom: 24px;
+      transition: transform 0.2s ease;
     }
-
-    .hero-title span {
-      color: var(--accent);
+    .kinetic-title span {
+      color: var(--infrared);
+      text-shadow: 0 0 6px rgba(192,59,43,0.3);
     }
-
     .hero-desc {
       font-size: 0.9rem;
       color: var(--text-dim);
-      border-left: 1px solid var(--border-1);
+      max-width: 450px;
+      margin-top: 28px;
+      border-left: 1px solid var(--border-dim);
       padding-left: 24px;
-      margin-bottom: 36px;
     }
-
-    .stats-row {
-      display: flex;
-      gap: 40px;
-      margin: 24px 0 32px;
-      flex-wrap: wrap;
-    }
-
-    .stat-item {
-      border-right: 1px solid var(--border-1);
-      padding-right: 32px;
-    }
-    .stat-item:last-child { border-right: none; }
-
-    .stat-number {
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: var(--accent);
-      line-height: 1;
-    }
-
-    .stat-label {
-      font-size: 9px;
-      letter-spacing: 0.1em;
-      color: var(--text-dim);
-    }
-
-    .hero-visual {
-      background: rgba(0,0,0,0.5);
-      border: 1px solid var(--border-1);
-      aspect-ratio: 4/3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .media-stack {
       position: relative;
+      aspect-ratio: 16/9;
+      background: #0a0a0a;
       overflow: hidden;
+      border: 1px solid var(--border-dim);
     }
-
-    .hero-visual img {
+    .stack-video {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 0.7;
-      transition: transform 8s ease;
+      opacity: 0.85;
+      transition: transform 6s ease;
     }
-    .hero-visual:hover img { transform: scale(1.03); }
+    .media-stack:hover .stack-video { transform: scale(1.02); }
 
-    /* ----- clients / roster (animated grid) ----- */
-    .clients-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-      gap: 2px;
-      background: var(--border-1);
-      border: 1px solid var(--border-1);
+    /* manifesto (fullscreen cinematic) */
+    .manifesto {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      background: radial-gradient(circle at 30% 50%, var(--titanium), var(--obsidian));
+      margin: 60px 0;
+      border-top: 1px solid var(--border-dim);
+      border-bottom: 1px solid var(--border-dim);
     }
-
-    .client-card {
-      background: var(--bg-surface);
-      padding: 32px 24px;
-      transition: all 0.25s;
+    .manifesto-text {
+      font-size: clamp(2.2rem, 6vw, 4.8rem);
+      font-weight: 800;
+      line-height: 1.2;
+      text-transform: uppercase;
     }
-    .client-card:hover {
-      background: #121212;
-      transform: translateX(6px);
-      border-left: 2px solid var(--accent);
-    }
-
-    /* media / trailers grid */
-    .media-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 28px;
-    }
-    .media-card {
-      background: #0a0a0a;
-      border: 1px solid var(--border-1);
-      transition: 0.2s;
-    }
-    .media-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-4px);
-    }
-    .video-wrapper {
-      aspect-ratio: 16/9;
-      overflow: hidden;
-    }
-    .video-wrapper iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-    .media-info {
-      padding: 20px;
+    .manifesto-line {
+      display: block;
+      margin: 20px 0;
     }
 
-    /* services */
+    /* services modular (industrial panels) */
     .services-grid {
       display: grid;
-      grid-template-columns: repeat(4,1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 2px;
-      background: var(--border-1);
-      border: 1px solid var(--border-1);
-    }
-    .service-card {
-      background: var(--bg-surface);
-      padding: 32px 24px;
-    }
-
-    /* contact */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-    }
-    .contact-block {
-      border-left: 1px solid var(--border-1);
-      padding-left: 28px;
-    }
-    .contact-line {
-      margin-bottom: 28px;
-    }
-    .contact-label {
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      color: var(--accent);
-    }
-    .contact-value a {
-      color: var(--text-main);
-      text-decoration: none;
-      border-bottom: 1px dotted var(--border-2);
-    }
-
-    /* ticker / alive marquee */
-    .ticker {
-      background: #0c0c0c;
-      border-top: 1px solid var(--border-1);
-      border-bottom: 1px solid var(--border-1);
-      padding: 12px 0;
-      overflow: hidden;
-      white-space: nowrap;
+      background: var(--border-dim);
+      border: 1px solid var(--border-dim);
       margin: 40px 0;
     }
-    .ticker-content {
-      display: inline-block;
-      animation: scrollTicker 22s linear infinite;
-      font-size: 12px;
-      letter-spacing: 0.1em;
+    .service-panel {
+      background: var(--smoked-graphite);
+      padding: 40px 28px;
+      transition: 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-panel:hover {
+      background: #1c1c1c;
+      border-left: 2px solid var(--infrared);
+    }
+    .service-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .service-desc {
+      font-size: 11px;
       color: var(--text-dim);
     }
-    .ticker-content span {
-      margin-right: 48px;
-      color: var(--accent);
+
+    /* culture wall (overlapping media) */
+    .culture-wall {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 60px 0;
     }
-    @keyframes scrollTicker {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-48%); }
+    .culture-item {
+      flex: 1 1 220px;
+      aspect-ratio: 4/3;
+      background: #0c0c0c;
+      border: 1px solid var(--border-dim);
+      overflow: hidden;
+      transition: 0.2s;
     }
+    .culture-item img, .culture-item video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.8;
+    }
+    .culture-item:hover { border-color: var(--infrared); transform: scale(0.98); }
+
+    /* featured projects (cinematic case studies) */
+    .projects-scroll {
+      display: flex;
+      gap: 24px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 20px;
+    }
+    .project-card {
+      min-width: 70%;
+      scroll-snap-align: start;
+      background: var(--titanium);
+      border: 1px solid var(--border-dim);
+      display: flex;
+      flex-direction: column;
+    }
+    .project-media {
+      aspect-ratio: 16/9;
+      background: #000;
+    }
+    .project-info {
+      padding: 28px;
+    }
+
+    /* live data systems (tron interface) */
+    .data-system {
+      background: #0b0b0b;
+      border: 1px solid var(--border-dim);
+      padding: 48px 32px;
+      margin: 60px 0;
+    }
+    .map-nodes {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 32px;
+      margin: 40px 0;
+    }
+    .city-node {
+      text-align: center;
+      border-right: 1px solid var(--border-dim);
+      padding-right: 32px;
+    }
+    .pulse {
+      width: 12px;
+      height: 12px;
+      background: var(--infrared);
+      border-radius: 50%;
+      margin: 8px auto;
+      animation: pulseSignal 1.4s infinite;
+    }
+    @keyframes pulseSignal { 0% { opacity: 0.4; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1.2); } }
+
+    /* film section */
+    .film-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    .film-card {
+      background: #0a0a0a;
+      border: 1px solid var(--border-dim);
+    }
+    .film-trailer {
+      aspect-ratio: 16/9;
+    }
+
+    /* contact experience (minimal, access network) */
+    .contact-section {
+      background: radial-gradient(ellipse at 20% 30%, #121212, #030303);
+      padding: 100px 0;
+      text-align: center;
+      border-top: 1px solid var(--border-dim);
+    }
+    .contact-form {
+      max-width: 540px;
+      margin: 40px auto 0;
+    }
+    .contact-form input, .contact-form textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border-dim);
+      padding: 16px 4px;
+      color: white;
+      font-size: 14px;
+    }
+    .submit-btn {
+      background: transparent;
+      border: 1px solid var(--infrared);
+      color: var(--infrared);
+      padding: 14px 36px;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+    .submit-btn:hover { background: var(--infrared); color: black; }
 
     /* footer */
     .footer {
-      padding: 48px 0 40px;
+      padding: 60px 0 40px;
+      border-top: 1px solid var(--border-dim);
       text-align: center;
-      font-size: 9px;
-      border-top: 1px solid var(--border-1);
+      font-size: 10px;
     }
 
     /* responsive */
     @media (max-width: 900px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-      .media-grid {
-        grid-template-columns: 1fr;
-      }
-      .services-grid {
-        grid-template-columns: repeat(2,1fr);
-      }
-      .contact-grid {
-        grid-template-columns: 1fr;
-      }
-      .contact-block {
-        border-left: none;
-        padding-left: 0;
-      }
-    }
-    @media (max-width: 700px) {
-      .container {
-        padding: 0 20px;
-      }
-      .nav-links {
-        display: none;
-        flex-direction: column;
-        background: var(--bg-deep);
-        position: absolute;
-        top: 70px;
-        left: 0;
-        width: 100%;
-        padding: 24px;
-        border-bottom: 1px solid var(--border-1);
-      }
-      .nav-links.open {
-        display: flex;
-      }
-      .mobile-btn {
-        display: block;
-      }
-      .clients-grid {
-        grid-template-columns: repeat(2,1fr);
-      }
-      .services-grid {
-        grid-template-columns: 1fr;
-      }
-      .stats-row {
-        gap: 24px;
-      }
+      .hero-grid, .film-grid { grid-template-columns: 1fr; gap: 40px; }
+      .services-grid { grid-template-columns: repeat(2,1fr); }
+      .navbar { padding: 16px 24px; }
+      .container { padding: 0 24px; }
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: #050505; padding: 24px; border-bottom: 1px solid var(--border-dim); }
+      .nav-links.open { display: flex; }
+      .mobile-btn { display: block; }
     }
 
-    /* reveal animations */
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.7s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    /* scroll reveal */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
   </style>
 </head>
 <body>
-<div class="grid-dynamic"></div>
-<div class="scanlines"></div>
+<div class="noise-overlay"></div>
+<div class="grid-scan"></div>
+<div class="cursor-light" id="cursorLight"></div>
 
 <nav class="navbar">
-  <div class="logo"><img src="opera.png" alt="access opera" /></div>
+  <div class="logo">access opera</div>
   <button class="mobile-btn" id="menuToggle">≡</button>
   <ul class="nav-links" id="navMenu">
-    <li><a href="#roster">roster</a></li>
-    <li><a href="#media">media</a></li>
+    <li><a href="#work">work</a></li>
     <li><a href="#services">services</a></li>
+    <li><a href="#roster">roster</a></li>
+    <li><a href="#films">films</a></li>
     <li><a href="#contact">contact</a></li>
   </ul>
 </nav>
 
 <main>
+  <!-- 01 LANDING / HERO -->
   <div class="container">
-    <!-- hero section with ye campaign / stats alive -->
     <div class="hero">
       <div class="hero-grid">
-        <div>
-          <div class="hero-eyebrow">flagship · live 2026</div>
-          <h1 class="hero-title">ye <span>istanbul</span><br>30 may 2026</h1>
-          <div class="hero-desc">atatürk olympic stadium · the globe stage returns.<br>360° immersion · 100k+ capacity · produced by access opera.</div>
-          <div class="stats-row">
-            <div class="stat-item">
-              <div class="stat-number counter" data-target="88">0</div>
-              <div class="stat-label">tickets sold</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number counter" data-target="100">0</div>
-              <div class="stat-label">road to 100k</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number">30.05.26</div>
-              <div class="stat-label">global date</div>
-            </div>
-          </div>
-          <div class="btn-group">
-            <a href="#roster" class="btn-primary">explore roster</a>
-            <a href="#contact" class="btn-outline">reserve access</a>
-          </div>
+        <div class="kinetic-block">
+          <h1 class="kinetic-title">the future<br>of live <span>culture</span></h1>
+          <div class="hero-desc">istanbul / worldwide · stadium energy, cinematic intelligence, industrial luxury.</div>
         </div>
-        <div class="hero-visual">
-          <!-- Visual from the brief: YE live atmosphere, using placeholder but with industrial feel -->
-          <img src="https://placehold.co/800x600/111111/2e7a7a?text=YE+LIVE+VISUAL" alt="ye live istanbul" style="object-fit: cover; width:100%; height:100%;">
+        <div class="media-stack">
+          <video class="stack-video" autoplay loop muted playsinline>
+            <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+          </video>
         </div>
       </div>
     </div>
-
-    <!-- moving ticker: alive -->
-    <div class="ticker">
-      <div class="ticker-content">
-        <span>● ye · istanbul — 88k sold</span> <span>◢ access opera global roster 2026</span> <span>⟡ road to 100k tickets</span> <span>■ 30 may 2026 / atatürk olympic</span> <span>✦ the globe stage · 360° immersion</span>
-        <span>● ye · istanbul — 88k sold</span> <span>◢ access opera global roster 2026</span> <span>⟡ road to 100k tickets</span>
-      </div>
-    </div>
-
-    <!-- ROSTER (signed) -->
-    <section id="roster">
-      <div class="section-label">/ signed & represented</div>
-      <div class="section-title">the architects</div>
-      <div class="clients-grid">
-        <div class="client-card"><div class="client-name">ye</div><div class="client-discipline">visionary / composer</div></div>
-        <div class="client-card"><div class="client-name">rosalía</div><div class="client-discipline">flamenco futurist</div></div>
-        <div class="client-card"><div class="client-name">travis scott</div><div class="client-discipline">raging utopia</div></div>
-        <div class="client-card"><div class="client-name">björk</div><div class="client-discipline">digital nature</div></div>
-        <div class="client-card"><div class="client-name">floating points</div><div class="client-discipline">electronic architect</div></div>
-        <div class="client-card"><div class="client-name">oneohtrix point never</div><div class="client-discipline">synthetic score</div></div>
-        <div class="client-card"><div class="client-name">ars industrial</div><div class="client-discipline">live visual ensemble</div></div>
-        <div class="client-card"><div class="client-name">lotic</div><div class="client-discipline">deconstructed club</div></div>
-      </div>
-    </section>
-
-    <!-- MEDIA / TRAILERS (cinematic, alive) -->
-    <section id="media">
-      <div class="section-label">/ selected works & trailers</div>
-      <div class="section-title">cinematic proofs</div>
-      <div class="media-grid">
-        <div class="media-card">
-          <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/6mT5wOxF-mQ?autoplay=0&controls=1" title="stronger global orbit" allowfullscreen></iframe></div>
-          <div class="media-info"><div class="media-title">『 stronger: global orbit 』</div><div class="media-desc">volumetric stage design · real‑time led cartography</div></div>
-        </div>
-        <div class="media-card">
-          <div class="video-wrapper"><iframe src="https://www.youtube.com/embed/dWwOHbo3BmM?autoplay=0&controls=1" title="chrome odyssey" allowfullscreen></iframe></div>
-          <div class="media-info"><div class="media-title">『 chrome odyssey 』</div><div class="media-desc">istanbul bienal immersive commission · industrial light</div></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SERVICES -->
-    <section id="services">
-      <div class="section-label">/ engine room</div>
-      <div class="section-title">services</div>
-      <div class="services-grid">
-        <div class="service-card"><div class="service-title">talent booking</div><div class="service-desc">global routing · festival curation · exclusive representation</div></div>
-        <div class="service-card"><div class="service-title">live production</div><div class="service-desc">stadium-scale stages · kinetic lighting · immersive design</div></div>
-        <div class="service-card"><div class="service-title">film & trailers</div><div class="service-desc">cinematic campaigns · teaser direction · akira-grade vfx</div></div>
-        <div class="service-card"><div class="service-title">brand partnerships</div><div class="service-desc">collision strategy · cultural resonance · global activations</div></div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact">
-      <div class="section-label">/ interface</div>
-      <div class="section-title">connect</div>
-      <div class="contact-grid">
-        <div class="contact-block">
-          <div class="contact-line"><div class="contact-label">general & bookings</div><div class="contact-value"><a href="mailto:orbit@accessopera.com">orbit@accessopera.com</a></div></div>
-          <div class="contact-line"><div class="contact-label">press & partnerships</div><div class="contact-value"><a href="mailto:resonance@accessopera.com">resonance@accessopera.com</a></div></div>
-          <div class="contact-line"><div class="contact-label">istanbul base</div><div class="contact-value">maslak / istanbul · tr</div></div>
-          <div class="social-row"><a href="#">instagram</a> <a href="#">x</a> <a href="#">linkedin</a></div>
-        </div>
-        <div class="contact-block">
-          <div class="contact-line"><div class="contact-label">emergency / talent line</div><div class="contact-value">+90 212 000 26 30</div></div>
-          <div class="contact-line"><div class="contact-label">new business</div><div class="contact-value"><a href="mailto:velocity@accessopera.com">velocity@accessopera.com</a></div></div>
-          <hr style="border-color:var(--border-1); margin:16px 0;">
-          <div style="font-size: 10px; color: var(--accent);">response within 24 cycles</div>
-        </div>
-      </div>
-    </section>
   </div>
+
+  <!-- 02 MANIFESTO (full-screen cinematic) -->
+  <div class="manifesto">
+    <div class="container">
+      <div class="manifesto-text">
+        <span class="manifesto-line">not events.</span>
+        <span class="manifesto-line" style="color: var(--infrared);">moments.</span>
+        <span class="manifesto-line">not content.</span>
+        <span class="manifesto-line">cultural memory.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 SERVICES GRID (modular agency panels) -->
+  <div class="container reveal" id="services">
+    <div class="section-label">/ engine room</div>
+    <div class="section-title">operations & infrastructure</div>
+    <div class="services-grid">
+      <div class="service-panel"><div class="service-title">touring</div><div class="service-desc">global routing · stadium logistics · 360° production</div></div>
+      <div class="service-panel"><div class="service-title">creative direction</div><div class="service-desc">visual identity · kinetic storytelling · immersive design</div></div>
+      <div class="service-panel"><div class="service-title">live production</div><div class="service-desc">real‑time led · lighting architecture · spatial audio</div></div>
+      <div class="service-panel"><div class="service-title">artist strategy</div><div class="service-desc">cultural positioning · brand ecosystems · global expansion</div></div>
+    </div>
+  </div>
+
+  <!-- 04 CULTURE / SOCIAL PROOF (overlapping media wall) -->
+  <div class="container reveal">
+    <div class="section-label">/ culture pulse</div>
+    <div class="section-title">energy archive</div>
+    <div class="culture-wall">
+      <div class="culture-item"><video autoplay loop muted playsinline src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4" style="width:100%;height:100%;object-fit:cover;"></video></div>
+      <div class="culture-item"><video autoplay loop muted playsinline src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" style="width:100%;height:100%;object-fit:cover;"></video></div>
+      <div class="culture-item"><video autoplay loop muted playsinline src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" style="width:100%;height:100%;object-fit:cover;"></video></div>
+      <div class="culture-item"><img src="https://placehold.co/600x400/1a1a1a/c03b2b?text=FAN+REACTION" alt="crowd"></div>
+    </div>
+  </div>
+
+  <!-- 05 FEATURED PROJECTS (horizontal cinematic case studies) -->
+  <div class="container reveal" id="work">
+    <div class="section-label">/ featured projects</div>
+    <div class="section-title">campaign archives</div>
+    <div class="projects-scroll">
+      <div class="project-card"><div class="project-media"><video muted loop autoplay playsinline src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4" style="width:100%;height:100%;object-fit:cover;"></video></div><div class="project-info"><h3>YE · GLOBE STAGE</h3><p>istanbul, 85k attendance · rotational sphere · real‑time volumetric</p></div></div>
+      <div class="project-card"><div class="project-media"><video muted loop autoplay playsinline src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFunflies.mp4" style="width:100%;height:100%;object-fit:cover;"></video></div><div class="project-info"><h3>CHROME ODYSSEY</h3><p>bosphorus bienal · industrial light installation · 360° mapping</p></div></div>
+    </div>
+  </div>
+
+  <!-- 06 LIVE DATA SYSTEMS (TRON / F1 telemetry) -->
+  <div class="container reveal">
+    <div class="section-label">/ neural grid</div>
+    <div class="section-title">live systems</div>
+    <div class="data-system">
+      <div class="map-nodes">
+        <div class="city-node"><div class="pulse"></div><div>istanbul</div><span style="font-size:10px;">active</span></div>
+        <div class="city-node"><div class="pulse"></div><div>london</div><span style="font-size:10px;">connected</span></div>
+        <div class="city-node"><div class="pulse"></div><div>tokyo</div><span style="font-size:10px;">pulse</span></div>
+        <div class="city-node"><div class="pulse"></div><div>los angeles</div><span style="font-size:10px;">online</span></div>
+      </div>
+      <div style="height:2px; background: linear-gradient(90deg, var(--infrared), transparent, var(--amber-glow)); margin: 32px 0;"></div>
+      <div style="display: flex; justify-content: space-between; font-size: 9px; color: var(--silver-oxide);">touring density · real‑time routing · live production nodes</div>
+    </div>
+  </div>
+
+  <!-- 07 FILM SECTION (a24 x stadium culture) -->
+  <div class="container reveal" id="films">
+    <div class="section-label">/ visual memory</div>
+    <div class="section-title">film & trailers</div>
+    <div class="film-grid">
+      <div class="film-card"><div class="film-trailer"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/6mT5wOxF-mQ?autoplay=0&controls=1" frameborder="0" allowfullscreen></iframe></div><div style="padding:18px;"><div style="font-weight:700;">STRONGER: GLOBAL ORBIT</div><div style="font-size:11px; color:#aaa;">live documentary teaser</div></div></div>
+      <div class="film-card"><div class="film-trailer"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/dWwOHbo3BmM?autoplay=0&controls=1" frameborder="0" allowfullscreen></iframe></div><div style="padding:18px;"><div style="font-weight:700;">CHROME ODYSSEY</div><div style="font-size:11px; color:#aaa;">istanbul bienal · immersive cut</div></div></div>
+    </div>
+  </div>
+
+  <!-- 08 CONTACT EXPERIENCE (network access) -->
+  <div class="contact-section reveal" id="contact">
+    <div class="container">
+      <div class="section-label" style="color: var(--infrared);">/ enter the system</div>
+      <div class="section-title" style="margin-bottom: 20px;">start the next moment</div>
+      <div class="contact-form">
+        <input type="text" placeholder="name / organization" style="margin-bottom: 28px;">
+        <input type="email" placeholder="email / encrypted">
+        <textarea rows="2" placeholder="project / collaboration" style="margin: 32px 0 40px;"></textarea>
+        <button class="submit-btn">send request →</button>
+      </div>
+    </div>
+  </div>
+
   <footer class="footer">
-    <div>access opera © 2026 — cultural velocity. all resonance reserved.</div>
-    <div style="margin-top: 12px;">istanbul / worldwide</div>
+    <div class="container">access opera — cultural velocity / istanbul / worldwide<br>© 2026 · all resonance reserved</div>
   </footer>
 </main>
 
 <script>
   (function() {
-    // MOBILE MENU
+    // cursor reactive lighting
+    const cursorLight = document.getElementById('cursorLight');
+    document.addEventListener('mousemove', (e) => {
+      const x = e.clientX, y = e.clientY;
+      cursorLight.style.setProperty('--x', x + 'px');
+      cursorLight.style.setProperty('--y', y + 'px');
+    });
+
+    // mobile menu
     const menuToggle = document.getElementById('menuToggle');
     const navMenu = document.getElementById('navMenu');
     if(menuToggle && navMenu) {
@@ -565,10 +548,12 @@
       document.querySelectorAll('.nav-links a').forEach(link => link.addEventListener('click', () => navMenu.classList.remove('open')));
     }
 
-    // SMOOTH SCROLL
+    // smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
-        const target = document.querySelector(this.getAttribute('href'));
+        const targetId = this.getAttribute('href');
+        if(targetId === '#') return;
+        const target = document.querySelector(targetId);
         if(target) {
           e.preventDefault();
           window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
@@ -576,53 +561,27 @@
       });
     });
 
-    // DYNAMIC COUNTERS (alive stats)
-    const counters = document.querySelectorAll('.counter');
-    const speed = 180;
-    const animateCounters = () => {
-      counters.forEach(counter => {
-        const updateCount = () => {
-          const target = parseInt(counter.getAttribute('data-target'));
-          const current = parseInt(counter.innerText);
-          const increment = Math.ceil(target / 25);
-          if(current < target) {
-            counter.innerText = Math.min(current + increment, target);
-            setTimeout(updateCount, 35);
-          } else {
-            counter.innerText = target;
-          }
-        };
-        updateCount();
-      });
-    };
-
-    // REVEAL ON SCROLL + START COUNTERS WHEN visible
-    const revealElements = document.querySelectorAll('.hero, section, .footer');
+    // reveal on scroll (intersection)
+    const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if(entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          // if stats section becomes visible, trigger counters only once
-          if(entry.target.id === 'roster' || entry.target.classList.contains('hero')) {
-            const stats = document.querySelectorAll('.counter');
-            stats.forEach(stat => {
-              if(stat.innerText === '0' && stat.getAttribute('data-target')) animateCounters();
-            });
-          }
-        }
+        if(entry.isIntersecting) entry.target.classList.add('visible');
       });
     }, { threshold: 0.1 });
-    revealElements.forEach(el => { el.classList.add('reveal'); observer.observe(el); });
-    document.querySelector('.hero')?.classList.add('visible');
+    reveals.forEach(el => observer.observe(el));
 
-    // also trigger counters when hero stats visible
-    const heroStats = document.querySelector('.hero');
-    if(heroStats) {
-      const heroObserver = new IntersectionObserver((entries) => {
-        if(entries[0].isIntersecting) animateCounters();
-      }, { threshold: 0.3 });
-      heroObserver.observe(heroStats);
+    // kinetic text parallax (subtle cursor shift)
+    const kineticBlock = document.querySelector('.kinetic-block');
+    if(kineticBlock) {
+      document.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth) * 8 - 4;
+        const y = (e.clientY / window.innerHeight) * 8 - 4;
+        kineticBlock.style.transform = `translate(${x * 0.5}px, ${y * 0.5}px)`;
+      });
     }
+
+    // manual trigger for first visible section
+    window.dispatchEvent(new Event('scroll'));
   })();
 </script>
 </body>
