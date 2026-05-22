@@ -1,607 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>access opera — creative consulting agency</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>access opera.</title>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  * { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+    text-transform: lowercase !important; 
+  }
+  
+  body {
+    background: #f4f4f0; /* Classic Yeezy Bone/Cream */
+    color: #000;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    line-height: 1;
+    overflow-x: hidden;
+  }
 
-:root {
-  --void: #060608;
-  --surface: #0e0f12;
-  --panel: #13151a;
-  --pure-white: #ffffff;
-  --dim-white: rgba(255, 255, 255, 0.85);
-  --concrete: #8a8a93;
-  --steel: #4b4b54;
-  --stadium-orange: #ff4500;
-  --stadium-glow: rgba(255, 69, 0, 0.15);
-  --line: rgba(255, 255, 255, 0.07);
-}
+  /* RAW GRID ARCHITECTURE */
+  .section {
+    min-height: 100vh;
+    padding: 4vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
-html {
-  background: var(--void);
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-}
+  /* MASSIVE TYPOGRAPHY */
+  h1 {
+    font-size: 15vw;
+    letter-spacing: -0.06em; /* Extremely tight tracking */
+    margin-bottom: 3rem;
+  }
 
-body {
-  font-family: 'IBM Plex Mono', monospace;
-  background: var(--void);
-  color: var(--dim-white);
-  line-height: 1.5;
-  letter-spacing: 0.02em;
-  overflow-x: hidden;
-  cursor: none; /* Hide default cursor to enable customized experience */
-}
+  p {
+    font-size: 5vw;
+    letter-spacing: -0.05em;
+    line-height: 1.1;
+    max-width: 90vw;
+  }
 
-/* CUSTOM REACTIVE CURSOR SYSTEM */
-#cursor-dot {
-  position: fixed; width: 6px; height: 6px;
-  background: var(--stadium-orange); border-radius: 50%;
-  pointer-events: none; z-index: 10000;
-  transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s;
-}
-#cursor-ring {
-  position: fixed; width: 34px; height: 34px;
-  border: 1px solid rgba(255, 69, 0, 0.3); border-radius: 50%;
-  pointer-events: none; z-index: 9999;
-  transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s, border-color 0.3s;
-}
+  /* HARSH UTILITY GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2vw;
+    margin-top: 10vh;
+  }
 
-/* SCREEN GRAPHICS & BACKDROP GLOWS */
-.scanlines {
-  position: fixed; inset: 0; pointer-events: none; z-index: 999;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px);
-}
-.ambient-glow-1 {
-  position: absolute; top: -10%; left: 20%; width: 60vw; height: 60vw;
-  background: radial-gradient(circle, var(--stadium-glow) 0%, transparent 70%);
-  pointer-events: none; z-index: 0; filter: blur(40px);
-}
+  .item {
+    font-size: 3vw;
+    letter-spacing: -0.03em;
+    border-top: 3px solid #000;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+  }
 
-/* FIXED NAVIGATION */
-.nav-bar {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 995;
-  background: rgba(6, 6, 8, 0.8); backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--line);
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 40px; height: 64px; text-transform: lowercase;
-}
-.nav-logo {
-  font-size: 15px; font-weight: 700; letter-spacing: -0.02em;
-  color: var(--pure-white); text-decoration: none; display: flex; align-items: center; gap: 8px;
-}
-.nav-logo .dot { width: 6px; height: 6px; background: var(--stadium-orange); border-radius: 50%; }
-.nav-menu { display: flex; gap: 32px; list-style: none; align-items: center; }
-.nav-menu a {
-  font-size: 11px; text-decoration: none; color: var(--concrete);
-  font-weight: 500; transition: color 0.2s;
-}
-.nav-menu a:hover { color: var(--pure-white); }
+  a {
+    color: #000;
+    text-decoration: none;
+  }
 
-/* HERO SECTION WITH INFINITE MOVEMENT */
-.hero-section {
-  position: relative; min-height: 100vh; display: flex; flex-direction: column;
-  justify-content: flex-end; padding: 120px 40px 80px 40px; overflow: hidden;
-  border-bottom: 1px solid var(--line);
-}
-.hero-content { position: relative; z-index: 10; max-width: 1100px; text-transform: lowercase; }
-.hero-eyebrow {
-  font-size: 11px; font-weight: 600; color: var(--stadium-orange);
-  letter-spacing: 0.15em; margin-bottom: 24px; display: flex; align-items: center; gap: 12px;
-}
-.hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--stadium-orange); }
-.hero-title {
-  font-size: clamp(40px, 8.5vw, 110px); font-weight: 700; color: var(--pure-white);
-  line-height: 0.95; letter-spacing: -0.04em; margin-bottom: 32px;
-}
-.hero-title span.hollow {
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3); color: transparent;
-}
+  a:hover {
+    background: #000;
+    color: #f4f4f0;
+  }
 
-/* HIGH VELOCITY MOTION TICKER */
-.ticker-wrap {
-  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-  background: var(--surface); height: 44px; display: flex; align-items: center;
-  overflow: hidden; position: relative; z-index: 20; text-transform: lowercase;
-}
-.ticker-track {
-  display: flex; white-space: nowrap; animation: marquee infinite linear 25s;
-}
-.ticker-track span {
-  font-size: 10px; font-weight: 500; color: var(--concrete);
-  padding: 0 32px; display: flex; align-items: center; gap: 12px;
-}
-.ticker-track span::after { content: '///'; color: var(--steel); margin-left: 24px; }
-.ticker-track span.highlight { color: var(--pure-white); }
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
+  /* BRUTALIST 3D CANVAS */
+  #canvas-container {
+    width: 100%;
+    height: 50vh;
+    background: #000;
+    margin: 8vh 0;
+    cursor: crosshair;
+  }
 
-/* SECTION ARCHITECTURE */
-.section-block { width: 100%; position: relative; padding: 120px 40px; border-bottom: 1px solid var(--line); }
-.section-num { font-size: 11px; color: var(--stadium-orange); font-weight: 600; margin-bottom: 16px; }
-.section-heading {
-  font-size: clamp(36px, 6vw, 76px); font-weight: 700; color: var(--pure-white);
-  letter-spacing: -0.03em; line-height: 1.0; margin-bottom: 64px; text-transform: lowercase;
-}
-
-/* EDITORIAL GRID BREAKS */
-.layout-split { display: grid; grid-template-columns: 1fr; gap: 48px; align-items: start; }
-.body-text { font-size: 15px; line-height: 1.75; color: var(--dim-white); }
-.body-text p { margin-bottom: 24px; }
-.body-text strong { color: var(--pure-white); font-weight: 600; }
-
-/* RE-ENGINEERED BORDERLESS GLOBAL NODE MAP */
-.globe-viewport {
-  position: relative; width: 100%; height: 540px;
-  display: flex; align-items: center; justify-content: center;
-  background: radial-gradient(circle, rgba(19,21,26,0.5) 0%, transparent 80%);
-}
-#globe-canvas { display: block; filter: drop-shadow(0 0 30px rgba(255, 69, 0, 0.05)); }
-.globe-overlay-data {
-  position: absolute; bottom: 24px; left: 0; display: flex; flex-direction: column; gap: 8px;
-}
-.data-node { display: flex; align-items: center; gap: 12px; font-size: 11px; color: var(--concrete); text-transform: lowercase; }
-.data-node .ping {
-  width: 8px; height: 8px; background: var(--stadium-orange); border-radius: 50%;
-  box-shadow: 0 0 12px var(--stadium-orange); animation: nodePulse 2s infinite;
-}
-@keyframes nodePulse {
-  0% { transform: scale(0.8); opacity: 0.5; }
-  50% { transform: scale(1.3); opacity: 1; }
-  100% { transform: scale(0.8); opacity: 0.5; }
-}
-
-/* INTERACTIVE REACTIVE SERVICES GRID */
-.services-stack { display: flex; flex-direction: column; width: 100%; }
-.services-row {
-  display: grid; grid-template-columns: 1fr; padding: 32px 0;
-  border-bottom: 1px solid var(--line); position: relative;
-  transition: padding-left 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-  text-transform: lowercase;
-}
-.services-row:first-child { border-top: 1px solid var(--line); }
-.services-row:hover {
-  padding-left: 24px; background: rgba(255,255,255,0.01);
-}
-.services-row::after {
-  content: ''; position: absolute; bottom: -1px; left: 0; width: 0; height: 1px;
-  background: var(--stadium-orange); transition: width 0.4s ease;
-}
-.services-row:hover::after { width: 100%; }
-
-.svc-header { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
-.svc-idx { font-size: 11px; color: var(--steel); font-weight: 600; }
-.svc-title { font-size: 26px; font-weight: 700; color: var(--pure-white); }
-.svc-details { list-style: none; display: flex; flex-wrap: wrap; gap: 12px 24px; }
-.svc-details li { font-size: 13px; color: var(--concrete); display: flex; align-items: center; gap: 8px; }
-.svc-details li::before { content: '→'; color: var(--stadium-orange); }
-
-/* PRODUCTION ARCHIVE POSTERS FRAME */
-.archive-grid { display: grid; grid-template-columns: 1fr; gap: 24px; text-transform: lowercase; }
-.archive-card {
-  position: relative; border: 1px solid var(--line); background: var(--surface);
-  padding: 48px 32px; display: flex; flex-direction: column; justify-content: space-between;
-  min-height: 240px; overflow: hidden; transition: border-color 0.3s, transform 0.3s;
-}
-.archive-card:hover {
-  border-color: rgba(255, 69, 0, 0.4); transform: translateY(-4px);
-}
-.archive-bg-glow {
-  position: absolute; bottom: -50px; right: -50px; width: 180px; height: 180px;
-  background: radial-gradient(circle, rgba(255,69,0,0.08) 0%, transparent 70%);
-  pointer-events: none; transition: transform 0.4s ease;
-}
-.archive-card:hover .archive-bg-glow { transform: scale(1.5); }
-.archive-tag { font-size: 11px; color: var(--stadium-orange); font-weight: 600; letter-spacing: 0.05em; }
-.archive-title { font-size: 28px; font-weight: 700; color: var(--pure-white); margin-top: 40px; position: relative; z-index: 5; }
-
-/* HIGH-CONTRAST INTAKE FORM FIELDS */
-.form-box { max-width: 700px; text-transform: lowercase; }
-.form-group { margin-bottom: 24px; position: relative; }
-.form-group input, .form-group textarea {
-  width: 100%; background: transparent; border: none;
-  border-bottom: 1px solid var(--line); padding: 16px 4px;
-  font-family: inherit; font-size: 14px; color: var(--pure-white);
-  outline: none; transition: border-color 0.3s;
-}
-.form-group input:focus, .form-group textarea:focus { border-bottom-color: var(--stadium-orange); }
-.submit-btn-wrap { margin-top: 40px; }
-.submit-button {
-  background: transparent; color: var(--pure-white);
-  border: 1px solid var(--stadium-orange); padding: 16px 40px; font-family: inherit;
-  font-size: 11px; font-weight: 600; letter-spacing: 0.1em; cursor: none;
-  position: relative; overflow: hidden; transition: color 0.3s;
-}
-.submit-button::before {
-  content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-  background: var(--stadium-orange); z-index: -1; transition: left 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-}
-.submit-button:hover { color: var(--void); }
-.submit-button:hover::before { left: 0; }
-
-/* SYSTEM FOOTER */
-.footer { padding: 80px 40px; background: var(--surface); border-top: 1px solid var(--line); text-transform: lowercase; }
-.footer-logo { font-size: 24px; font-weight: 700; color: var(--pure-white); margin-bottom: 16px; }
-.footer-text { color: var(--concrete); font-size: 12px; max-width: 440px; line-height: 1.7; }
-.footer-bottom {
-  margin-top: 64px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.04);
-  display: flex; justify-content: space-between; font-size: 11px; color: var(--steel);
-}
-
-/* SCREEN LAYOUT SCALE ADAPTATIONS */
-@media (min-width: 768px) {
-  .layout-split { grid-template-columns: 1fr 1fr; gap: 80px; }
-  .services-row { grid-template-columns: 1fr 2fr; padding: 40px 0; align-items: center; }
-  .svc-header { margin-bottom: 0; }
-  .archive-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-}
+  @media(max-width: 768px) {
+    p { font-size: 9vw; max-width: 100%; }
+    .grid { grid-template-columns: 1fr; margin-top: 5vh; }
+    .item { font-size: 6vw; border-top: 2px solid #000; }
+    #canvas-container { height: 40vh; }
+  }
 </style>
 </head>
-
 <body>
 
-<div class="scanlines"></div>
-<div class="ambient-glow-1"></div>
+  <div class="section">
+    <h1>access opera.</h1>
+    <p>mary.</p>
+    <p>nebuchadnezzar.</p>
+    <p>istanbul 90k.</p>
 
-<div id="cursor-dot"></div>
-<div id="cursor-ring"></div>
+    <div id="canvas-container"></div>
 
-<nav class="nav-bar">
-  <a href="#" class="nav-logo">access opera <div class="dot"></div></a>
-  <ul class="nav-menu">
-    <li><a href="#profile" class="hover-target">profile</a></li>
-    <li><a href="#network" class="hover-target">operations</a></li>
-    <li><a href="#services" class="hover-target">services</a></li>
-    <li><a href="#archive" class="hover-target">archive</a></li>
-    <li><a href="#contact" class="hover-target">contact</a></li>
-  </ul>
-</nav>
+    <p>we build the moments.</p>
 
-<section class="hero-section">
-  <div class="hero-content">
-    <p class="hero-eyebrow">creative consulting — fine arts & entertainment</p>
-    <h1 class="hero-title">orchestrating <span class="hollow">grand art</span> on stage <span class="hollow">&amp;</span> film.</h1>
-  </div>
-</section>
-
-<div class="ticker-wrap">
-  <div class="ticker-track">
-    <span>stadium scale execution</span>
-    <span class="highlight">the musical agency behind kanye west's operas</span>
-    <span>classical music tradition meeting modern icons</span>
-    <span>production / casting / brand Consulting</span>
-    <span>stadium scale execution</span>
-    <span class="highlight">the musical agency behind kanye west's operas</span>
-    <span>classical music tradition meeting modern icons</span>
-    <span>production / casting / brand Consulting</span>
-  </div>
-</div>
-
-<section id="profile" class="section-block">
-  <p class="section-num">// 01 _ framework</p>
-  <h2 class="section-heading">profile</h2>
-  <div class="layout-split">
-    <div class="body-text">
-      <p>access opera (ao) operates as an elite multi-solution creative consulting agency bridging the architectural lineage of <strong>classical music tradition</strong> with the cultural scale of today’s modern icons.</p>
-    </div>
-    <div class="body-text">
-      <p>we are committed to maximizing access to high art forms by intersecting contemporary music spheres with classical foundations—driving a highly innovative, sustainable, and <strong>profitable performing arts market</strong> globally.</p>
+    <div class="grid">
+      <div class="item">production.</div>
+      <div class="item">artist management.</div>
+      <div class="item">creative consulting.</div>
+      <div class="item"><a href="mailto:info@accessopera.com">contact.</a></div>
     </div>
   </div>
-</section>
 
-<section id="network" class="section-block">
-  <p class="section-num">// 02 _ global nodes</p>
-  <h2 class="section-heading">operational alignment</h2>
-  <div class="layout-split">
-    <div class="globe-viewport">
-      <canvas id="globe-canvas"></canvas>
-      <div class="globe-overlay-data">
-        <div class="data-node"><div class="ping"></div> active pipeline focus // istanbul stadium deployment</div>
-      </div>
-    </div>
-    <div class="body-text" style="margin-top: auto; margin-bottom: auto;">
-      <p>our agency framework orchestrates projects across fluid cross-continental networks. from deep architectural casting pipelines to extensive stadium staging infrastructure, we maneuver high-stakes entertainment operations with precision.</p>
-      <p>the real-time canvas configuration locks absolute synchronization tracking variables mapping directly onto our ongoing live production footprint in <strong>istanbul</strong>.</p>
-    </div>
-  </div>
-</section>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    // YEEZY SUPPLY BRUTALIST WIREFRAME ROTATION
+    const cont = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, cont.clientWidth / cont.clientHeight, 0.1, 1000);
+    camera.position.z = 3;
 
-<section id="services" class="section-block">
-  <p class="section-num">// 03 _ capabilities</p>
-  <h2 class="section-heading">divisions</h2>
-  <div class="services-stack">
-    
-    <div class="services-row hover-target">
-      <div class="svc-header">
-        <span class="svc-idx">division _ 01</span>
-        <h3 class="svc-title">production</h3>
-      </div>
-      <ul class="svc-details">
-        <li>film &amp; stage execution</li>
-        <li>arts events</li>
-        <li>presentations</li>
-        <li>casting workflows</li>
-      </ul>
-    </div>
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(cont.clientWidth, cont.clientHeight);
+    cont.appendChild(renderer.domElement);
 
-    <div class="services-row hover-target">
-      <div class="svc-header">
-        <span class="svc-idx">division _ 02</span>
-        <h3 class="svc-title">artist management</h3>
-      </div>
-      <ul class="svc-details">
-        <li>career strategy development</li>
-        <li>classical &amp; pop networks</li>
-        <li>major deal generation</li>
-        <li>platinum-tier branding</li>
-      </ul>
-    </div>
+    // Raw geometric knot, zero lighting, pure wireframe
+    const geo = new THREE.TorusKnotGeometry(0.8, 0.3, 100, 16);
+    const mat = new THREE.MeshBasicMaterial({ color: 0xf4f4f0, wireframe: true });
+    const mesh = new THREE.Mesh(geo, mat);
+    scene.add(mesh);
 
-    <div class="services-row hover-target">
-      <div class="svc-header">
-        <span class="svc-idx">division _ 03</span>
-        <h3 class="svc-title">consulting</h3>
-      </div>
-      <ul class="svc-details">
-        <li>image &amp; identity design</li>
-        <li>concept configuration</li>
-        <li>infrastructure engineering</li>
-        <li>project architecture management</li>
-      </ul>
-    </div>
-
-  </div>
-</section>
-
-<section id="archive" class="section-block">
-  <p class="section-num">// 04 _ track record</p>
-  <h2 class="section-heading">selected portfolio deployments</h2>
-  <div class="archive-grid">
-    <div class="archive-card hover-target">
-      <div class="archive-tag">musical agency execution</div>
-      <h3 class="archive-title">kanye west <br>— mary opera</h3>
-      <div class="archive-bg-glow"></div>
-    </div>
-    <div class="archive-card hover-target">
-      <div class="archive-tag">musical agency execution</div>
-      <h3 class="archive-title">kanye west <br>— nebuchadnezzar opera</h3>
-      <div class="archive-bg-glow"></div>
-    </div>
-  </div>
-</section>
-
-<section id="contact" class="section-block">
-  <p class="section-num">// 05 _ acceleration</p>
-  <h2 class="section-heading">general inquiries</h2>
-  <div class="form-box">
-    <form onsubmit="event.preventDefault();">
-      <div class="form-group"><input type="text" placeholder="identity / enterprise title" required class="hover-target" /></div>
-      <div class="form-group"><input type="email" placeholder="secure communication node / email address" required class="hover-target" /></div>
-      <div class="form-group"><textarea placeholder="project parameters / scale target metrics / structural objectives" rows="4" required class="hover-target"></textarea></div>
-      <div class="submit-btn-wrap">
-        <button type="submit" class="submit-button hover-target">initiate communication gateway</button>
-      </div>
-    </form>
-  </div>
-</section>
-
-<footer class="footer">
-  <div class="footer-logo">access opera</div>
-  <p class="footer-text">the musical agency directing landmark grand art across film and global stages. syncing classical music traditions with modern cultural giants.</p>
-  <div class="footer-bottom">
-    <span>&copy; 2026 access opera tracking collective. all rights reserved.</span>
-    <span>status // operational acceleration</span>
-  </div>
-</footer>
-
-<script>
-// FLUID MULTI-ELEMENT MAGNETIC CURSOR MECHANICS
-(function initCursor(){
-  const dot = document.getElementById('cursor-dot');
-  const ring = document.getElementById('cursor-ring');
-  let mouseX = 0, mouseY = 0;
-  let ringX = 0, ringY = 0;
-
-  window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    dot.style.left = mouseX + 'px';
-    dot.style.top = mouseY + 'px';
-  });
-
-  function tickRing() {
-    ringX += (mouseX - ringX) * 0.15;
-    ringY += (mouseY - ringY) * 0.15;
-    ring.style.left = ringX + 'px';
-    ring.style.top = ringY + 'px';
-    requestAnimationFrame(tickRing);
-  }
-  tickRing();
-
-  // Add reactive swelling on interactive hover classes
-  const targets = document.querySelectorAll('.hover-target');
-  targets.forEach(t => {
-    t.addEventListener('mouseenter', () => {
-      dot.style.width = '12px'; dot.style.height = '12px';
-      dot.style.backgroundColor = '#ffffff';
-      ring.style.width = '50px'; ring.style.height = '50px';
-      ring.style.borderColor = '#ff4500';
-    });
-    t.addEventListener('mouseleave', () => {
-      dot.style.width = '6px'; dot.style.height = '6px';
-      dot.style.backgroundColor = '#ff4500';
-      ring.style.width = '34px'; ring.style.height = '34px';
-      ring.style.borderColor = 'rgba(255, 69, 0, 0.3)';
-    });
-  });
-})();
-
-// BORDERLESS REAL-TIME GLOBAL LANDMASS GRAPHICS GLOBE
-(function initVisualGlobe(){
-  const container = document.querySelector('.globe-viewport');
-  const canvas = document.getElementById('globe-canvas');
-  const W = container.offsetWidth, H = 540;
-  
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(45, W / H, 1, 1000);
-  camera.position.z = 210;
-  
-  const renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true, alpha: true});
-  renderer.setSize(W, H);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-  // Lighting environment layers adding volumetric depth to materials
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
-  scene.add(ambientLight);
-
-  const keyLight = new THREE.DirectionalLight(0xff4500, 1.2);
-  keyLight.position.set(100, 150, 50);
-  scene.add(keyLight);
-
-  const fillLight = new THREE.DirectionalLight(0x3a3d52, 0.8);
-  fillLight.position.set(-100, -50, -50);
-  scene.add(fillLight);
-  
-  const globeGroup = new THREE.Group();
-  scene.add(globeGroup);
-
-  // Procedural canvas world landscape texture pipeline
-  function buildProceduralMap() {
-    const mapCanvas = document.createElement('canvas');
-    mapCanvas.width = 2048; mapCanvas.height = 1024;
-    const ctx = mapCanvas.getContext('2d');
-    
-    // Smooth matte void ocean floor background
-    ctx.fillStyle = '#0e0f12';
-    ctx.fillRect(0, 0, mapCanvas.width, mapCanvas.height);
-    
-    // Flat luxury carbon texture for continent tracking landmass indicators
-    ctx.fillStyle = '#22252e';
-    
-    const continents = [
-      {x: 250, y: 180, w: 380, h: 320}, // north america
-      {x: 400, y: 520, w: 220, h: 380}, // south america
-      {x: 950, y: 120, w: 750, h: 420}, // eurasia
-      {x: 1000, y: 480, w: 280, h: 360}, // africa
-      {x: 1550, y: 620, w: 300, h: 220}  // australia
-    ];
-    
-    continents.forEach(c => {
-      ctx.beginPath();
-      ctx.rect(c.x, c.y, c.w, c.h);
-      ctx.fill();
-    });
-
-    return new THREE.CanvasTexture(mapCanvas);
-  }
-
-  const textureMap = buildProceduralMap();
-
-  // Primary Earth Sphere Geo wrapped with Phong materials for crisp reflection physics
-  const sphereGeometry = new THREE.SphereGeometry(62, 50, 50);
-  const sphereMaterial = new THREE.MeshPhongMaterial({
-    map: textureMap,
-    shininess: 15,
-    bumpScale: 1
-  });
-  const earthMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
-  globeGroup.add(earthMesh);
-
-  // Fine wireframe skeleton overlay adding sharp technological structure lines
-  const meshWireMaterial = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.04
-  });
-  const overlaySkeleton = new THREE.Mesh(new THREE.SphereGeometry(62.3, 30, 30), meshWireMaterial);
-  globeGroup.add(overlaySkeleton);
-
-  // Geographic coordinates transformation utility matrix functions
-  function getPositionVector(lat, lon, radius) {
-    const phi = (90 - lat) * (Math.PI / 180);
-    const theta = (lon + 180) * (Math.PI / 180);
-    return new THREE.Vector3(
-      -(radius * Math.sin(phi) * Math.sin(theta)),
-      radius * Math.cos(phi),
-      radius * Math.sin(phi) * Math.cos(theta)
-    );
-  }
-
-  // Istanbul coordinates deployment point anchoring
-  const targetNodeVector = getPositionVector(41.0082, 28.9784, 62.5);
-  
-  // Pin point core anchor indicator
-  const pinGeo = new THREE.SphereGeometry(1.5, 16, 16);
-  const pinMat = new THREE.MeshBasicMaterial({color: 0xff4500});
-  const nodePinMarker = new THREE.Mesh(pinGeo, pinMat);
-  nodePinMarker.position.copy(targetNodeVector);
-  globeGroup.add(nodePinMarker);
-
-  // Volumetric expanding tracking ping indicator ring
-  const pingRingGeo = new THREE.RingGeometry(2, 4.5, 32);
-  const pingRingMat = new THREE.MeshBasicMaterial({
-    color: 0xff4500,
-    side: THREE.DoubleSide,
-    transparent: true,
-    opacity: 0.7
-  });
-  const pingRingMesh = new THREE.Mesh(pingRingGeo, pingRingMat);
-  pingRingMesh.position.copy(targetNodeVector);
-  pingRingMesh.lookAt(new THREE.Vector3(0,0,0));
-  globeGroup.add(pingRingMesh);
-
-  // Drag interaction capture parameters
-  let isInteracting = false, lastPos = {x: 0, y: 0};
-  canvas.addEventListener('mousedown', () => { isInteracting = true; });
-  window.addEventListener('mouseup', () => { isInteracting = false; });
-  window.addEventListener('mousemove', (e) => {
-    const delta = {x: e.clientX - lastPos.x, y: e.clientY - lastPos.y};
-    if (isInteracting) {
-      globeGroup.rotation.y += delta.x * 0.004;
-      globeGroup.rotation.x += delta.y * 0.004;
+    // Unrelenting spin
+    function animate() {
+      requestAnimationFrame(animate);
+      mesh.rotation.x += 0.002;
+      mesh.rotation.y += 0.004;
+      renderer.render(scene, camera);
     }
-    lastPos = {x: e.clientX, y: e.clientY};
-  });
+    animate();
 
-  // Infinite system animation engine execution updates
-  let pulseTimer = 0;
-  function runLoop() {
-    requestAnimationFrame(runLoop);
-    
-    if (!isInteracting) {
-      globeGroup.rotation.y += 0.0015;
-    }
-    
-    // Wave pulse dynamic loop computations for node animations
-    pulseTimer += 0.06;
-    const matrixScale = 1 + Math.sin(pulseTimer) * 0.4;
-    pingRingMesh.scale.set(matrixScale, matrixScale, 1);
-    pingRingMat.opacity = 0.8 - (Math.sin(pulseTimer) * 0.3);
-
-    renderer.render(scene, camera);
-  }
-  runLoop();
-
-  // Fluid browser resize alignment hooks
-  window.addEventListener('resize', () => {
-    const nextW = container.offsetWidth;
-    camera.aspect = nextW / H;
-    camera.updateProjectionMatrix();
-    renderer.setSize(nextW, H);
-  });
-})();
-</script>
+    // Snap to resize
+    window.addEventListener('resize', () => {
+      camera.aspect = cont.clientWidth / cont.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(cont.clientWidth, cont.clientHeight);
+    });
+  </script>
 </body>
 </html>
