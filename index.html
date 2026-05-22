@@ -3,217 +3,346 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>access opera.</title>
+<title>access opera. // system active</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
   * { 
     box-sizing: border-box; 
     margin: 0; 
     padding: 0; 
     text-transform: lowercase !important; 
+    cursor: none; /* Disables default cursor for custom targeting reticle */
   }
   
+  :root {
+    --void: #030303;
+    --bone: #e8e8e3;
+    --akira-red: #ff1e00;
+    --grid-line: rgba(255, 30, 0, 0.1);
+  }
+
   body {
-    background: #f4f4f0; 
-    color: #000;
-    font-family: 'ibm plex mono', monospace;
+    background: var(--void); 
+    color: var(--bone);
+    font-family: 'IBM Plex Mono', monospace;
     font-weight: 600;
-    line-height: 1.1;
+    line-height: 1.2;
     overflow-x: hidden;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.04em;
+  }
+
+  /* TRON SCANLINE OVERLAY */
+  .scanlines {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 4px, 3px 100%;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  /* CUSTOM KINETIC CURSOR (AKIRA / TRON TARGETING) */
+  #cursor-dot {
+    position: fixed; width: 4px; height: 4px;
+    background: var(--akira-red);
+    top: 0; left: 0; transform: translate(-50%, -50%);
+    pointer-events: none; z-index: 10000;
+    box-shadow: 0 0 10px var(--akira-red);
+  }
+  #cursor-ring {
+    position: fixed; width: 30px; height: 30px;
+    border: 1px solid var(--akira-red);
+    top: 0; left: 0; transform: translate(-50%, -50%);
+    pointer-events: none; z-index: 10000;
+    border-radius: 50%;
+    transition: width 0.2s, height 0.2s, background 0.2s;
   }
 
   /* LAYOUT STRUCTURE */
   .container {
-    padding: 4vw;
+    padding: 6vw 4vw;
+    position: relative;
+    z-index: 10;
   }
 
   .section {
-    margin-bottom: 12vh;
+    margin-bottom: 15vh;
+    position: relative;
   }
 
   /* TYPOGRAPHY */
   h1 {
-    font-size: 11vw;
+    font-size: 10vw;
     font-weight: 700;
     letter-spacing: -0.06em;
-    margin-bottom: 6vh;
-    border-bottom: 4px solid #000;
+    margin-bottom: 8vh;
+    border-bottom: 2px solid var(--akira-red);
     padding-bottom: 2vh;
+    color: var(--bone);
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
   }
 
   h2 {
-    font-size: 6vw;
+    font-size: 5vw;
     font-weight: 700;
     letter-spacing: -0.05em;
-    margin-bottom: 3vh;
+    margin-bottom: 4vh;
+    display: inline-block;
+  }
+  
+  h2::before {
+    content: '[ ';
+    color: var(--akira-red);
+  }
+  h2::after {
+    content: ' ]';
+    color: var(--akira-red);
   }
 
   p {
-    font-size: 3vw;
-    max-width: 80vw;
-    margin-bottom: 1.5vh;
+    font-size: 2.5vw;
+    max-width: 70vw;
+    margin-bottom: 1vh;
+    color: #a0a0a0;
   }
 
-  /* MONOTONE IMAGE PLACEHOLDER */
+  .highlight {
+    color: var(--bone);
+    font-weight: 700;
+  }
+
+  /* MONOTONE IMAGE PLACEHOLDER WITH AKIRA RED GLITCH BORDER */
   .image-wrapper {
     width: 100%;
-    margin-bottom: 4vh;
+    margin-bottom: 5vh;
     position: relative;
-    background: #111;
+    border: 1px solid var(--grid-line);
+    box-shadow: -10px 10px 0px rgba(255, 30, 0, 0.15);
   }
 
   .monotone-img {
     width: 100%;
-    height: auto;
+    height: 60vh;
+    object-fit: cover;
     display: block;
-    filter: grayscale(100%) contrast(1.2);
-    opacity: 0.9;
+    filter: grayscale(100%) contrast(1.4) brightness(0.8);
   }
 
   .img-caption {
     position: absolute;
-    bottom: 2vw;
-    left: 2vw;
-    color: #f4f4f0;
-    font-size: 2vw;
-    background: #000;
+    bottom: 0;
+    right: 0;
+    color: var(--void);
+    font-size: 1.5vw;
+    font-weight: 700;
+    background: var(--akira-red);
     padding: 1vw 2vw;
+    letter-spacing: 0.1em;
   }
 
   /* GRID SYSTEMS */
   .list-grid {
     display: grid;
     grid-template-columns: 1fr;
-    border-top: 3px solid #000;
+    border-top: 1px solid var(--akira-red);
   }
 
   .list-item {
-    font-size: 4vw;
-    padding: 3vh 0;
-    border-bottom: 1px solid #000;
+    font-size: 3vw;
+    padding: 3vh 1vw;
+    border-bottom: 1px solid #222;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: padding-left 0.3s, color 0.3s;
+    color: var(--bone);
+  }
+
+  .list-item:hover {
+    padding-left: 3vw;
+    color: var(--akira-red);
+    background: rgba(255, 30, 0, 0.05);
   }
 
   .list-item span.tag {
-    font-size: 2vw;
-    color: #666;
+    font-size: 1.5vw;
+    color: #555;
+    text-align: right;
   }
 
-  /* BRUTALIST 3D CANVAS DIVIDER */
+  /* BRUTALIST 3D CANVAS DIVIDER (TRON WIREFRAME) */
   #canvas-container {
     width: 100%;
-    height: 30vh;
-    background: #000;
-    margin: 8vh 0;
-    cursor: crosshair;
+    height: 35vh;
+    background: radial-gradient(circle at center, #110000 0%, var(--void) 70%);
+    margin: 10vh 0;
+    border-top: 1px solid var(--grid-line);
+    border-bottom: 1px solid var(--grid-line);
+    position: relative;
+  }
+
+  #canvas-container::after {
+    content: 'sys.orbit_lock // active';
+    position: absolute;
+    bottom: 1vw; left: 1vw;
+    color: var(--akira-red);
+    font-size: 1vw;
   }
 
   /* LINKS */
   a {
-    color: #000;
+    color: var(--bone);
     text-decoration: none;
-    transition: background 0.2s, color 0.2s;
+    border-bottom: 1px solid var(--akira-red);
+    transition: all 0.2s;
   }
 
   a:hover {
-    background: #000;
-    color: #f4f4f0;
-    padding: 0 1vw;
+    background: var(--akira-red);
+    color: var(--void);
   }
 
   @media(max-width: 768px) {
-    h1 { font-size: 14vw; }
-    h2 { font-size: 8vw; }
-    p { font-size: 4.5vw; max-width: 100%; }
-    .list-item { font-size: 6vw; flex-direction: column; align-items: flex-start; gap: 1vh; }
-    .list-item span.tag { font-size: 3.5vw; }
-    .img-caption { font-size: 3.5vw; }
+    h1 { font-size: 13vw; }
+    h2 { font-size: 7vw; }
+    p { font-size: 4vw; max-width: 100%; }
+    .list-item { font-size: 5vw; flex-direction: column; align-items: flex-start; gap: 1vh; }
+    .list-item span.tag { font-size: 3vw; }
+    .img-caption { font-size: 3vw; }
+    .monotone-img { height: 40vh; }
+    #canvas-container::after { font-size: 2.5vw; }
   }
 </style>
 </head>
 <body>
+
+  <div class="scanlines"></div>
+
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
 
   <div class="container">
     
     <h1>access opera.</h1>
 
     <div class="section">
-      <div class="image-wrapper">
-        <img src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&q=80&w=2000" alt="ye stadium performance" class="monotone-img">
-        <div class="img-caption">ye. istanbul.</div>
+      <div class="image-wrapper hover-target">
+        <img src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&q=80&w=2000" alt="ye stadium performance placeholder" class="monotone-img">
+        <div class="img-caption">ye // istanbul</div>
       </div>
       <h2>the globe returns.</h2>
-      <p>atatürk olympic stadium.</p>
-      <p>capacity: 90,000.</p>
-      <p>status: sold out.</p>
+      <p>location: <span class="highlight">atatürk olympic stadium.</span></p>
+      <p>capacity: <span class="highlight">90,000.</span></p>
+      <p>status: <span class="highlight" style="color: var(--akira-red);">sold out.</span></p>
     </div>
 
-    <div id="canvas-container"></div>
+    <div id="canvas-container" class="hover-target"></div>
 
     <div class="section">
       <h2>clients.</h2>
       <div class="list-grid">
-        <div class="list-item">
+        <div class="list-item hover-target">
           <div>ye</div>
-          <span class="tag">music / creative</span>
+          <span class="tag">music / creative dir.</span>
         </div>
-        <div class="list-item">
+        <div class="list-item hover-target">
           <div>tba</div>
-          <span class="tag">live / touring</span>
+          <span class="tag">live / touring config.</span>
         </div>
-        <div class="list-item">
+        <div class="list-item hover-target">
           <div>tba</div>
-          <span class="tag">film / direction</span>
+          <span class="tag">film / cinematic eng.</span>
         </div>
       </div>
     </div>
 
     <div class="section">
-      <h2>services.</h2>
+      <h2>divisions.</h2>
       <div class="list-grid">
-        <div class="list-item">production</div>
-        <div class="list-item">artist management</div>
-        <div class="list-item">creative consulting</div>
-        <div class="list-item">film & stage execution</div>
+        <div class="list-item hover-target">production framework</div>
+        <div class="list-item hover-target">artist management logistics</div>
+        <div class="list-item hover-target">creative consulting matrix</div>
+        <div class="list-item hover-target">film & stage execution</div>
       </div>
     </div>
 
     <div class="section">
-      <h2>contact.</h2>
-      <p>los angeles / istanbul</p>
-      <p><a href="mailto:info@accessopera.com">info@accessopera.com</a></p>
+      <h2>comm_link.</h2>
+      <p>nodes: <span class="highlight">los angeles / istanbul</span></p>
+      <p>ping: <a href="mailto:info@accessopera.com" class="hover-target">info@accessopera.com</a></p>
     </div>
 
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script>
-    // UTILITARIAN WIREFRAME ROTATION ENGINE
+    // KINETIC CURSOR LOGIC
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    let mouseX = 0, mouseY = 0;
+    let ringX = 0, ringY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.left = mouseX + 'px';
+      dot.style.top = mouseY + 'px';
+    });
+
+    function renderCursor() {
+      ringX += (mouseX - ringX) * 0.2; // Delay follow effect
+      ringY += (mouseY - ringY) * 0.2;
+      ring.style.left = ringX + 'px';
+      ring.style.top = ringY + 'px';
+      requestAnimationFrame(renderCursor);
+    }
+    renderCursor();
+
+    // Hover state reactions for the cursor
+    document.querySelectorAll('.hover-target, a').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        ring.style.width = '60px';
+        ring.style.height = '60px';
+        ring.style.background = 'rgba(255, 30, 0, 0.1)';
+      });
+      el.addEventListener('mouseleave', () => {
+        ring.style.width = '30px';
+        ring.style.height = '30px';
+        ring.style.background = 'transparent';
+      });
+    });
+
+    // GLOWING NEON WIREFRAME ENGINE (TRON)
     const cont = document.getElementById('canvas-container');
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(50, cont.clientWidth / cont.clientHeight, 0.1, 1000);
-    camera.position.z = 3.5;
+    const camera = new THREE.PerspectiveCamera(45, cont.clientWidth / cont.clientHeight, 0.1, 1000);
+    camera.position.z = 4;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(cont.clientWidth, cont.clientHeight);
     cont.appendChild(renderer.domElement);
 
-    // Raw industrial wireframe geometry
-    const geo = new THREE.TorusKnotGeometry(1, 0.4, 120, 20);
-    const mat = new THREE.MeshBasicMaterial({ color: 0xf4f4f0, wireframe: true });
+    // Mechanical Torus Knot geometry
+    const geo = new THREE.TorusKnotGeometry(1.2, 0.4, 150, 20);
+    // Akira Red wireframe material
+    const mat = new THREE.MeshBasicMaterial({ 
+      color: 0xff1e00, 
+      wireframe: true,
+      transparent: true,
+      opacity: 0.6
+    });
     const mesh = new THREE.Mesh(geo, mat);
     scene.add(mesh);
 
-    // Continuous rotation
+    // Continuous kinetic rotation
     function animate() {
       requestAnimationFrame(animate);
-      mesh.rotation.x += 0.0015;
+      mesh.rotation.x += 0.002;
       mesh.rotation.y += 0.003;
+      mesh.rotation.z -= 0.001;
       renderer.render(scene, camera);
     }
     animate();
