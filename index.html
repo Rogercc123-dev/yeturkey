@@ -3,96 +3,100 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>access opera. // management & production</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<title>access opera.</title>
 <style>
-  :root { --void: #030303; --bone: #e8e8e3; --accent: #ff1e00; }
-  * { box-sizing: border-box; margin: 0; padding: 0; text-transform: lowercase !important; }
-  body { background: var(--void); color: var(--bone); font-family: 'IBM Plex Mono', monospace; cursor: none; }
-
-  /* CUSTOM CURSOR */
-  #cursor { position: fixed; width: 10px; height: 10px; background: var(--bone); border-radius: 50%; pointer-events: none; z-index: 9999; }
-
-  /* NAV */
-  header { position: fixed; top: 0; width: 100%; padding: 2vw 4vw; display: flex; justify-content: space-between; z-index: 100; background: var(--void); }
-  .logo { font-size: 2vw; font-weight: 700; }
-  nav ul { display: flex; list-style: none; gap: 3vw; }
-  nav a { color: var(--bone); text-decoration: none; font-size: 1vw; }
-
-  /* PORTAL HERO */
-  .portal { height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding: 15vh 4vw 4vw 4vw; gap: 2vw; }
-  .portal-block { border: 1px solid #222; padding: 3vw; display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; }
-  .portal-block:hover { background: var(--bone); color: var(--void); border-color: var(--bone); }
-  .portal-block h2 { font-size: 4vw; }
-  .portal-block span { font-size: 1vw; }
-
-  /* SECTIONS */
-  .section { padding: 10vh 4vw; border-top: 1px solid #222; }
-  .content-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 4vw; }
+  :root { --bg: #000; --fg: #e0e0e0; --accent: #fff; }
   
-  /* YE FEATURE (REDIRECT) */
-  .ye-hero { background: #111; padding: 4vw; margin-top: 4vw; }
+  * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; text-transform: lowercase; }
   
-  @media(max-width: 768px) {
-    .portal { grid-template-columns: 1fr; }
-    .portal-block h2 { font-size: 8vw; }
+  body { 
+    background: var(--bg); color: var(--fg); 
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    overflow-x: hidden;
   }
+
+  /* CUSTOM ALIVE CURSOR */
+  #cursor {
+    position: fixed; width: 12px; height: 12px;
+    background: var(--accent); border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transition: transform 0.1s ease;
+  }
+
+  /* LAYOUT - YZY SCALE */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    min-height: 100vh;
+    padding: 2vw;
+  }
+
+  .nav { grid-column: 1 / 13; border-bottom: 1px solid #333; padding-bottom: 2vw; display: flex; justify-content: space-between; align-items: flex-end; }
+  .logo { font-size: 8vw; font-weight: 700; line-height: 0.8; letter-spacing: -0.05em; }
+  
+  .hero-text { grid-column: 1 / 9; padding-top: 10vh; }
+  .hero-text h1 { font-size: 14vw; line-height: 0.85; font-weight: 700; margin-bottom: 4vw; }
+  
+  .portal-nav { grid-column: 1 / 13; margin-top: 10vh; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2vw; }
+  .portal-item { border-top: 1px solid #333; padding-top: 2vw; transition: 0.3s; }
+  .portal-item:hover { border-color: var(--accent); padding-left: 2vw; }
+  .portal-item h2 { font-size: 3vw; margin-bottom: 1vw; }
+  .portal-item p { color: #666; font-size: 1vw; }
+
+  /* MOTION */
+  .reveal { opacity: 0; transform: translateY(50px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+  .visible { opacity: 1; transform: translateY(0); }
 </style>
 </head>
 <body>
 
   <div id="cursor"></div>
 
-  <header>
-    <div class="logo">access opera.</div>
-    <nav>
-      <ul>
-        <li><a href="#clients">clients</a></li>
-        <li><a href="#work">work</a></li>
-        <li><a href="#services">services</a></li>
-        <li><a href="#contact">contact</a></li>
-      </ul>
+  <div class="grid">
+    <nav class="nav">
+      <div class="logo">access<br>opera</div>
+      <div style="font-size: 1vw;">est. 2026<br>los angeles</div>
     </nav>
-  </header>
 
-  <main class="portal">
-    <a href="#clients" class="portal-block">
-      <h2>clients</h2>
-      <span>view managed talent.</span>
-    </a>
-    <a href="#work" class="portal-block">
-      <h2>media work</h2>
-      <span>archived productions.</span>
-    </a>
-    <a href="#services" class="portal-block">
-      <h2>services</h2>
-      <span>production framework.</span>
-    </a>
-    <a href="#contact" class="portal-block">
-      <h2>contact</h2>
-      <span>direct communication.</span>
-    </a>
-  </main>
+    <section class="hero-text">
+      <h1 class="reveal">orchestrating<br>presence.</h1>
+    </section>
 
-  <section class="ye-hero">
-    <h2>featured: ye // istanbul 2026</h2>
-    <p>90,000 capacity stadium event. <a href="ye-istanbul.html" style="color:var(--accent)">[ view full case study ]</a></p>
-  </section>
-
-  <section id="clients" class="section">
-    <h2>clients.</h2>
-    <div class="content-grid">
-      <p>we manage global icons and emerging movements. full roster available upon verified inquiry.</p>
+    <div class="portal-nav">
+      <a href="#clients" class="portal-item reveal">
+        <h2>clients</h2>
+        <p>managed talent.</p>
+      </a>
+      <a href="#work" class="portal-item reveal">
+        <h2>work</h2>
+        <p>archived production.</p>
+      </a>
+      <a href="#services" class="portal-item reveal">
+        <h2>services</h2>
+        <p>frameworks.</p>
+      </a>
+      <a href="#contact" class="portal-item reveal">
+        <h2>contact</h2>
+        <p>inquiries.</p>
+      </a>
     </div>
-  </section>
+  </div>
 
   <script>
-    // CURSOR
+    // CURSOR LOGIC
     const cursor = document.getElementById('cursor');
     document.addEventListener('mousemove', e => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
+      cursor.style.transform = `translate(${e.clientX - 6}px, ${e.clientY - 6}px)`;
     });
+
+    // INTERSECTION OBSERVER FOR ANIMATION
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if(e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
