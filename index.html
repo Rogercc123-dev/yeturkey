@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>access opera — futureshaped</title>
-  <meta name="description" content="access opera. global talent representation. cinematic productions. istanbul / worldwide." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>access opera · cultural architecture</title>
+  <meta name="description" content="access opera — global talent agency & cinematic production. istanbul / worldwide. representation, live production, film & trailers." />
   <style>
+    /* ---------- RESET / BASE ---------- */
     * {
       margin: 0;
       padding: 0;
@@ -13,82 +14,98 @@
     }
 
     :root {
-      --bg: #050505;
-      --surface: #0a0a0a;
-      --border: #1f1f1f;
-      --primary: #00f0ff;   /* electric cyan */
-      --primary-glow: rgba(0, 240, 255, 0.2);
-      --secondary: #ff4d4d;
-      --text-main: #e0e0e0;
-      --text-dim: #888;
-      --scan: rgba(0, 240, 255, 0.03);
+      --bg-dark: #080808;
+      --bg-panel: #0e0e0e;
+      --border-dim: #1e1e1e;
+      --border-subtle: #252525;
+      --text-primary: #e6e6e6;
+      --text-secondary: #9a9a9a;
+      --accent: #2b7a7a;      /* muted teal – industrial, no neon */
+      --accent-glow: rgba(43, 122, 122, 0.12);
+      --white-soft: #f0f0f0;
     }
 
     body {
-      background: var(--bg);
-      color: var(--text-main);
+      background: var(--bg-dark);
+      color: var(--text-primary);
       font-family: 'OCR A BT', 'OCR-A', 'Courier New', monospace;
-      font-size: 16px;
+      font-size: 15px;
       line-height: 1.45;
-      letter-spacing: 0.02em;
       text-transform: lowercase;
+      letter-spacing: 0.01em;
+      -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
-    /* all lowercase force */
-    body, button, input, textarea, a, .nav-menu a, .section-label, .client-name, .service-title, .footer-links a {
+    /* force lowercase everything */
+    body, button, input, textarea, a, .nav a, .section-label, .client-name, .service-title, .footer a, .work-title {
       text-transform: lowercase;
     }
 
-    /* custom cursor + scanlines */
-    body {
-      cursor: crosshair;
-    }
-    .scanlines {
+    /* grid / industrial background texture (no neon) */
+    .bg-texture {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: repeating-linear-gradient(0deg, rgba(0,255,255,0.02) 0px, rgba(0,255,255,0.02) 2px, transparent 2px, transparent 6px);
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0.3;
-    }
-
-    /* grid background */
-    .grid-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
-      background-size: 40px 40px;
+      background-image: radial-gradient(circle at 20% 40%, rgba(40,40,40,0.2) 1px, transparent 1px);
+      background-size: 32px 32px;
       pointer-events: none;
       z-index: 0;
+      opacity: 0.35;
     }
 
-    /* container */
+    .scanlines-subtle {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(0deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 2px, transparent 2px, transparent 8px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* main container */
     .container {
-      max-width: 1400px;
+      max-width: 1300px;
       margin: 0 auto;
       padding: 0 32px;
       position: relative;
       z-index: 2;
     }
 
-    /* navigation */
-    .nav-bar {
+    /* ---------- TYPOGRAPHY ---------- */
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: inline-block;
+      border-left: 2px solid var(--accent);
+      padding-left: 14px;
+      font-weight: 500;
+    }
+
+    .section-title {
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin-bottom: 48px;
+      color: var(--white-soft);
+    }
+
+    /* ---------- NAVIGATION (clean, no neon) ---------- */
+    .navbar {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
+      background: rgba(8,8,8,0.92);
       backdrop-filter: blur(12px);
-      background: rgba(5,5,5,0.85);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--border-dim);
       z-index: 1000;
       padding: 18px 32px;
       display: flex;
@@ -96,347 +113,388 @@
       align-items: center;
       flex-wrap: wrap;
     }
-    .nav-logo img {
-      height: 32px;
+
+    .logo img {
+      height: 34px;
       width: auto;
-      filter: brightness(0) invert(1);
+      filter: brightness(0.9) contrast(1.2);
       opacity: 0.9;
     }
-    .nav-menu {
+
+    .nav-links {
       display: flex;
-      gap: 32px;
+      gap: 36px;
       list-style: none;
     }
-    .nav-menu a {
-      color: var(--text-main);
+
+    .nav-links a {
+      color: var(--text-primary);
       text-decoration: none;
-      font-size: 12px;
-      letter-spacing: 0.12em;
-      border-bottom: 1px solid transparent;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      font-weight: 500;
       transition: 0.2s;
-    }
-    .nav-menu a:hover {
-      border-bottom-color: var(--primary);
-      color: var(--primary);
-    }
-    .mobile-btn {
-      display: none;
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--text-main);
-      font-size: 20px;
-      cursor: pointer;
-      padding: 6px 12px;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 4px;
     }
 
-    /* hero */
+    .nav-links a:hover {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      font-size: 22px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+
+    /* ---------- HERO (restrained, industrial) ---------- */
     .hero {
-      min-height: 100vh;
+      min-height: 85vh;
       display: flex;
       align-items: center;
+      padding: 140px 0 80px;
       position: relative;
-      padding: 120px 0 80px;
     }
-    .hero-glow {
-      position: absolute;
-      top: 20%;
-      left: -10%;
-      width: 70%;
-      height: 70%;
-      background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
-      filter: blur(80px);
-      z-index: -1;
+
+    .hero-content {
+      max-width: 780px;
     }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
     .hero-title {
-      font-size: clamp(3rem, 10vw, 7rem);
-      font-weight: 800;
-      line-height: 0.85;
+      font-size: clamp(3.2rem, 9vw, 6rem);
+      font-weight: 700;
+      line-height: 0.92;
       letter-spacing: -0.02em;
-      margin-bottom: 1.5rem;
+      margin-bottom: 28px;
     }
+
     .hero-title span {
-      color: var(--primary);
-      text-shadow: 0 0 8px var(--primary);
+      color: var(--accent);
     }
-    .hero-sub {
+
+    .hero-desc {
       font-size: 0.9rem;
-      color: var(--text-dim);
+      color: var(--text-secondary);
       max-width: 560px;
-      margin-bottom: 2rem;
-      border-left: 2px solid var(--primary);
-      padding-left: 20px;
+      margin-bottom: 36px;
+      border-left: 1px solid var(--border-subtle);
+      padding-left: 24px;
     }
+
     .btn-group {
       display: flex;
       gap: 20px;
       flex-wrap: wrap;
     }
+
     .btn-primary {
       background: transparent;
-      border: 1px solid var(--primary);
-      color: var(--primary);
+      border: 1px solid var(--accent);
+      color: var(--accent);
       padding: 12px 28px;
       text-decoration: none;
-      font-size: 12px;
+      font-size: 11px;
       letter-spacing: 0.2em;
       transition: 0.25s;
     }
+
     .btn-primary:hover {
-      background: var(--primary);
+      background: var(--accent);
       color: #000;
-      box-shadow: 0 0 12px var(--primary);
     }
+
     .btn-outline {
-      border: 1px solid var(--border);
-      color: var(--text-main);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
       padding: 12px 28px;
       text-decoration: none;
-      font-size: 12px;
+      font-size: 11px;
       letter-spacing: 0.2em;
     }
+
     .btn-outline:hover {
-      border-color: var(--text-main);
+      border-color: var(--text-secondary);
     }
 
-    /* section base */
+    /* ---------- SECTIONS (agency grid) ---------- */
     section {
       padding: 100px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .section-label {
-      font-size: 12px;
-      letter-spacing: 0.2em;
-      color: var(--primary);
-      margin-bottom: 20px;
-      display: inline-block;
-      border-left: 3px solid var(--primary);
-      padding-left: 12px;
-    }
-    .section-title {
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 700;
-      margin-bottom: 48px;
-      letter-spacing: -0.01em;
+      border-bottom: 1px solid var(--border-dim);
     }
 
-    /* clients grid (signed roster) */
+    /* roster / clients grid */
     .clients-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 40px;
-      margin-bottom: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 2px;
+      background: var(--border-dim);
+      border: 1px solid var(--border-dim);
     }
+
     .client-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 28px 16px;
-      text-align: center;
-      transition: 0.2s;
-      backdrop-filter: blur(4px);
+      background: var(--bg-panel);
+      padding: 32px 24px;
+      transition: all 0.2s;
     }
+
     .client-card:hover {
-      border-color: var(--primary);
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      background: #141414;
+      border-left: 3px solid var(--accent);
     }
+
     .client-name {
       font-size: 1.2rem;
       font-weight: 600;
-      letter-spacing: -0.5px;
-      margin-bottom: 8px;
-    }
-    .client-discipline {
-      font-size: 9px;
-      color: var(--text-dim);
-      text-transform: uppercase;
-    }
-
-    /* media work / trailers */
-    .work-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-    }
-    .work-card {
-      background: #000;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      transition: 0.2s;
-    }
-    .work-card:hover {
-      border-color: var(--primary);
-    }
-    .work-vid {
-      aspect-ratio: 16/9;
-      background: #0a0a0a;
-      position: relative;
-      overflow: hidden;
-    }
-    .work-vid iframe, .work-vid video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .work-info {
-      padding: 20px;
-    }
-    .work-title {
-      font-size: 1rem;
-      font-weight: 700;
       margin-bottom: 6px;
       letter-spacing: -0.3px;
     }
-    .work-desc {
-      font-size: 11px;
-      color: var(--text-dim);
+
+    .client-discipline {
+      font-size: 9px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
     }
 
-    /* services */
+    /* media / trailers (cinematic) */
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+    }
+
+    .media-card {
+      background: #090909;
+      border: 1px solid var(--border-subtle);
+      transition: 0.2s;
+    }
+
+    .media-card:hover {
+      border-color: var(--accent);
+    }
+
+    .video-wrapper {
+      aspect-ratio: 16 / 9;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .video-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      pointer-events: auto;
+    }
+
+    .media-info {
+      padding: 24px 20px 22px;
+    }
+
+    .media-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .media-desc {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    /* services grid */
     .services-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
+      gap: 2px;
+      background: var(--border-dim);
+      border: 1px solid var(--border-dim);
     }
-    .service-item {
-      border-top: 2px solid var(--primary);
-      padding-top: 24px;
-      background: rgba(0,0,0,0.3);
-      padding: 24px 16px;
-      backdrop-filter: blur(4px);
+
+    .service-card {
+      background: var(--bg-panel);
+      padding: 32px 24px;
     }
+
     .service-title {
-      font-size: 1.1rem;
-      font-weight: 700;
+      font-size: 1rem;
+      font-weight: 600;
       margin-bottom: 12px;
+      letter-spacing: -0.2px;
     }
+
     .service-desc {
       font-size: 11px;
-      color: var(--text-dim);
+      color: var(--text-secondary);
       line-height: 1.5;
     }
 
-    /* contact */
+    /* contact (two columns, brutalist reference) */
     .contact-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 48px;
     }
-    .contact-item {
-      margin-bottom: 24px;
+
+    .contact-block {
+      border-left: 1px solid var(--border-subtle);
+      padding-left: 28px;
     }
+
+    .contact-line {
+      margin-bottom: 28px;
+    }
+
     .contact-label {
       font-size: 10px;
       letter-spacing: 0.2em;
-      color: var(--primary);
-      margin-bottom: 8px;
+      color: var(--accent);
+      margin-bottom: 6px;
     }
+
     .contact-value {
-      font-size: 1.2rem;
+      font-size: 1rem;
     }
+
     .contact-value a {
-      color: var(--text-main);
+      color: var(--text-primary);
       text-decoration: none;
-      border-bottom: 1px dotted var(--border);
+      border-bottom: 1px dotted var(--border-subtle);
     }
+
     .contact-value a:hover {
-      color: var(--primary);
-      border-bottom-color: var(--primary);
+      color: var(--accent);
+      border-bottom-color: var(--accent);
     }
-    .social-links {
+
+    .social-row {
       display: flex;
-      gap: 24px;
+      gap: 28px;
       margin-top: 20px;
     }
-    .social-links a {
-      color: var(--text-dim);
+
+    .social-row a {
+      color: var(--text-secondary);
       text-decoration: none;
-      font-size: 12px;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+    }
+
+    hr {
+      border: 0;
+      height: 1px;
+      background: var(--border-dim);
+      margin: 20px 0;
     }
 
     /* footer */
     .footer {
-      padding: 48px 0 32px;
-      border-top: 1px solid var(--border);
-      font-size: 10px;
+      padding: 48px 32px 40px;
       text-align: center;
-      color: var(--text-dim);
+      font-size: 9px;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border-dim);
+      letter-spacing: 0.08em;
     }
 
-    /* responsive */
+    /* ---------- responsive ---------- */
     @media (max-width: 900px) {
-      .work-grid {
+      .media-grid {
         grid-template-columns: 1fr;
+        gap: 24px;
       }
       .services-grid {
-        grid-template-columns: repeat(2,1fr);
+        grid-template-columns: repeat(2, 1fr);
       }
       .contact-grid {
         grid-template-columns: 1fr;
         gap: 32px;
       }
+      .contact-block {
+        border-left: none;
+        padding-left: 0;
+      }
     }
+
     @media (max-width: 700px) {
-      .nav-menu {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        background: var(--bg);
-        padding: 20px;
-        position: absolute;
-        top: 70px;
-        left: 0;
-        border-bottom: 1px solid var(--border);
-      }
-      .nav-menu.open {
-        display: flex;
-      }
-      .mobile-btn {
-        display: block;
-      }
       .container {
         padding: 0 20px;
       }
+      .navbar {
+        padding: 14px 20px;
+      }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: var(--bg-dark);
+        position: absolute;
+        top: 66px;
+        left: 0;
+        padding: 20px;
+        border-bottom: 1px solid var(--border-dim);
+        gap: 20px;
+      }
+      .nav-links.open {
+        display: flex;
+      }
+      .mobile-menu-btn {
+        display: block;
+      }
       .clients-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
       }
       .services-grid {
         grid-template-columns: 1fr;
       }
       .hero {
-        padding-top: 100px;
+        padding-top: 110px;
+        min-height: 70vh;
       }
     }
 
-    /* glitch / stronger effects */
-    @keyframes pulse {
-      0% { text-shadow: 0 0 0px var(--primary); }
-      100% { text-shadow: 0 0 8px var(--primary); }
+    /* scroll reveal (soft) */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.6s ease;
     }
-    .glitch-text {
-      animation: pulse 1.2s infinite alternate;
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
-    hr {
-      border-color: var(--border);
-      margin: 20px 0;
-    }
-    ::selection {
-      background: var(--primary);
-      color: #000;
+
+    /* industrial accent for blockquotes */
+    .accent-border {
+      border-left: 2px solid var(--accent);
+      padding-left: 18px;
     }
   </style>
 </head>
 <body>
-<div class="grid-bg"></div>
-<div class="scanlines"></div>
 
-<nav class="nav-bar">
-  <div class="nav-logo">
-    <img src="opera.png" alt="access opera" style="height: 36px;">
+<div class="bg-texture"></div>
+<div class="scanlines-subtle"></div>
+
+<nav class="navbar">
+  <div class="logo">
+    <img src="opera.png" alt="access opera" />
   </div>
-  <button class="mobile-btn" id="menuToggle">≡</button>
-  <ul class="nav-menu" id="navMenu">
+  <button class="mobile-menu-btn" id="menuToggle" aria-label="menu">≡</button>
+  <ul class="nav-links" id="navMenu">
     <li><a href="#roster">roster</a></li>
     <li><a href="#media">media</a></li>
     <li><a href="#services">services</a></li>
@@ -446,25 +504,23 @@
 
 <main>
   <div class="container">
+    <!-- HERO -->
     <div class="hero">
-      <div class="hero-glow"></div>
-      <div>
-        <div class="hero-title">
-          access <span>opera</span><br>
-          futureshaped
-        </div>
-        <div class="hero-sub">
+      <div class="hero-content">
+        <div class="hero-eyebrow">cultural architecture</div>
+        <h1 class="hero-title">access <span>opera</span><br>futureshaped</h1>
+        <div class="hero-desc">
           istanbul / worldwide — global talent agency & cinematic production. <br>
-          we engineer cultural moments. stronger. faster. harder.
+          we engineer resonance. representation, live spectacle, and film.
         </div>
         <div class="btn-group">
-          <a href="#roster" class="btn-primary">discover roster</a>
-          <a href="#contact" class="btn-outline">collide with us</a>
+          <a href="#roster" class="btn-primary">roster</a>
+          <a href="#contact" class="btn-outline">collide</a>
         </div>
       </div>
     </div>
 
-    <!-- SIGNED CLIENTS -->
+    <!-- ROSTER / SIGNED CLIENTS (inspired by WME grid) -->
     <section id="roster">
       <div class="section-label">/ signed & represented</div>
       <div class="section-title">the architects</div>
@@ -474,145 +530,147 @@
         <div class="client-card"><div class="client-name">travis scott</div><div class="client-discipline">raging utopia</div></div>
         <div class="client-card"><div class="client-name">björk</div><div class="client-discipline">digital nature</div></div>
         <div class="client-card"><div class="client-name">floating points</div><div class="client-discipline">electronic architect</div></div>
+        <div class="client-card"><div class="client-name">oneohtrix point never</div><div class="client-discipline">synthetic score</div></div>
         <div class="client-card"><div class="client-name">ars industrial</div><div class="client-discipline">live visual ensemble</div></div>
+        <div class="client-card"><div class="client-name">lotic</div><div class="client-discipline">deconstructed club</div></div>
       </div>
-      <div style="margin-top: 32px; font-size: 11px; color: var(--text-dim); border-left: 1px solid var(--border); padding-left: 16px;">
-        + emerging forces · full roster available upon request
+      <div class="accent-border" style="margin-top: 32px; font-size: 10px; color: var(--text-secondary);">
+        full roster & emerging forces — available upon request.
       </div>
     </section>
 
-    <!-- BEST MEDIA WORK / TRAILERS (AKIRA / TRON VIBE) -->
+    <!-- MEDIA / TRAILERS (akira / tron ares influences, industrial cinema) -->
     <section id="media">
-      <div class="section-label">/ selected works | trailers</div>
+      <div class="section-label">/ selected works & trailers</div>
       <div class="section-title">cinematic proofs</div>
-      <div class="work-grid">
-        <div class="work-card">
-          <div class="work-vid">
-            <!-- youtube trailer placeholder: stronger aesthetic, futuristic -->
-            <iframe src="https://www.youtube.com/embed/PsO6ZnUyUYM?autoplay=0&controls=1&modestbranding=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div class="media-grid">
+        <div class="media-card">
+          <div class="video-wrapper">
+            <!-- STRONGER aesthetic - official live visual reference, not neon -->
+            <iframe src="https://www.youtube.com/embed/6mT5wOxF-mQ?autoplay=0&controls=1&modestbranding=1" title="live spectacle" allowfullscreen></iframe>
           </div>
-          <div class="work-info">
-            <div class="work-title">『 stronger: live 2025 』</div>
-            <div class="work-desc">360° global stage / volumetric lighting / 4k holographic simulation. directed by access opera visuals.</div>
+          <div class="media-info">
+            <div class="media-title">『 stronger: global orbit 』</div>
+            <div class="media-desc">volumetric stage design · real‑time led cartography · 4k holographic simulation</div>
           </div>
         </div>
-        <div class="work-card">
-          <div class="work-vid">
-            <iframe src="https://www.youtube.com/embed/E8rLDiF-n3c?autoplay=0&controls=1" frameborder="0" allowfullscreen></iframe>
+        <div class="media-card">
+          <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/dWwOHbo3BmM?autoplay=0&controls=1" title="chrome odyssey" allowfullscreen></iframe>
           </div>
-          <div class="work-info">
-            <div class="work-title">『 chrome odyssey | tron legacy 』</div>
-            <div class="work-desc">live orchestral + digital deconstruction. istanbul bienal immersive commission.</div>
+          <div class="media-info">
+            <div class="media-title">『 chrome odyssey 』</div>
+            <div class="media-desc">istanbul bienal immersive commission · industrial light & architecture</div>
           </div>
         </div>
       </div>
-      <div style="margin-top: 32px; text-align: right;">
-        <a href="#" style="color: var(--primary); text-decoration: none; font-size: 12px; letter-spacing: 0.2em;">+ full archive →</a>
+      <div style="text-align: right; margin-top: 28px;">
+        <a href="#" style="color: var(--accent); text-decoration: none; font-size: 10px; letter-spacing: 0.2em;">+ full archive →</a>
       </div>
     </section>
 
-    <!-- SERVICES (inspired by CAA/WME grid) -->
+    <!-- SERVICES (caa.com style modularity) -->
     <section id="services">
       <div class="section-label">/ engine room</div>
       <div class="section-title">services</div>
       <div class="services-grid">
-        <div class="service-item"><div class="service-title">talent booking</div><div class="service-desc">global tour routing · festival curation · exclusive representation</div></div>
-        <div class="service-item"><div class="service-title">live production</div><div class="service-desc">stadium-scale stages · realtime led content · immersive design</div></div>
-        <div class="service-item"><div class="service-title">film & trailers</div><div class="service-desc">cinematic campaigns · teaser direction · akira-grade vfx</div></div>
-        <div class="service-item"><div class="service-title">brand partnerships</div><div class="service-desc">collision strategy · cultural resonance · cross-industry activation</div></div>
+        <div class="service-card"><div class="service-title">talent booking</div><div class="service-desc">global routing · festival curation · exclusive representation</div></div>
+        <div class="service-card"><div class="service-title">live production</div><div class="service-desc">stadium-scale stages · kinetic lighting · immersive design</div></div>
+        <div class="service-card"><div class="service-title">film & trailers</div><div class="service-desc">cinematic campaigns · teaser direction · akira-grade vfx</div></div>
+        <div class="service-card"><div class="service-title">brand partnerships</div><div class="service-desc">collision strategy · cultural resonance · global activations</div></div>
       </div>
     </section>
 
-    <!-- CONTACT with futuristic edge -->
+    <!-- CONTACT (refined, no neon) -->
     <section id="contact">
       <div class="section-label">/ interface</div>
       <div class="section-title">connect</div>
       <div class="contact-grid">
-        <div>
-          <div class="contact-item"><div class="contact-label">general & bookings</div><div class="contact-value"><a href="mailto:orbit@accessopera.com">orbit@accessopera.com</a></div></div>
-          <div class="contact-item"><div class="contact-label">press & partnerships</div><div class="contact-value"><a href="mailto:resonance@accessopera.com">resonance@accessopera.com</a></div></div>
-          <div class="contact-item"><div class="contact-label">istanbul base</div><div class="contact-value">maslak / istanbul · tr</div></div>
-          <div class="social-links">
-            <a href="#">ig</a> <a href="#">x</a> <a href="#">linkedin</a> <a href="#">wechat</a>
+        <div class="contact-block">
+          <div class="contact-line">
+            <div class="contact-label">general & bookings</div>
+            <div class="contact-value"><a href="mailto:orbit@accessopera.com">orbit@accessopera.com</a></div>
+          </div>
+          <div class="contact-line">
+            <div class="contact-label">press & partnerships</div>
+            <div class="contact-value"><a href="mailto:resonance@accessopera.com">resonance@accessopera.com</a></div>
+          </div>
+          <div class="contact-line">
+            <div class="contact-label">istanbul base</div>
+            <div class="contact-value">maslak / istanbul · tr</div>
+          </div>
+          <div class="social-row">
+            <a href="#">instagram</a> <a href="#">x</a> <a href="#">linkedin</a> <a href="#">wechat</a>
           </div>
         </div>
-        <div style="border-left: 1px solid var(--border); padding-left: 32px;">
-          <div class="contact-item"><div class="contact-label">emergency / talent line</div><div class="contact-value">+90 212 000 26 30</div></div>
-          <div class="contact-item"><div class="contact-label">new business</div><div class="contact-value"><a href="mailto:velocity@accessopera.com">velocity@accessopera.com</a></div></div>
+        <div class="contact-block">
+          <div class="contact-line">
+            <div class="contact-label">emergency / talent line</div>
+            <div class="contact-value">+90 212 000 26 30</div>
+          </div>
+          <div class="contact-line">
+            <div class="contact-label">new business</div>
+            <div class="contact-value"><a href="mailto:velocity@accessopera.com">velocity@accessopera.com</a></div>
+          </div>
           <hr>
-          <div style="font-size: 10px; color: var(--primary); letter-spacing: 0.2em;">we reply within 24 cycles</div>
+          <div style="font-size: 10px; color: var(--accent); letter-spacing: 0.18em;">response within 24 cycles</div>
         </div>
       </div>
     </section>
   </div>
+
   <footer class="footer">
-    <div class="container">
-      <div>access opera © 2026 — stronger than yesterday. all resonance reserved.</div>
-      <div style="margin-top: 12px; display: flex; justify-content: center; gap: 24px;">
-        <span>privacy</span> <span>terms of collision</span> <span>accessibility</span>
-      </div>
+    <div>access opera © 2026 — all resonance reserved. istanbul / worldwide.</div>
+    <div style="margin-top: 14px; display: flex; justify-content: center; gap: 28px; flex-wrap: wrap;">
+      <span>privacy</span> <span>terms of collision</span> <span>accessibility</span>
     </div>
   </footer>
 </main>
 
 <script>
   (function() {
-    // mobile toggle
-    const toggle = document.getElementById('menuToggle');
-    const menu = document.getElementById('navMenu');
-    if(toggle && menu) {
-      toggle.addEventListener('click', () => {
-        menu.classList.toggle('open');
-      });
-      document.querySelectorAll('.nav-menu a').forEach(link => {
-        link.addEventListener('click', () => menu.classList.remove('open'));
+    // mobile navigation
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+    if (menuToggle && navMenu) {
+      menuToggle.addEventListener('click', () => navMenu.classList.toggle('open'));
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => navMenu.classList.remove('open'));
       });
     }
 
-    // smooth scroll with offset
+    // smooth scroll with offset (fixed navbar)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
-        const target = document.querySelector(this.getAttribute('href'));
-        if(target) {
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
           e.preventDefault();
           const offset = 80;
           window.scrollTo({
-            top: target.offsetTop - offset,
+            top: targetElement.offsetTop - offset,
             behavior: 'smooth'
           });
         }
       });
     });
 
-    // slight glitch effect on hero title
-    const heroSpan = document.querySelector('.hero-title span');
-    if(heroSpan) {
-      setInterval(() => {
-        heroSpan.style.textShadow = '0 0 6px #00f0ff';
-        setTimeout(() => heroSpan.style.textShadow = '0 0 0px #00f0ff', 150);
-      }, 1800);
-    }
-
-    // reveal on scroll (simple fade)
-    const sections = document.querySelectorAll('section');
+    // reveal on scroll (subtle)
+    const revealElements = document.querySelectorAll('.hero, section, .footer');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if(entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
         }
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-    sections.forEach(section => {
-      section.style.opacity = '0';
-      section.style.transform = 'translateY(20px)';
-      section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-      observer.observe(section);
+    }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+    revealElements.forEach(el => {
+      el.classList.add('reveal');
+      observer.observe(el);
     });
-    // trigger first ones
-    setTimeout(() => {
-      sections.forEach(s => { if(s.getBoundingClientRect().top < window.innerHeight) s.style.opacity = '1', s.style.transform = 'translateY(0)'; });
-    }, 100);
+    // manually set hero visible quickly
+    document.querySelector('.hero')?.classList.add('visible');
   })();
 </script>
 </body>
