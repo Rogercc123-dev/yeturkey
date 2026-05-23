@@ -1,102 +1,117 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>access opera.</title>
-<style>
-  :root { --bg: #000; --fg: #e0e0e0; --accent: #fff; }
-  
-  * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; text-transform: lowercase; }
-  
-  body { 
-    background: var(--bg); color: var(--fg); 
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    overflow-x: hidden;
-  }
+import { useEffect, useState } from 'react';
 
-  /* CUSTOM ALIVE CURSOR */
-  #cursor {
-    position: fixed; width: 12px; height: 12px;
-    background: var(--accent); border-radius: 50%;
-    pointer-events: none; z-index: 9999;
-    transition: transform 0.1s ease;
-  }
+export default function AccessOpera() {
+  const [loading, setLoading] = useState(true);
 
-  /* LAYOUT - YZY SCALE */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    min-height: 100vh;
-    padding: 2vw;
-  }
+  useEffect(() => {
+    const t = setTimeout(() => setLoading(false), 1400);
+    return () => clearTimeout(t);
+  }, []);
 
-  .nav { grid-column: 1 / 13; border-bottom: 1px solid #333; padding-bottom: 2vw; display: flex; justify-content: space-between; align-items: flex-end; }
-  .logo { font-size: 8vw; font-weight: 700; line-height: 0.8; letter-spacing: -0.05em; }
-  
-  .hero-text { grid-column: 1 / 9; padding-top: 10vh; }
-  .hero-text h1 { font-size: 14vw; line-height: 0.85; font-weight: 700; margin-bottom: 4vw; }
-  
-  .portal-nav { grid-column: 1 / 13; margin-top: 10vh; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2vw; }
-  .portal-item { border-top: 1px solid #333; padding-top: 2vw; transition: 0.3s; }
-  .portal-item:hover { border-color: var(--accent); padding-left: 2vw; }
-  .portal-item h2 { font-size: 3vw; margin-bottom: 1vw; }
-  .portal-item p { color: #666; font-size: 1vw; }
+  const items = [
+    {
+      title: 'Clients',
+      jp: 'クライアント',
+      img: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1600&auto=format&fit=crop'
+    },
+    {
+      title: 'Media',
+      jp: '映像',
+      img: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1600&auto=format&fit=crop'
+    },
+    {
+      title: 'Upcoming',
+      jp: '今後',
+      img: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1600&auto=format&fit=crop'
+    },
+    {
+      title: 'Contact',
+      jp: '連絡',
+      img: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=1600&auto=format&fit=crop'
+    }
+  ];
 
-  /* MOTION */
-  .reveal { opacity: 0; transform: translateY(50px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-  .visible { opacity: 1; transform: translateY(0); }
-</style>
-</head>
-<body>
+  return (
+    <div className='h-screen overflow-hidden bg-[#efeee8] text-[#111] font-mono relative'>
+      {/* Texture */}
+      <div className='pointer-events-none fixed inset-0 opacity-[0.05] bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.12),transparent_60%)]' />
 
-  <div id="cursor"></div>
+      {/* Cursor */}
+      <div className='hidden md:block fixed w-7 h-7 border border-black/40 pointer-events-none' />
 
-  <div class="grid">
-    <nav class="nav">
-      <div class="logo">access<br>opera</div>
-      <div style="font-size: 1vw;">est. 2026<br>los angeles</div>
-    </nav>
+      {/* Loading */}
+      {loading && (
+        <div className='fixed inset-0 z-50 bg-[#e7e5de] flex flex-col justify-between p-10'>
+          <div className='flex justify-between text-[10px] tracking-[0.4em] uppercase opacity-60'>
+            <span>Access Opera</span>
+            <span>Loading</span>
+          </div>
 
-    <section class="hero-text">
-      <h1 class="reveal">orchestrating<br>presence.</h1>
-    </section>
+          <div className='text-[18vw] leading-none tracking-[-0.08em] font-light'>
+            AO
+          </div>
 
-    <div class="portal-nav">
-      <a href="#clients" class="portal-item reveal">
-        <h2>clients</h2>
-        <p>managed talent.</p>
-      </a>
-      <a href="#work" class="portal-item reveal">
-        <h2>work</h2>
-        <p>archived production.</p>
-      </a>
-      <a href="#services" class="portal-item reveal">
-        <h2>services</h2>
-        <p>frameworks.</p>
-      </a>
-      <a href="#contact" class="portal-item reveal">
-        <h2>contact</h2>
-        <p>inquiries.</p>
-      </a>
+          <div className='flex justify-between text-[10px] tracking-[0.4em] uppercase opacity-60'>
+            <span>Opening</span>
+            <span>100%</span>
+          </div>
+        </div>
+      )}
+
+      {/* Header */}
+      <header className='absolute top-0 left-0 w-full flex justify-between p-8 text-sm'>
+        <div>
+          <div className='tracking-[0.4em] uppercase'>ACCESS OPERA</div>
+          <div className='text-[10px] opacity-50 tracking-[0.3em] uppercase'>
+            Live experiences / ライブ運営
+          </div>
+        </div>
+      </header>
+
+      {/* Center Title */}
+      <div className='h-full flex items-center justify-center'>
+        <div className='text-center'>
+          <div className='text-[15vw] leading-none tracking-[-0.1em] font-light'>
+            ACCESS OPERA
+          </div>
+          <div className='mt-4 text-sm opacity-60 max-w-md mx-auto'>
+            Touring, live production, film, and cultural events for global audiences.
+          </div>
+        </div>
+      </div>
+
+      {/* Lobby */}
+      <div className='fixed bottom-0 left-0 w-full grid grid-cols-4 gap-px bg-black/10'>
+        {items.map((i) => (
+          <button
+            key={i.title}
+            className='group relative h-[220px] bg-[#efeee8] overflow-hidden'
+            onClick={() => alert(i.title)}
+          >
+            <img
+              src={i.img}
+              className='absolute inset-0 w-full h-full object-cover grayscale opacity-0 group-hover:opacity-80 transition duration-700'
+            />
+
+            <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition' />
+
+            <div className='absolute bottom-6 left-6 text-left'>
+              <div className='text-[10px] tracking-[0.35em] uppercase opacity-50 group-hover:text-white transition'>
+                {i.jp}
+              </div>
+              <div className='text-3xl font-light tracking-tight group-hover:text-white transition'>
+                {i.title}
+              </div>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      {/* Footer */}
+      <div className='absolute bottom-[220px] w-full flex justify-between px-8 text-[10px] tracking-[0.3em] uppercase opacity-50'>
+        <span>Status — Active</span>
+        <span>2026</span>
+      </div>
     </div>
-  </div>
-
-  <script>
-    // CURSOR LOGIC
-    const cursor = document.getElementById('cursor');
-    document.addEventListener('mousemove', e => {
-      cursor.style.transform = `translate(${e.clientX - 6}px, ${e.clientY - 6}px)`;
-    });
-
-    // INTERSECTION OBSERVER FOR ANIMATION
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if(e.isIntersecting) e.target.classList.add('visible');
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  </script>
-</body>
-</html>
+  );
+}
