@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>upcoming | access opera</title>
-<meta name="theme-color" content="#030303" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+JP:wght@100&display=swap" rel="stylesheet">
 
 <style>
-/* --- STRICT CUSTOM FONT INJECTION --- */
 @font-face {
   font-family: 'OCR A BT';
   src: url('OCR-a___.ttf') format('truetype');
@@ -15,352 +16,428 @@
   font-style: normal;
 }
 
-*, *::before, *::after { 
-  box-sizing: border-box; 
-  margin: 0; 
-  padding: 0; 
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --concrete: #b8b4ad;
+  --raw:       #1a1916;
+  --deep:      #0d0c0b;
+  --void:      #070706;
+  --dust:      #5a574f;
+  --form:      #2e2c28;
 }
 
-:root {
-  --cream: #e6e3da;
-  --void: #030303;
-  --concrete: #1f1f1f;
-  --steel: #555555;
-  --portal-glow: rgba(230, 210, 180, 0.06);
-  --grid-line: rgba(255, 255, 255, 0.04);
+html,body{
+  width:100vw;height:100vh;
+  overflow:hidden;
+  background:var(--void);
+  cursor:none;
 }
 
-html, body {
-  width: 100vw;
-  min-height: 100vh;
-  background-color: var(--void);
-  cursor: none; 
-  overflow-x: hidden;
+body{
+  font-family:'OCR A BT','Share Tech Mono','Courier New',monospace;
+  color:var(--concrete);
+  text-transform:lowercase;
+  letter-spacing:0.05em;
+  position:relative;
 }
 
-body {
-  font-family: 'OCR A BT';
-  color: var(--cream);
-  line-height: 1.4;
-  letter-spacing: 0.05em;
-  text-transform: lowercase;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  
-  /* Sharper architectural grid */
-  background-image: 
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 4vw 4vw;
-  background-position: center top;
+/* CURSOR */
+.cur{
+  position:fixed;top:0;left:0;
+  width:4px;height:4px;
+  background:var(--concrete);
+  pointer-events:none;
+  z-index:9999;
+  transform:translate(-2px,-2px);
+  transition:none;
 }
 
-/* --- CUSTOM CURSOR --- */
-.cursor-dot {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 8px;
-  height: 8px;
-  background: var(--cream);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  mix-blend-mode: difference;
-  transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1), height 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+/* GRAIN */
+.grain{
+  position:fixed;inset:0;
+  z-index:600;
+  pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='0.15'/%3E%3C/svg%3E");
+  background-size:300px 300px;
+  opacity:0.7;
+  mix-blend-mode:overlay;
 }
 
-body:hover .cursor-dot { opacity: 1; }
-a:hover ~ .cursor-dot {
-  width: 60px;
-  height: 60px;
+/* VIGNETTE */
+.vignette{
+  position:fixed;inset:0;z-index:500;pointer-events:none;
+  background:radial-gradient(ellipse 80% 80% at 50% 50%,
+    transparent 25%,
+    rgba(7,7,6,0.4) 55%,
+    rgba(4,4,3,0.92) 100%
+  );
 }
 
-/* --- ATMOSPHERE & BACKGROUND ANIMATION --- */
-.atmospheric-glow {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100vw;
-  height: 100vw;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--portal-glow) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: 0;
-  animation: breathe 10s ease-in-out infinite alternate;
+/* BACKGROUND WORD */
+.bg-word{
+  position:fixed;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-size:clamp(120px,20vw,320px);
+  font-weight:400;
+  letter-spacing:-0.04em;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(184,180,173,0.04);
+  white-space:nowrap;
+  pointer-events:none;
+  z-index:1;
+  user-select:none;
+  line-height:1;
 }
 
-@keyframes breathe {
-  0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
-  100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+/* MASS LINES */
+.mass-line{
+  position:fixed;left:0;right:0;
+  height:1px;
+  background:rgba(184,180,173,0.06);
+  pointer-events:none;
+  z-index:2;
 }
 
-/* MASSIVE BACKGROUND TICKER */
-.bg-marquee {
-  position: fixed;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  width: 100vw;
-  overflow: hidden;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.03; 
+/* PAGE LAYOUT */
+.page{
+  position:relative;z-index:10;
+  width:100%;height:100vh;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  padding:0;
 }
 
-.bg-marquee-content {
-  display: flex;
-  white-space: nowrap;
-  font-size: 25vw;
-  color: transparent;
-  -webkit-text-stroke: 2px var(--cream);
-  animation: scrollMarquee 40s linear infinite;
+/* TOP BLOCK */
+.block-top{
+  padding:48px 56px 0;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  opacity:0;
+  animation:appear 3s ease 0.4s forwards;
 }
 
-@keyframes scrollMarquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* MAIN LAYOUT */
-.content-wrapper {
-  position: relative;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  padding: 6vh 6vw; 
-  min-height: 100vh;
-}
-
-/* --- HEADER / NAVIGATION --- */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10vh;
-  opacity: 0;
-  animation: heavyFadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
-}
-
-.nav-logo {
-  width: clamp(150px, 20vw, 300px); 
-  height: auto;
-  object-fit: contain;
-}
-
-.back-link {
-  color: var(--steel);
+.wordmark-wrap {
   text-decoration: none;
-  font-size: clamp(12px, 1.2vw, 16px);
-  cursor: none;
-  position: relative;
-}
-
-.back-link::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: var(--steel);
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.3s;
-}
-
-.back-link:hover { color: var(--cream); }
-.back-link:hover::after { transform: scaleX(1); transform-origin: left; background: var(--cream); }
-
-/* --- PAGE TITLE --- */
-.page-title {
-  font-size: clamp(40px, 6vw, 100px);
-  color: var(--cream);
-  margin-bottom: 4vh;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: heavyFadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
-}
-
-@keyframes heavyFadeIn {
-  0% { opacity: 0; filter: blur(10px); transform: translateY(20px); }
-  100% { opacity: 1; filter: blur(0); transform: translateY(0); }
-}
-
-/* --- DYNAMIC EVENT ROWS --- */
-.events-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  border-top: 1px solid var(--grid-line);
-  opacity: 0;
-  animation: heavyFadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.8s forwards;
-}
-
-.event-row {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 5vh 2vw;
-  border-bottom: 1px solid var(--grid-line);
-  text-decoration: none;
-  position: relative;
-  overflow: hidden;
   cursor: none;
 }
 
-/* The background wipe effect */
-.event-row::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--cream);
-  transform: scaleY(0);
-  transform-origin: bottom;
-  transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+.wordmark{
+  font-size:11px;
+  letter-spacing:0.45em;
+  color:var(--dust);
+  line-height:2.2;
+  transition: color 0.4s ease;
+}
+.wordmark-primary{
+  color:var(--concrete);
+  font-size:12px;
+}
+.wordmark-jp{
+  font-family:'Noto Sans JP',sans-serif;
+  font-weight:100;
+  font-size:9px;
+  letter-spacing:0.5em;
+  color:#3a3832;
+  transition: color 0.4s ease;
+}
+
+.wordmark-wrap:hover .wordmark,
+.wordmark-wrap:hover .wordmark-jp {
+  color: var(--concrete);
+}
+
+.open-tag{
+  font-size:10px;
+  letter-spacing:0.4em;
+  color:var(--dust);
+  text-align:right;
+  text-decoration: none;
+  cursor: none;
+  transition: color 0.4s ease;
+}
+.open-tag:hover { color: var(--concrete); }
+
+/* CENTER - SCHEDULE SLABS */
+.block-center{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:0 56px;
+  max-height: 100%;
+}
+
+.schedule-wrap{
+  width: 100%;
+  border-top: 1px solid rgba(184,180,173,0.08);
+  opacity:0;
+  animation:massReveal 3s cubic-bezier(0.16,1,0.3,1) 0.8s forwards;
+}
+
+.schedule-row{
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr auto;
+  align-items: center;
+  padding: 32px 24px;
+  border-bottom: 1px solid rgba(184,180,173,0.08);
+  text-decoration: none;
+  color: var(--dust);
+  cursor: none;
+  overflow: hidden;
+  transition: color 0.6s ease;
+}
+
+.schedule-row::before{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;right:0;height:0;
+  background:var(--raw);
+  transition:height 0.5s cubic-bezier(0.76,0,0.24,1);
+  z-index:0;
+}
+
+.schedule-row:hover::before{height:100%}
+.schedule-row:hover {color: var(--concrete)}
+
+.s-data {
+  position: relative;
   z-index: 1;
 }
 
-/* Event Data Columns */
-.event-data {
-  position: relative;
-  z-index: 2;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+.s-date {
+  font-size: clamp(12px, 1.1vw, 16px);
+  letter-spacing: 0.2em;
 }
 
-.e-date {
-  width: 20%;
-  color: var(--steel);
-  font-size: clamp(14px, 1.5vw, 20px);
+.s-artist {
+  font-size: clamp(32px, 4vw, 64px);
+  color: var(--form);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  transition: color 0.5s ease, transform 0.5s ease;
 }
 
-.e-artist {
-  width: 40%;
-  color: var(--cream);
-  font-size: clamp(24px, 4vw, 60px);
-  font-weight: bold;
+.schedule-row:hover .s-artist {
+  color: var(--concrete);
+  transform: translateX(8px);
 }
 
-.e-location {
-  width: 25%;
-  color: var(--steel);
-  font-size: clamp(14px, 1.5vw, 20px);
+.s-location {
+  font-size: clamp(12px, 1.1vw, 16px);
+  letter-spacing: 0.2em;
 }
 
-.e-status {
-  width: 15%;
-  text-align: right;
-  color: var(--steel);
-  font-size: clamp(12px, 1.2vw, 16px);
+.s-action {
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  color: #3a3832;
+  transition: color 0.5s ease;
 }
 
-/* Hover Physics */
-.event-row:hover::before {
-  transform: scaleY(1);
-  transform-origin: top;
+.schedule-row:hover .s-action {
+  color: var(--dust);
 }
 
-.event-row:hover .e-artist {
-  color: var(--void);
-  letter-spacing: 0.1em; /* Aggressive expansion */
+/* BOTTOM BLOCK */
+.block-bottom{
+  opacity:0;
+  animation:appear 2s ease 1.2s forwards;
 }
 
-.event-row:hover .e-date,
-.event-row:hover .e-location,
-.event-row:hover .e-status {
-  color: var(--void);
-  font-weight: bold;
+.nav-slab{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border-top:1px solid rgba(184,180,173,0.08);
 }
 
-/* MOBILE ADJUSTMENTS */
-@media (max-width: 768px) {
-  body { cursor: auto; background-size: 8vw 8vw; } 
-  .cursor-dot { display: none; }
-  .bg-marquee-content { font-size: 40vw; }
+.nav-item{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:28px 56px;
+  text-decoration:none;
+  color:var(--dust);
+  border-right:1px solid rgba(184,180,173,0.06);
+  cursor:none;
+  overflow:hidden;
+  transition:color 0.8s ease;
+}
+.nav-item:last-child{border-right:none}
+
+.nav-item::before{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;right:0;height:0;
+  background:var(--raw);
+  transition:height 0.6s cubic-bezier(0.76,0,0.24,1);
+  z-index:0;
+}
+.nav-item:hover::before{height:100%}
+.nav-item:hover{color:var(--concrete)}
+
+/* Keep the active page highlighted */
+.nav-item.active { color: var(--concrete); }
+.nav-item.active::before { height: 100%; }
+
+.nav-num{
+  position:relative;z-index:1;
+  font-size:9px;letter-spacing:0.3em;
+  color:#3a3832;
+  margin-bottom:8px;
+  transition:color 0.6s ease;
+}
+.nav-item:hover .nav-num, .nav-item.active .nav-num{color:var(--dust)}
+
+.nav-label{
+  position:relative;z-index:1;
+  font-size:clamp(13px,1.1vw,16px);
+  letter-spacing:0.3em;
+}
+
+.nav-jp{
+  position:relative;z-index:1;
+  font-family:'Noto Sans JP',sans-serif;
+  font-weight:100;
+  font-size:9px;
+  letter-spacing:0.3em;
+  color:#3a3832;
+  margin-top:6px;
+  transition:color 0.6s ease;
+}
+.nav-item:hover .nav-jp, .nav-item.active .nav-jp{color:var(--dust)}
+
+/* LOADER */
+.loader{
+  position:fixed;inset:0;
+  background:var(--void);
+  z-index:5000;
+  display:flex;align-items:center;justify-content:center;
+}
+.loader-inner{
+  font-size:10px;letter-spacing:0.6em;
+  color:#2a2822;
+  animation:loaderFade 1.2s ease 0.4s forwards;
+}
+@keyframes loaderFade{to{opacity:0}}
+.loader{animation:loaderLift 1s cubic-bezier(0.76,0,0.24,1) 1.2s forwards}
+@keyframes loaderLift{to{transform:translateY(-100%)}}
+
+/* ANIMATIONS */
+@keyframes appear{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes massReveal{
+  0%{opacity:0;transform:translateY(15px);filter:blur(8px)}
+  100%{opacity:1;transform:translateY(0);filter:blur(0)}
+}
+
+/* MOBILE */
+@media(max-width:850px){
+  body{cursor:auto}.cur{display:none}
+  .block-top,.block-center{padding:32px 28px 0}
   
-  .event-row {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 4vh 4vw;
-    gap: 1.5vh;
+  .schedule-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 24px 16px;
   }
-  
-  .e-date, .e-artist, .e-location, .e-status {
-    width: 100%;
-    text-align: left;
-  }
-  
-  .e-artist { font-size: 32px; }
-  .e-status { margin-top: 2vh; border-top: 1px solid var(--grid-line); padding-top: 1vh; }
+  .s-action { margin-top: 12px; border-top: 1px solid rgba(184,180,173,0.08); padding-top: 12px; }
+  .schedule-row:hover .s-artist { transform: translateX(4px); }
+
+  .nav-item{padding:22px 28px}
+  .nav-slab{grid-template-columns:repeat(2,1fr)}
+  .nav-item:nth-child(2){border-right:none}
+  .nav-item:nth-child(3),.nav-item:nth-child(4){border-top:1px solid rgba(184,180,173,0.06)}
+  .bg-word{font-size:40vw}
 }
 </style>
 </head>
-
 <body>
-  <div class="bg-marquee">
-    <div class="bg-marquee-content">
-      UPCOMING &nbsp; UPCOMING &nbsp; UPCOMING &nbsp; UPCOMING &nbsp;
-    </div>
-  </div>
 
-  <div class="atmospheric-glow"></div>
+<div class="loader"><div class="loader-inner">schedule</div></div>
+<div class="grain"></div>
+<div class="vignette"></div>
 
-  <div class="content-wrapper">
-    
-    <header class="header">
-      <a href="index.html">
-        <img src="opera.png" alt="access opera logo" class="nav-logo" />
-      </a>
-      <a href="index.html" class="back-link">[ return ]</a>
-    </header>
+<div class="bg-word">upcoming</div>
 
-    <h1 class="page-title">upcoming.</h1>
+<div class="mass-line" style="top:33.33vh"></div>
+<div class="mass-line" style="top:66.66vh"></div>
 
-    <div class="events-container">
+<div class="cur" id="cur"></div>
+
+<div class="page">
+
+  <header class="block-top">
+    <a href="index.html" class="wordmark-wrap">
+      <div class="wordmark wordmark-primary">access opera</div>
+      <div class="wordmark">talent agency</div>
+      <div class="wordmark-jp">タレントエージェンシー</div>
+    </a>
+    <a href="index.html" class="open-tag">[ return to index ]</a>
+  </header>
+
+  <main class="block-center">
+    <div class="schedule-wrap">
       
-      <a href="ye.html" class="event-row">
-        <div class="event-data e-date">30 may</div>
-        <div class="event-data e-artist">YE</div>
-        <div class="event-data e-location">istanbul</div>
-        <div class="event-data e-status">enter_</div>
+      <a href="ye.html" class="schedule-row">
+        <div class="s-data s-date">30 may</div>
+        <div class="s-data s-artist">YE</div>
+        <div class="s-data s-location">istanbul</div>
+        <div class="s-data s-action">explore_</div>
       </a>
 
-      <a href="#" class="event-row" style="pointer-events: none;">
-        <div class="event-data e-date">tba</div>
-        <div class="event-data e-artist">---</div>
-        <div class="event-data e-location">---</div>
-        <div class="event-data e-status">locked_</div>
-      </a>
+      <div class="schedule-row" style="pointer-events: none;">
+        <div class="s-data s-date">tba</div>
+        <div class="s-data s-artist">---</div>
+        <div class="s-data s-location">global</div>
+        <div class="s-data s-action">locked_</div>
+      </div>
 
     </div>
-  </div>
+  </main>
 
-  <div class="cursor-dot"></div>
-  
-  <script>
-    const cursor = document.querySelector('.cursor-dot');
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-    let cursorX = mouseX;
-    let cursorY = mouseY;
+  <footer class="block-bottom">
+    <nav class="nav-slab">
+      <a href="index.html#clients" class="nav-item">
+        <div class="nav-num">01</div>
+        <div class="nav-label">clients</div>
+        <div class="nav-jp">クライアント</div>
+      </a>
+      <a href="index.html#media" class="nav-item">
+        <div class="nav-num">02</div>
+        <div class="nav-label">media</div>
+        <div class="nav-jp">メディア</div>
+      </a>
+      <a href="upcoming.html" class="nav-item active">
+        <div class="nav-num">03</div>
+        <div class="nav-label">upcoming</div>
+        <div class="nav-jp">予定</div>
+      </a>
+      <a href="index.html#contact" class="nav-item">
+        <div class="nav-num">04</div>
+        <div class="nav-label">contact</div>
+        <div class="nav-jp">コンタクト</div>
+      </a>
+    </nav>
+  </footer>
 
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
+</div>
 
-    function animateCursor() {
-      let distX = mouseX - cursorX;
-      let distY = mouseY - cursorY;
-      cursorX += distX * 0.15; 
-      cursorY += distY * 0.15;
-      cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
-      requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-  </script>
+<script>
+const cur = document.getElementById('cur');
+let mx = 0, my = 0, cx = 0, cy = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+(function loop(){
+  cx += (mx - cx) * 0.06;
+  cy += (my - cy) * 0.06;
+  cur.style.transform = `translate(${cx - 2}px,${cy - 2}px)`;
+  requestAnimationFrame(loop);
+})();
+</script>
 </body>
 </html>
