@@ -99,20 +99,19 @@ body{
 .open-tag{ font-size:10px; letter-spacing:0.4em; color:var(--dust); text-align:right; text-decoration: none; cursor: none; transition: color 0.4s ease; }
 .open-tag:hover { color: var(--concrete); }
 
-/* CENTER BLOCK - SPA VIEWS */
+/* CENTER BLOCK - ZERO SCROLL STRICT FRAME */
 .block-center{
   position: relative; display:flex; flex-direction:column; justify-content:center;
   padding: 40px 56px; 
-  overflow-y: auto; overflow-x: hidden; scrollbar-width: none; 
+  overflow: hidden; /* STRICTLY NO SCROLLING */
 }
-.block-center::-webkit-scrollbar { display: none; }
 
-.view { display: none; flex-direction: column; justify-content: center; width: 100%; min-height: 100%; }
+.view { display: none; flex-direction: column; justify-content: center; width: 100%; height: 100%; }
 .view.active { display: flex; animation: massReveal 0.8s cubic-bezier(0.16,1,0.3,1) forwards; }
 
 /* SHARED SECTION HEADERS */
-.sec-num { font-size: 10px; letter-spacing: 0.3em; color: var(--dust); margin-bottom: 12px; }
-.sec-title { font-size: clamp(32px, 5vw, 64px); font-weight: 400; letter-spacing: -0.02em; line-height: 1; margin-bottom: 40px; color: var(--concrete); }
+.sec-num { font-size: 10px; letter-spacing: 0.3em; color: var(--dust); margin-bottom: 12px; flex-shrink: 0; }
+.sec-title { font-size: clamp(32px, 5vw, 64px); font-weight: 400; letter-spacing: -0.02em; line-height: 1; margin-bottom: 40px; color: var(--concrete); flex-shrink: 0; }
 
 /* VIEW: HOME */
 .logo-img{ width:clamp(280px,42vw,720px); height:auto; object-fit:contain; display:block; margin-bottom:20px; opacity:0.92; }
@@ -136,29 +135,19 @@ body{
 .s-action { font-size: 10px; letter-spacing: 0.4em; color: #3a3832; transition: color 0.5s ease; }
 .schedule-row:hover .s-action { color: var(--dust); }
 
-/* VIEW: CLIENTS (HORIZONTAL ROSTER) */
+/* VIEW: CLIENTS */
 .roster-wrap { width: 100%; border-top: 1px solid rgba(184,180,173,0.08); }
 .roster-row {
   position: relative; display: flex; align-items: center;
   padding: 24px 32px; border-bottom: 1px solid rgba(184,180,173,0.08);
   text-decoration: none; cursor: none; overflow: hidden;
 }
-.roster-row::before {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 0;
-  background: var(--raw); transition: height 0.5s cubic-bezier(0.76,0,0.24,1); z-index: 0;
-}
+.roster-row::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 0; background: var(--raw); transition: height 0.5s cubic-bezier(0.76,0,0.24,1); z-index: 0; }
 .roster-row:hover::before { height: 100%; }
 
 .r-data { position: relative; z-index: 1; }
-.r-avatar {
-  width: 100px; height: 100px; flex-shrink: 0; margin-right: 40px;
-  background: var(--deep); overflow: hidden; border-radius: 2px;
-}
-.r-avatar img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-  filter: grayscale(100%) contrast(1.2) brightness(0.7);
-  transition: filter 0.5s ease, transform 0.5s ease;
-}
+.r-avatar { width: 100px; height: 100px; flex-shrink: 0; margin-right: 40px; background: var(--deep); overflow: hidden; border-radius: 2px; }
+.r-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(100%) contrast(1.2) brightness(0.7); transition: filter 0.5s ease, transform 0.5s ease; }
 .roster-row:hover .r-avatar img { filter: grayscale(0%) contrast(1) brightness(1); transform: scale(1.05); }
 
 .r-details { display: flex; flex-direction: column; gap: 8px; }
@@ -166,37 +155,36 @@ body{
 .roster-row:hover .r-name { color: var(--concrete); transform: translateX(8px); }
 .r-role { font-size: 10px; letter-spacing: 0.3em; color: var(--dust); transition: color 0.5s; }
 .roster-row:hover .r-role { color: var(--concrete); }
-
 .r-tag { font-size: 9px; letter-spacing: 0.4em; color: #3a3832; margin-left: auto; text-align: right; transition: color 0.5s; }
 .roster-row:hover .r-tag { color: var(--dust); }
 
-/* VIEW: MEDIA (CUSTOM 16:9 PLAYER & GALLERY) */
+/* VIEW: MEDIA (PURE 16:9 VIEWPORT & DYNAMIC CONTROLS) */
 .media-container {
   display: grid;
-  grid-template-columns: 2fr 1fr; /* Adjusted to prevent player from being too tall */
+  grid-template-columns: 2fr 1fr; 
   gap: 40px;
-  align-items: start;
+  align-items: stretch;
+  height: 100%;
+  min-height: 0; /* allows flex children to compress properly */
 }
 
-/* Left Side: Display Area */
+/* Left Side: Display Area (No Controls) */
 .display-area {
   position: relative;
   width: 100%;
-}
-
-.video-wrapper, .gallery-wrapper {
-  position: relative;
-  width: 100%;
+  height: 100%;
   background: var(--deep);
   border: 1px solid rgba(184,180,173,0.08);
   display: flex;
-  flex-direction: column; 
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
+
 #custom-video, #gallery-img {
   width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9; /* PERFECTLY LOCKS 16:9 RATIO */
-  object-fit: cover; 
+  height: 100%;
+  object-fit: cover; /* Will perfectly fill the frame */
   background: #000;
   display: block;
   filter: grayscale(100%) contrast(1.1);
@@ -204,44 +192,55 @@ body{
 }
 #custom-video.is-playing, #gallery-img.is-active { filter: grayscale(0%) contrast(1); }
 
-.media-controls {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 16px 24px; background: var(--void);
-  border-top: 1px solid rgba(184,180,173,0.08);
-}
-.m-btn-group { display: flex; gap: 24px; }
-.m-btn {
-  background: none; border: none; font-family: 'OCR A BT';
-  font-size: 10px; letter-spacing: 0.2em; color: var(--dust);
-  cursor: none; transition: color 0.2s;
-}
-.m-btn:hover { color: var(--concrete); }
-.m-info { font-size: 10px; letter-spacing: 0.1em; color: var(--dust); }
-
-/* Right Side: Playlist & Menu */
+/* Right Side: Menu & Dynamic Bottom Controls */
 .media-menu {
   display: flex; flex-direction: column;
+  height: 100%;
 }
+
 .menu-label {
   font-size: 9px; letter-spacing: 0.4em; color: var(--dust);
   margin-bottom: 16px; border-bottom: 1px solid rgba(184,180,173,0.08); padding-bottom: 8px;
 }
-.video-playlist { display: flex; flex-direction: column; margin-bottom: 32px; }
-.pl-item {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 0; border-bottom: 1px solid rgba(184,180,173,0.08);
-  background: none; border-left: none; border-right: none; border-top: none;
-  font-family: 'OCR A BT'; text-align: left; cursor: none; transition: color 0.3s;
+
+/* Compact Video Index Matrix */
+.video-grid {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;
 }
-.pl-info { display: flex; flex-direction: column; gap: 8px; }
-.pl-num { font-size: 8px; letter-spacing: 0.4em; color: var(--dust); }
-.pl-name { font-size: 12px; letter-spacing: 0.1em; color: var(--form); transition: color 0.3s; }
-.pl-status { font-size: 8px; letter-spacing: 0.3em; color: var(--void); transition: color 0.3s; }
+.v-sel {
+  width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+  background: transparent; border: 1px solid rgba(184,180,173,0.08);
+  font-family: 'OCR A BT'; font-size: 9px; color: var(--dust);
+  cursor: none; transition: all 0.3s ease;
+}
+.v-sel:hover { border-color: var(--dust); color: var(--concrete); }
+.v-sel.active { background: var(--concrete); color: var(--void); border-color: var(--concrete); }
 
-.pl-item:hover .pl-name { color: var(--concrete); }
-.pl-item.active .pl-name { color: var(--concrete); }
-.pl-item.active .pl-status { color: var(--concrete); }
+.active-media-name { font-size: 11px; letter-spacing: 0.1em; color: var(--concrete); margin-bottom: 32px; text-transform: uppercase; }
 
+/* Gallery Toggle Button */
+.btn-gallery {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; padding: 16px 0; border: none; border-bottom: 1px solid rgba(184,180,173,0.08);
+  background: transparent; font-family: 'OCR A BT'; text-align: left; cursor: none; transition: color 0.3s;
+}
+.btn-gallery .g-name { font-size: 12px; letter-spacing: 0.1em; color: var(--dust); transition: color 0.3s; }
+.btn-gallery .g-status { font-size: 8px; letter-spacing: 0.3em; color: var(--void); transition: color 0.3s; }
+.btn-gallery:hover .g-name { color: var(--concrete); }
+.btn-gallery.active .g-name { color: var(--concrete); }
+.btn-gallery.active .g-status { color: var(--concrete); }
+
+/* The Dynamic Control Slab at the bottom of the right column */
+.media-controls-dock {
+  margin-top: auto; /* Pushes to the absolute bottom of the container */
+  padding-top: 24px;
+  border-top: 1px solid rgba(184,180,173,0.08);
+}
+.dock-panel { display: flex; justify-content: space-between; align-items: center; }
+.m-btn-group { display: flex; gap: 24px; }
+.m-btn { background: none; border: none; font-family: 'OCR A BT'; font-size: 10px; letter-spacing: 0.2em; color: var(--dust); cursor: none; transition: color 0.2s; }
+.m-btn:hover { color: var(--concrete); }
+.m-info { font-size: 10px; letter-spacing: 0.1em; color: var(--dust); }
 
 /* VIEW: CONTACT */
 .contact-wrap { border-top: 1px solid rgba(184,180,173,0.08); padding-top: 40px; }
@@ -273,9 +272,10 @@ body{
 @keyframes appear{ from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 @keyframes massReveal{ 0%{opacity:0;filter:blur(8px)} 100%{opacity:1;filter:blur(0)} }
 
-/* MOBILE */
+/* MOBILE EXCEPTIONS */
 @media(max-width:850px){
   body{cursor:auto}.cur{display:none}
+  .block-center { overflow-y: auto; } /* Only allow scrolling on mobile to prevent literal breakage */
   .block-top,.block-center{padding:32px 28px 0}
   .bg-word{font-size:40vw}
   
@@ -287,6 +287,7 @@ body{
   .r-tag { display: none; }
 
   .media-container { grid-template-columns: 1fr; gap: 24px; }
+  .display-area { aspect-ratio: 16/9; } /* keep video shape on mobile */
   
   .nav-item{padding:22px 28px}
   .nav-slab{grid-template-columns:repeat(2,1fr)}
@@ -346,64 +347,51 @@ body{
 
     <div class="view" id="view-media">
       <div class="sec-num">02</div>
-      <h2 class="sec-title">archive</h2>
+      <h2 class="sec-title" style="margin-bottom: 24px;">archive</h2>
       <div class="media-container">
         
         <div class="display-area">
+          <video id="custom-video" src="video1.mp4" playsinline></video>
+          <img id="gallery-img" src="gallery1.jpg" alt="Gallery" style="display: none;" onerror="this.style.display='none'"/>
+        </div>
+
+        <div class="media-menu">
           
-          <div class="video-wrapper" id="display-video">
-            <video id="custom-video" src="video1.mp4" playsinline></video>
-            <div class="media-controls">
+          <div class="menu-label">motion_</div>
+          
+          <div class="video-grid">
+            <button class="v-sel active" data-src="video1.mp4" data-name="ISTANBUL_PROMO.MP4">01</button>
+            <button class="v-sel" data-src="video2.mp4" data-name="STAGE_CONCEPT_V3.MP4">02</button>
+            <button class="v-sel" data-src="video3.mp4" data-name="TOUR_VLOG_ARCHIVE.MP4">03</button>
+            <button class="v-sel" data-src="video4.mp4" data-name="UNRELEASED_STUDIO.MP4">04</button>
+          </div>
+          <div class="active-media-name" id="display-name">ISTANBUL_PROMO.MP4</div>
+
+          <div class="menu-label">stills_</div>
+          
+          <button class="btn-gallery" id="btn-gallery-toggle">
+            <span class="g-name">ISTANBUL_ARCHIVE</span>
+            <span class="g-status" id="gallery-status">loaded_</span>
+          </button>
+
+          <div class="media-controls-dock">
+            
+            <div id="dock-video" class="dock-panel" style="display: flex;">
               <div class="m-btn-group">
                 <button id="btn-play" class="m-btn">play_</button>
                 <button id="btn-mute" class="m-btn">mute_</button>
               </div>
               <div class="m-info"><span id="time-current">0:00</span> / <span id="time-total">0:00</span></div>
             </div>
-          </div>
 
-          <div class="gallery-wrapper" id="display-gallery" style="display: none;">
-            <img id="gallery-img" src="gallery1.jpg" alt="Gallery Frame" onerror="this.style.display='none'"/>
-            <div class="media-controls">
+            <div id="dock-gallery" class="dock-panel" style="display: none;">
               <div class="m-btn-group">
                 <button id="btn-prev" class="m-btn">prev_</button>
                 <button id="btn-next" class="m-btn">next_</button>
               </div>
               <div class="m-info"><span id="g-current">1</span> / <span id="g-total">3</span></div>
             </div>
-          </div>
 
-        </div>
-
-        <div class="media-menu">
-          
-          <div class="menu-label">motion_</div>
-          <div class="video-playlist">
-            <button class="pl-item active" data-type="video" data-src="video1.mp4">
-              <div class="pl-info">
-                <span class="pl-num">001</span>
-                <span class="pl-name">ISTANBUL_PROMO.MP4</span>
-              </div>
-              <span class="pl-status">playing_</span>
-            </button>
-            <button class="pl-item" data-type="video" data-src="video2.mp4">
-              <div class="pl-info">
-                <span class="pl-num">002</span>
-                <span class="pl-name">STAGE_CONCEPT_V3.MP4</span>
-              </div>
-              <span class="pl-status">loaded_</span>
-            </button>
-          </div>
-
-          <div class="menu-label">stills_</div>
-          <div class="video-playlist">
-            <button class="pl-item" data-type="gallery">
-              <div class="pl-info">
-                <span class="pl-num">003</span>
-                <span class="pl-name">ISTANBUL_ARCHIVE (GALLERY)</span>
-              </div>
-              <span class="pl-status">loaded_</span>
-            </button>
           </div>
 
         </div>
@@ -489,7 +477,6 @@ triggers.forEach(trigger => {
   trigger.addEventListener('click', (e) => {
     if(trigger.getAttribute('href') === '#') e.preventDefault();
 
-    // Pause video when leaving media tab
     if(globalVideo && !globalVideo.paused) {
       globalVideo.pause();
       globalVideo.classList.remove('is-playing');
@@ -519,10 +506,17 @@ triggers.forEach(trigger => {
   });
 });
 
-// --- MEDIA LOGIC (VIDEO & GALLERY) ---
-const displayVideo = document.getElementById('display-video');
-const displayGallery = document.getElementById('display-gallery');
-const playlistItems = document.querySelectorAll('.pl-item');
+// --- MEDIA LOGIC ---
+const displayVideo = document.getElementById('custom-video');
+const displayGallery = document.getElementById('gallery-img');
+const displayName = document.getElementById('display-name');
+
+const dockVideo = document.getElementById('dock-video');
+const dockGallery = document.getElementById('dock-gallery');
+
+const vSelectors = document.querySelectorAll('.v-sel');
+const btnGalleryToggle = document.getElementById('btn-gallery-toggle');
+const gStatus = document.getElementById('gallery-status');
 
 // Video Controls
 const muteBtn = document.getElementById('btn-mute');
@@ -564,23 +558,20 @@ globalVideo.addEventListener('ended', () => {
   globalVideo.classList.remove('is-playing');
 });
 
-// Gallery Controls
-const galleryImages = ['gallery1.jpg', 'gallery2.jpg', 'gallery3.jpg']; // Add more images here if needed
+// Gallery Logic
+const galleryImages = ['gallery1.jpg', 'gallery2.jpg', 'gallery3.jpg'];
 let gIndex = 0;
-const gImg = document.getElementById('gallery-img');
 const gCurrent = document.getElementById('g-current');
 const gTotal = document.getElementById('g-total');
 
-// Set initial total
 gTotal.innerText = galleryImages.length;
 
 function updateGallery() {
-  gImg.style.filter = "grayscale(100%) contrast(1.1)"; // Reset filter effect
+  displayGallery.style.filter = "grayscale(100%) contrast(1.1)";
   setTimeout(() => {
-    gImg.src = galleryImages[gIndex];
+    displayGallery.src = galleryImages[gIndex];
     gCurrent.innerText = gIndex + 1;
-    gImg.style.display = 'block';
-    gImg.classList.add('is-active'); // Bring color back
+    displayGallery.classList.add('is-active');
   }, 150);
 }
 
@@ -593,46 +584,53 @@ document.getElementById('btn-next').addEventListener('click', () => {
   updateGallery();
 });
 
-// Sidebar Playlist Switching Logic
-playlistItems.forEach(item => {
-  item.addEventListener('click', () => {
+// Switching Logic (Video vs Gallery)
+vSelectors.forEach(btn => {
+  btn.addEventListener('click', () => {
+    // UI Updates
+    vSelectors.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    btnGalleryToggle.classList.remove('active');
+    gStatus.innerText = 'loaded_';
+
+    displayName.innerText = btn.getAttribute('data-name');
+
+    // Switch Views
+    displayGallery.style.display = 'none';
+    displayVideo.style.display = 'block';
     
-    // Update active class & text in sidebar
-    playlistItems.forEach(pl => {
-      pl.classList.remove('active');
-      pl.querySelector('.pl-status').innerText = 'loaded_';
-    });
-    item.classList.add('active');
-    
-    const mediaType = item.getAttribute('data-type');
+    dockGallery.style.display = 'none';
+    dockVideo.style.display = 'flex';
 
-    if (mediaType === 'video') {
-      // Hide Gallery, Show Video
-      displayGallery.style.display = 'none';
-      displayVideo.style.display = 'flex';
-      item.querySelector('.pl-status').innerText = 'playing_';
-
-      // Load new video
-      const newSrc = item.getAttribute('data-src');
-      globalVideo.src = newSrc;
-      globalVideo.play();
-      playBtn.innerText = 'pause_';
-      globalVideo.classList.add('is-playing');
-
-    } else if (mediaType === 'gallery') {
-      // Pause Video, Hide Video, Show Gallery
-      globalVideo.pause();
-      globalVideo.classList.remove('is-playing');
-      playBtn.innerText = 'play_';
-      
-      displayVideo.style.display = 'none';
-      displayGallery.style.display = 'flex';
-      item.querySelector('.pl-status').innerText = 'viewing_';
-      
-      // Init first image
-      gImg.classList.add('is-active');
-    }
+    // Play Video
+    const newSrc = btn.getAttribute('data-src');
+    globalVideo.src = newSrc;
+    globalVideo.play();
+    playBtn.innerText = 'pause_';
+    globalVideo.classList.add('is-playing');
   });
+});
+
+btnGalleryToggle.addEventListener('click', () => {
+  // UI Updates
+  vSelectors.forEach(b => b.classList.remove('active'));
+  btnGalleryToggle.classList.add('active');
+  gStatus.innerText = 'viewing_';
+  
+  displayName.innerText = "ISTANBUL_ARCHIVE (STILLS)";
+
+  // Pause & Hide Video
+  globalVideo.pause();
+  globalVideo.classList.remove('is-playing');
+  playBtn.innerText = 'play_';
+  displayVideo.style.display = 'none';
+  
+  // Show Gallery & Controls
+  displayGallery.style.display = 'block';
+  dockVideo.style.display = 'none';
+  dockGallery.style.display = 'flex';
+
+  updateGallery();
 });
 </script>
 </body>
