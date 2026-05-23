@@ -23,7 +23,7 @@
   --deep:      #0d0c0b;
   --void:      #070706;
   --dust:      #5a574f;
-  --form:      #2e2c28;
+  --form:      --form;
 }
 
 html,body{
@@ -102,16 +102,17 @@ body{
 /* CENTER BLOCK */
 .block-center{
   position: relative; display:flex; flex-direction:column; justify-content:center;
-  padding: 40px 56px; 
+  padding: 20px 56px 40px; /* Enhanced bottom padding to prevent overlap */
+  height: 100%;
   overflow: hidden; /* STRICT ZERO SCROLL */
 }
 
-.view { display: none; flex-direction: column; justify-content: center; width: 100%; height: 100%; }
+.view { display: none; flex-direction: column; justify-content: center; width: 100%; height: 100%; min-height: 0; }
 .view.active { display: flex; animation: massReveal 0.8s cubic-bezier(0.16,1,0.3,1) forwards; }
 
 /* SHARED SECTION HEADERS */
 .sec-num { font-size: 10px; letter-spacing: 0.3em; color: var(--dust); margin-bottom: 12px; flex-shrink: 0; }
-.sec-title { font-size: clamp(32px, 5vw, 64px); font-weight: 400; letter-spacing: -0.02em; line-height: 1; margin-bottom: 40px; color: var(--concrete); flex-shrink: 0; }
+.sec-title { font-size: clamp(32px, 5vw, 64px); font-weight: 400; letter-spacing: -0.02em; line-height: 1; margin-bottom: 30px; color: var(--concrete); flex-shrink: 0; }
 
 /* VIEW: HOME */
 .logo-img{ width:clamp(280px,42vw,720px); height:auto; object-fit:contain; display:block; margin-bottom:20px; opacity:0.92; }
@@ -158,13 +159,14 @@ body{
 .r-tag { font-size: 9px; letter-spacing: 0.4em; color: #3a3832; margin-left: auto; text-align: right; transition: color 0.5s; }
 .roster-row:hover .r-tag { color: var(--dust); }
 
-/* VIEW: MEDIA (4:3 COMPACT RATIO) */
+/* VIEW: MEDIA */
 .media-container {
   display: grid;
-  grid-template-columns: 1.8fr 1fr; 
+  grid-template-columns: 1.6fr 1fr; 
   gap: 40px;
-  align-items: center; /* Centers both columns cleanly vertically */
+  align-items: center; 
   height: 100%;
+  min-height: 0;
 }
 
 /* Left Side Viewport */
@@ -173,7 +175,7 @@ body{
   width: 100%;
   background: var(--deep);
   border: 1px solid rgba(184,180,173,0.08);
-  aspect-ratio: 4 / 3; /* STRICT 4:3 GEOMETRY */
+  aspect-ratio: 4 / 3; 
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -196,7 +198,7 @@ body{
   display: flex; flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  padding: 12px 0;
+  max-height: 40vh; /* Prevents container from stretching too far down */
 }
 
 .menu-section-top {
@@ -238,8 +240,7 @@ body{
 
 /* Unified Control Slab at Bottom Right */
 .media-controls-dock {
-  padding-top: 24px;
-  border-top: 1px solid rgba(184,180,173,0.08);
+  padding-top: 16px;
 }
 .dock-panel { display: flex; justify-content: space-between; align-items: center; }
 .m-btn-group { display: flex; gap: 24px; }
@@ -289,6 +290,7 @@ body{
   .r-tag { display: none; }
   .media-container { grid-template-columns: 1fr; gap: 24px; }
   .display-area { aspect-ratio: 4/3; }
+  .media-menu { max-height: none; }
   .nav-slab{grid-template-columns:repeat(2,1fr)}
   .nav-item:nth-child(2){border-right:none}
   .nav-item:nth-child(3),.nav-item:nth-child(4){border-top:1px solid rgba(184,180,173,0.06)}
@@ -358,12 +360,12 @@ body{
           <div class="menu-section-top">
             <div class="menu-label">motion_</div>
             <div class="video-grid">
-              <button class="v-sel active" data-src="video1.mp4" data-name="NEW_MEXICO_PROMO.MP4">01</button>
+              <button class="v-sel active" data-src="video1.mp4" data-name="ISTANBUL_PROMO.MP4">01</button>
               <button class="v-sel" data-src="video2.mp4" data-name="STAGE_CONCEPT_V3.MP4">02</button>
               <button class="v-sel" data-src="video3.mp4" data-name="TOUR_VLOG_ARCHIVE.MP4">03</button>
               <button class="v-sel" data-src="video4.mp4" data-name="UNRELEASED_STUDIO.MP4">04</button>
             </div>
-            <div class="active-media-name" id="display-name">NEW_MEXICO_PROMO.MP4</div>
+            <div class="active-media-name" id="display-name">ISTANBUL_PROMO.MP4</div>
 
             <div class="menu-label">stills_</div>
             <button class="btn-gallery" id="btn-gallery-toggle">
