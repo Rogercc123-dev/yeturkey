@@ -2,260 +2,702 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ACCESS OPERA — GLOBAL OPERATIONS</title>
-  
-  <!-- Typography & Tailwind Core CDN -->
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>ACCESS OPERA — Live Operations Portal</title>
+  <!-- GSAP & Lenis -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
   <style>
-    :root {
-      --bg-color: #EFEFEF;
-      --text-color: #111111;
-      --accent-color: #8B0000;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      cursor: none;
+    }
+
+    body {
+      background: #1A1917; /* Dark concrete / warm charcoal */
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: #E6E1DA; /* High contrast soft text */
+      overflow: hidden;
+      height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* TYPOGRAPHY CONFIGURATION */
+    .ocr, .lobby-title, .section-heading, .nav-button, .client-name, .media-caption, .event-date, .contact-label, .back-btn, .logo-mark, h2, button, input, textarea {
+      font-family: "OCR A BT", "OCR-A", "Courier New", monospace;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+
+    p, .client-meta, .event-location, .metadata, .contact-info, .loader-text {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+    }
+
+    /* TEXTURE LAYER OVERLAYS */
+    .grain-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 998;
+      opacity: 0.04; /* Restrained noise density */
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     }
     
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-family: 'OCR A BT', 'Space Mono', monospace;
-      cursor: none; /* Hide default hardware cursor */
-      overflow: hidden;
-    }
-
-    /* Analog Noise Layer */
-    .noise-overlay {
+    .scanlines {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      inset: 0;
       pointer-events: none;
-      z-index: 9999;
-      opacity: 0.04;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      background: repeating-linear-gradient(0deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 4px);
+      z-index: 997;
     }
 
-    /* Custom Precision Cursor styling */
-    #custom-cursor {
+    /* CUSTOM ARCHITECTURAL CURSOR */
+    .cursor {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 20px;
-      height: 20px;
-      border: 1px solid #FFFFFF;
-      mix-blend-mode: difference;
+      width: 24px;
+      height: 24px;
+      border: 1px solid #C5A880;
+      background: transparent;
       pointer-events: none;
       z-index: 10000;
       transform: translate(-50%, -50%);
-      transition: transform 0.1s cubic-bezier(0.25, 1, 0.5, 1), 
-                  width 0.3s cubic-bezier(0.25, 1, 0.5, 1), 
-                  height 0.3s cubic-bezier(0.25, 1, 0.5, 1),
-                  border-color 0.3s ease;
+      transition: width 0.25s cubic-bezier(0.25, 1, 0.5, 1), height 0.25s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.25s;
+    }
+    .cursor.active {
+      width: 44px;
+      height: 44px;
+      background: rgba(197, 168, 128, 0.08);
+      border-color: #E6E1DA;
+    }
+    
+    a, button, .lobby-item, .back-btn, .client-row, .media-item, .event-item, input, textarea {
+      cursor: none;
+    }
+
+    /* LOADER PANEL */
+    .loader {
+      position: fixed;
+      inset: 0;
+      background: #141312;
+      z-index: 100000;
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .loader-symbol {
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      color: #E6E1DA;
+      letter-spacing: 0.2em;
+    }
+    .loader-progress {
+      width: 200px;
+      height: 1px;
+      background: #2D2B28;
+    }
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: #C5A880;
+    }
+    .loader-text {
+      font-size: 0.65rem;
+      letter-spacing: 3px;
+      color: #858076;
     }
 
-    #custom-cursor .dot {
-      width: 0px;
-      height: 0px;
-      background-color: var(--accent-color);
-      transition: width 0.3s ease, height 0.3s ease;
+    /* MAIN NAV LOBBY INTERFACE */
+    .lobby {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 4rem;
+      z-index: 10;
+      opacity: 0;
+    }
+    .lobby-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .logo-mark {
+      font-size: 0.9rem;
+      letter-spacing: 3px;
+      color: #C5A880;
+      border-left: 2px solid #C5A880;
+      padding-left: 0.8rem;
+    }
+    .lobby-title {
+      font-size: clamp(2.5rem, 8vw, 5.5rem);
+      line-height: 0.95;
+      font-weight: 500;
+      letter-spacing: -0.04em;
+      margin: 2rem 0;
+      color: #F5F2ED;
+    }
+    .lobby-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .lobby-item {
+      background: rgba(35, 33, 30, 0.4);
+      padding: 2.5rem 1.5rem;
+      border: 1px solid #2D2B28;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .lobby-item:hover {
+      background: rgba(45, 43, 39, 0.8);
+      border-color: #C5A880;
+    }
+    .lobby-item h2 {
+      font-size: 1.4rem;
+      color: #E6E1DA;
+      margin-bottom: 0.5rem;
+    }
+    .lobby-item p {
+      font-size: 0.7rem;
+      color: #858076;
+    }
+    .lobby-footer {
+      border-top: 1px solid #2D2B28;
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.65rem;
+      color: #6B665F;
+      font-family: monospace;
     }
 
-    /* Cursor hover modifications */
-    body.cursor-active #custom-cursor {
-      width: 30px;
-      height: 30px;
-      transform: translate(-50%, -50%) rotate(45deg);
-      border-color: var(--accent-color);
+    /* SECTION PANEL ENGINE */
+    .section-view {
+      position: fixed;
+      inset: 0;
+      background: #141312;
+      z-index: 200;
+      overflow-y: auto;
+      padding: 4rem;
+      display: none;
+      opacity: 0;
     }
-    
-    body.cursor-active #custom-cursor .dot {
-      width: 3px;
-      height: 3px;
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4rem;
+      border-bottom: 1px solid #2D2B28;
+      padding-bottom: 1.5rem;
+    }
+    .section-heading {
+      font-size: 2rem;
+      color: #F5F2ED;
+    }
+    .back-btn {
+      background: none;
+      border: 1px solid #403D39;
+      color: #E6E1DA;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      padding: 0.5rem 1.2rem;
+      transition: all 0.2s;
+    }
+    .back-btn:hover {
+      background: #E6E1DA;
+      color: #141312;
+      border-color: #E6E1DA;
     }
 
-    /* Heavy, mechanical loading screen exit */
-    #loader {
-      transition: transform 1.2s cubic-bezier(0.76, 0, 0.24, 1);
+    /* CLIENT RENDER LAYOUT */
+    .clients-list {
+      display: flex;
+      flex-direction: column;
     }
-    
-    #loader.dismissed {
-      transform: translateY(-100%);
+    .client-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 0;
+      border-bottom: 1px solid #2D2B28;
+    }
+    .client-name {
+      font-size: 1.8rem;
+      color: #E6E1DA;
+    }
+    .client-meta {
+      font-size: 0.75rem;
+      color: #858076;
+      margin-top: 0.4rem;
     }
 
-    /* Layout structural lines */
-    .border-graphite {
-      border-color: rgba(17, 17, 17, 0.15);
+    /* MEDIA ARCHIVE LAYOUT */
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 2rem;
+    }
+    .media-item {
+      position: relative;
+    }
+    .media-frame {
+      background: #1A1917;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      border: 1px solid #2D2B28;
+    }
+    .media-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(100%) contrast(1.1) brightness(0.8);
+      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), filter 0.4s;
+    }
+    .media-item:hover .media-frame img {
+      transform: scale(1.03);
+      filter: grayscale(40%) contrast(1) brightness(0.9);
+    }
+    .media-caption {
+      margin-top: 1rem;
+      font-size: 0.75rem;
+      color: #E6E1DA;
+      display: flex;
+      justify-content: space-between;
+    }
+    .media-caption span {
+      color: #858076;
+    }
+
+    /* UPCOMING EVENTS LAYOUT */
+    .events-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .event-item {
+      display: grid;
+      grid-template-columns: 200px 1fr 250px;
+      padding: 2.2rem 0;
+      border-bottom: 1px solid #2D2B28;
+      align-items: baseline;
+    }
+    .event-date {
+      color: #C5A880;
+      font-size: 1rem;
+    }
+    .event-name {
+      font-size: 1.4rem;
+      color: #E6E1DA;
+    }
+    .event-location {
+      font-size: 0.85rem;
+      color: #858076;
+      text-align: right;
+    }
+
+    /* MINIMAL CONTACT LAYOUT */
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 6rem;
+    }
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+    .contact-group {
+      position: relative;
+    }
+    .contact-label {
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      color: #858076;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .contact-input, .contact-textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #2D2B28;
+      padding: 0.5rem 0;
+      font-size: 1.1rem;
+      color: #F5F2ED;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .contact-input:focus, .contact-textarea:focus {
+      border-bottom-color: #C5A880;
+    }
+    .submit-btn {
+      align-self: flex-start;
+      background: transparent;
+      border: 1px solid #C5A880;
+      color: #C5A880;
+      padding: 0.8rem 2.5rem;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      transition: all 0.3s;
+    }
+    .submit-btn:hover {
+      background: #C5A880;
+      color: #141312;
+    }
+    .contact-info {
+      border-left: 1px solid #2D2B28;
+      padding-left: 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      font-size: 0.8rem;
+      color: #858076;
+      line-height: 1.6;
+    }
+    .contact-info-accent {
+      color: #E6E1DA;
+      font-family: monospace;
+    }
+
+    /* MOBILE & TABLET ADAPTIVITY */
+    @media (max-width: 1024px) {
+      .lobby-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .contact-wrapper {
+        grid-template-columns: 1fr;
+        gap: 4rem;
+      }
+      .contact-info {
+        border-left: none;
+        padding-left: 0;
+        border-top: 1px solid #2D2B28;
+        padding-top: 3rem;
+      }
+    }
+    @media (max-width: 768px) {
+      .lobby {
+        padding: 2rem;
+      }
+      .lobby-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .section-view {
+        padding: 2rem;
+      }
+      .event-item {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+      }
+      .event-location {
+        text-align: left;
+      }
     }
   </style>
 </head>
-<body class="relative w-full h-screen bg-[#EFEFEF] text-[#111111] overflow-hidden">
+<body>
 
-  <!-- Tactile Overlay -->
-  <div class="noise-overlay"></div>
+<div class="loader" id="loader">
+  <div class="loader-symbol">AO</div>
+  <div class="loader-progress"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="loader-text">METADATA SYNC // SECURITY CLEARANCE</div>
+</div>
 
-  <!-- TACTICAL CUSTOM CURSOR -->
-  <div id="custom-cursor">
-    <div class="dot"></div>
+<div class="grain-overlay"></div>
+<div class="scanlines"></div>
+<div class="cursor" id="cursor"></div>
+
+<!-- NAVIGATION LOBBY HUB -->
+<div class="lobby" id="lobby">
+  <div class="lobby-header">
+    <div class="logo-mark">ACCESS OPERA // DATA PORTAL</div>
+    <div style="font-size:0.65rem; font-family:monospace; color:#858076;">NETWORK MATRIX // REV. 2026</div>
   </div>
-
-  <!-- CINEMATIC LOADING EXPERIENCE -->
-  <div id="loader" class="fixed inset-0 z-50 bg-[#111111] text-[#EFEFEF] flex flex-col justify-between p-8 md:p-12">
-    <div class="flex justify-between uppercase text-[10px] tracking-[0.2em] opacity-50">
-      <span>Establishing Environment Connection</span>
-      <span>Global Ops</span>
+  
+  <div class="lobby-title">SYSTEMS<br>INFRASTRUCTURE</div>
+  
+  <div class="lobby-grid">
+    <div class="lobby-item" data-section="clients">
+      <h2>CLIENTS</h2>
+      <p>Roster & Creative Partners</p>
     </div>
+    <div class="lobby-item" data-section="media">
+      <h2>MEDIA</h2>
+      <p>Visual Archive Records</p>
+    </div>
+    <div class="lobby-item" data-section="upcoming">
+      <h2>UPCOMING</h2>
+      <p>Operational Engagements</p>
+    </div>
+    <div class="lobby-item" data-section="contact">
+      <h2>CONTACT</h2>
+      <p>Secure Communication Line</p>
+    </div>
+  </div>
+  
+  <div class="lobby-footer">
+    <span>SYSTEM NODE: ACTIVE</span>
+    <span>EXTERNAL COMMUNICATIONS CORE</span>
+  </div>
+</div>
+
+<!-- COMPONENT PANEL: CLIENTS -->
+<div id="clients-section" class="section-view">
+  <div class="section-header">
+    <span class="section-heading">MANAGED CLIENT ROSTER</span>
+    <button class="back-btn" data-back>⟵ RETURN</button>
+  </div>
+  <div class="clients-list" id="clientsList"></div>
+</div>
+
+<!-- COMPONENT PANEL: MEDIA -->
+<div id="media-section" class="section-view">
+  <div class="section-header">
+    <span class="section-heading">PRODUCTION ARCHIVE</span>
+    <button class="back-btn" data-back>⟵ RETURN</button>
+  </div>
+  <div class="media-grid" id="mediaGrid"></div>
+</div>
+
+<!-- COMPONENT PANEL: UPCOMING -->
+<div id="upcoming-section" class="section-view">
+  <div class="section-header">
+    <span class="section-heading">FUTURE DEPLOYMENTS</span>
+    <button class="back-btn" data-back>⟵ RETURN</button>
+  </div>
+  <div class="events-list" id="eventsList"></div>
+</div>
+
+<!-- COMPONENT PANEL: CONTACT -->
+<div id="contact-section" class="section-view">
+  <div class="section-header">
+    <span class="section-heading">SECURE INTERACTION TERM</span>
+    <button class="back-btn" data-back>⟵ RETURN</button>
+  </div>
+  <div class="contact-wrapper">
+    <form class="contact-form" id="portalForm">
+      <div class="contact-group">
+        <label class="contact-label">SIGNATURE ID</label>
+        <input type="text" class="contact-input" required>
+      </div>
+      <div class="contact-group">
+        <label class="contact-label">ORGANIZATION CORRELATION</label>
+        <input type="text" class="contact-input" required>
+      </div>
+      <div class="contact-group">
+        <label class="contact-label">TRANSMISSION DATA BRIEF</label>
+        <textarea rows="4" class="contact-textarea" required></textarea>
+      </div>
+      <button type="submit" class="submit-btn">TRANSMIT</button>
+    </form>
     
-    <div class="flex flex-col items-center">
-      <h1 id="loader-title" class="text-[5vw] md:text-[4vw] font-bold uppercase tracking-[1em] opacity-0 transition-all duration-1000 transform scale-95" style="letter-spacing: 0.5em; opacity: 1;">
-        Access Opera
-      </h1>
-      <div class="mt-4 text-[10px] tracking-[0.3em] opacity-40 uppercase">
-        インフラストラクチャ
+    <div class="contact-info">
+      <div>
+        <strong>ENDPOINT NODE</strong><br>
+        NEW YORK HUB / RE-ROUTE MATRIX
       </div>
-    </div>
-
-    <div class="flex justify-between items-end">
-      <span class="text-[10px] tracking-widest opacity-50">v.1.0.0_HTML</span>
-      <div id="loading-counter" class="text-[10vw] md:text-[6vw] font-light leading-none transition-all duration-75">
-        000
+      <div>
+        <strong>DIRECT ACCESS ROUTE</strong><br>
+        <span class="contact-info-accent">CORE@ACCESS-OPERA.NET</span>
+      </div>
+      <div>
+        Notice: Content streams via this gateway remain monitored under structural integrity directives.
       </div>
     </div>
   </div>
+</div>
 
-  <!-- MONOLITHIC HOME / DIRECTORY (Lobby Architecture) -->
-  <div id="app-content" class="relative w-full h-full p-8 md:p-12 flex flex-col justify-between opacity-0 transition-opacity duration-1000 delay-500">
-    
-    <!-- HEADER METADATA -->
-    <header class="flex justify-between items-start text-[10px] uppercase tracking-[0.2em] border-b border-graphite pb-4">
-      <div class="flex flex-col gap-1">
-        <span>Coordinates: 51.5072° N, 0.1276° W</span>
-        <span class="text-gray-400">Status: Active</span>
-      </div>
-      <div class="text-right flex flex-col gap-1">
-        <span>Access Opera Holdings</span>
-        <span>© 2026</span>
-      </div>
-    </header>
+<script>
+  // APP LIFECYCLE MANAGEMENT
+  let progress = 0;
+  const progressFill = document.getElementById('progressFill');
+  const loaderDiv = document.getElementById('loader');
+  const lobbyDiv = document.getElementById('lobby');
 
-    <!-- MAIN DIRECTORY ASYMMETRY -->
-    <div class="flex-1 flex flex-col md:flex-row items-end justify-between py-12">
-      
-      <!-- LEFT: MONOLITHIC IDENTITY -->
-      <div class="w-full md:w-1/2">
-        <h1 class="text-[12vw] md:text-[8vw] leading-[0.8] uppercase font-bold tracking-tighter">
-          Access<br>Opera
-        </h1>
-        <div class="mt-8 max-w-sm">
-          <p class="text-xs tracking-widest uppercase leading-loose text-gray-500">
-            The global infrastructure of culture. Live events, touring empires, and architectural operations.
-          </p>
-        </div>
-      </div>
+  const loaderInterval = setInterval(() => {
+    progress += Math.floor(Math.random() * 12) + 5;
+    if (progress >= 100) {
+      progress = 100;
+      clearInterval(loaderInterval);
+      setTimeout(() => {
+        gsap.to(loaderDiv, { opacity: 0, duration: 0.6, onComplete: () => {
+          loaderDiv.style.display = 'none';
+          gsap.to(lobbyDiv, { opacity: 1, duration: 1, ease: "power1.out" });
+          initSmoothScrollEngine();
+        }});
+      }, 200);
+    }
+    progressFill.style.width = progress + '%';
+  }, 40);
 
-      <!-- RIGHT: NAV DIRECTORY -->
-      <nav class="w-full md:w-1/3 mt-16 md:mt-0 flex flex-col gap-6 text-right">
-        <!-- Interactive Node 01 -->
-        <div class="nav-item group border-b border-graphite pb-4 flex justify-between items-end hover:border-[#111111] transition-colors duration-500">
-          <span class="text-[10px] tracking-widest text-gray-400 group-hover:text-[#8B0000] transition-colors duration-300">01</span>
-          <div class="flex flex-col items-end">
-            <span class="text-3xl md:text-5xl uppercase tracking-tight group-hover:text-[#8B0000] transition-colors duration-300">Roster</span>
-            <span class="text-[9px] tracking-widest text-gray-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">アーティスト管理</span>
-          </div>
-        </div>
+  // RIGID MECHANICAL HOVER CURSOR
+  const cursor = document.getElementById('cursor');
+  let targetX = 0, targetY = 0, currentX = 0, currentY = 0;
 
-        <!-- Interactive Node 02 -->
-        <div class="nav-item group border-b border-graphite pb-4 flex justify-between items-end hover:border-[#111111] transition-colors duration-500">
-          <span class="text-[10px] tracking-widest text-gray-400 group-hover:text-[#8B0000] transition-colors duration-300">02</span>
-          <div class="flex flex-col items-end">
-            <span class="text-3xl md:text-5xl uppercase tracking-tight group-hover:text-[#8B0000] transition-colors duration-300">Archive</span>
-            <span class="text-[9px] tracking-widest text-gray-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">現場記録</span>
-          </div>
-        </div>
+  document.addEventListener('mousemove', (e) => {
+    targetX = e.clientX;
+    targetY = e.clientY;
+  });
 
-        <!-- Interactive Node 03 -->
-        <div class="nav-item group border-b border-graphite pb-4 flex justify-between items-end hover:border-[#111111] transition-colors duration-500">
-          <span class="text-[10px] tracking-widest text-gray-400 group-hover:text-[#8B0000] transition-colors duration-300">03</span>
-          <div class="flex flex-col items-end">
-            <span class="text-3xl md:text-5xl uppercase tracking-tight group-hover:text-[#8B0000] transition-colors duration-300">Services</span>
-            <span class="text-[9px] tracking-widest text-gray-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">ライブ運営</span>
-          </div>
-        </div>
+  function processCursorLoop() {
+    currentX += (targetX - currentX) * 0.15;
+    currentY += (targetY - currentY) * 0.15;
+    cursor.style.transform = `translate(${currentX}px, ${currentY}px)`;
+    requestAnimationFrame(processCursorLoop);
+  }
+  processCursorLoop();
 
-        <!-- Interactive Node 04 -->
-        <div class="nav-item group border-b border-graphite pb-4 flex justify-between items-end hover:border-[#111111] transition-colors duration-500">
-          <span class="text-[10px] tracking-widest text-gray-400 group-hover:text-[#8B0000] transition-colors duration-300">04</span>
-          <div class="flex flex-col items-end">
-            <span class="text-3xl md:text-5xl uppercase tracking-tight group-hover:text-[#8B0000] transition-colors duration-300">Philosophy</span>
-            <span class="text-[9px] tracking-widest text-gray-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">理念</span>
-          </div>
-        </div>
-
-        <!-- Interactive Node 05 -->
-        <div class="nav-item group border-b border-graphite pb-4 flex justify-between items-end hover:border-[#111111] transition-colors duration-500">
-          <span class="text-[10px] tracking-widest text-gray-400 group-hover:text-[#8B0000] transition-colors duration-300">05</span>
-          <div class="flex flex-col items-end">
-            <span class="text-3xl md:text-5xl uppercase tracking-tight group-hover:text-[#8B0000] transition-colors duration-300">Contact</span>
-            <span class="text-[9px] tracking-widest text-gray-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">お問い合わせ</span>
-          </div>
-        </div>
-      </nav>
-
-    </div>
-
-    <!-- FOOTER MANIFESTO -->
-    <footer class="text-[10px] uppercase tracking-[0.3em] flex justify-between border-t border-graphite pt-4">
-      <span class="text-[#8B0000] hidden md:block text-xs font-bold">• RESTRICTED NETWORK</span>
-      <span class="text-gray-400">The infrastructure of culture is not visible. It is felt.</span>
-    </footer>
-
-  </div>
-
-  <!-- INTERACTION ENGINE -->
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const cursor = document.getElementById("custom-cursor");
-      const loader = document.getElementById("loader");
-      const counter = document.getElementById("loading-counter");
-      const appContent = document.getElementById("app-content");
-      const navItems = document.querySelectorAll(".nav-item");
-
-      // 1. Precise Hardware Cursor Mapping
-      document.addEventListener("mousemove", (e) => {
-        cursor.style.left = `${e.clientX}px`;
-        cursor.style.top = `${e.clientY}px`;
-      });
-
-      // Interactive States for Nav Elements
-      navItems.forEach(item => {
-        item.addEventListener("mouseenter", () => document.body.classList.add("cursor-active"));
-        item.addEventListener("mouseleave", () => document.body.classList.remove("cursor-active"));
-      });
-
-      // 2. Mechanical Progressive Loader
-      let progress = 0;
-      const progressInterval = setInterval(() => {
-        progress += Math.floor(Math.random() * 12) + 4;
-        
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(progressInterval);
-          
-          // Complete full structure transition
-          setTimeout(() => {
-            loader.classList.add("dismissed");
-            appContent.classList.remove("opacity-0");
-            appContent.classList.add("opacity-100");
-          }, 600);
-        }
-        
-        counter.textContent = progress.toString().padStart(3, "0");
-      }, 100);
+  function bindingCursorInteractions() {
+    const interactives = document.querySelectorAll('.lobby-item, .back-btn, .client-row, .media-item, .event-item, .submit-btn, input, textarea');
+    interactives.forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
     });
-  </script>
+  }
+
+  // CORE SINGLE-PAGE ROUTING PANEL CONTROLLER
+  const lobbyContainer = document.getElementById('lobby');
+  const viewPanels = {
+    clients: document.getElementById('clients-section'),
+    media: document.getElementById('media-section'),
+    upcoming: document.getElementById('upcoming-section'),
+    contact: document.getElementById('contact-section')
+  };
+  let currentActivePanel = null;
+
+  function transitToPanel(panelId) {
+    if (currentActivePanel) {
+      currentActivePanel.style.display = 'none';
+      currentActivePanel.style.opacity = '0';
+    }
+    
+    const nextPanel = viewPanels[panelId];
+    nextPanel.style.display = 'block';
+    
+    gsap.timeline()
+      .to(lobbyContainer, { opacity: 0, duration: 0.4, pointerEvents: 'none' })
+      .to(nextPanel, { opacity: 1, duration: 0.5, ease: "power2.inOut" });
+
+    currentActivePanel = nextPanel;
+    document.body.style.overflow = 'auto';
+    if (window.scrollerInstance) window.scrollerInstance.start();
+  }
+
+  function revertToLobbyHub() {
+    if (!currentActivePanel) return;
+
+    gsap.timeline()
+      .to(currentActivePanel, { opacity: 0, duration: 0.4, onComplete: () => {
+        currentActivePanel.style.display = 'none';
+        currentActivePanel = null;
+      }})
+      .to(lobbyContainer, { opacity: 1, duration: 0.5, pointerEvents: 'auto' });
+
+    document.body.style.overflow = 'hidden';
+    if (window.scrollerInstance) {
+      window.scrollerInstance.scrollTo(0, { immediate: true });
+      window.scrollerInstance.stop();
+    }
+  }
+
+  document.querySelectorAll('.lobby-item').forEach(block => {
+    block.addEventListener('click', () => {
+      const targetToken = block.getAttribute('data-section');
+      if (targetToken && viewPanels[targetToken]) transitToPanel(targetToken);
+    });
+  });
+
+  document.querySelectorAll('[data-back]').forEach(trigger => {
+    trigger.addEventListener('click', revertToLobbyHub);
+  });
+
+  // STRUCTURAL INJECTION OF STATIC ARRAY ARCHIVES
+  const clientDataMatrix = [
+    { name: "BEYONCÉ", meta: "PRODUCTION INFRASTRUCTURE CORE" },
+    { name: "THE WEEKND", meta: "STAGE DESIGN ARCHITECTURE" },
+    { name: "ROSALÍA", meta: "GLOBAL SCENIC OPERATIONS" },
+    { name: "TRAVIS SCOTT", meta: "CIRCUIT DISPATCH DIRECTION" },
+    { name: "LONDON SYMPHONY", meta: "ACOUSTIC ENGINEERING RESIDENCY" }
+  ];
+
+  const clientsList = document.getElementById('clientsList');
+  clientDataMatrix.forEach(entry => {
+    const row = document.createElement('div');
+    row.className = 'client-row';
+    row.innerHTML = `
+      <div>
+        <div class="client-name">${entry.name}</div>
+        <div class="client-meta">${entry.meta}</div>
+      </div>
+      <div class="ocr" style="font-size:0.75rem; color:#C5A880;">[ RUNNING ]</div>
+    `;
+    clientsList.appendChild(row);
+  });
+
+  const mediaDataMatrix = [
+    { header: "STAGE LOG ALPHA", context: "INDUSTRIAL MATRIX", asset: "https://images.pexels.com/photos/1194420/concert-music-stage-performance-1194420.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop" },
+    { header: "CROWD ANALYSIS", context: "RESONANCE DATA", asset: "https://images.pexels.com/photos/1763075/concert-stage-lights-audience-1763075.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop" },
+    { header: "STRUCTURAL RIG", context: "MONOLITH BUILD", asset: "https://images.pexels.com/photos/1190297/crowd-concert-music-festival-1190297.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop" },
+    { header: "LIGHT PATTERN ARRAY", context: "PHOTON DEPLOY", asset: "https://images.pexels.com/photos/37728/night-concert-concert-stage-stage-37728.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop" }
+  ];
+
+  const mediaGrid = document.getElementById('mediaGrid');
+  mediaDataMatrix.forEach(element => {
+    const elementBlock = document.createElement('div');
+    elementBlock.className = 'media-item';
+    elementBlock.innerHTML = `
+      <div class="media-frame"><img src="${element.asset}" alt="${element.header}" loading="lazy"></div>
+      <div class="media-caption"><strong>${element.header}</strong><span>${element.context}</span></div>
+    `;
+    mediaGrid.appendChild(elementBlock);
+  });
+
+  const liveEventDataMatrix = [
+    { date: "12.06.2026", task: "METROPOLIS ARCH RESIDENCY", territory: "TOKYO / METRO DOME" },
+    { date: "04.07.2026", task: "LUMINARY RIG PHASE II", territory: "LONDON / OLYMPIC AXIS" },
+    { date: "22.08.2026", task: "CONTINENTAL CIRCUITS", territory: "NORTH AMERICAN MATRIX" },
+    { date: "16.09.2026", task: "SUMMIT ARCHITECTURE ENGINE", territory: "BERLIN CENTRAL" }
+  ];
+
+  const eventsList = document.getElementById('eventsList');
+  liveEventDataMatrix.forEach(eventObj => {
+    const itemRow = document.createElement('div');
+    itemRow.className = 'event-item';
+    itemRow.innerHTML = `
+      <div class="event-date">${eventObj.date}</div>
+      <div class="event-name">${eventObj.task}</div>
+      <div class="event-location">${eventObj.territory}</div>
+    `;
+    eventsList.appendChild(itemRow);
+  });
+
+  // FORM HANDLING INTERCEPT
+  document.getElementById('portalForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('TRANSMISSION SUCCESSFUL. DATA PACKET QUEUED FOR ANALYSIS.');
+  });
+
+  // SMOOTH SCROLL ROUTINE (LENIS)
+  function initSmoothScrollEngine() {
+    const lenisInstance = new Lenis({ smoothWheel: true, syncTouch: true, lerp: 0.08 });
+    window.scrollerInstance = lenisInstance;
+
+    function renderLoop(timestamp) {
+      lenisInstance.raf(timestamp);
+      requestAnimationFrame(renderLoop);
+    }
+    requestAnimationFrame(renderLoop);
+    lenisInstance.stop(); // Keep dynamic canvas locked while on front page lobby
+    
+    bindingCursorInteractions();
+  }
+</script>
 </body>
 </html>
