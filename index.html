@@ -7,6 +7,10 @@
 <meta name="description" content="access opera talent agency" />
 <meta name="theme-color" content="#030303" />
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
 <style>
 *, *::before, *::after { 
   box-sizing: border-box; 
@@ -28,11 +32,12 @@ html, body {
   height: 100vh;
   overflow: hidden; 
   background: var(--void);
-  cursor: none; /* Hiding default cursor */
+  cursor: none; 
 }
 
 body {
-  font-family: "OCR A BT", "OCR A Std", "OCR A Extended", "Courier New", monospace;
+  /* OCR A BT is prioritized, but Share Tech Mono guarantees the look globally */
+  font-family: "OCR A BT", "OCR A Std", "Share Tech Mono", "Courier New", monospace;
   color: var(--cream);
   line-height: 1.4;
   letter-spacing: 0.05em;
@@ -59,7 +64,7 @@ body {
 }
 
 body:hover .cursor-dot { opacity: 1; }
-/* Expanding cursor on clickable items */
+
 a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   width: 40px;
   height: 40px;
@@ -79,35 +84,6 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   z-index: 0;
 }
 
-/* NAV */
-.nav-bar {
-  position: relative;
-  z-index: 10;
-  flex-shrink: 0;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  padding: 0 4vw;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  animation: heavyFadeIn 2s cubic-bezier(0.2, 0.8, 0.2, 1) 1s forwards;
-  opacity: 0;
-}
-.nav-logo {
-  font-size: 14px; 
-  color: var(--steel);
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  cursor: none;
-}
-.nav-logo .jp-sub {
-  font-family: sans-serif;
-  font-size: 8px;
-  color: var(--akira-red);
-  letter-spacing: 0.25em;
-  margin-top: 4px;
-}
-
 /* MAIN LAYOUT */
 .content-wrapper {
   position: relative;
@@ -115,7 +91,7 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  padding: 0 4vw 4vh 4vw;
+  padding: 4vh 4vw; /* Adjusted padding since header is gone */
 }
 
 /* --- HERO & CINEMATIC LOAD --- */
@@ -213,7 +189,7 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
 @media (max-width: 768px) {
   .cards-section { height: 35vh; }
   .cards-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); gap: 12px; }
-  body { cursor: auto; } /* Disable custom cursor on mobile */
+  body { cursor: auto; } 
   .cursor-dot { display: none; }
 }
 </style>
@@ -221,13 +197,6 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
 
 <body>
   <div class="atmospheric-glow"></div>
-
-  <nav class="nav-bar">
-    <a href="#" class="nav-logo">
-      <span>access opera</span>
-      <span class="jp-sub">アクセス・オペラ</span>
-    </a>
-  </nav>
 
   <main class="content-wrapper">
     <section class="hero-section">
