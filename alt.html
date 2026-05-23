@@ -164,18 +164,17 @@ body{
 
 .media-container {
   display: grid;
-  grid-template-columns: 1.6fr 1fr; 
+  grid-template-columns: 1.4fr 1fr; 
   gap: 40px;
   align-items: center; 
   height: 100%;
   min-height: 0;
 }
 
-/* Re-engineered Display Area to handle dynamic aspect ratios dynamically */
+/* Redesigned to scale seamlessly according to asset orientation flags */
 .display-area {
   position: relative;
   width: 100%;
-  max-height: 55vh; /* Caps the vertical footprint safely */
   background: var(--deep);
   border: 1px solid rgba(184,180,173,0.08);
   overflow: hidden;
@@ -183,11 +182,12 @@ body{
   flex-direction: column;
 }
 
+/* Removed forced heights to let vertical files stretch fully into view */
 #custom-video, #gallery-img {
   width: 100%;
   height: auto;
-  max-height: calc(55vh - 48px); /* Reserves strict space for controls below it */
-  object-fit: contain; /* Guarantees no cropping occurs */
+  max-height: 52vh; /* Protects display architecture boundaries */
+  object-fit: contain; 
   background: #000;
   display: block;
   filter: grayscale(100%) contrast(1.1);
@@ -199,7 +199,7 @@ body{
   display: flex; flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  max-height: 55vh; 
+  max-height: 60vh; 
 }
 
 .menu-section-top {
@@ -237,7 +237,6 @@ body{
 .btn-gallery.active .g-name { color: var(--concrete); }
 .btn-gallery.active .g-status { color: var(--concrete); }
 
-/* Static Controls Dock forced outside the structural framing lines */
 .media-controls-dock {
   padding: 16px 24px;
   background: var(--void);
