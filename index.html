@@ -36,7 +36,6 @@ html, body {
 }
 
 body {
-  /* Prioritizes OCR A BT, locks in IBM Plex Mono globally if OCR isn't installed */
   font-family: "OCR A BT", "IBM Plex Mono", monospace;
   color: var(--cream);
   line-height: 1.4;
@@ -107,16 +106,18 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   to { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 
-.hero-title {
-  font-size: clamp(40px, 9vw, 130px);
-  color: var(--cream);
-  line-height: 0.85; 
-  letter-spacing: -0.06em;
-  margin-bottom: 8px;
-  position: relative;
+/* --- NEW LOGO STYLING --- */
+.hero-logo {
+  width: clamp(200px, 45vw, 800px); /* Scales massively on desktop, fits on mobile */
+  height: auto;
+  object-fit: contain;
+  margin-bottom: 12px;
   opacity: 0;
-  font-weight: 400; /* IBM Plex Mono specific weight */
   animation: heavyFadeIn 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
+  
+  /* IF YOUR JPG HAS A BLACK BACKGROUND, THIS MAKES IT BLEND SEAMLESSLY */
+  mix-blend-mode: screen; 
+  /* (Change to 'difference' if the background is white) */
 }
 
 .hero-jp-subtitle {
@@ -202,7 +203,7 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
 
   <main class="content-wrapper">
     <section class="hero-section">
-      <h1 class="hero-title">access opera</h1>
+      <img src="opera.jpg" alt="Access Opera Logo" class="hero-logo" />
       <div class="hero-jp-subtitle">タレントエージェンシー</div>
     </section>
 
