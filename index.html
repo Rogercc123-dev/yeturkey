@@ -9,7 +9,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 *, *::before, *::after { 
@@ -36,8 +36,8 @@ html, body {
 }
 
 body {
-  /* OCR A BT is prioritized, but Share Tech Mono guarantees the look globally */
-  font-family: "OCR A BT", "OCR A Std", "Share Tech Mono", "Courier New", monospace;
+  /* Prioritizes OCR A BT, locks in IBM Plex Mono globally if OCR isn't installed */
+  font-family: "OCR A BT", "IBM Plex Mono", monospace;
   color: var(--cream);
   line-height: 1.4;
   letter-spacing: 0.05em;
@@ -91,7 +91,7 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  padding: 4vh 4vw; /* Adjusted padding since header is gone */
+  padding: 4vh 4vw; 
 }
 
 /* --- HERO & CINEMATIC LOAD --- */
@@ -115,6 +115,7 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   margin-bottom: 8px;
   position: relative;
   opacity: 0;
+  font-weight: 400; /* IBM Plex Mono specific weight */
   animation: heavyFadeIn 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
 }
 
@@ -152,6 +153,7 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   text-decoration: none;
   color: var(--steel);
   font-size: clamp(14px, 1.5vw, 20px);
+  font-weight: 400;
   position: relative;
   overflow: hidden;
   cursor: none;
@@ -176,7 +178,7 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
 
 .minimal-card:hover span {
   color: var(--void);
-  font-weight: bold;
+  font-weight: 700;
   transform: translateY(-2px);
 }
 
