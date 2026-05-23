@@ -12,7 +12,16 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;700&family=Noto+Sans+JP:wght@300;500&display=swap" rel="stylesheet">
 
 <style>
-/* Backup font import just in case the HTML links fail */
+/* --- CUSTOM FONT INJECTION --- */
+@font-face {
+  font-family: 'OCR A BT';
+  src: url('OCR-a___.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap; /* Ensures text stays visible while the font downloads */
+}
+
+/* Backup import just in case the HTML links fail */
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;700&family=Noto+Sans+JP:wght@300;500&display=swap');
 
 *, *::before, *::after { 
@@ -39,8 +48,8 @@ html, body {
 }
 
 body {
-  /* Locked in the IBM Plex Mono font */
-  font-family: 'IBM Plex Mono', 'Courier New', Courier, monospace;
+  /* Forces the custom TTF first, falls back to Plex Mono if it fails */
+  font-family: 'OCR A BT', 'IBM Plex Mono', 'Courier New', Courier, monospace;
   color: var(--cream);
   line-height: 1.4;
   letter-spacing: 0.05em;
@@ -124,7 +133,7 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   100% { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 
-/* --- UPDATED LOGO STYLING FOR PNG --- */
+/* --- LOGO STYLING FOR PNG --- */
 .hero-logo {
   width: clamp(250px, 40vw, 700px); 
   height: auto;
@@ -132,7 +141,6 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   margin-bottom: 16px;
   opacity: 0;
   animation: heavyFadeIn 2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
-  /* Removed mix-blend-mode so your transparent PNG renders perfectly */
 }
 
 .hero-jp-subtitle {
@@ -158,9 +166,9 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2px; /* Super tight gap for an architectural look */
+  gap: 2px; 
   height: 100%;
-  background: var(--grid-line); /* Creates subtle borders between cards */
+  background: var(--grid-line); 
   border: 1px solid var(--grid-line);
 }
 
@@ -172,7 +180,6 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   text-decoration: none;
   color: var(--steel);
   font-size: clamp(14px, 1.2vw, 18px);
-  font-weight: 400;
   position: relative;
   overflow: hidden;
   cursor: none;
@@ -198,8 +205,8 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
 
 .minimal-card:hover span {
   color: var(--void);
-  font-weight: 700;
-  letter-spacing: 0.15em; /* Text expands slightly on hover */
+  font-weight: bold;
+  letter-spacing: 0.15em; 
 }
 
 .minimal-card:hover::before {
