@@ -102,9 +102,17 @@ body{
 /* CENTER BLOCK - SPA VIEWS */
 .block-center{
   position: relative; display:flex; flex-direction:column; justify-content:center;
-  padding:0 56px; overflow: hidden;
+  padding: 40px 56px; 
+  /* ALLOW INVISIBLE SCROLLING IF SCREEN IS TOO SMALL */
+  overflow-y: auto; 
+  overflow-x: hidden;
+  scrollbar-width: none; /* Firefox */
 }
-.view { display: none; flex-direction: column; justify-content: center; width: 100%; height: 100%; }
+.block-center::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.view { display: none; flex-direction: column; justify-content: center; width: 100%; min-height: 100%; }
 .view.active { display: flex; animation: massReveal 0.8s cubic-bezier(0.16,1,0.3,1) forwards; }
 
 /* SHARED SECTION HEADERS */
@@ -116,7 +124,7 @@ body{
 .datum{ width:clamp(280px,42vw,720px); height:1px; background:rgba(184,180,173,0.2); margin:32px 0 24px; }
 .descriptor{ font-size:10px; letter-spacing:0.5em; color:var(--dust); }
 
-/* VIEW: UPCOMING (SCHEDULE) */
+/* VIEW: UPCOMING */
 .schedule-wrap{ width: 100%; border-top: 1px solid rgba(184,180,173,0.08); }
 .schedule-row{
   position: relative; display: grid; grid-template-columns: 1fr 2fr 1fr auto; align-items: center;
@@ -167,7 +175,7 @@ body{
 .r-tag { font-size: 9px; letter-spacing: 0.4em; color: #3a3832; margin-left: auto; text-align: right; transition: color 0.5s; }
 .roster-row:hover .r-tag { color: var(--dust); }
 
-/* VIEW: MEDIA (CUSTOM 4:3 PLAYER) */
+/* VIEW: MEDIA (CUSTOM 16:9 PLAYER) */
 .media-container {
   display: grid;
   grid-template-columns: 2.5fr 1fr;
@@ -180,12 +188,14 @@ body{
   background: var(--deep);
   border: 1px solid rgba(184,180,173,0.08);
   display: flex;
-  flex-direction: column; /* Prevents control clipping */
+  flex-direction: column; 
 }
 #custom-video {
   width: 100%;
-  aspect-ratio: 4 / 3; /* STRICTLY LOCKS TO 4:3 */
-  object-fit: cover;
+  aspect-ratio: 16 / 9; /* FORCES 16:9 RATIO */
+  max-height: 55vh;     /* PREVENTS CONTROLS FROM BEING PUSHED OFF SCREEN */
+  object-fit: contain;  /* PREVENTS CROPPING */
+  background: #000;
   display: block;
   filter: grayscale(100%) contrast(1.1);
   transition: filter 0.5s ease;
@@ -196,6 +206,7 @@ body{
   display: flex; justify-content: space-between; align-items: center;
   padding: 16px 24px; background: var(--void);
   border-top: 1px solid rgba(184,180,173,0.08);
+  flex-shrink: 0; /* Ensures controls never shrink away */
 }
 .v-btn-group { display: flex; gap: 24px; }
 .v-btn {
@@ -256,7 +267,8 @@ body{
 /* MOBILE */
 @media(max-width:850px){
   body{cursor:auto}.cur{display:none}
-  .block-top,.block-center{padding:32px 28px 0}
+  .block-top{padding:32px 28px 0}
+  .block-center{padding: 32px 28px;}
   .bg-word{font-size:40vw}
   
   .schedule-row { grid-template-columns: 1fr; gap: 12px; padding: 24px 16px; }
@@ -265,7 +277,7 @@ body{
   /* Mobile Roster */
   .roster-row { padding: 24px 16px; }
   .r-avatar { width: 64px; height: 64px; margin-right: 20px; }
-  .r-tag { display: none; /* hide on small screens to save space */ }
+  .r-tag { display: none; }
 
   .media-container { grid-template-columns: 1fr; gap: 24px; }
   
