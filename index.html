@@ -3,25 +3,24 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<title>ACCESS OPERA // TALENT ARCHITECTURE</title>
-<meta name="description" content="Access Opera. Global talent agency representing the vanguard of physical and digital performance. Istanbul // Tokyo // Grid." />
+<title>access opera</title>
+<meta name="description" content="access opera talent agency" />
 <meta name="theme-color" content="#050505" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
-
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
 
 :root {
-  --cream: #F0EDE8;
+  --cream: #d4d0c8;
   --off-black: #080808;
   --void: #030303;
-  --concrete: #333333;
-  --steel: #888888;
-  --akira-red: #E3000F;
-  --tron-cyan: #00F0FF;
+  --concrete: #1a1a1a;
+  --steel: #555555;
+  --akira-red: #e3000f;
 }
 
 html {
@@ -31,51 +30,19 @@ html {
 }
 
 body {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "OCR A BT", "OCR A Std", "OCR A Extended", "Courier New", monospace;
   background: var(--void);
   color: var(--cream);
   line-height: 1.4;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.05em;
+  text-transform: lowercase;
   overflow-x: hidden;
   cursor: crosshair;
+  /* stripped back, minimal grid */
   background-image: 
-    linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
-
-/* PRELOADER */
-.preloader {
-  position: fixed;
-  inset: 0;
-  background: var(--void);
-  z-index: 10000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: crosshair;
-}
-.preloader-divider {
-  width: 80px;
-  height: 2px;
-  background: var(--akira-red);
-  box-shadow: 0 0 10px var(--akira-red);
-}
-.preloader.hidden { opacity: 0; transform: scale(1.04); pointer-events: none; }
-.preloader-text {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: clamp(30px, 6vw, 60px);
-  font-weight: 700;
-  color: var(--cream);
-  letter-spacing: -0.02em;
-  animation: preloader-glitch 2s ease-in-out infinite;
-}
-@keyframes preloader-glitch {
-  0%, 100% { text-shadow: none; opacity: 0.5; }
-  50% { text-shadow: 2px 0 var(--akira-red), -2px 0 var(--tron-cyan); opacity: 1; }
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
 }
 
 /* NAV */
@@ -83,608 +50,120 @@ body {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 999;
-  background: rgba(3, 3, 3, 0.9);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+  background: rgba(3, 3, 3, 0.8);
+  backdrop-filter: blur(5px);
+  border-bottom: 1px solid var(--concrete);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
-  height: 56px;
+  height: 64px;
 }
-.nav-left { display: flex; align-items: center; gap: 15px; }
 .nav-logo {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 20px; font-weight: 700;
-  letter-spacing: -0.04em;
+  font-size: 16px; 
   color: var(--cream);
   text-decoration: none;
-  text-shadow: 0 0 5px rgba(240, 237, 232, 0.3);
+  display: flex;
+  flex-direction: column;
 }
-.nav-separator { width: 1px; height: 16px; background: var(--tron-cyan); opacity: 0.5; }
-.nav-menu { display: flex; gap: 28px; list-style: none; align-items: center; }
-.nav-menu a, .nav-menu .nav-btn {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px; text-transform: uppercase;
-  letter-spacing: 0.14em;
-  text-decoration: none;
-  color: var(--steel);
-  padding: 4px 0; border: none;
-  border-bottom: 1px solid transparent;
-  transition: all 0.2s;
-  font-weight: 500;
-  cursor: crosshair; background: none;
-}
-.nav-menu a:hover, .nav-menu .nav-btn:hover { 
-  color: var(--tron-cyan);
-  border-bottom: 1px solid var(--tron-cyan); 
-  text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+.nav-logo .jp-sub {
+  font-family: sans-serif; /* standard sans for japanese legibility */
+  font-size: 9px;
+  color: var(--akira-red);
+  letter-spacing: 0.2em;
+  margin-top: 2px;
 }
 
 /* HERO */
 .hero-section {
-  margin-top: 56px;
-  min-height: 90vh;
+  margin-top: 64px;
+  min-height: 55vh;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   position: relative;
-  background: var(--void);
-  overflow: hidden;
-}
-.hero-bg { position: absolute; inset: 0; z-index: 1; opacity: 0.3; }
-/* Simulated wireframe/grid gradient for hero background */
-.hero-bg {
-  background: 
-    radial-gradient(circle at 50% 50%, rgba(227, 0, 15, 0.15) 0%, transparent 60%),
-    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,240,255,0.05) 2px, rgba(0,240,255,0.05) 4px);
-}
-.hero-gradient {
-  position: absolute; inset: 0;
-  background: linear-gradient(0deg, var(--void) 0%, transparent 100%);
-  z-index: 2;
-}
-.hero-text { position: relative; z-index: 3; margin-top: auto; padding: 40px 24px; }
-.hero-presenter {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px; text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--tron-cyan);
-  margin-bottom: 16px;
-  opacity: 0; animation: fade-up 1s 0.15s forwards;
+  padding: 80px 24px;
 }
 .hero-title {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: clamp(60px, 14vw, 180px);
-  font-weight: 700; color: var(--cream);
-  line-height: 0.85; letter-spacing: -0.05em;
-  margin-bottom: 24px;
-  opacity: 0; animation: fade-up 1s 0.3s forwards;
-}
-.hero-title span.red-accent { color: var(--akira-red); }
-.hero-details { display: flex; gap: 40px; flex-wrap: wrap; opacity: 0; animation: fade-up 1s 0.6s forwards; border-top: 1px solid var(--concrete); padding-top: 24px; }
-.hero-detail { display: flex; flex-direction: column; gap: 4px; }
-.hero-detail .detail-value {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 14px; color: var(--cream); letter-spacing: 0.05em; font-weight: 600;
-}
-.hero-detail .detail-label {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 8px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--steel);
-}
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* COUNTDOWN / SYSTEM STATUS */
-.countdown-section { background: var(--off-black); color: var(--tron-cyan); padding: 36px 24px; border-top: 1px solid rgba(0, 240, 255, 0.2); border-bottom: 1px solid rgba(0, 240, 255, 0.2); }
-.countdown-header { font-size: 10px; letter-spacing: 0.2em; margin-bottom: 24px; color: var(--cream); }
-.countdown-header span { color: var(--akira-red); animation: blink 1s infinite; }
-@keyframes blink { 50% { opacity: 0; } }
-.countdown-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 600px; }
-.countdown-unit { text-align: left; border-left: 2px solid var(--tron-cyan); padding-left: 12px; }
-.countdown-number {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: clamp(28px, 5vw, 48px); font-weight: 700;
-  letter-spacing: -0.02em; color: var(--cream);
-  text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
-  display: inline-block;
-}
-.countdown-number.glitch { animation: glitch-shift 0.2s ease; color: var(--akira-red); }
-@keyframes glitch-shift {
-  0% { transform: translate(0); } 20% { transform: translate(-3px, 2px); }
-  40% { transform: translate(3px, -1px); } 60% { transform: translate(-2px, -2px); }
-  80% { transform: translate(2px, 1px); } 100% { transform: translate(0); }
-}
-.countdown-label {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 9px; text-transform: uppercase; letter-spacing: 0.3em; color: var(--steel); margin-top: 4px;
-}
-
-/* SECTIONS */
-.section-block { width: 100%; position: relative; padding: 80px 24px; }
-.section-num {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px; color: var(--akira-red); letter-spacing: 0.1em; margin-bottom: 16px; font-weight: 700;
-}
-.section-heading {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: clamp(32px, 6vw, 70px); font-weight: 700;
-  letter-spacing: -0.04em; line-height: 0.9; text-transform: uppercase; margin-bottom: 40px;
+  font-size: clamp(40px, 10vw, 120px);
   color: var(--cream);
+  line-height: 0.9; 
+  letter-spacing: -0.05em;
+  margin-bottom: 8px;
 }
-.reveal {
-  opacity: 0; transform: translateY(40px);
-  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+.hero-jp-subtitle {
+  font-family: sans-serif;
+  font-size: clamp(12px, 2vw, 16px);
+  color: var(--akira-red);
+  letter-spacing: 0.4em;
+  margin-left: 4px;
 }
-.reveal.visible { opacity: 1; transform: translateY(0); }
-.divider { width: 100%; height: 1px; background: rgba(0, 240, 255, 0.15); }
-.divider-thick { width: 100%; height: 2px; background: var(--akira-red); }
 
-/* VISION */
-.vision-layout { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start; }
-.vision-left { display: flex; flex-direction: column; }
-.vision-heading-wrap { margin-bottom: 24px; }
-.vision-heading-wrap .section-num { margin-bottom: 8px; }
-.vision-heading-wrap .section-heading { margin-bottom: 0; }
-.about-text { font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.8; letter-spacing: 0.02em; color: #BBBBBB; }
-.about-text p { margin-bottom: 20px; }
-.tag-mono {
-  display: inline-block; background: var(--tron-cyan); color: var(--void);
-  padding: 3px 10px; border-radius: 0px;
-  font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
-  margin-right: 8px;
+/* CARDS */
+.cards-section {
+  width: 100%;
+  padding: 0 24px 80px 24px;
 }
-.embed-box { 
-  background: var(--off-black); 
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+.minimal-card {
   border: 1px solid var(--concrete);
-  padding: 24px;
-  position: relative;
+  background: var(--off-black);
+  height: clamp(150px, 25vh, 300px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--steel);
+  font-size: clamp(16px, 3vw, 24px);
+  transition: all 0.3s ease;
 }
-.embed-box::before {
-  content: 'DATA.STREAM // 01';
-  position: absolute; top: -10px; left: 16px;
-  background: var(--void); padding: 0 8px;
-  font-size: 9px; color: var(--tron-cyan);
-}
-
-/* DIVISIONS (TICKETS REPLACEMENT) */
-.division-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
-.division-card {
-  border: 1px solid rgba(255,255,255,0.1); 
-  padding: 32px 28px 24px; position: relative;
-  transition: all 0.3s ease; background: var(--off-black);
-  display: flex; flex-direction: column; min-height: 280px;
-}
-.division-card:hover { border-color: var(--tron-cyan); box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.05); transform: translateY(-5px); }
-.division-card.featured { border-color: var(--akira-red); border-width: 1px; }
-.division-card.featured:hover { box-shadow: inset 0 0 20px rgba(227, 0, 15, 0.1); }
-.division-label {
-  font-family: 'IBM Plex Mono', monospace; font-size: 8px; font-weight: 700;
-  color: var(--tron-cyan); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 16px;
-}
-.division-card.featured .division-label { color: var(--akira-red); }
-.division-name {
-  font-family: 'IBM Plex Mono', monospace; font-size: clamp(20px, 3vw, 28px);
-  font-weight: 700; text-transform: uppercase; letter-spacing: -0.02em;
-  color: var(--cream); margin-bottom: 16px; line-height: 1;
-}
-.division-info-text {
-  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
-  text-transform: uppercase; letter-spacing: 0.08em; color: var(--steel); margin-bottom: 16px;
-  line-height: 1.5;
-}
-.division-divider { width: 100%; height: 1px; background: rgba(255,255,255,0.1); margin: 12px 0 16px; }
-.division-features { list-style: none; margin-bottom: 24px; flex-grow: 1; padding: 0; }
-.division-features li {
-  font-family: 'IBM Plex Mono', monospace; font-size: 9px;
-  color: #AAAAAA; letter-spacing: 0.04em; padding: 4px 0 4px 16px; position: relative;
-}
-.division-features li::before { content: '>'; position: absolute; left: 0; top: 4px; color: var(--tron-cyan); font-weight: bold; }
-.division-card.featured .division-features li::before { color: var(--akira-red); }
-.division-btn-wrap { margin-top: auto; }
-.division-btn {
-  display: block; width: 100%;
-  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
-  text-transform: uppercase; letter-spacing: 0.15em;
-  color: var(--cream); background: transparent;
-  border: 1px solid rgba(255,255,255,0.3); padding: 12px 16px;
-  text-align: center; text-decoration: none; font-weight: 500;
-  transition: all 0.25s ease; cursor: crosshair; border-radius: 0;
-}
-.division-btn:hover { background: var(--tron-cyan); color: var(--void); border-color: var(--tron-cyan); }
-.division-card.featured .division-btn:hover { background: var(--akira-red); color: var(--cream); border-color: var(--akira-red); }
-
-/* NETWORK (PROMOTERS REPLACEMENT) */
-.network-layout { display: grid; grid-template-columns: 1fr; gap: 40px; }
-.network-main { font-family: 'IBM Plex Mono', monospace; font-size: 13px; line-height: 1.8; letter-spacing: 0.02em; color: #BBBBBB; }
-.network-main .lead-tag {
-  display: inline-block; font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px; font-weight: 700; letter-spacing: 0.15em;
-  color: var(--tron-cyan); text-transform: uppercase; margin-bottom: 12px;
-}
-.network-main h3 {
-  font-family: 'IBM Plex Mono', monospace; font-size: 24px;
-  font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; line-height: 1.1; color: var(--cream);
-}
-.network-main p { margin-bottom: 16px; }
-.network-main a { color: var(--tron-cyan); text-decoration: underline; font-weight: 600; transition: opacity 0.2s; }
-.network-main a:hover { opacity: 0.6; color: var(--akira-red); }
-.network-side {
-  font-family: 'IBM Plex Mono', monospace; font-size: 11px; line-height: 1.7;
-  letter-spacing: 0.03em; color: var(--steel);
-  border-left: 1px solid rgba(0,240,255,0.2); padding-left: 24px;
-}
-.network-side .partner-name {
-  font-weight: 700; color: var(--cream); font-size: 13px;
-  letter-spacing: -0.01em; display: block; margin-bottom: 4px;
-}
-.network-side .partner-name::before { content: '■ '; color: var(--akira-red); font-size: 10px; }
-.network-side .partner-block { margin-bottom: 24px; }
-
-/* FAQ */
-.faq-list { list-style: none; columns: 2; column-gap: 40px; }
-.faq-item {
-  border-top: 1px solid rgba(255,255,255,0.1); cursor: crosshair;
-  padding: 20px 0; break-inside: avoid; display: block;
-}
-.faq-item:last-child { border-bottom: 1px solid rgba(255,255,255,0.1); }
-.faq-row {
-  display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;
-  font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
-  letter-spacing: 0.02em; text-transform: uppercase; transition: color 0.3s ease;
-  color: var(--cream);
-}
-.faq-item:hover .faq-row { color: var(--tron-cyan); } 
-.faq-item.open .faq-row { color: var(--akira-red); }
-.faq-icon {
-  font-family: 'IBM Plex Mono', monospace; font-size: 16px; font-weight: 400; flex-shrink: 0;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.faq-item.open .faq-icon { transform: rotate(45deg); }
-.faq-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
-.faq-item.open .faq-body { grid-template-rows: 1fr; } .faq-body > div { overflow: hidden; }
-.faq-text {
-  padding-top: 12px; font-family: 'IBM Plex Mono', monospace;
-  font-size: 11px; color: var(--steel); line-height: 1.6; font-weight: 400;
-}
-
-/* FOOTER */
-.footer-section {
-  background: var(--off-black); color: var(--steel);
-  padding: 80px 24px 40px; font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
-  border-top: 1px solid var(--concrete);
-}
-.footer-grid { display: grid; grid-template-columns: 1fr; gap: 40px; }
-.footer-logo { font-family: 'IBM Plex Mono', monospace; font-size: 40px; font-weight: 700; letter-spacing: -0.05em; color: var(--cream); line-height: 0.8; margin-bottom: 12px; }
-.footer-logo span { color: var(--tron-cyan); }
-.footer-tagline { color: var(--steel); font-size: 10px; line-height: 1.6; }
-.footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-.footer-links a {
-  color: var(--cream); text-decoration: none; transition: color 0.2s;
-  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
-  text-transform: uppercase; letter-spacing: 0.08em;
-  cursor: crosshair;
-}
-.footer-links a:hover { color: var(--akira-red); }
-.footer-bottom { margin-top: 60px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; color: var(--concrete); }
-
-/* SCANLINES */
-.scanlines { position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.05; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,1) 2px, rgba(0,0,0,1) 4px); }
-
-/* ============================================
-   MOBILE
-   ============================================ */
-.mobile-menu-btn { display: none; background: none; border: none; font-family: 'IBM Plex Mono', monospace; font-size: 24px; cursor: crosshair; color: var(--tron-cyan); padding: 8px; }
-
-@media (max-width: 767px) {
-  .hero-section { min-height: 90svh; }
-  .hero-text { padding: 32px 20px; }
-  .hero-title { font-size: clamp(50px, 16vw, 100px); margin-bottom: 20px; }
-  .hero-presenter { font-size: 9px; letter-spacing: 0.18em; margin-bottom: 12px; }
-  .hero-details { gap: 20px; }
-  .hero-detail .detail-value { font-size: 12px; }
-  .hero-detail .detail-label { font-size: 7px; }
-
-  .countdown-section { padding: 28px 20px; }
-  .countdown-number { font-size: clamp(32px, 8vw, 48px); }
-
-  .section-block { padding: 60px 20px; }
-  .section-heading { font-size: clamp(36px, 10vw, 50px); margin-bottom: 32px; }
-  .section-num { font-size: 10px; }
-
-  /* NAV */
-  .nav-menu { display: none; }
-  .nav-menu.open {
-    display: flex; flex-direction: column;
-    position: fixed; top: 56px; left: 0; right: 0;
-    background: rgba(3, 3, 3, 0.95); padding: 28px 20px;
-    border-bottom: 1px solid var(--tron-cyan); gap: 18px; z-index: 998;
-  }
-  .mobile-menu-btn { display: block; }
-
-  /* VISION & OTHERS */
-  .vision-layout, .network-layout { gap: 32px; }
-  .about-text { font-size: 12px; line-height: 1.7; }
-  
-  .network-side {
-    border-left: none; padding-left: 0;
-    border-top: 1px solid rgba(0,240,255,0.2); padding-top: 24px;
-    display: flex; gap: 24px; flex-wrap: wrap;
-  }
-  .network-side .partner-block { margin-bottom: 0; flex: 1; min-width: 120px; }
-
-  /* FAQ */
-  .faq-list { columns: 1; }
-  .faq-item { padding: 18px 0; }
-
-  /* FOOTER */
-  .footer-section { padding: 48px 20px; }
+.minimal-card:hover {
+  border-color: var(--akira-red);
+  color: var(--akira-red);
+  background: rgba(227, 0, 15, 0.02);
 }
 
 /* DESKTOP */
 @media (min-width: 768px) {
-  .hero-text { padding: 96px 64px; }
-  .section-block { padding: 100px 64px; }
-  .vision-layout { grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
-  .network-layout { grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
-  .division-grid { grid-template-columns: 1fr 1fr; }
-  .footer-grid { grid-template-columns: 2fr 1fr 1fr; }
-}
-@media (min-width: 1024px) {
-  .division-grid { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .hero-section {
+    padding: 120px 64px;
+  }
+  .cards-section {
+    padding: 0 64px 120px 64px;
+  }
+  .cards-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="preloader" id="preloader">
-  <div class="preloader-text">ACCESS</div>
-  <div class="preloader-divider"></div>
-</div>
-
-<div class="scanlines"></div>
-
 <nav class="nav-bar">
-  <div class="nav-left">
-    <a href="#" class="nav-logo">ACCESS_OPERA</a>
-    <div class="nav-separator"></div>
-  </div>
-  <button class="mobile-menu-btn" id="menuBtn" aria-label="Menu">☰</button>
-  <ul class="nav-menu" id="navMenu">
-    <li><a href="#vision">AGENCY</a></li>
-    <li><a href="#divisions">DIVISIONS</a></li>
-    <li><a href="#network">NETWORK</a></li>
-    <li><a href="#faq">SYS.FAQ</a></li>
-  </ul>
+  <a href="#" class="nav-logo">
+    <span>access opera</span>
+    <span class="jp-sub">アクセス・オペラ</span>
+  </a>
 </nav>
 
 <section class="hero-section">
-  <div class="hero-bg"></div>
-  <div class="hero-gradient"></div>
-  <div class="hero-text">
-    <p class="hero-presenter">TALENT ARCHITECTURE // EST. 2026</p>
-    <h1 class="hero-title">ACCESS<br><span class="red-accent">OPERA</span></h1>
-    <div class="hero-details">
-      <div class="hero-detail"><span class="detail-value">ISTANBUL</span><span class="detail-label">HQ</span></div>
-      <div class="hero-detail"><span class="detail-value">TOKYO</span><span class="detail-label">NODE</span></div>
-      <div class="hero-detail"><span class="detail-value">42</span><span class="detail-label">ACTIVE ROSTER</span></div>
-      <div class="hero-detail"><span class="detail-value">ONLINE</span><span class="detail-label">GRID STATUS</span></div>
-    </div>
+  <h1 class="hero-title">access opera</h1>
+  <div class="hero-jp-subtitle">タレントエージェンシー</div>
+</section>
+
+<section class="cards-section">
+  <div class="cards-grid">
+    <a href="#clients" class="minimal-card">clients</a>
+    <a href="#media" class="minimal-card">media</a>
+    <a href="#upcoming" class="minimal-card">upcoming</a>
+    <a href="#contact" class="minimal-card">contact</a>
   </div>
 </section>
 
-<section class="countdown-section">
-  <div class="countdown-header">NEXT SHOWCASE: <span>NEO-TOKYO APEX</span> // UPLINK SECURED</div>
-  <div class="countdown-row">
-    <div class="countdown-unit"><div class="countdown-number" id="days">00</div><div class="countdown-label">DAYS</div></div>
-    <div class="countdown-unit"><div class="countdown-number" id="hours">00</div><div class="countdown-label">HOURS</div></div>
-    <div class="countdown-unit"><div class="countdown-number" id="minutes">00</div><div class="countdown-label">MIN</div></div>
-    <div class="countdown-unit"><div class="countdown-number" id="seconds">00</div><div class="countdown-label">SEC</div></div>
-  </div>
-</section>
-
-<div class="reveal">
-<section id="vision" class="section-block">
-  <div class="vision-layout">
-    <div class="vision-left">
-      <div class="vision-heading-wrap">
-        <p class="section-num">01</p>
-        <h2 class="section-heading">THE<br>AGENCY</h2>
-      </div>
-      <div class="about-text">
-        <p><span class="tag-mono">SYS_INIT</span> Access Opera sits at the bleeding edge of global talent representation. We bridge the gap between physical stage brutality and high-fidelity digital projection. Our roster shapes global culture across music, cyber-athletics, and virtual design.</p>
-        <p>The old model is obsolete. We architect careers using real-time data, holographic infrastructure, and uncompromised creative autonomy. Our artists don't just perform; they manipulate the grid.</p>
-        <p>From underground warehouse raves in Neo-Istanbul to 360-degree augmented broadcasts in Tokyo, Access Opera builds the framework for tomorrow's icons.</p>
-      </div>
-    </div>
-    <div class="embed-box">
-      <!-- Representative empty styling box for video or aesthetic elements -->
-      <div style="width: 100%; height: 352px; background: repeating-linear-gradient(45deg, #111, #111 10px, #080808 10px, #080808 20px); border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
-        <span style="color: var(--akira-red); font-size: 24px; font-weight: bold; letter-spacing: 0.2em; animation: blink 2s infinite;">ENCRYPTED</span>
-        <span style="color: var(--steel); font-size: 10px; margin-top: 10px;">AWAITING DECRYPTION KEY</span>
-      </div>
-    </div>
-  </div>
-</section>
-</div>
-
-<div class="divider-thick"></div>
-
-<div class="reveal">
-<section id="divisions" class="section-block">
-  <p class="section-num">02</p>
-  <h2 class="section-heading">DIVISIONS</h2>
-  <div class="division-grid">
-    <div class="division-card">
-      <div class="division-label">SEC. 01</div>
-      <div class="division-name">SONIC<br>VANGUARD</div>
-      <div class="division-info-text">Live Audio & Music Production</div>
-      <div class="division-divider"></div>
-      <ul class="division-features"><li>Tour Architecture</li><li>Global Distribution</li><li>Festival Placement</li></ul>
-      <div class="division-btn-wrap"><a href="#" class="division-btn">VIEW ROSTER</a></div>
-    </div>
-    <div class="division-card">
-      <div class="division-label">SEC. 02</div>
-      <div class="division-name">VIRTUAL<br>IDENTITIES</div>
-      <div class="division-info-text">Digital Avatars & Hologram Tech</div>
-      <div class="division-divider"></div>
-      <ul class="division-features"><li>Meta-performance</li><li>Motion Capture Studio</li><li>Synthetic Voice Dev</li></ul>
-      <div class="division-btn-wrap"><a href="#" class="division-btn">VIEW ROSTER</a></div>
-    </div>
-    <div class="division-card featured">
-      <div class="division-label">SEC. 03 (APEX)</div>
-      <div class="division-name">LIVE<br>PRODUCTION</div>
-      <div class="division-info-text">Stadium & Arena Scale</div>
-      <div class="division-divider"></div>
-      <ul class="division-features"><li>Stage Grid Design</li><li>Immersive Lighting</li><li>Drone Logistics</li><li>Crowd Geometry</li></ul>
-      <div class="division-btn-wrap"><a href="#" class="division-btn">VIEW ARCHIVE</a></div>
-    </div>
-    <div class="division-card">
-      <div class="division-label">SEC. 04</div>
-      <div class="division-name">BRAND<br>SYNDICATE</div>
-      <div class="division-info-text">Commercial Partnerships</div>
-      <div class="division-divider"></div>
-      <ul class="division-features"><li>Tech Integrations</li><li>High-Fashion Liaison</li><li>IP Licensing</li></ul>
-      <div class="division-btn-wrap"><a href="#" class="division-btn">CONTACT DESK</a></div>
-    </div>
-  </div>
-</section>
-</div>
-
-<div class="divider"></div>
-
-<div class="reveal">
-<section id="network" class="section-block">
-  <p class="section-num">03</p>
-  <h2 class="section-heading">NETWORK</h2>
-  <div class="network-layout">
-    <div class="network-main">
-      <p class="lead-tag">INFRASTRUCTURE</p>
-      <h3>GLOBAL<br>LOGISTICS</h3>
-      <p>Access Opera does not function alone. We command a syndicate of the world's most advanced production houses, venue operators, and hardware manufacturers.</p>
-      <p>For scout submissions, tech partnerships, or encrypted correspondence:</p>
-      <p><a href="mailto:sysadmin@accessopera.com">SYSADMIN@ACCESSOPERA.COM</a></p>
-    </div>
-    <div class="network-side">
-      <div class="partner-block"><span class="partner-name">TEMACC HEAVY IND.</span><p>Physical stage logistics, concrete fabrication, and arena-scale sound delivery systems.</p></div>
-      <div class="partner-block"><span class="partner-name">ILS VISION // TOKYO</span><p>Laser mapping, holographic projection, and live-corrected optical environments.</p></div>
-      <div class="partner-block"><span class="partner-name">BUGECE PROTOCOL</span><p>Secure ticketing block-chain and crowd access management grids.</p></div>
-    </div>
-  </div>
-</section>
-</div>
-
-<div class="divider"></div>
-
-<div class="reveal">
-<section id="faq" class="section-block">
-  <p class="section-num">04</p>
-  <h2 class="section-heading">SYS.FAQ</h2>
-  <div class="faq-list">
-    <div class="faq-item"><div class="faq-row"><span>How do I submit my portfolio?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">We do not accept unsolicited physical media. Upload your uncompressed stems or visual data to our secure drop link when the window opens.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>Does Access Opera represent AI entities?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">Yes, provided they pass the Turing-Creative benchmark. See Division 02.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>Where is the HQ located?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">Our primary operational server and physical compound is based in Istanbul, with a secondary uplink node in Tokyo.</div></div></div></div>
-    <div class="faq-item"><div class="faq-row"><span>What is the minimum requirement for live production?</span><span class="faq-icon">+</span></div><div class="faq-body"><div><div class="faq-text">We only architect shows for audiences exceeding 10,000 capacity or for highly classified underground broadcasts.</div></div></div></div>
-  </div>
-</section>
-</div>
-
-<footer class="footer-section">
-  <div class="footer-grid">
-    <div>
-      <div class="footer-logo">ACCESS<span>_</span>OPERA</div>
-      <p class="footer-tagline">TALENT ARCHITECTURE<br>ISTANBUL // TOKYO // GRID</p>
-    </div>
-    <div>
-      <ul class="footer-links">
-        <li><a href="#vision">AGENCY DATA</a></li>
-        <li><a href="#divisions">DIVISIONS</a></li>
-        <li><a href="#network">NETWORK</a></li>
-        <li><a href="#faq">SYS.FAQ</a></li>
-      </ul>
-    </div>
-    <div>
-      <ul class="footer-links">
-        <li><a href="#">ENCRYPTION POLICY</a></li>
-        <li><a href="#">GRID TERMS</a></li>
-        <li><a href="mailto:sysadmin@accessopera.com">SECURE COMMS</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom"><span>© 2026 ACCESS OPERA SYNDICATE</span><span>END OF LINE.</span></div>
-</footer>
-
-<script>
-(function() {
-  // Preloader
-  var preloader = document.getElementById('preloader');
-  window.addEventListener('load', function() { setTimeout(function() { preloader.classList.add('hidden'); }, 600); });
-  setTimeout(function() { preloader.classList.add('hidden'); }, 4000);
-
-  // Nav Mobile Menu
-  var menuBtn = document.getElementById('menuBtn');
-  var navMenu = document.getElementById('navMenu');
-  if(menuBtn && navMenu) {
-    menuBtn.addEventListener('click', function() {
-      navMenu.classList.toggle('open');
-      menuBtn.style.color = navMenu.classList.contains('open') ? 'var(--akira-red)' : 'var(--tron-cyan)';
-    });
-  }
-
-  // Countdown Logic (Target: 30 Days from load, simulating a future event)
-  var targetDate = new Date();
-  targetDate.setDate(targetDate.getDate() + 30);
-  var eventTime = targetDate.getTime();
-  
-  function pad(n) { return String(Math.max(0, Math.floor(n))).padStart(2, '0'); }
-  
-  function updateCountdown() {
-    var d = Math.max(0, eventTime - Date.now());
-    var values = [pad(d/86400000), pad((d%86400000)/3600000), pad((d%3600000)/60000), pad((d%60000)/1000)];
-    var ids = ['days', 'hours', 'minutes', 'seconds'];
-    
-    ids.forEach(function(id, i) {
-      var el = document.getElementById(id);
-      if(el) {
-        if(el.innerText !== values[i]) {
-          el.innerText = values[i];
-          el.classList.add('glitch');
-          setTimeout(function() { el.classList.remove('glitch'); }, 200);
-        }
-      }
-    });
-  }
-  setInterval(updateCountdown, 1000);
-  updateCountdown();
-
-  // Scroll Reveal
-  var reveals = document.querySelectorAll('.reveal');
-  function checkReveal() {
-    var windowHeight = window.innerHeight;
-    var revealPoint = 100;
-    reveals.forEach(function(reveal) {
-      var revealTop = reveal.getBoundingClientRect().top;
-      if(revealTop < windowHeight - revealPoint) {
-        reveal.classList.add('visible');
-      }
-    });
-  }
-  window.addEventListener('scroll', checkReveal);
-  checkReveal();
-
-  // FAQ Accordion
-  var faqItems = document.querySelectorAll('.faq-item');
-  faqItems.forEach(function(item) {
-    item.addEventListener('click', function() {
-      var isOpen = this.classList.contains('open');
-      faqItems.forEach(function(i) { i.classList.remove('open'); });
-      if(!isOpen) this.classList.add('open');
-    });
-  });
-})();
-</script>
 </body>
 </html>
