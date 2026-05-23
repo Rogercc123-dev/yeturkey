@@ -148,7 +148,7 @@ body.light-mode .datum { background:rgba(0,0,0,0.1); }
   text-transform: uppercase; text-align: justify;
 }
 .home-blurb strong { color: var(--concrete); font-weight: normal; }
-.blurb-mobile { display: none; } /* Hidden natively on desktop */
+.blurb-mobile { display: none; } 
 
 .home-contact {
   margin-top: 32px; padding-top: 24px;
@@ -191,11 +191,9 @@ body.light-mode .s-action { color: #a3a099; }
 .tour-accordion { border-bottom: 1px solid rgba(184,180,173,0.08); }
 body.light-mode .tour-accordion { border-bottom: 1px solid rgba(0,0,0,0.08); }
 .tour-accordion .schedule-row { border-bottom: none; }
-
 .accordion-content { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease; }
 .accordion-inner { overflow: hidden; display: flex; flex-direction: column; }
 .tour-accordion.open .accordion-content { grid-template-rows: 1fr; opacity: 1; }
-
 .accordion-icon { display: inline-block; margin-right: 4px; color: var(--form); transition: color 0.3s ease; font-weight: bold; }
 button.schedule-row:hover .accordion-icon { color: var(--dust); }
 
@@ -239,7 +237,7 @@ body.light-mode .roster-row { border-color: rgba(0,0,0,0.08); }
 body.light-mode .r-tag { color: #a3a099; }
 .roster-row:hover .r-tag { color: var(--dust); }
 
-/* VIEW: SERVICES (PERFECT 2x2 ZERO-SCROLL GRID FIX) */
+/* VIEW: SERVICES */
 .services-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -442,18 +440,24 @@ body.light-mode .nav-jp { color: #a3a099; }
 /* --- RESPONSIVE MOBILE OVERRIDES --- */
 @media(max-width:850px){
   body{cursor:auto}.cur{display:none}
-  html, body { overflow-y: auto; height: auto; }
-  .page { height: auto; min-height: 100vh; display: flex; flex-direction: column; }
-  .block-top { padding: 32px 24px 0; }
-  .block-center { padding: 40px 24px; height: auto; flex-grow: 1; overflow: visible; }
+  html, body { overflow-y: auto; height: 100%; }
+  .page { height: 100vh; min-height: 100vh; display: flex; flex-direction: column; }
+  
+  /* Aggressively compressed vertical padding for mobile */
+  .block-top { padding: 24px 24px 0; }
+  .block-center { padding: 24px 24px; height: auto; flex-grow: 1; overflow-y: auto; }
   .view { height: auto; }
   
-  .home-layout { flex-direction: column; align-items: flex-start; gap: 32px; }
+  .home-layout { flex-direction: column; align-items: flex-start; gap: 20px; }
   .home-right { max-width: 100%; }
+  .datum { margin: 16px 0 16px; }
+  .logo-img { margin-bottom: 0; max-height: 45px; }
 
   /* DYNAMIC BLURB TOGGLE FOR MOBILE */
   .blurb-desktop { display: none; }
-  .blurb-mobile { display: inline; }
+  .blurb-mobile { display: inline; line-height: 1.6; }
+
+  .home-contact { margin-top: 20px; padding-top: 16px; gap: 12px; }
 
   .schedule-row { grid-template-columns: 1fr; gap: 12px; padding: 24px 16px; }
   .s-action { margin-top: 12px; border-top: 1px solid rgba(184,180,173,0.08); padding-top: 12px; }
@@ -461,6 +465,7 @@ body.light-mode .nav-jp { color: #a3a099; }
   .r-avatar { width: 64px; height: 64px; margin-right: 20px; }
   .r-tag { display: none; }
   
+  /* Services Mobile Override */
   .services-grid { grid-template-columns: 1fr; grid-template-rows: auto; height: auto; border: none; gap: 16px; background: transparent; width: 100%; margin-bottom: 0; }
   .service-card { border: 1px solid rgba(184,180,173,0.08); padding: 32px 24px; }
   body.light-mode .service-card { border-color: rgba(0,0,0,0.08); }
@@ -475,10 +480,12 @@ body.light-mode .nav-jp { color: #a3a099; }
   
   .block-bottom { margin-top: auto; }
   .nav-slab{ grid-template-columns: repeat(2,1fr); }
-  .nav-item { padding: 24px; border-bottom: none; }
+  .nav-item { padding: 16px 24px; border-bottom: none; }
   .nav-item:nth-child(even){ border-right: none; }
   .nav-item:nth-child(n+3){ border-top: 1px solid rgba(184,180,173,0.06); }
   body.light-mode .nav-item:nth-child(n+3) { border-top-color: rgba(0,0,0,0.06); }
+  .nav-num { margin-bottom: 4px; }
+  .nav-jp { margin-top: 4px; }
 }
 </style>
 </head>
