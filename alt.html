@@ -99,11 +99,11 @@ body{
 .open-tag{ font-size:10px; letter-spacing:0.4em; color:var(--dust); text-align:right; text-decoration: none; cursor: none; transition: color 0.4s ease; }
 .open-tag:hover { color: var(--concrete); }
 
-/* CENTER BLOCK - ZERO SCROLL STRICT FRAME */
+/* CENTER BLOCK */
 .block-center{
   position: relative; display:flex; flex-direction:column; justify-content:center;
   padding: 40px 56px; 
-  overflow: hidden; /* STRICTLY NO SCROLLING */
+  overflow: hidden; /* STRICT ZERO SCROLL */
 }
 
 .view { display: none; flex-direction: column; justify-content: center; width: 100%; height: 100%; }
@@ -158,33 +158,32 @@ body{
 .r-tag { font-size: 9px; letter-spacing: 0.4em; color: #3a3832; margin-left: auto; text-align: right; transition: color 0.5s; }
 .roster-row:hover .r-tag { color: var(--dust); }
 
-/* VIEW: MEDIA (PURE 16:9 VIEWPORT & DYNAMIC CONTROLS) */
+/* VIEW: MEDIA (4:3 COMPACT RATIO) */
 .media-container {
   display: grid;
-  grid-template-columns: 2fr 1fr; 
+  grid-template-columns: 1.8fr 1fr; 
   gap: 40px;
-  align-items: stretch;
+  align-items: center; /* Centers both columns cleanly vertically */
   height: 100%;
-  min-height: 0; /* allows flex children to compress properly */
 }
 
-/* Left Side: Display Area (No Controls) */
+/* Left Side Viewport */
 .display-area {
   position: relative;
   width: 100%;
-  height: 100%;
   background: var(--deep);
   border: 1px solid rgba(184,180,173,0.08);
+  aspect-ratio: 4 / 3; /* STRICT 4:3 GEOMETRY */
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 
 #custom-video, #gallery-img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Will perfectly fill the frame */
+  object-fit: cover; 
   background: #000;
   display: block;
   filter: grayscale(100%) contrast(1.1);
@@ -192,10 +191,17 @@ body{
 }
 #custom-video.is-playing, #gallery-img.is-active { filter: grayscale(0%) contrast(1); }
 
-/* Right Side: Menu & Dynamic Bottom Controls */
+/* Right Side Controls and Indexes */
 .media-menu {
   display: flex; flex-direction: column;
+  justify-content: space-between;
   height: 100%;
+  padding: 12px 0;
+}
+
+.menu-section-top {
+  display: flex;
+  flex-direction: column;
 }
 
 .menu-label {
@@ -203,7 +209,7 @@ body{
   margin-bottom: 16px; border-bottom: 1px solid rgba(184,180,173,0.08); padding-bottom: 8px;
 }
 
-/* Compact Video Index Matrix */
+/* Video Grid Matrix */
 .video-grid {
   display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;
 }
@@ -216,7 +222,7 @@ body{
 .v-sel:hover { border-color: var(--dust); color: var(--concrete); }
 .v-sel.active { background: var(--concrete); color: var(--void); border-color: var(--concrete); }
 
-.active-media-name { font-size: 11px; letter-spacing: 0.1em; color: var(--concrete); margin-bottom: 32px; text-transform: uppercase; }
+.active-media-name { font-size: 11px; letter-spacing: 0.1em; color: var(--concrete); margin-bottom: 32px; text-transform: uppercase; min-height: 14px; }
 
 /* Gallery Toggle Button */
 .btn-gallery {
@@ -230,9 +236,8 @@ body{
 .btn-gallery.active .g-name { color: var(--concrete); }
 .btn-gallery.active .g-status { color: var(--concrete); }
 
-/* The Dynamic Control Slab at the bottom of the right column */
+/* Unified Control Slab at Bottom Right */
 .media-controls-dock {
-  margin-top: auto; /* Pushes to the absolute bottom of the container */
   padding-top: 24px;
   border-top: 1px solid rgba(184,180,173,0.08);
 }
@@ -272,24 +277,18 @@ body{
 @keyframes appear{ from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 @keyframes massReveal{ 0%{opacity:0;filter:blur(8px)} 100%{opacity:1;filter:blur(0)} }
 
-/* MOBILE EXCEPTIONS */
 @media(max-width:850px){
   body{cursor:auto}.cur{display:none}
-  .block-center { overflow-y: auto; } /* Only allow scrolling on mobile to prevent literal breakage */
+  .block-center { overflow-y: auto; }
   .block-top,.block-center{padding:32px 28px 0}
   .bg-word{font-size:40vw}
-  
   .schedule-row { grid-template-columns: 1fr; gap: 12px; padding: 24px 16px; }
   .s-action { margin-top: 12px; border-top: 1px solid rgba(184,180,173,0.08); padding-top: 12px; }
-  
   .roster-row { padding: 24px 16px; }
   .r-avatar { width: 64px; height: 64px; margin-right: 20px; }
   .r-tag { display: none; }
-
   .media-container { grid-template-columns: 1fr; gap: 24px; }
-  .display-area { aspect-ratio: 16/9; } /* keep video shape on mobile */
-  
-  .nav-item{padding:22px 28px}
+  .display-area { aspect-ratio: 4/3; }
   .nav-slab{grid-template-columns:repeat(2,1fr)}
   .nav-item:nth-child(2){border-right:none}
   .nav-item:nth-child(3),.nav-item:nth-child(4){border-top:1px solid rgba(184,180,173,0.06)}
@@ -330,7 +329,6 @@ body{
     <div class="view" id="view-clients">
       <div class="sec-num">01</div>
       <h2 class="sec-title">roster</h2>
-      
       <div class="roster-wrap">
         <a href="#" class="roster-row">
           <div class="r-data r-avatar">
@@ -357,25 +355,24 @@ body{
 
         <div class="media-menu">
           
-          <div class="menu-label">motion_</div>
-          
-          <div class="video-grid">
-            <button class="v-sel active" data-src="video1.mp4" data-name="ISTANBUL_PROMO.MP4">01</button>
-            <button class="v-sel" data-src="video2.mp4" data-name="STAGE_CONCEPT_V3.MP4">02</button>
-            <button class="v-sel" data-src="video3.mp4" data-name="TOUR_VLOG_ARCHIVE.MP4">03</button>
-            <button class="v-sel" data-src="video4.mp4" data-name="UNRELEASED_STUDIO.MP4">04</button>
-          </div>
-          <div class="active-media-name" id="display-name">ISTANBUL_PROMO.MP4</div>
+          <div class="menu-section-top">
+            <div class="menu-label">motion_</div>
+            <div class="video-grid">
+              <button class="v-sel active" data-src="video1.mp4" data-name="NEW_MEXICO_PROMO.MP4">01</button>
+              <button class="v-sel" data-src="video2.mp4" data-name="STAGE_CONCEPT_V3.MP4">02</button>
+              <button class="v-sel" data-src="video3.mp4" data-name="TOUR_VLOG_ARCHIVE.MP4">03</button>
+              <button class="v-sel" data-src="video4.mp4" data-name="UNRELEASED_STUDIO.MP4">04</button>
+            </div>
+            <div class="active-media-name" id="display-name">NEW_MEXICO_PROMO.MP4</div>
 
-          <div class="menu-label">stills_</div>
-          
-          <button class="btn-gallery" id="btn-gallery-toggle">
-            <span class="g-name">ISTANBUL_ARCHIVE</span>
-            <span class="g-status" id="gallery-status">loaded_</span>
-          </button>
+            <div class="menu-label">stills_</div>
+            <button class="btn-gallery" id="btn-gallery-toggle">
+              <span class="g-name">NEW_MEXICO_ARCHIVE</span>
+              <span class="g-status" id="gallery-status">loaded_</span>
+            </button>
+          </div>
 
           <div class="media-controls-dock">
-            
             <div id="dock-video" class="dock-panel" style="display: flex;">
               <div class="m-btn-group">
                 <button id="btn-play" class="m-btn">play_</button>
@@ -391,7 +388,6 @@ body{
               </div>
               <div class="m-info"><span id="g-current">1</span> / <span id="g-total">3</span></div>
             </div>
-
           </div>
 
         </div>
@@ -453,7 +449,7 @@ body{
 </div>
 
 <script>
-// --- PHYSICS CURSOR ---
+// Physics Cursor Execution
 const cur = document.getElementById('cur');
 let mx = 0, my = 0, cx = 0, cy = 0;
 document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
@@ -464,7 +460,7 @@ document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; })
   requestAnimationFrame(loop);
 })();
 
-// --- SPA TABBING LOGIC ---
+// Navigation View System (SPA Engine)
 const triggers = document.querySelectorAll('.nav-trigger');
 const views = document.querySelectorAll('.view');
 const bgWord = document.getElementById('bgWord');
@@ -506,7 +502,7 @@ triggers.forEach(trigger => {
   });
 });
 
-// --- MEDIA LOGIC ---
+// Structural Media Management
 const displayVideo = document.getElementById('custom-video');
 const displayGallery = document.getElementById('gallery-img');
 const displayName = document.getElementById('display-name');
@@ -518,7 +514,6 @@ const vSelectors = document.querySelectorAll('.v-sel');
 const btnGalleryToggle = document.getElementById('btn-gallery-toggle');
 const gStatus = document.getElementById('gallery-status');
 
-// Video Controls
 const muteBtn = document.getElementById('btn-mute');
 const timeCurrent = document.getElementById('time-current');
 const timeTotal = document.getElementById('time-total');
@@ -558,7 +553,7 @@ globalVideo.addEventListener('ended', () => {
   globalVideo.classList.remove('is-playing');
 });
 
-// Gallery Logic
+// Internal Carousel Logic
 const galleryImages = ['gallery1.jpg', 'gallery2.jpg', 'gallery3.jpg'];
 let gIndex = 0;
 const gCurrent = document.getElementById('g-current');
@@ -584,10 +579,9 @@ document.getElementById('btn-next').addEventListener('click', () => {
   updateGallery();
 });
 
-// Switching Logic (Video vs Gallery)
+// State Switching Matrix
 vSelectors.forEach(btn => {
   btn.addEventListener('click', () => {
-    // UI Updates
     vSelectors.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     btnGalleryToggle.classList.remove('active');
@@ -595,14 +589,12 @@ vSelectors.forEach(btn => {
 
     displayName.innerText = btn.getAttribute('data-name');
 
-    // Switch Views
     displayGallery.style.display = 'none';
     displayVideo.style.display = 'block';
     
     dockGallery.style.display = 'none';
     dockVideo.style.display = 'flex';
 
-    // Play Video
     const newSrc = btn.getAttribute('data-src');
     globalVideo.src = newSrc;
     globalVideo.play();
@@ -612,20 +604,17 @@ vSelectors.forEach(btn => {
 });
 
 btnGalleryToggle.addEventListener('click', () => {
-  // UI Updates
   vSelectors.forEach(b => b.classList.remove('active'));
   btnGalleryToggle.classList.add('active');
   gStatus.innerText = 'viewing_';
   
-  displayName.innerText = "ISTANBUL_ARCHIVE (STILLS)";
+  displayName.innerText = "NEW_MEXICO_ARCHIVE (STILLS)";
 
-  // Pause & Hide Video
   globalVideo.pause();
   globalVideo.classList.remove('is-playing');
   playBtn.innerText = 'play_';
   displayVideo.style.display = 'none';
   
-  // Show Gallery & Controls
   displayGallery.style.display = 'block';
   dockVideo.style.display = 'none';
   dockGallery.style.display = 'flex';
