@@ -37,9 +37,11 @@ body.light-mode {
   --form:      #a3a099;
 }
 
+/* HARD LOCK HTML/BODY TO PREVENT SCROLL ESCAPE */
 html,body{
   width:100vw;
   height:100vh;
+  height:100dvh; /* Mobile Safari fix */
   overflow:hidden;
   background:var(--void);
   cursor:none;
@@ -89,7 +91,7 @@ body.light-mode .mass-line { background:rgba(0,0,0,0.06); }
 
 /* PAGE LAYOUT */
 .page{
-  position:relative; z-index:10; width:100%; height:100vh;
+  position:relative; z-index:10; width:100%; height:100%;
   display:flex; flex-direction:column; padding:0;
 }
 
@@ -116,11 +118,13 @@ body.light-mode .mass-line { background:rgba(0,0,0,0.06); }
   position: relative; display:flex; flex-direction:column; justify-content:flex-start; 
   padding: 20px 56px 40px; 
   flex-grow: 1; flex-shrink: 1; min-height: 0;
-  overflow-y: auto; overflow-x: hidden; scrollbar-width: none;
+  overflow: hidden; /* Ensures child views control their own scrolling */
 }
-.block-center::-webkit-scrollbar { display: none; }
 
-.view { display: none; flex-direction: column; justify-content: flex-start; width: 100%; height: 100%; min-height: 0; position: relative; }
+.view { 
+  display: none; flex-direction: column; justify-content: flex-start; 
+  width: 100%; height: 100%; min-height: 0; position: relative; 
+}
 .view.active { display: flex; animation: massReveal 0.8s cubic-bezier(0.16,1,0.3,1) forwards; }
 
 #view-home, #view-media { justify-content: center; }
@@ -131,10 +135,10 @@ body.light-mode .mass-line { background:rgba(0,0,0,0.06); }
 
 /* VIEW: HOME (SPLIT LAYOUT W/ CONTACT) */
 .home-layout {
-  display: flex; gap: 64px; align-items: center; justify-content: space-between; width: 100%; flex-grow: 1; min-height: 0;
+  display: flex; gap: 64px; align-items: center; justify-content: space-between; width: 100%;
 }
 .home-left { flex: 1; }
-.home-right { flex: 1; max-width: 500px; display: flex; flex-direction: column; justify-content: center; }
+.home-right { flex: 1; max-width: 500px; }
 
 .logo-img{ width:clamp(200px,35vw,600px); height:auto; object-fit:contain; display:block; margin-bottom:20px; opacity:0.92; transition: filter 0.4s ease; }
 body.light-mode .logo-img { filter: invert(1); } 
@@ -143,7 +147,6 @@ body.light-mode .logo-img { filter: invert(1); }
 body.light-mode .datum { background:rgba(0,0,0,0.1); }
 .descriptor{ font-size:10px; letter-spacing:0.5em; color:var(--dust); }
 
-/* DYNAMIC BLURB STYLING */
 .home-blurb {
   font-size: 10px; line-height: 2; letter-spacing: 0.15em; color: var(--dust);
   text-transform: uppercase; text-align: justify;
@@ -162,8 +165,9 @@ body.light-mode .home-contact { border-top-color: rgba(0,0,0,0.08); }
 .hc-link { color: var(--concrete); text-decoration: none; cursor: none; transition: opacity 0.3s; }
 .hc-link:hover { opacity: 0.5; }
 
-/* VIEW: UPCOMING & ACCORDION */
+/* VIEW: UPCOMING (SCHEDULE & ACCORDION) */
 .schedule-wrap{ width: 100%; border-top: 1px solid rgba(184,180,173,0.08); flex-grow: 1; overflow-y: auto; scrollbar-width: none; }
+.schedule-wrap::-webkit-scrollbar { display: none; }
 body.light-mode .schedule-wrap { border-color: rgba(0,0,0,0.08); }
 
 .schedule-row {
@@ -212,6 +216,7 @@ body.light-mode .schedule-row.past-deemphasize .s-artist { color: #cccccc; }
 
 /* VIEW: CLIENTS */
 .roster-wrap { width: 100%; border-top: 1px solid rgba(184,180,173,0.08); flex-grow: 1; overflow-y: auto; scrollbar-width: none; }
+.roster-wrap::-webkit-scrollbar { display: none; }
 body.light-mode .roster-wrap { border-color: rgba(0,0,0,0.08); }
 
 .roster-row {
@@ -243,15 +248,12 @@ body.light-mode .r-tag { color: #a3a099; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr; 
-  gap: 1px;
-  background: rgba(184,180,173,0.08); 
-  border: 1px solid rgba(184,180,173,0.08); 
   flex-grow: 1; 
   min-height: 0;
-  width: calc(100% - 2px);
-  margin-bottom: 2px;
+  border-top: 1px solid rgba(184,180,173,0.08);
+  border-left: 1px solid rgba(184,180,173,0.08);
 }
-body.light-mode .services-grid { background: rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.08); }
+body.light-mode .services-grid { border-color: rgba(0,0,0,0.08); }
 
 .service-card {
   position: relative;
@@ -260,13 +262,15 @@ body.light-mode .services-grid { background: rgba(0,0,0,0.08); border-color: rgb
   flex-direction: column;
   text-align: left;
   font-family: inherit;
-  background: var(--void); 
+  background: transparent; 
   cursor: none;
   overflow: hidden;
   outline: none;
   border: none;
+  border-right: 1px solid rgba(184,180,173,0.08);
+  border-bottom: 1px solid rgba(184,180,173,0.08);
 }
-body.light-mode .service-card { background: var(--void); }
+body.light-mode .service-card { border-color: rgba(0,0,0,0.08); }
 
 .service-card::before {
   content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 0;
@@ -274,7 +278,7 @@ body.light-mode .service-card { background: var(--void); }
 }
 .service-card:hover::before { height: 100%; }
 
-.svc-content { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; }
+.svc-content { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; justify-content: center; }
 .svc-title { font-size: clamp(24px, 3vw, 40px); color: var(--form); line-height: 1.1; margin-bottom: 16px; transition: color 0.4s, transform 0.4s; font-weight: normal; }
 .svc-desc { 
   font-size: 11px; line-height: 1.8; letter-spacing: 0.05em; color: var(--dust); transition: color 0.4s; text-align: justify;
@@ -408,7 +412,7 @@ body.light-mode .media-controls-dock { border-color: rgba(0,0,0,0.08); }
 .m-btn:hover { color: var(--concrete); }
 .m-info { font-size: 10px; letter-spacing: 0.1em; color: var(--dust); }
 
-/* BOTTOM NAV SLAB (4 COLUMNS) */
+/* BOTTOM NAV SLAB */
 .block-bottom{ opacity:0; animation:appear 2s ease 2s forwards; flex-shrink: 0; }
 .nav-slab{ display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid rgba(184,180,173,0.08); }
 body.light-mode .nav-slab { border-color: rgba(0,0,0,0.08); }
@@ -438,17 +442,16 @@ body.light-mode .nav-jp { color: #a3a099; }
 @keyframes appear{ from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 @keyframes massReveal{ 0%{opacity:0;filter:blur(8px)} 100%{opacity:1;filter:blur(0)} }
 
-/* --- RESPONSIVE MOBILE OVERRIDES (STRICT ZERO-SCROLL LOCK) --- */
+/* --- RESPONSIVE MOBILE OVERRIDES --- */
 @media(max-width:850px){
   body{cursor:auto}.cur{display:none}
   
   /* Hard lock the body viewport */
-  html, body { overflow: hidden; height: 100vh; height: 100dvh; position: fixed; width: 100%; }
-  .page { height: 100%; display: flex; flex-direction: column; }
+  html, body { overflow: hidden; height: 100vh; height: 100dvh; }
+  .page { height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
   
   .block-top { padding: 16px 20px 0; flex-shrink: 0; }
   
-  /* Center block is forced to absorb only remaining space */
   .block-center { 
     padding: 16px 20px; 
     flex-grow: 1; flex-shrink: 1; min-height: 0; 
@@ -461,38 +464,43 @@ body.light-mode .nav-jp { color: #a3a099; }
   .sec-title { font-size: 24px; margin-bottom: 12px; flex-shrink: 0; }
   .sec-num { margin-bottom: 6px; flex-shrink: 0; }
   
-  /* Home View Shrink */
-  .home-layout { flex: 1; flex-direction: column; align-items: flex-start; justify-content: center; gap: 12px; min-height: 0; }
-  .home-right { max-width: 100%; flex-shrink: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
-  .logo-img { margin-bottom: 0; max-height: 24px; width: auto; flex-shrink: 0; }
-  .datum { margin: 8px 0; flex-shrink: 0; }
+  /* Home View Shrink - Removed the flex:1 gap issue */
+  .home-layout { flex: 1; flex-direction: column; align-items: flex-start; justify-content: center; gap: 16px; min-height: 0; }
+  .home-left, .home-right { flex: none; width: 100%; }
   
+  .logo-img { margin-bottom: 0; max-height: 24px; width: auto; }
+  .datum { margin: 12px 0; }
+  .descriptor { font-size: 8px; letter-spacing: 0.4em; }
+
   .blurb-desktop { display: none; }
   .blurb-mobile { display: inline; line-height: 1.4; font-size: 9px; }
 
-  .home-contact { margin-top: 12px; padding-top: 12px; gap: 8px; flex-shrink: 0; border-top: 1px solid rgba(184,180,173,0.08); }
+  .home-contact { margin-top: 12px; padding-top: 12px; gap: 8px; border-top: 1px solid rgba(184,180,173,0.08); }
   body.light-mode .home-contact { border-top-color: rgba(0,0,0,0.08); }
   .hc-row { font-size: 9px; }
 
   /* Services Perfect 2x2 Mobile App Grid */
   .services-grid { 
+    display: grid;
     grid-template-columns: 1fr 1fr; 
     grid-template-rows: 1fr 1fr; 
-    flex-grow: 1; flex-shrink: 1; min-height: 0;
-    gap: 1px; 
-    border: 1px solid rgba(184,180,173,0.08);
-    background: rgba(184,180,173,0.08);
-    width: 100%; 
-    margin-bottom: 0; 
+    flex-grow: 1; min-height: 0;
+    border-top: 1px solid rgba(184,180,173,0.08);
+    border-left: 1px solid rgba(184,180,173,0.08);
   }
-  body.light-mode .services-grid { background: rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.08); }
+  body.light-mode .services-grid { border-color: rgba(0,0,0,0.08); }
   
-  .service-card { border: none; padding: 12px 10px; justify-content: center; }
-  body.light-mode .service-card { border: none; }
+  .service-card { 
+    border-right: 1px solid rgba(184,180,173,0.08);
+    border-bottom: 1px solid rgba(184,180,173,0.08);
+    padding: 12px; 
+    justify-content: center; 
+  }
+  body.light-mode .service-card { border-color: rgba(0,0,0,0.08); }
+  
   .svc-title { font-size: 14px; margin-bottom: 4px; }
   .svc-desc { -webkit-line-clamp: 4; display: -webkit-box; overflow: hidden; font-size: 8px; line-height: 1.3; }
   
-  /* Overlays */
   .svc-overlay-inner { padding: 24px 20px 40px; }
   .svc-overlay-title { font-size: 28px; }
   .svc-overlay-body p { font-size: 10px; line-height: 1.6; }
@@ -576,7 +584,6 @@ body.light-mode .nav-jp { color: #a3a099; }
               <a href="mailto:press@accessopera.com" class="hc-link">press@accessopera.com</a>
             </div>
           </div>
-
         </div>
       </div>
     </div>
