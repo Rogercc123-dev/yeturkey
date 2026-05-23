@@ -7,22 +7,14 @@
 <meta name="description" content="access opera talent agency" />
 <meta name="theme-color" content="#030303" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;700&family=Noto+Sans+JP:wght@300;500&display=swap" rel="stylesheet">
-
 <style>
-/* --- CUSTOM FONT INJECTION --- */
+/* --- STRICT CUSTOM FONT INJECTION --- */
 @font-face {
   font-family: 'OCR A BT';
   src: url('OCR-a___.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
-  font-display: swap; 
 }
-
-/* Backup import just in case the HTML links fail */
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;700&family=Noto+Sans+JP:wght@300;500&display=swap');
 
 *, *::before, *::after { 
   box-sizing: border-box; 
@@ -48,8 +40,8 @@ html, body {
 }
 
 body {
-  /* Courier New has been completely removed from the fallback stack */
-  font-family: 'OCR A BT', 'IBM Plex Mono', sans-serif;
+  /* ONLY using your custom font */
+  font-family: 'OCR A BT';
   color: var(--cream);
   line-height: 1.4;
   letter-spacing: 0.05em;
@@ -144,8 +136,6 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
 }
 
 .hero-jp-subtitle {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-weight: 300;
   font-size: clamp(10px, 1.2vw, 14px);
   color: var(--steel);
   letter-spacing: 0.6em;
@@ -206,7 +196,6 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
 
 .minimal-card:hover span {
   color: var(--void);
-  font-weight: bold;
   letter-spacing: 0.15em; 
 }
 
@@ -226,7 +215,6 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   .cursor-dot { display: none; }
   
   .hero-jp-subtitle {
-    /* Adjusting mobile shift slightly */
     margin-left: 4vw;
   }
 }
