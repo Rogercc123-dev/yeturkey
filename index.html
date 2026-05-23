@@ -26,9 +26,9 @@
   --cream: #e6e3da;
   --void: #030303;
   --concrete: #1f1f1f;
-  --steel: #7a7a7a;
-  --portal-glow: rgba(230, 210, 180, 0.05);
-  --grid-line: rgba(255, 255, 255, 0.03);
+  --steel: #555555;
+  --portal-glow: rgba(230, 210, 180, 0.06);
+  --grid-line: rgba(255, 255, 255, 0.04);
 }
 
 html, body {
@@ -40,7 +40,6 @@ html, body {
 }
 
 body {
-  /* ONLY using your custom font */
   font-family: 'OCR A BT';
   color: var(--cream);
   line-height: 1.4;
@@ -50,11 +49,11 @@ body {
   flex-direction: column;
   position: relative;
   
-  /* Sharper, more premium architectural grid */
+  /* Sharper architectural grid */
   background-image: 
     linear-gradient(var(--grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 3vw 3vw;
+  background-size: 4vw 4vw;
   background-position: center center;
 }
 
@@ -63,42 +62,68 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   background: var(--cream);
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
   mix-blend-mode: difference;
-  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1), height 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 body:hover .cursor-dot { opacity: 1; }
-
 a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
 }
 
-/* --- ATMOSPHERE --- */
+/* --- ATMOSPHERE & BACKGROUND ANIMATION --- */
 .atmospheric-glow {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90vw;
-  height: 90vw;
+  width: 100vw;
+  height: 100vw;
   border-radius: 50%;
-  background: radial-gradient(circle, var(--portal-glow) 0%, transparent 60%);
+  background: radial-gradient(circle, var(--portal-glow) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
-  animation: breathe 8s ease-in-out infinite alternate;
+  animation: breathe 10s ease-in-out infinite alternate;
 }
 
 @keyframes breathe {
-  0% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.8; }
-  100% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
+  0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
+  100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+}
+
+/* MASSIVE BACKGROUND TICKER */
+.bg-marquee {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 100vw;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.03; /* Barely visible, ghost-like */
+}
+
+.bg-marquee-content {
+  display: flex;
+  white-space: nowrap;
+  font-size: 25vw;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--cream);
+  animation: scrollMarquee 40s linear infinite;
+}
+
+@keyframes scrollMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 /* MAIN LAYOUT */
@@ -111,7 +136,7 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   padding: 6vh 6vw; 
 }
 
-/* --- HERO & CINEMATIC LOAD --- */
+/* --- HERO --- */
 .hero-section {
   flex-grow: 1;
   display: flex;
@@ -120,12 +145,11 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   align-items: flex-start;
 }
 
-@keyframes heavyFadeIn {
-  0% { opacity: 0; transform: translateY(20px); filter: blur(8px); }
-  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+@keyframes clipReveal {
+  0% { clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%); transform: translateY(20px); }
+  100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); transform: translateY(0); }
 }
 
-/* --- LOGO STYLING FOR PNG --- */
 .hero-logo {
   width: clamp(250px, 40vw, 700px); 
   height: auto;
@@ -135,23 +159,26 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   animation: heavyFadeIn 2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
 }
 
+@keyframes heavyFadeIn {
+  0% { opacity: 0; filter: blur(10px); }
+  100% { opacity: 1; filter: blur(0); }
+}
+
 .hero-jp-subtitle {
   font-size: clamp(10px, 1.2vw, 14px);
   color: var(--steel);
   letter-spacing: 0.6em;
-  /* Shifted to the right to align better with the PNG */
   margin-left: 1.5vw; 
-  opacity: 0;
-  animation: heavyFadeIn 2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+  clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+  animation: clipReveal 1.5s cubic-bezier(0.76, 0, 0.24, 1) 0.8s forwards;
 }
 
-/* --- CARDS & HARSH CLIPPING REVEAL --- */
+/* --- CARDS & MAGNETIC 3D PHYSICS --- */
 .cards-section {
   flex-shrink: 0;
-  height: 20vh; 
-  min-height: 140px;
-  opacity: 0;
-  animation: heavyFadeIn 2s cubic-bezier(0.16, 1, 0.3, 1) 1.1s forwards;
+  height: 22vh; 
+  min-height: 150px;
+  perspective: 1000px; /* Required for 3D tilt */
 }
 
 .cards-grid {
@@ -161,28 +188,50 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   height: 100%;
   background: var(--grid-line); 
   border: 1px solid var(--grid-line);
+  opacity: 0;
+  animation: heavyFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards;
 }
 
 .minimal-card {
   background: var(--void);
   display: flex;
+  flex-direction: column; /* Stack English and JP */
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  color: var(--steel);
-  font-size: clamp(14px, 1.2vw, 18px);
   position: relative;
   overflow: hidden;
   cursor: none;
-  transition: color 0.1s;
+  /* Smooth reset transition when mouse leaves */
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s;
+  transform-style: preserve-3d;
 }
 
-.minimal-card span {
-  position: relative;
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   z-index: 2;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateZ(30px); /* Pushes text out in 3D */
+  transition: transform 0.3s;
 }
 
+.card-en {
+  color: var(--cream);
+  font-size: clamp(16px, 1.5vw, 22px);
+  margin-bottom: 6px;
+  transition: color 0.2s, letter-spacing 0.3s;
+}
+
+.card-jp {
+  color: var(--steel);
+  font-size: clamp(8px, 0.8vw, 12px);
+  letter-spacing: 0.3em;
+  transition: color 0.2s;
+}
+
+/* Harsh Brutalist Hover */
 .minimal-card::before {
   content: '';
   position: absolute;
@@ -190,13 +239,18 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   background: var(--cream);
   transform: scaleY(0);
   transform-origin: bottom;
-  transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+  transition: transform 0.3s cubic-bezier(0.76, 0, 0.24, 1);
   z-index: 1;
 }
 
-.minimal-card:hover span {
+.minimal-card:hover .card-en {
   color: var(--void);
+  font-weight: bold;
   letter-spacing: 0.15em; 
+}
+
+.minimal-card:hover .card-jp {
+  color: var(--void);
 }
 
 .minimal-card:hover::before {
@@ -206,22 +260,23 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
 
 /* MOBILE ADJUSTMENTS */
 @media (max-width: 768px) {
-  .cards-section { height: 35vh; }
-  .cards-grid { 
-    grid-template-columns: repeat(2, 1fr); 
-    grid-template-rows: repeat(2, 1fr); 
-  }
+  .cards-section { height: 35vh; perspective: none; }
+  .cards-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); }
+  .minimal-card { transform: none !important; transition: none; } /* Disable physics on mobile */
   body { cursor: auto; background-size: 8vw 8vw; } 
   .cursor-dot { display: none; }
-  
-  .hero-jp-subtitle {
-    margin-left: 4vw;
-  }
+  .bg-marquee-content { font-size: 40vw; }
 }
 </style>
 </head>
 
 <body>
+  <div class="bg-marquee">
+    <div class="bg-marquee-content">
+      ACCESS OPERA &nbsp; ACCESS OPERA &nbsp; ACCESS OPERA &nbsp; ACCESS OPERA &nbsp;
+    </div>
+  </div>
+
   <div class="atmospheric-glow"></div>
 
   <main class="content-wrapper">
@@ -232,16 +287,38 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
 
     <section class="cards-section">
       <div class="cards-grid">
-        <a href="#clients" class="minimal-card"><span>clients</span></a>
-        <a href="#media" class="minimal-card"><span>media</span></a>
-        <a href="#upcoming" class="minimal-card"><span>upcoming</span></a>
-        <a href="#contact" class="minimal-card"><span>contact</span></a>
+        <a href="#clients" class="minimal-card">
+          <div class="card-content">
+            <span class="card-en">clients</span>
+            <span class="card-jp">クライアント</span>
+          </div>
+        </a>
+        <a href="#media" class="minimal-card">
+          <div class="card-content">
+            <span class="card-en">media</span>
+            <span class="card-jp">メディア</span>
+          </div>
+        </a>
+        <a href="#upcoming" class="minimal-card">
+          <div class="card-content">
+            <span class="card-en">upcoming</span>
+            <span class="card-jp">予定</span>
+          </div>
+        </a>
+        <a href="#contact" class="minimal-card">
+          <div class="card-content">
+            <span class="card-en">contact</span>
+            <span class="card-jp">コンタクト</span>
+          </div>
+        </a>
       </div>
     </section>
   </main>
 
   <div class="cursor-dot"></div>
+  
   <script>
+    // Smooth Custom Cursor
     const cursor = document.querySelector('.cursor-dot');
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
@@ -256,14 +333,40 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
     function animateCursor() {
       let distX = mouseX - cursorX;
       let distY = mouseY - cursorY;
-      
-      cursorX = cursorX + (distX * 0.15); 
-      cursorY = cursorY + (distY * 0.15);
-      
+      cursorX += distX * 0.15; 
+      cursorY += distY * 0.15;
       cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
       requestAnimationFrame(animateCursor);
     }
     animateCursor();
+
+    // Magnetic 3D Card Physics
+    const cards = document.querySelectorAll('.minimal-card');
+    
+    // Only apply physics on desktop
+    if (window.innerWidth > 768) {
+      cards.forEach(card => {
+        card.addEventListener('mousemove', e => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left; // x position within the element.
+          const y = e.clientY - rect.top;  // y position within the element.
+          
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          
+          // Calculate rotation (max 15 degrees)
+          const rotateX = ((y - centerY) / centerY) * -15; 
+          const rotateY = ((x - centerX) / centerX) * 15;
+          
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+
+        // Snap back to zero when mouse leaves
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        });
+      });
+    }
   </script>
 </body>
 </html>
