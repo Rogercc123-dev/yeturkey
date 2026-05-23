@@ -1,117 +1,261 @@
-import { useEffect, useState } from 'react';
-
-export default function AccessOpera() {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const t = setTimeout(() => setLoading(false), 1400);
-    return () => clearTimeout(t);
-  }, []);
-
-  const items = [
-    {
-      title: 'Clients',
-      jp: 'クライアント',
-      img: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1600&auto=format&fit=crop'
-    },
-    {
-      title: 'Media',
-      jp: '映像',
-      img: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1600&auto=format&fit=crop'
-    },
-    {
-      title: 'Upcoming',
-      jp: '今後',
-      img: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1600&auto=format&fit=crop'
-    },
-    {
-      title: 'Contact',
-      jp: '連絡',
-      img: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=1600&auto=format&fit=crop'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ACCESS OPERA — GLOBAL OPERATIONS</title>
+  
+  <!-- Typography & Tailwind Core CDN -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    :root {
+      --bg-color: #EFEFEF;
+      --text-color: #111111;
+      --accent-color: #8B0000;
     }
-  ];
+    
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'OCR A BT', 'Space Mono', monospace;
+      cursor: none; /* Hide default hardware cursor */
+      overflow: hidden;
+    }
 
-  return (
-    <div className='h-screen overflow-hidden bg-[#efeee8] text-[#111] font-mono relative'>
-      {/* Texture */}
-      <div className='pointer-events-none fixed inset-0 opacity-[0.05] bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.12),transparent_60%)]' />
+    /* Analog Noise Layer */
+    .noise-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
 
-      {/* Cursor */}
-      <div className='hidden md:block fixed w-7 h-7 border border-black/40 pointer-events-none' />
+    /* Custom Precision Cursor styling */
+    #custom-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      border: 1px solid #FFFFFF;
+      mix-blend-mode: difference;
+      pointer-events: none;
+      z-index: 10000;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s cubic-bezier(0.25, 1, 0.5, 1), 
+                  width 0.3s cubic-bezier(0.25, 1, 0.5, 1), 
+                  height 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+                  border-color 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-      {/* Loading */}
-      {loading && (
-        <div className='fixed inset-0 z-50 bg-[#e7e5de] flex flex-col justify-between p-10'>
-          <div className='flex justify-between text-[10px] tracking-[0.4em] uppercase opacity-60'>
-            <span>Access Opera</span>
-            <span>Loading</span>
-          </div>
+    #custom-cursor .dot {
+      width: 0px;
+      height: 0px;
+      background-color: var(--accent-color);
+      transition: width 0.3s ease, height 0.3s ease;
+    }
 
-          <div className='text-[18vw] leading-none tracking-[-0.08em] font-light'>
-            AO
-          </div>
+    /* Cursor hover modifications */
+    body.cursor-active #custom-cursor {
+      width: 30px;
+      height: 30px;
+      transform: translate(-50%, -50%) rotate(45deg);
+      border-color: var(--accent-color);
+    }
+    
+    body.cursor-active #custom-cursor .dot {
+      width: 3px;
+      height: 3px;
+    }
 
-          <div className='flex justify-between text-[10px] tracking-[0.4em] uppercase opacity-60'>
-            <span>Opening</span>
-            <span>100%</span>
-          </div>
-        </div>
-      )}
+    /* Heavy, mechanical loading screen exit */
+    #loader {
+      transition: transform 1.2s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+    
+    #loader.dismissed {
+      transform: translateY(-100%);
+    }
 
-      {/* Header */}
-      <header className='absolute top-0 left-0 w-full flex justify-between p-8 text-sm'>
-        <div>
-          <div className='tracking-[0.4em] uppercase'>ACCESS OPERA</div>
-          <div className='text-[10px] opacity-50 tracking-[0.3em] uppercase'>
-            Live experiences / ライブ運営
-          </div>
-        </div>
-      </header>
+    /* Layout structural lines */
+    .border-graphite {
+      border-color: rgba(17, 17, 17, 0.15);
+    }
+  </style>
+</head>
+<body class="relative w-full h-screen bg-[#EFEFEF] text-[#111111] overflow-hidden">
 
-      {/* Center Title */}
-      <div className='h-full flex items-center justify-center'>
-        <div className='text-center'>
-          <div className='text-[15vw] leading-none tracking-[-0.1em] font-light'>
-            ACCESS OPERA
-          </div>
-          <div className='mt-4 text-sm opacity-60 max-w-md mx-auto'>
-            Touring, live production, film, and cultural events for global audiences.
-          </div>
-        </div>
-      </div>
+  <!-- Tactile Overlay -->
+  <div class="noise-overlay"></div>
 
-      {/* Lobby */}
-      <div className='fixed bottom-0 left-0 w-full grid grid-cols-4 gap-px bg-black/10'>
-        {items.map((i) => (
-          <button
-            key={i.title}
-            className='group relative h-[220px] bg-[#efeee8] overflow-hidden'
-            onClick={() => alert(i.title)}
-          >
-            <img
-              src={i.img}
-              className='absolute inset-0 w-full h-full object-cover grayscale opacity-0 group-hover:opacity-80 transition duration-700'
-            />
+  <!-- TACTICAL CUSTOM CURSOR -->
+  <div id="custom-cursor">
+    <div class="dot"></div>
+  </div>
 
-            <div className='absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition' />
-
-            <div className='absolute bottom-6 left-6 text-left'>
-              <div className='text-[10px] tracking-[0.35em] uppercase opacity-50 group-hover:text-white transition'>
-                {i.jp}
-              </div>
-              <div className='text-3xl font-light tracking-tight group-hover:text-white transition'>
-                {i.title}
-              </div>
-            </div>
-          </button>
-        ))}
-      </div>
-
-      {/* Footer */}
-      <div className='absolute bottom-[220px] w-full flex justify-between px-8 text-[10px] tracking-[0.3em] uppercase opacity-50'>
-        <span>Status — Active</span>
-        <span>2026</span>
+  <!-- CINEMATIC LOADING EXPERIENCE -->
+  <div id="loader" class="fixed inset-0 z-50 bg-[#111111] text-[#EFEFEF] flex flex-col justify-between p-8 md:p-12">
+    <div class="flex justify-between uppercase text-[10px] tracking-[0.2em] opacity-50">
+      <span>Establishing Environment Connection</span>
+      <span>Global Ops</span>
+    </div>
+    
+    <div class="flex flex-col items-center">
+      <h1 id="loader-title" class="text-[5vw] md:text-[4vw] font-bold uppercase tracking-[1em] opacity-0 transition-all duration-1000 transform scale-95" style="letter-spacing: 0.5em; opacity: 1;">
+        Access Opera
+      </h1>
+      <div class="mt-4 text-[10px] tracking-[0.3em] opacity-40 uppercase">
+        インフラストラクチャ
       </div>
     </div>
-  );
-}
+
+    <div class="flex justify-between items-end">
+      <span class="text-[10px] tracking-widest opacity-50">v.1.0.0_HTML</span>
+      <div id="loading-counter" class="text-[10vw] md:text-[6vw] font-light leading-none transition-all duration-75">
+        000
+      </div>
+    </div>
+  </div>
+
+  <!-- MONOLITHIC HOME / DIRECTORY (Lobby Architecture) -->
+  <div id="app-content" class="relative w-full h-full p-8 md:p-12 flex flex-col justify-between opacity-0 transition-opacity duration-1000 delay-500">
+    
+    <!-- HEADER METADATA -->
+    <header class="flex justify-between items-start text-[10px] uppercase tracking-[0.2em] border-b border-graphite pb-4">
+      <div class="flex flex-col gap-1">
+        <span>Coordinates: 51.5072° N, 0.1276° W</span>
+        <span class="text-gray-400">Status: Active</span>
+      </div>
+      <div class="text-right flex flex-col gap-1">
+        <span>Access Opera Holdings</span>
+        <span>© 2026</span>
+      </div>
+    </header>
+
+    <!-- MAIN DIRECTORY ASYMMETRY -->
+    <div class="flex-1 flex flex-col md:flex-row items-end justify-between py-12">
+      
+      <!-- LEFT: MONOLITHIC IDENTITY -->
+      <div class="w-full md:w-1/2">
+        <h1 class="text-[12vw] md:text-[8vw] leading-[0.8] uppercase font-bold tracking-tighter">
+          Access<br>Opera
+        </h1>
+        <div class="mt-8 max-w-sm">
+          <p class="text-xs tracking-widest uppercase leading-loose text-gray-500">
+            The global infrastructure of culture. Live events, touring empires, and architectural operations.
+          </p>
+        </div>
+      </div>
+
+      <!-- RIGHT: NAV DIRECTORY -->
+      <nav class="w-full md:w-1/3 mt-16 md:mt-0 flex flex-col gap-6 text-right">
+        <!-- Interactive Node 01 -->
+        <div class="nav-item group border-b border-graphite pb-4 flex justify-between items-end hover:border-[#111111] transition-colors duration-500">
+          <span class="text-[10px] tracking-widest text-gray-400 group-hover:text-[#8B0000] transition-colors duration-300">01</span>
+          <div class="flex flex-col items-end">
+            <span class="text-3xl md:text-5xl uppercase tracking-tight group-hover:text-[#8B0000] transition-colors duration-300">Roster</span>
+            <span class="text-[9px] tracking-widest text-gray-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">アーティスト管理</span>
+          </div>
+        </div>
+
+        <!-- Interactive Node 02 -->
+        <div class="nav-item group border-b border-graphite pb-4 flex justify-between items-end hover:border-[#111111] transition-colors duration-500">
+          <span class="text-[10px] tracking-widest text-gray-400 group-hover:text-[#8B0000] transition-colors duration-300">02</span>
+          <div class="flex flex-col items-end">
+            <span class="text-3xl md:text-5xl uppercase tracking-tight group-hover:text-[#8B0000] transition-colors duration-300">Archive</span>
+            <span class="text-[9px] tracking-widest text-gray-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">現場記録</span>
+          </div>
+        </div>
+
+        <!-- Interactive Node 03 -->
+        <div class="nav-item group border-b border-graphite pb-4 flex justify-between items-end hover:border-[#111111] transition-colors duration-500">
+          <span class="text-[10px] tracking-widest text-gray-400 group-hover:text-[#8B0000] transition-colors duration-300">03</span>
+          <div class="flex flex-col items-end">
+            <span class="text-3xl md:text-5xl uppercase tracking-tight group-hover:text-[#8B0000] transition-colors duration-300">Services</span>
+            <span class="text-[9px] tracking-widest text-gray-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">ライブ運営</span>
+          </div>
+        </div>
+
+        <!-- Interactive Node 04 -->
+        <div class="nav-item group border-b border-graphite pb-4 flex justify-between items-end hover:border-[#111111] transition-colors duration-500">
+          <span class="text-[10px] tracking-widest text-gray-400 group-hover:text-[#8B0000] transition-colors duration-300">04</span>
+          <div class="flex flex-col items-end">
+            <span class="text-3xl md:text-5xl uppercase tracking-tight group-hover:text-[#8B0000] transition-colors duration-300">Philosophy</span>
+            <span class="text-[9px] tracking-widest text-gray-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">理念</span>
+          </div>
+        </div>
+
+        <!-- Interactive Node 05 -->
+        <div class="nav-item group border-b border-graphite pb-4 flex justify-between items-end hover:border-[#111111] transition-colors duration-500">
+          <span class="text-[10px] tracking-widest text-gray-400 group-hover:text-[#8B0000] transition-colors duration-300">05</span>
+          <div class="flex flex-col items-end">
+            <span class="text-3xl md:text-5xl uppercase tracking-tight group-hover:text-[#8B0000] transition-colors duration-300">Contact</span>
+            <span class="text-[9px] tracking-widest text-gray-400 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">お問い合わせ</span>
+          </div>
+        </div>
+      </nav>
+
+    </div>
+
+    <!-- FOOTER MANIFESTO -->
+    <footer class="text-[10px] uppercase tracking-[0.3em] flex justify-between border-t border-graphite pt-4">
+      <span class="text-[#8B0000] hidden md:block text-xs font-bold">• RESTRICTED NETWORK</span>
+      <span class="text-gray-400">The infrastructure of culture is not visible. It is felt.</span>
+    </footer>
+
+  </div>
+
+  <!-- INTERACTION ENGINE -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const cursor = document.getElementById("custom-cursor");
+      const loader = document.getElementById("loader");
+      const counter = document.getElementById("loading-counter");
+      const appContent = document.getElementById("app-content");
+      const navItems = document.querySelectorAll(".nav-item");
+
+      // 1. Precise Hardware Cursor Mapping
+      document.addEventListener("mousemove", (e) => {
+        cursor.style.left = `${e.clientX}px`;
+        cursor.style.top = `${e.clientY}px`;
+      });
+
+      // Interactive States for Nav Elements
+      navItems.forEach(item => {
+        item.addEventListener("mouseenter", () => document.body.classList.add("cursor-active"));
+        item.addEventListener("mouseleave", () => document.body.classList.remove("cursor-active"));
+      });
+
+      // 2. Mechanical Progressive Loader
+      let progress = 0;
+      const progressInterval = setInterval(() => {
+        progress += Math.floor(Math.random() * 12) + 4;
+        
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(progressInterval);
+          
+          // Complete full structure transition
+          setTimeout(() => {
+            loader.classList.add("dismissed");
+            appContent.classList.remove("opacity-0");
+            appContent.classList.add("opacity-100");
+          }, 600);
+        }
+        
+        counter.textContent = progress.toString().padStart(3, "0");
+      }, 100);
+    });
+  </script>
+</body>
+</html>
