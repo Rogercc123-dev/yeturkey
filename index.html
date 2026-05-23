@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>access opera</title>
 <meta name="description" content="access opera talent agency" />
-<meta name="theme-color" content="#050505" />
+<meta name="theme-color" content="#030303" />
 
 <style>
 *, *::before, *::after { 
@@ -15,155 +15,211 @@
 }
 
 :root {
-  --cream: #d4d0c8;
-  --off-black: #080808;
+  --cream: #e6e3da; /* shifted to a slight sepia/cloud tone */
+  --off-black: #0a0a0a;
   --void: #030303;
-  --concrete: #1a1a1a;
-  --steel: #555555;
-  --akira-red: #e3000f;
+  --concrete: #1f1f1f;
+  --steel: #666666;
+  --akira-red: #cc0000;
+  --portal-glow: rgba(230, 210, 180, 0.04);
 }
 
-html {
+html, body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; /* strictly prevents any scrolling */
   background: var(--void);
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
 }
 
 body {
   font-family: "OCR A BT", "OCR A Std", "OCR A Extended", "Courier New", monospace;
-  background: var(--void);
   color: var(--cream);
   line-height: 1.4;
   letter-spacing: 0.05em;
   text-transform: lowercase;
-  overflow-x: hidden;
   cursor: crosshair;
-  /* stripped back, minimal grid */
+  display: flex;
+  flex-direction: column;
+  
+  /* minimalistic dystopian grid */
   background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 60px 60px;
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 4vw 4vw;
+  position: relative;
+}
+
+/* atmospheric background glow (inspired by the floating figure portal) */
+.atmospheric-glow {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70vw;
+  height: 70vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--portal-glow) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* subtle dark vignette edge */
+.vignette {
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 150px rgba(0,0,0,0.9);
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* NAV */
 .nav-bar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 999;
-  background: rgba(3, 3, 3, 0.8);
-  backdrop-filter: blur(5px);
-  border-bottom: 1px solid var(--concrete);
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+  height: 80px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
-  height: 64px;
+  padding: 0 4vw;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 .nav-logo {
-  font-size: 16px; 
-  color: var(--cream);
+  font-size: 14px; 
+  color: var(--steel);
   text-decoration: none;
   display: flex;
   flex-direction: column;
 }
 .nav-logo .jp-sub {
-  font-family: sans-serif; /* standard sans for japanese legibility */
-  font-size: 9px;
+  font-family: sans-serif;
+  font-size: 8px;
   color: var(--akira-red);
-  letter-spacing: 0.2em;
-  margin-top: 2px;
+  letter-spacing: 0.25em;
+  margin-top: 4px;
+}
+
+/* MAIN LAYOUT */
+.content-wrapper {
+  position: relative;
+  z-index: 10;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 4vw 4vh 4vw;
 }
 
 /* HERO */
 .hero-section {
-  margin-top: 64px;
-  min-height: 55vh;
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  position: relative;
-  padding: 80px 24px;
+  justify-content: center;
 }
 .hero-title {
-  font-size: clamp(40px, 10vw, 120px);
+  font-size: clamp(40px, 9vw, 130px);
   color: var(--cream);
-  line-height: 0.9; 
-  letter-spacing: -0.05em;
+  line-height: 0.85; 
+  letter-spacing: -0.06em;
   margin-bottom: 8px;
+  text-shadow: 0 0 20px rgba(230, 210, 180, 0.1);
 }
 .hero-jp-subtitle {
   font-family: sans-serif;
-  font-size: clamp(12px, 2vw, 16px);
-  color: var(--akira-red);
-  letter-spacing: 0.4em;
+  font-size: clamp(10px, 1.5vw, 14px);
+  color: var(--steel);
+  letter-spacing: 0.5em;
   margin-left: 4px;
 }
 
 /* CARDS */
 .cards-section {
-  width: 100%;
-  padding: 0 24px 80px 24px;
+  flex-shrink: 0;
+  height: 22vh; /* dynamic height tied to viewport */
+  min-height: 120px;
 }
 .cards-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1vw;
+  height: 100%;
 }
 .minimal-card {
   border: 1px solid var(--concrete);
-  background: var(--off-black);
-  height: clamp(150px, 25vh, 300px);
+  background: rgba(10, 10, 10, 0.5);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
   color: var(--steel);
-  font-size: clamp(16px, 3vw, 24px);
-  transition: all 0.3s ease;
-}
-.minimal-card:hover {
-  border-color: var(--akira-red);
-  color: var(--akira-red);
-  background: rgba(227, 0, 15, 0.02);
+  font-size: clamp(14px, 1.5vw, 20px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
 }
 
-/* DESKTOP */
-@media (min-width: 768px) {
-  .hero-section {
-    padding: 120px 64px;
-  }
+/* stark light flash hover effect (inspired by kaleidoscope contrast) */
+.minimal-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--cream);
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: -1;
+}
+.minimal-card:hover {
+  border-color: var(--cream);
+  color: var(--void);
+  font-weight: bold;
+}
+.minimal-card:hover::before {
+  transform: translateY(0);
+}
+
+/* MOBILE ADJUSTMENTS */
+@media (max-width: 768px) {
   .cards-section {
-    padding: 0 64px 120px 64px;
+    height: 35vh; /* give more room on mobile so text doesn't cramp */
   }
   .cards-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .atmospheric-glow {
+    width: 120vw;
+    height: 120vw;
   }
 }
 </style>
 </head>
 
 <body>
+  <div class="atmospheric-glow"></div>
+  <div class="vignette"></div>
 
-<nav class="nav-bar">
-  <a href="#" class="nav-logo">
-    <span>access opera</span>
-    <span class="jp-sub">アクセス・オペラ</span>
-  </a>
-</nav>
+  <nav class="nav-bar">
+    <a href="#" class="nav-logo">
+      <span>access opera</span>
+      <span class="jp-sub">アクセス・オペラ</span>
+    </a>
+  </nav>
 
-<section class="hero-section">
-  <h1 class="hero-title">access opera</h1>
-  <div class="hero-jp-subtitle">タレントエージェンシー</div>
-</section>
+  <main class="content-wrapper">
+    <section class="hero-section">
+      <h1 class="hero-title">access opera</h1>
+      <div class="hero-jp-subtitle">タレントエージェンシー</div>
+    </section>
 
-<section class="cards-section">
-  <div class="cards-grid">
-    <a href="#clients" class="minimal-card">clients</a>
-    <a href="#media" class="minimal-card">media</a>
-    <a href="#upcoming" class="minimal-card">upcoming</a>
-    <a href="#contact" class="minimal-card">contact</a>
-  </div>
-</section>
-
+    <section class="cards-section">
+      <div class="cards-grid">
+        <a href="#clients" class="minimal-card">clients</a>
+        <a href="#media" class="minimal-card">media</a>
+        <a href="#upcoming" class="minimal-card">upcoming</a>
+        <a href="#contact" class="minimal-card">contact</a>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
