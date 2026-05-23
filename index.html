@@ -19,11 +19,11 @@
 
 /* --- LIGHTENED DARK MODE (DEFAULT) --- */
 :root{
-  --concrete: #e6e4df; /* Lighter, sharper text */
-  --raw:       #242320; /* Lifted from pitch black */
+  --concrete: #e6e4df; 
+  --raw:       #242320; 
   --deep:      #1a1917; 
-  --void:      #121110; /* Softened background void */
-  --dust:      #8c8982; /* Brighter accent text */
+  --void:      #121110; 
+  --dust:      #8c8982; 
   --form:      #45423d;
 }
 
@@ -70,7 +70,6 @@ body{
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='0.15'/%3E%3C/svg%3E");
   background-size:300px 300px; opacity:0.7; mix-blend-mode:overlay;
 }
-/* Adjust grain for light mode so it doesn't look burnt */
 body.light-mode .grain { mix-blend-mode: multiply; opacity: 0.3; }
 
 .vignette{
@@ -135,7 +134,7 @@ body.light-mode .mass-line { background:rgba(0,0,0,0.06); }
 .home-right { flex: 1; max-width: 500px; }
 
 .logo-img{ width:clamp(200px,35vw,600px); height:auto; object-fit:contain; display:block; margin-bottom:20px; opacity:0.92; transition: filter 0.4s ease; }
-body.light-mode .logo-img { filter: invert(1); } /* Inverts logo to black for light mode */
+body.light-mode .logo-img { filter: invert(1); } 
 
 .datum{ width: 100%; max-width: 600px; height:1px; background:rgba(184,180,173,0.2); margin:32px 0 24px; }
 body.light-mode .datum { background:rgba(0,0,0,0.1); }
@@ -147,16 +146,20 @@ body.light-mode .datum { background:rgba(0,0,0,0.1); }
 }
 .home-blurb strong { color: var(--concrete); font-weight: normal; }
 
-/* VIEW: UPCOMING */
+/* VIEW: UPCOMING (SCHEDULE & ACCORDION) */
 .schedule-wrap{ width: 100%; border-top: 1px solid rgba(184,180,173,0.08); }
 body.light-mode .schedule-wrap { border-color: rgba(0,0,0,0.08); }
 
-.schedule-row{
+.schedule-row {
   position: relative; display: grid; grid-template-columns: 1fr 2fr 1fr auto; align-items: center;
   padding: 32px 24px; border-bottom: 1px solid rgba(184,180,173,0.08); text-decoration: none;
   color: var(--dust); cursor: none; overflow: hidden; transition: color 0.6s ease;
 }
 body.light-mode .schedule-row { border-color: rgba(0,0,0,0.08); }
+
+/* Buttons need to act like anchors for the accordion trigger */
+button.schedule-row { width: 100%; text-align: left; font-family: inherit; background: transparent; border: none; border-bottom: 1px solid rgba(184,180,173,0.08); outline: none; }
+body.light-mode button.schedule-row { border-bottom: 1px solid rgba(0,0,0,0.08); }
 
 .schedule-row::before{ content:''; position:absolute; bottom:0;left:0;right:0;height:0; background:var(--raw); transition:height 0.5s cubic-bezier(0.76,0,0.24,1); z-index:0; }
 .schedule-row:hover::before{height:100%}
@@ -168,6 +171,26 @@ body.light-mode .schedule-row { border-color: rgba(0,0,0,0.08); }
 .s-action { font-size: 10px; letter-spacing: 0.4em; color: #3a3832; transition: color 0.5s ease; }
 body.light-mode .s-action { color: #a3a099; }
 .schedule-row:hover .s-action { color: var(--dust); }
+
+/* Tour Accordion Mechanics */
+.tour-accordion { border-bottom: 1px solid rgba(184,180,173,0.08); }
+body.light-mode .tour-accordion { border-bottom: 1px solid rgba(0,0,0,0.08); }
+.tour-accordion .schedule-row { border-bottom: none; } /* Handled by wrapper */
+.accordion-content { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.accordion-inner { display: flex; flex-direction: column; overflow: hidden; }
+.tour-accordion.open .accordion-content { grid-template-rows: 1fr; }
+
+/* Nested Show Rows */
+.accordion-inner .schedule-row { 
+  background: rgba(184,180,173,0.015); 
+  border-top: 1px solid rgba(184,180,173,0.04);
+}
+body.light-mode .accordion-inner .schedule-row { background: rgba(0,0,0,0.015); border-top: 1px solid rgba(0,0,0,0.04); }
+
+@media(min-width: 851px) {
+  .accordion-inner .schedule-row { padding-left: 56px; }
+  .accordion-inner .s-artist { font-size: clamp(24px, 3vw, 48px); }
+}
 
 /* VIEW: CLIENTS */
 .roster-wrap { width: 100%; border-top: 1px solid rgba(184,180,173,0.08); }
@@ -404,7 +427,6 @@ body.light-mode .nav-jp { color: #a3a099; }
           </div>
           <div class="r-data r-tag">status: active_</div>
         </a>
-        
       </div>
     </div>
 
@@ -414,7 +436,7 @@ body.light-mode .nav-jp { color: #a3a099; }
       
       <div class="media-index id-active" id="media-artist-selector">
         <div class="roster-wrap">
-          <button class="roster-row media-artist-btn" data-artist="ye" style="background:none; border:none; width:100%; text-align:left; font-family:inherit; color:inherit;">
+          <button class="roster-row media-artist-btn" data-artist="ye" style="width:100%; text-align:left; font-family:inherit; background:transparent; border:none; outline:none; border-bottom: 1px solid rgba(184,180,173,0.08);">
             <div class="r-data r-avatar"><img src="ye.jpg" alt="ye" onerror="this.style.display='none'" /></div>
             <div class="r-data r-details">
               <div class="r-role">access logs / 04 files</div>
@@ -423,7 +445,7 @@ body.light-mode .nav-jp { color: #a3a099; }
             <div class="r-data r-tag">view_archive_</div>
           </button>
           
-          <button class="roster-row media-artist-btn" data-artist="rotimi" style="background:none; border:none; width:100%; text-align:left; font-family:inherit; color:inherit;">
+          <button class="roster-row media-artist-btn" data-artist="rotimi" style="width:100%; text-align:left; font-family:inherit; background:transparent; border:none; outline:none; border-bottom: 1px solid rgba(184,180,173,0.08);">
             <div class="r-data r-avatar"><img src="rotimi.jpg" alt="rotimi" onerror="this.style.display='none'" /></div>
             <div class="r-data r-details">
               <div class="r-role">access logs / empty_</div>
@@ -483,7 +505,7 @@ body.light-mode .nav-jp { color: #a3a099; }
       <div class="media-workspace" id="media-workspace-rotimi">
         <div class="media-container">
           <div class="display-area" style="aspect-ratio: 16/9; justify-content:center; align-items:center;">
-             <p style="font-size: 10px; letter-spacing:0.2em; color:var(--dust);">[ FILE ARCHIVE COMILING_ ]</p>
+             <p style="font-size: 10px; letter-spacing:0.2em; color:var(--dust);">[ FILE ARCHIVE COMPILING_ ]</p>
           </div>
           <div class="media-menu">
              <div class="menu-label">motion_</div>
@@ -499,84 +521,39 @@ body.light-mode .nav-jp { color: #a3a099; }
       <h2 class="sec-title">upcoming</h2>
       <div class="schedule-wrap">
         
-        <a href="#" class="schedule-row">
-          <div class="s-data s-date">22 may</div>
-          <div class="s-data s-artist">rotimi</div>
-          <div class="s-data s-location">geneva</div>
-          <div class="s-data s-action">explore_</div>
-        </a>
-        <a href="#" class="schedule-row">
-          <div class="s-data s-date">24 may</div>
-          <div class="s-data s-artist">rotimi</div>
-          <div class="s-data s-location">manchester</div>
-          <div class="s-data s-action">explore_</div>
-        </a>
-        <a href="#" class="schedule-row">
-          <div class="s-data s-date">24 may</div>
-          <div class="s-data s-artist">rotimi</div>
-          <div class="s-data s-location">birmingham</div>
-          <div class="s-data s-action">explore_</div>
-        </a>
-        <a href="ye.html" class="schedule-row" style="background: rgba(184,180,173,0.03);">
+        <a href="ye.html" class="schedule-row">
           <div class="s-data s-date">30 may</div>
           <div class="s-data s-artist">ye</div>
           <div class="s-data s-location">istanbul</div>
           <div class="s-data s-action">explore_</div>
         </a>
-        <a href="#" class="schedule-row">
-          <div class="s-data s-date">18 june</div>
-          <div class="s-data s-artist">rotimi</div>
-          <div class="s-data s-location">bali</div>
-          <div class="s-data s-action">explore_</div>
-        </a>
-        <a href="#" class="schedule-row">
-          <div class="s-data s-date">19 june</div>
-          <div class="s-data s-artist">rotimi</div>
-          <div class="s-data s-location">bali</div>
-          <div class="s-data s-action">explore_</div>
-        </a>
-        <a href="#" class="schedule-row">
-          <div class="s-data s-date">24 june</div>
-          <div class="s-data s-artist">rotimi</div>
-          <div class="s-data s-location">montego bay</div>
-          <div class="s-data s-action">explore_</div>
-        </a>
-        <a href="#" class="schedule-row">
-          <div class="s-data s-date">25 june</div>
-          <div class="s-data s-artist">rotimi</div>
-          <div class="s-data s-location">new york, ny</div>
-          <div class="s-data s-action">explore_</div>
-        </a>
-        <a href="#" class="schedule-row">
-          <div class="s-data s-date">27 june</div>
-          <div class="s-data s-artist">rotimi</div>
-          <div class="s-data s-location">chicago, il</div>
-          <div class="s-data s-action">explore_</div>
-        </a>
-        <a href="#" class="schedule-row">
-          <div class="s-data s-date">3 july</div>
-          <div class="s-data s-artist">rotimi</div>
-          <div class="s-data s-location">sydney</div>
-          <div class="s-data s-action">explore_</div>
-        </a>
-        <a href="#" class="schedule-row">
-          <div class="s-data s-date">4 july</div>
-          <div class="s-data s-artist">rotimi</div>
-          <div class="s-data s-location">perth</div>
-          <div class="s-data s-action">explore_</div>
-        </a>
-        <a href="#" class="schedule-row">
-          <div class="s-data s-date">5 july</div>
-          <div class="s-data s-artist">rotimi</div>
-          <div class="s-data s-location">melbourne</div>
-          <div class="s-data s-action">explore_</div>
-        </a>
-        <a href="#" class="schedule-row">
-          <div class="s-data s-date">11 july</div>
-          <div class="s-data s-artist">rotimi</div>
-          <div class="s-data s-location">tokyo</div>
-          <div class="s-data s-action">explore_</div>
-        </a>
+
+        <div class="tour-accordion" id="rotimi-tour">
+          <button class="schedule-row accordion-trigger">
+            <div class="s-data s-date">22 may - 11 jul</div>
+            <div class="s-data s-artist">rotimi</div>
+            <div class="s-data s-location">world tour</div>
+            <div class="s-data s-action accordion-icon">expand_</div>
+          </button>
+          
+          <div class="accordion-content">
+            <div class="accordion-inner">
+              <a href="#" class="schedule-row"><div class="s-data s-date">22 may</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">geneva</div><div class="s-data s-action">tickets_</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">24 may</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">manchester</div><div class="s-data s-action">tickets_</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">24 may</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">birmingham</div><div class="s-data s-action">tickets_</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">18 june</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">bali</div><div class="s-data s-action">tickets_</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">19 june</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">bali</div><div class="s-data s-action">tickets_</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">24 june</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">montego bay</div><div class="s-data s-action">tickets_</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">25 june</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">new york, ny</div><div class="s-data s-action">tickets_</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">27 june</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">chicago, il</div><div class="s-data s-action">tickets_</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">3 july</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">sydney</div><div class="s-data s-action">tickets_</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">4 july</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">perth</div><div class="s-data s-action">tickets_</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">5 july</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">melbourne</div><div class="s-data s-action">tickets_</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">11 july</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">tokyo</div><div class="s-data s-action">tickets_</div></a>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -647,6 +624,22 @@ document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; })
   cur.style.transform = `translate(${cx - 2}px,${cy - 2}px)`;
   requestAnimationFrame(loop);
 })();
+
+// Accordion Logic for Upcoming Tour Dates
+const tourAccordions = document.querySelectorAll('.tour-accordion');
+tourAccordions.forEach(acc => {
+  const trigger = acc.querySelector('.accordion-trigger');
+  const icon = acc.querySelector('.accordion-icon');
+  trigger.addEventListener('click', (e) => {
+    e.preventDefault();
+    acc.classList.toggle('open');
+    if (acc.classList.contains('open')) {
+      icon.innerText = 'collapse_';
+    } else {
+      icon.innerText = 'expand_';
+    }
+  });
+});
 
 // Navigation View System (SPA Engine)
 const triggers = document.querySelectorAll('.nav-trigger');
