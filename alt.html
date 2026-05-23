@@ -116,7 +116,7 @@ body{
 .datum{ width:clamp(280px,42vw,720px); height:1px; background:rgba(184,180,173,0.2); margin:32px 0 24px; }
 .descriptor{ font-size:10px; letter-spacing:0.5em; color:var(--dust); }
 
-/* VIEW: UPCOMING */
+/* VIEW: UPCOMING (SCHEDULE) */
 .schedule-wrap{ width: 100%; border-top: 1px solid rgba(184,180,173,0.08); }
 .schedule-row{
   position: relative; display: grid; grid-template-columns: 1fr 2fr 1fr auto; align-items: center;
@@ -133,48 +133,41 @@ body{
 .s-action { font-size: 10px; letter-spacing: 0.4em; color: #3a3832; transition: color 0.5s ease; }
 .schedule-row:hover .s-action { color: var(--dust); }
 
-/* VIEW: CLIENTS (ROSTER) */
-.client-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2px; /* acts as borders */
-  background: rgba(184,180,173,0.06);
-  border: 1px solid rgba(184,180,173,0.06);
+/* VIEW: CLIENTS (HORIZONTAL ROSTER) */
+.roster-wrap { width: 100%; border-top: 1px solid rgba(184,180,173,0.08); }
+.roster-row {
+  position: relative; display: flex; align-items: center;
+  padding: 24px 32px; border-bottom: 1px solid rgba(184,180,173,0.08);
+  text-decoration: none; cursor: none; overflow: hidden;
 }
-.client-card {
-  background: var(--void);
-  text-decoration: none;
-  display: flex; flex-direction: column;
-  position: relative; overflow: hidden; cursor: none;
+.roster-row::before {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 0;
+  background: var(--raw); transition: height 0.5s cubic-bezier(0.76,0,0.24,1); z-index: 0;
 }
-.client-img-wrap {
-  width: 100%;
-  aspect-ratio: 3/4; /* Classic portrait ratio */
-  background: var(--deep);
-  overflow: hidden;
-  position: relative;
+.roster-row:hover::before { height: 100%; }
+
+.r-data { position: relative; z-index: 1; }
+.r-avatar {
+  width: 100px; height: 100px; flex-shrink: 0; margin-right: 40px;
+  background: var(--deep); overflow: hidden; border-radius: 2px;
 }
-.client-img {
-  width: 100%; height: 100%; object-fit: cover;
+.r-avatar img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
   filter: grayscale(100%) contrast(1.2) brightness(0.7);
   transition: filter 0.5s ease, transform 0.5s ease;
 }
-.client-info {
-  padding: 24px;
-  position: relative; z-index: 2;
-  background: var(--void);
-  transition: background 0.4s ease;
-}
-.client-tag { font-size: 9px; letter-spacing: 0.3em; color: var(--dust); margin-bottom: 8px; transition: color 0.4s; }
-.client-name { font-size: clamp(18px, 2vw, 24px); color: var(--form); transition: color 0.4s, transform 0.4s; }
+.roster-row:hover .r-avatar img { filter: grayscale(0%) contrast(1) brightness(1); transform: scale(1.05); }
 
-/* Client Hover Physics */
-.client-card:hover .client-img { filter: grayscale(0%) contrast(1) brightness(1); transform: scale(1.05); }
-.client-card:hover .client-info { background: var(--raw); }
-.client-card:hover .client-tag { color: var(--concrete); }
-.client-card:hover .client-name { color: var(--concrete); transform: translateX(4px); }
+.r-details { display: flex; flex-direction: column; gap: 8px; }
+.r-name { font-size: clamp(32px, 4vw, 56px); color: var(--form); line-height: 1; letter-spacing: -0.02em; transition: color 0.5s, transform 0.5s; }
+.roster-row:hover .r-name { color: var(--concrete); transform: translateX(8px); }
+.r-role { font-size: 10px; letter-spacing: 0.3em; color: var(--dust); transition: color 0.5s; }
+.roster-row:hover .r-role { color: var(--concrete); }
 
-/* VIEW: MEDIA (CUSTOM PLAYER) */
+.r-tag { font-size: 9px; letter-spacing: 0.4em; color: #3a3832; margin-left: auto; text-align: right; transition: color 0.5s; }
+.roster-row:hover .r-tag { color: var(--dust); }
+
+/* VIEW: MEDIA (CUSTOM 4:3 PLAYER) */
 .media-container {
   display: grid;
   grid-template-columns: 2.5fr 1fr;
@@ -186,23 +179,22 @@ body{
   width: 100%;
   background: var(--deep);
   border: 1px solid rgba(184,180,173,0.08);
+  display: flex;
+  flex-direction: column; /* Prevents control clipping */
 }
 #custom-video {
   width: 100%;
-  display: block;
+  aspect-ratio: 4 / 3; /* STRICTLY LOCKS TO 4:3 */
   object-fit: cover;
+  display: block;
   filter: grayscale(100%) contrast(1.1);
   transition: filter 0.5s ease;
 }
-/* When playing, restore color */
 #custom-video.is-playing { filter: grayscale(0%) contrast(1); }
 
 .video-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 24px;
-  background: var(--void);
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 24px; background: var(--void);
   border-top: 1px solid rgba(184,180,173,0.08);
 }
 .v-btn-group { display: flex; gap: 24px; }
@@ -215,16 +207,12 @@ body{
 .v-time { font-size: 10px; letter-spacing: 0.1em; color: var(--dust); }
 
 /* Dynamic Playlist */
-.video-playlist {
-  display: flex; flex-direction: column;
-  border-top: 1px solid rgba(184,180,173,0.08);
-}
+.video-playlist { display: flex; flex-direction: column; border-top: 1px solid rgba(184,180,173,0.08); }
 .pl-item {
   display: flex; align-items: center; justify-content: space-between;
   padding: 24px 0; border-bottom: 1px solid rgba(184,180,173,0.08);
   background: none; border-left: none; border-right: none; border-top: none;
-  font-family: 'OCR A BT'; text-align: left; cursor: none;
-  transition: color 0.3s;
+  font-family: 'OCR A BT'; text-align: left; cursor: none; transition: color 0.3s;
 }
 .pl-info { display: flex; flex-direction: column; gap: 8px; }
 .pl-num { font-size: 8px; letter-spacing: 0.4em; color: var(--dust); }
@@ -233,20 +221,13 @@ body{
 
 .pl-item:hover .pl-name { color: var(--concrete); }
 .pl-item.active .pl-name { color: var(--concrete); }
-.pl-item.active .pl-status { color: var(--concrete); } /* Shows "playing_" */
-
+.pl-item.active .pl-status { color: var(--concrete); }
 
 /* VIEW: CONTACT */
-.contact-wrap {
-  border-top: 1px solid rgba(184,180,173,0.08);
-  padding-top: 40px;
-}
+.contact-wrap { border-top: 1px solid rgba(184,180,173,0.08); padding-top: 40px; }
 .c-row { margin-bottom: 40px; }
 .c-label { font-size: 9px; letter-spacing: 0.3em; color: var(--dust); margin-bottom: 12px; }
-.c-link {
-  font-size: clamp(24px, 3vw, 40px); color: var(--concrete);
-  text-decoration: none; cursor: none; transition: opacity 0.3s;
-}
+.c-link { font-size: clamp(24px, 3vw, 40px); color: var(--concrete); text-decoration: none; cursor: none; transition: opacity 0.3s; }
 .c-link:hover { opacity: 0.5; }
 
 /* BOTTOM NAV SLAB */
@@ -277,10 +258,17 @@ body{
   body{cursor:auto}.cur{display:none}
   .block-top,.block-center{padding:32px 28px 0}
   .bg-word{font-size:40vw}
+  
   .schedule-row { grid-template-columns: 1fr; gap: 12px; padding: 24px 16px; }
   .s-action { margin-top: 12px; border-top: 1px solid rgba(184,180,173,0.08); padding-top: 12px; }
-  .client-grid { grid-template-columns: repeat(2, 1fr); }
+  
+  /* Mobile Roster */
+  .roster-row { padding: 24px 16px; }
+  .r-avatar { width: 64px; height: 64px; margin-right: 20px; }
+  .r-tag { display: none; /* hide on small screens to save space */ }
+
   .media-container { grid-template-columns: 1fr; gap: 24px; }
+  
   .nav-item{padding:22px 28px}
   .nav-slab{grid-template-columns:repeat(2,1fr)}
   .nav-item:nth-child(2){border-right:none}
@@ -314,7 +302,7 @@ body{
   <main class="block-center">
     
     <div class="view active" id="view-home">
-      <img src="opera.png" alt="access opera" class="logo-img" />
+      <img src="opera.png" alt="access opera" class="logo-img" onerror="this.style.display='none'" />
       <div class="datum"></div>
       <div class="descriptor">talent representation &nbsp;·&nbsp; creative management</div>
     </div>
@@ -322,24 +310,27 @@ body{
     <div class="view" id="view-clients">
       <div class="sec-num">01</div>
       <h2 class="sec-title">roster</h2>
-      <div class="client-grid">
+      
+      <div class="roster-wrap">
         
-        <a href="#" class="client-card">
-          <div class="client-img-wrap">
-            <img src="ye.jpg" alt="YE" class="client-img" onerror="this.style.display='none'" />
+        <a href="#" class="roster-row">
+          <div class="r-data r-avatar">
+            <img src="ye.jpg" alt="YE" onerror="this.style.display='none'" />
           </div>
-          <div class="client-info">
-            <div class="client-tag">artist / creative</div>
-            <div class="client-name">YE</div>
+          <div class="r-data r-details">
+            <div class="r-role">artist / creative</div>
+            <div class="r-name">YE</div>
           </div>
+          <div class="r-data r-tag">status: active_</div>
         </a>
 
-        <div class="client-card" style="pointer-events: none;">
-          <div class="client-img-wrap"></div>
-          <div class="client-info">
-            <div class="client-tag">restricted_</div>
-            <div class="client-name">---</div>
+        <div class="roster-row" style="pointer-events: none;">
+          <div class="r-data r-avatar"></div>
+          <div class="r-data r-details">
+            <div class="r-role">restricted_</div>
+            <div class="r-name">---</div>
           </div>
+          <div class="r-data r-tag">status: locked_</div>
         </div>
 
       </div>
@@ -459,7 +450,6 @@ const views = document.querySelectorAll('.view');
 const bgWord = document.getElementById('bgWord');
 const navItems = document.querySelectorAll('.nav-item');
 
-// Pause video globally when switching tabs
 const globalVideo = document.getElementById('custom-video');
 const playBtn = document.getElementById('btn-play');
 
@@ -467,7 +457,6 @@ triggers.forEach(trigger => {
   trigger.addEventListener('click', (e) => {
     if(trigger.getAttribute('href') === '#') e.preventDefault();
 
-    // Pause video when leaving media tab
     if(globalVideo && !globalVideo.paused) {
       globalVideo.pause();
       globalVideo.classList.remove('is-playing');
@@ -503,7 +492,6 @@ const timeCurrent = document.getElementById('time-current');
 const timeTotal = document.getElementById('time-total');
 const playlistItems = document.querySelectorAll('.pl-item');
 
-// Helper to format seconds into M:SS
 function formatTime(seconds) {
   if(isNaN(seconds)) return "0:00";
   const m = Math.floor(seconds / 60);
@@ -511,7 +499,6 @@ function formatTime(seconds) {
   return m + ":" + (s < 10 ? "0" + s : s);
 }
 
-// Play/Pause
 playBtn.addEventListener('click', () => {
   if (globalVideo.paused) {
     globalVideo.play();
@@ -524,29 +511,24 @@ playBtn.addEventListener('click', () => {
   }
 });
 
-// Mute/Unmute
 muteBtn.addEventListener('click', () => {
   globalVideo.muted = !globalVideo.muted;
   muteBtn.innerText = globalVideo.muted ? 'unmute_' : 'mute_';
 });
 
-// Update Timers
 globalVideo.addEventListener('loadedmetadata', () => {
   timeTotal.innerText = formatTime(globalVideo.duration);
 });
 globalVideo.addEventListener('timeupdate', () => {
   timeCurrent.innerText = formatTime(globalVideo.currentTime);
 });
-// Reset when video ends
 globalVideo.addEventListener('ended', () => {
   playBtn.innerText = 'play_';
   globalVideo.classList.remove('is-playing');
 });
 
-// Playlist Switching
 playlistItems.forEach(item => {
   item.addEventListener('click', () => {
-    // Update active class & text
     playlistItems.forEach(pl => {
       pl.classList.remove('active');
       pl.querySelector('.pl-status').innerText = 'loaded_';
@@ -554,7 +536,6 @@ playlistItems.forEach(item => {
     item.classList.add('active');
     item.querySelector('.pl-status').innerText = 'playing_';
 
-    // Change video source and auto-play
     const newSrc = item.getAttribute('data-src');
     globalVideo.src = newSrc;
     globalVideo.play();
