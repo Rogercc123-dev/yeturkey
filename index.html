@@ -128,8 +128,10 @@ body.light-mode .mass-line { background:rgba(0,0,0,0.06); }
 .sec-num { font-size: 10px; letter-spacing: 0.3em; color: var(--dust); margin-bottom: 12px; flex-shrink: 0; }
 .sec-title { font-size: clamp(32px, 5vw, 64px); font-weight: 400; letter-spacing: -0.02em; line-height: 1; margin-bottom: 30px; color: var(--concrete); flex-shrink: 0; }
 
-/* VIEW: HOME */
-.home-layout { display: flex; gap: 64px; align-items: center; justify-content: space-between; width: 100%; }
+/* VIEW: HOME (SPLIT LAYOUT W/ CONTACT) */
+.home-layout {
+  display: flex; gap: 64px; align-items: center; justify-content: space-between; width: 100%;
+}
 .home-left { flex: 1; }
 .home-right { flex: 1; max-width: 500px; }
 
@@ -140,17 +142,26 @@ body.light-mode .logo-img { filter: invert(1); }
 body.light-mode .datum { background:rgba(0,0,0,0.1); }
 .descriptor{ font-size:10px; letter-spacing:0.5em; color:var(--dust); }
 
-.home-blurb { font-size: 10px; line-height: 2; letter-spacing: 0.15em; color: var(--dust); text-transform: uppercase; text-align: justify; }
+/* DYNAMIC BLURB STYLING */
+.home-blurb {
+  font-size: 10px; line-height: 2; letter-spacing: 0.15em; color: var(--dust);
+  text-transform: uppercase; text-align: justify;
+}
 .home-blurb strong { color: var(--concrete); font-weight: normal; }
+.blurb-mobile { display: none; } /* Hidden natively on desktop */
 
-.home-contact { margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(184,180,173,0.08); display: flex; flex-direction: column; gap: 16px; }
+.home-contact {
+  margin-top: 32px; padding-top: 24px;
+  border-top: 1px solid rgba(184,180,173,0.08);
+  display: flex; flex-direction: column; gap: 16px;
+}
 body.light-mode .home-contact { border-top-color: rgba(0,0,0,0.08); }
 .hc-row { display: flex; align-items: center; gap: 16px; font-size: 10px; letter-spacing: 0.2em; }
 .hc-label { color: var(--dust); width: 80px; }
 .hc-link { color: var(--concrete); text-decoration: none; cursor: none; transition: opacity 0.3s; }
 .hc-link:hover { opacity: 0.5; }
 
-/* VIEW: UPCOMING */
+/* VIEW: UPCOMING (SCHEDULE & ACCORDION) */
 .schedule-wrap{ width: 100%; border-top: 1px solid rgba(184,180,173,0.08); }
 body.light-mode .schedule-wrap { border-color: rgba(0,0,0,0.08); }
 
@@ -180,9 +191,11 @@ body.light-mode .s-action { color: #a3a099; }
 .tour-accordion { border-bottom: 1px solid rgba(184,180,173,0.08); }
 body.light-mode .tour-accordion { border-bottom: 1px solid rgba(0,0,0,0.08); }
 .tour-accordion .schedule-row { border-bottom: none; }
+
 .accordion-content { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease; }
 .accordion-inner { overflow: hidden; display: flex; flex-direction: column; }
 .tour-accordion.open .accordion-content { grid-template-rows: 1fr; opacity: 1; }
+
 .accordion-icon { display: inline-block; margin-right: 4px; color: var(--form); transition: color 0.3s ease; font-weight: bold; }
 button.schedule-row:hover .accordion-icon { color: var(--dust); }
 
@@ -231,7 +244,6 @@ body.light-mode .r-tag { color: #a3a099; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr; 
-  /* We build the grid using gaps to guarantee borders never clip */
   gap: 1px;
   background: rgba(184,180,173,0.08); 
   border: 1px solid rgba(184,180,173,0.08); 
@@ -249,7 +261,7 @@ body.light-mode .services-grid { background: rgba(0,0,0,0.08); border-color: rgb
   flex-direction: column;
   text-align: left;
   font-family: inherit;
-  background: var(--void); /* Set explicitly so the grid background looks like borders */
+  background: var(--void); 
   cursor: none;
   overflow: hidden;
   outline: none;
@@ -439,14 +451,17 @@ body.light-mode .nav-jp { color: #a3a099; }
   .home-layout { flex-direction: column; align-items: flex-start; gap: 32px; }
   .home-right { max-width: 100%; }
 
+  /* DYNAMIC BLURB TOGGLE FOR MOBILE */
+  .blurb-desktop { display: none; }
+  .blurb-mobile { display: inline; }
+
   .schedule-row { grid-template-columns: 1fr; gap: 12px; padding: 24px 16px; }
   .s-action { margin-top: 12px; border-top: 1px solid rgba(184,180,173,0.08); padding-top: 12px; }
   .roster-row { padding: 24px 16px; }
   .r-avatar { width: 64px; height: 64px; margin-right: 20px; }
   .r-tag { display: none; }
   
-  /* Services Mobile Override */
-  .services-grid { grid-template-columns: 1fr; grid-template-rows: auto; height: auto; border: none; gap: 16px; background: transparent; }
+  .services-grid { grid-template-columns: 1fr; grid-template-rows: auto; height: auto; border: none; gap: 16px; background: transparent; width: 100%; margin-bottom: 0; }
   .service-card { border: 1px solid rgba(184,180,173,0.08); padding: 32px 24px; }
   body.light-mode .service-card { border-color: rgba(0,0,0,0.08); }
   .svc-desc { -webkit-line-clamp: unset; overflow: visible; }
@@ -501,7 +516,12 @@ body.light-mode .nav-jp { color: #a3a099; }
         </div>
         <div class="home-right">
           <p class="home-blurb">
-            <strong>ACCESS OPERA (AO)</strong> DEVELOPS THE NEXT GENERATION OF CULTURAL ICONS. BRIDGING CLASSICAL EXCELLENCE WITH CONTEMPORARY INNOVATION TO CREATE CAREERS, DEALS, AND GROUNDBREAKING ART ACROSS FILM, STAGE, AND MUSIC. FROM PRODUCING ERA-DEFINING OPERA WITH THE WORLD’S BIGGEST ARTISTS TO BUILDING THE FUTURE OF CLASSICAL AND POP TALENT, AO OPERATES AT THE HIGHEST LEVEL OF CREATIVE EXECUTION. OUR ARTISTS RECEIVE PLATINUM-STANDARD MANAGEMENT, BRANDING, MARKETING, SOCIAL STRATEGY, AND CAREER DEVELOPMENT. BECAUSE IF YOU CAN BUILD HISTORY, ANY OPPORTUNITY IS ATTAINABLE.
+            <span class="blurb-desktop">
+              <strong>ACCESS OPERA (AO)</strong> DEVELOPS THE NEXT GENERATION OF CULTURAL ICONS. BRIDGING CLASSICAL EXCELLENCE WITH CONTEMPORARY INNOVATION TO CREATE CAREERS, DEALS, AND GROUNDBREAKING ART ACROSS FILM, STAGE, AND MUSIC. FROM PRODUCING ERA-DEFINING OPERA WITH THE WORLD’S BIGGEST ARTISTS TO BUILDING THE FUTURE OF CLASSICAL AND POP TALENT, AO OPERATES AT THE HIGHEST LEVEL OF CREATIVE EXECUTION. OUR ARTISTS RECEIVE PLATINUM-STANDARD MANAGEMENT, BRANDING, MARKETING, SOCIAL STRATEGY, AND CAREER DEVELOPMENT. BECAUSE IF YOU CAN BUILD HISTORY, ANY OPPORTUNITY IS ATTAINABLE.
+            </span>
+            <span class="blurb-mobile">
+              <strong>ACCESS OPERA</strong> DEVELOPS THE NEXT GENERATION OF CULTURAL ICONS, BLENDING CLASSICAL EXCELLENCE WITH CONTEMPORARY INNOVATION ACROSS FILM, STAGE, AND MUSIC. AO DELIVERS WORLD-CLASS PRODUCTION, MANAGEMENT, BRANDING, MARKETING, AND CAREER DEVELOPMENT FOR ARTISTS SHAPING THE FUTURE OF CULTURE.
+            </span>
           </p>
           
           <div class="home-contact">
