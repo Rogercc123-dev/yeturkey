@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>access opera</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+JP:wght@100&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+html,body{
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  background:#0c0b09;
+  cursor:none;
+}
+
+body{
+  font-family:'Share Tech Mono','Courier New',monospace;
+  color:#9a8e7a;
+  text-transform:lowercase;
+  letter-spacing:0.3em;
+}
+
+/* CURSOR — just a small cross, nothing technical */
+.cur{
+  position:fixed;
+  top:0;left:0;
+  width:16px;height:16px;
+  pointer-events:none;
+  z-index:9999;
+  transform:translate(-8px,-8px);
+}
+.cur::before,.cur::after{
+  content:'';
+  position:absolute;
+  background:#9a8e7a;
+  opacity:0.5;
+}
+.cur::before{width:1px;height:100%;left:50%;}
+.cur::after{width:100%;height:1px;top:50%;}
+
+/* GRAIN — the most important thing. makes it feel physical. */
+.grain{
+  position:fixed;inset:0;
+  z-index:500;
+  pointer-events:none;
+  opacity:0.55;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.12'/%3E%3C/svg%3E");
+  background-size:200px 200px;
+  mix-blend-mode:multiply;
+}
+
+/* DEEP VIGNETTE — burns the edges to pure black */
+.vignette{
+  position:fixed;inset:0;
+  z-index:400;
+  pointer-events:none;
+  background:radial-gradient(ellipse 75% 75% at 50% 50%,transparent 20%,rgba(8,7,5,0.5) 60%,rgba(4,3,2,0.97) 100%);
+}
+
+/* THE WEIGHT — a broad warm band across the mid-page, like light through stone */
+.light-slab{
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  background:
+    radial-gradient(ellipse 55% 35% at 50% 48%,rgba(180,155,100,0.07) 0%,transparent 100%);
+  pointer-events:none;
+  z-index:1;
+}
+
+/* LAYOUT */
+.page{
+  position:relative;
+  z-index:10;
+  width:100%;height:100vh;
+  display:grid;
+  grid-template-rows:1fr auto 1fr;
+  padding:52px 56px;
+}
+
+/* TOP — sparse, just an identifier */
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  opacity:0;
+  animation:emerge 2.5s ease 0.5s forwards;
+}
+
+.label{
+  font-size:10px;
+  letter-spacing:0.4em;
+  color:#5a5144;
+  line-height:2;
+}
+.label-primary{
+  color:#7a6e5e;
+}
+
+/* CENTER — the name. enormous. the whole page. */
+.center{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.name-block{
+  opacity:0;
+  animation:emergeSlow 3.5s ease 0.2s forwards;
+}
+
+.name-line{
+  font-size:clamp(68px,10.5vw,172px);
+  font-weight:400;
+  letter-spacing:-0.01em;
+  line-height:0.9;
+  color:#d4c8b0;
+}
+
+/* Second word — lighter, recedes */
+.name-line--ghost{
+  color:#3d3628;
+}
+
+.divider{
+  width:100%;
+  height:1px;
+  background:linear-gradient(90deg,rgba(154,142,122,0.25),transparent 60%);
+  margin:36px 0 28px;
+  opacity:0;
+  animation:expand 2s ease 1.8s forwards;
+  transform-origin:left;
+  transform:scaleX(0);
+}
+@keyframes expand{
+  to{opacity:1;transform:scaleX(1)}
+}
+
+.sub-line{
+  font-size:10px;
+  letter-spacing:0.5em;
+  color:#5a5144;
+  opacity:0;
+  animation:emerge 2s ease 2.4s forwards;
+}
+
+/* BOTTOM NAV */
+.bottom{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  opacity:0;
+  animation:emerge 2s ease 2.8s forwards;
+}
+
+.nav{
+  display:flex;
+  gap:48px;
+  align-items:center;
+}
+
+.nav-link{
+  font-size:10px;
+  letter-spacing:0.4em;
+  color:#4a4438;
+  text-decoration:none;
+  cursor:none;
+  position:relative;
+  transition:color 1s ease;
+}
+.nav-link::after{
+  content:'';
+  position:absolute;
+  bottom:-4px;left:0;
+  width:0;height:1px;
+  background:#9a8e7a;
+  transition:width 0.8s ease;
+}
+.nav-link:hover{color:#9a8e7a;}
+.nav-link:hover::after{width:100%;}
+
+.coords{
+  font-size:9px;
+  letter-spacing:0.35em;
+  color:#3a342c;
+  font-family:'Noto Sans JP',sans-serif;
+  font-weight:100;
+}
+
+/* ANIMATIONS — slow, heavy, inevitable */
+@keyframes emerge{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes emergeSlow{
+  0%{opacity:0}
+  30%{opacity:0}
+  100%{opacity:1}
+}
+
+/* LOADER — pure black, holds for a beat, then lifts */
+.loader{
+  position:fixed;inset:0;
+  background:#000;
+  z-index:5000;
+  animation:loaderLift 0.9s cubic-bezier(0.76,0,0.24,1) 1.4s forwards;
+}
+@keyframes loaderLift{
+  to{transform:translateY(-100%)}
+}
+
+/* MOBILE */
+@media(max-width:680px){
+  body{cursor:auto}
+  .cur{display:none}
+  .page{padding:36px 28px}
+  .name-line{font-size:clamp(52px,14vw,90px)}
+  .nav{gap:28px}
+  .coords{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="loader"></div>
+<div class="grain"></div>
+<div class="vignette"></div>
+<div class="light-slab"></div>
+<div class="cur" id="cur"></div>
+
+<div class="page">
+
+  <header class="top">
+    <div>
+      <div class="label label-primary">access opera</div>
+      <div class="label">talent agency</div>
+      <div class="label" style="font-family:'Noto Sans JP',sans-serif;font-weight:100;font-size:9px;margin-top:4px;color:#3a342c">タレントエージェンシー</div>
+    </div>
+    <div style="text-align:right">
+      <div class="label" style="color:#3a342c">open for submissions</div>
+    </div>
+  </header>
+
+  <main class="center">
+    <div class="name-block">
+      <div class="name-line">access</div>
+      <div class="name-line name-line--ghost">opera</div>
+      <div class="divider"></div>
+      <div class="sub-line">talent representation &nbsp;/&nbsp; creative management</div>
+    </div>
+  </main>
+
+  <footer class="bottom">
+    <nav class="nav">
+      <a href="#" class="nav-link">clients</a>
+      <a href="#" class="nav-link">media</a>
+      <a href="#" class="nav-link">upcoming</a>
+      <a href="#" class="nav-link">contact</a>
+    </nav>
+    <div class="coords">mmxxiv</div>
+  </footer>
+
+</div>
+
+<script>
+const cur = document.getElementById('cur');
+let mx = 0, my = 0, cx = 0, cy = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+(function loop(){
+  cx += (mx - cx) * 0.08;
+  cy += (my - cy) * 0.08;
+  cur.style.transform = `translate(${cx - 8}px, ${cy - 8}px)`;
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('a').forEach(a => a.addEventListener('click', e => e.preventDefault()));
+</script>
+</body>
+</html>
