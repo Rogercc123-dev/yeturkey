@@ -119,7 +119,7 @@ body.light-mode .mass-line { background:rgba(0,0,0,0.06); }
 }
 .block-center::-webkit-scrollbar { display: none; }
 
-.view { display: none; flex-direction: column; justify-content: flex-start; width: 100%; min-height: 100%; height: auto; }
+.view { display: none; flex-direction: column; justify-content: flex-start; width: 100%; min-height: 100%; height: auto; position: relative; }
 .view.active { display: flex; animation: massReveal 0.8s cubic-bezier(0.16,1,0.3,1) forwards; }
 
 #view-home, #view-media { justify-content: center; }
@@ -128,7 +128,7 @@ body.light-mode .mass-line { background:rgba(0,0,0,0.06); }
 .sec-num { font-size: 10px; letter-spacing: 0.3em; color: var(--dust); margin-bottom: 12px; flex-shrink: 0; }
 .sec-title { font-size: clamp(32px, 5vw, 64px); font-weight: 400; letter-spacing: -0.02em; line-height: 1; margin-bottom: 30px; color: var(--concrete); flex-shrink: 0; }
 
-/* VIEW: HOME (SPLIT LAYOUT) */
+/* VIEW: HOME (SPLIT LAYOUT W/ CONTACT) */
 .home-layout {
   display: flex; gap: 64px; align-items: center; justify-content: space-between; width: 100%;
 }
@@ -147,6 +147,18 @@ body.light-mode .datum { background:rgba(0,0,0,0.1); }
   text-transform: uppercase; text-align: justify;
 }
 .home-blurb strong { color: var(--concrete); font-weight: normal; }
+
+/* Contact Embedded into Home Right */
+.home-contact {
+  margin-top: 32px; padding-top: 24px;
+  border-top: 1px solid rgba(184,180,173,0.08);
+  display: flex; flex-direction: column; gap: 16px;
+}
+body.light-mode .home-contact { border-top-color: rgba(0,0,0,0.08); }
+.hc-row { display: flex; align-items: center; gap: 16px; font-size: 10px; letter-spacing: 0.2em; }
+.hc-label { color: var(--dust); width: 80px; }
+.hc-link { color: var(--concrete); text-decoration: none; cursor: none; transition: opacity 0.3s; }
+.hc-link:hover { opacity: 0.5; }
 
 /* VIEW: UPCOMING (SCHEDULE & ACCORDION) */
 .schedule-wrap{ width: 100%; border-top: 1px solid rgba(184,180,173,0.08); }
@@ -180,22 +192,14 @@ body.light-mode .s-action { color: #a3a099; }
 body.light-mode .tour-accordion { border-bottom: 1px solid rgba(0,0,0,0.08); }
 .tour-accordion .schedule-row { border-bottom: none; }
 
-.accordion-content { 
-  display: grid; 
-  grid-template-rows: 0fr; 
-  opacity: 0;
-  transition: grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease; 
-}
+.accordion-content { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease; }
 .accordion-inner { overflow: hidden; display: flex; flex-direction: column; }
 .tour-accordion.open .accordion-content { grid-template-rows: 1fr; opacity: 1; }
 
 .accordion-icon { display: inline-block; margin-right: 4px; color: var(--form); transition: color 0.3s ease; font-weight: bold; }
 button.schedule-row:hover .accordion-icon { color: var(--dust); }
 
-.accordion-inner .schedule-row { 
-  background: rgba(184,180,173,0.015); 
-  border-top: 1px solid rgba(184,180,173,0.04);
-}
+.accordion-inner .schedule-row { background: rgba(184,180,173,0.015); border-top: 1px solid rgba(184,180,173,0.04); }
 body.light-mode .accordion-inner .schedule-row { background: rgba(0,0,0,0.015); border-top: 1px solid rgba(0,0,0,0.04); }
 
 @media(min-width: 851px) {
@@ -235,12 +239,13 @@ body.light-mode .roster-row { border-color: rgba(0,0,0,0.08); }
 body.light-mode .r-tag { color: #a3a099; }
 .roster-row:hover .r-tag { color: var(--dust); }
 
-/* VIEW: SERVICES (NEW) */
+/* VIEW: SERVICES (HIGH-END ANIMATED) */
 .services-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   border-top: 1px solid rgba(184,180,173,0.08);
   border-left: 1px solid rgba(184,180,173,0.08);
+  flex-grow: 1;
 }
 body.light-mode .services-grid { border-color: rgba(0,0,0,0.08); }
 
@@ -251,11 +256,12 @@ body.light-mode .services-grid { border-color: rgba(0,0,0,0.08); }
   border-bottom: 1px solid rgba(184,180,173,0.08);
   display: flex;
   flex-direction: column;
-  text-decoration: none;
+  text-align: left;
+  font-family: inherit;
+  background: transparent;
   cursor: none;
   overflow: hidden;
-  transition: color 0.6s ease;
-  background: transparent;
+  outline: none;
 }
 body.light-mode .service-card { border-color: rgba(0,0,0,0.08); }
 
@@ -266,11 +272,51 @@ body.light-mode .service-card { border-color: rgba(0,0,0,0.08); }
 .service-card:hover::before { height: 100%; }
 
 .svc-content { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; }
-.svc-title { font-size: clamp(24px, 3vw, 40px); color: var(--form); line-height: 1.1; margin-bottom: 24px; transition: color 0.4s, transform 0.4s; }
+.svc-title { font-size: clamp(24px, 3vw, 40px); color: var(--form); line-height: 1.1; margin-bottom: 24px; transition: color 0.4s, transform 0.4s; font-weight: normal; }
 .svc-desc { font-size: 11px; line-height: 1.8; letter-spacing: 0.05em; color: var(--dust); transition: color 0.4s; text-align: justify; }
 
 .service-card:hover .svc-title { color: var(--concrete); transform: translateX(8px); }
 .service-card:hover .svc-desc { color: var(--concrete); }
+
+/* The Hidden Extended Content Inside the Card */
+.svc-extended { display: none; }
+
+/* SPATIAL EXPANSION OVERLAY FOR SERVICES */
+.svc-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: var(--void);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 56px;
+  /* Cinematic circle expansion from mouse coordinates */
+  clip-path: circle(0px at var(--click-x, 50%) var(--click-y, 50%));
+  transition: clip-path 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+  pointer-events: none;
+  overflow-y: auto;
+}
+.svc-overlay.active {
+  clip-path: circle(150% at var(--click-x, 50%) var(--click-y, 50%));
+  pointer-events: all;
+}
+.svc-overlay-inner {
+  opacity: 0; transform: translateY(20px); 
+  transition: all 0.6s cubic-bezier(0.16,1,0.3,1) 0.3s;
+  max-width: 800px;
+}
+.svc-overlay.active .svc-overlay-inner { opacity: 1; transform: translateY(0); }
+
+.svc-overlay-close {
+  align-self: flex-end;
+  background: transparent; border: none; font-family: inherit;
+  font-size: 10px; letter-spacing: 0.4em; color: var(--dust);
+  cursor: none; margin-bottom: 40px; transition: color 0.3s;
+}
+.svc-overlay-close:hover { color: var(--concrete); }
+
+.svc-overlay-title { font-size: clamp(40px, 6vw, 80px); color: var(--concrete); margin-bottom: 32px; font-weight: normal; }
+.svc-overlay-body p { font-size: 13px; line-height: 2; letter-spacing: 0.05em; color: var(--dust); margin-bottom: 24px; text-align: justify; }
 
 /* VIEW: ARCHIVE */
 .media-index { display: flex; flex-direction: column; width: 100%; }
@@ -330,7 +376,7 @@ body.light-mode .v-sel { border-color: rgba(0,0,0,0.08); }
 }
 body.light-mode .btn-gallery { border-color: rgba(0,0,0,0.08); }
 .btn-gallery .g-name { font-size: 12px; letter-spacing: 0.1em; color: var(--dust); transition: color 0.3s; }
-.btn-gallery .g-status { font-size: 8px; letter-spacing: 0.3em; color: var(--void); transition: color 0.3s; }
+.btn-gallery .g-status { font-size: 8px; letter-spacing: 0.3em; color: var(--form); transition: color 0.3s; }
 .btn-gallery:hover .g-name { color: var(--concrete); }
 .btn-gallery.active .g-name { color: var(--concrete); }
 .btn-gallery.active .g-status { color: var(--concrete); }
@@ -346,17 +392,9 @@ body.light-mode .media-controls-dock { border-color: rgba(0,0,0,0.08); }
 .m-btn:hover { color: var(--concrete); }
 .m-info { font-size: 10px; letter-spacing: 0.1em; color: var(--dust); }
 
-/* VIEW: CONTACT */
-.contact-wrap { border-top: 1px solid rgba(184,180,173,0.08); padding-top: 40px; }
-body.light-mode .contact-wrap { border-color: rgba(0,0,0,0.08); }
-.c-row { margin-bottom: 40px; }
-.c-label { font-size: 9px; letter-spacing: 0.3em; color: var(--dust); margin-bottom: 12px; }
-.c-link { font-size: clamp(24px, 3vw, 40px); color: var(--concrete); text-decoration: none; cursor: none; transition: opacity 0.3s; }
-.c-link:hover { opacity: 0.5; }
-
-/* BOTTOM NAV SLAB (5 COLUMNS NOW) */
+/* BOTTOM NAV SLAB (4 COLUMNS - EXTREMELY CLEAN) */
 .block-bottom{ opacity:0; animation:appear 2s ease 2s forwards; }
-.nav-slab{ display:grid; grid-template-columns:repeat(5,1fr); border-top:1px solid rgba(184,180,173,0.08); }
+.nav-slab{ display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid rgba(184,180,173,0.08); }
 body.light-mode .nav-slab { border-color: rgba(0,0,0,0.08); }
 .nav-item{ position:relative; display:flex; flex-direction:column; justify-content:center; padding:24px 32px 20px; text-decoration:none; color:var(--dust); border-right:1px solid rgba(184,180,173,0.06); cursor:none; overflow:hidden; transition:color 0.8s ease; }
 body.light-mode .nav-item { border-color: rgba(0,0,0,0.06); }
@@ -402,24 +440,22 @@ body.light-mode .nav-jp { color: #a3a099; }
   .r-avatar { width: 64px; height: 64px; margin-right: 20px; }
   .r-tag { display: none; }
   
-  /* Services Collapse */
   .services-grid { grid-template-columns: 1fr; border-left: none; }
   .service-card { border-right: none; padding: 32px 24px; }
+  .svc-overlay { padding: 32px 24px; }
 
   .media-container { grid-template-columns: 1fr; gap: 32px; }
   .display-area { width: 100%; height: auto; max-height: none; }
   #custom-video, #gallery-img { max-height: none; }
   .media-menu { max-height: none; gap: 24px; }
   .media-controls-dock { padding: 16px 0; border-top: 1px solid rgba(184,180,173,0.08); }
-  .block-bottom { margin-top: auto; }
   
-  /* 5 Tab Mobile Layout (2x2 + 1 full width) */
+  .block-bottom { margin-top: auto; }
   .nav-slab{ grid-template-columns: repeat(2,1fr); }
   .nav-item { padding: 24px; border-bottom: none; }
   .nav-item:nth-child(even){ border-right: none; }
   .nav-item:nth-child(n+3){ border-top: 1px solid rgba(184,180,173,0.06); }
   body.light-mode .nav-item:nth-child(n+3) { border-top-color: rgba(0,0,0,0.06); }
-  .nav-item:nth-child(5){ grid-column: 1 / -1; border-right: none; }
 }
 </style>
 </head>
@@ -459,6 +495,18 @@ body.light-mode .nav-jp { color: #a3a099; }
           <p class="home-blurb">
             <strong>ACCESS OPERA (AO)</strong> DEVELOPS THE NEXT GENERATION OF CULTURAL ICONS. BRIDGING CLASSICAL EXCELLENCE WITH CONTEMPORARY INNOVATION TO CREATE CAREERS, DEALS, AND GROUNDBREAKING ART ACROSS FILM, STAGE, AND MUSIC. FROM PRODUCING ERA-DEFINING OPERA WITH THE WORLD’S BIGGEST ARTISTS TO BUILDING THE FUTURE OF CLASSICAL AND POP TALENT, AO OPERATES AT THE HIGHEST LEVEL OF CREATIVE EXECUTION. OUR ARTISTS RECEIVE PLATINUM-STANDARD MANAGEMENT, BRANDING, MARKETING, SOCIAL STRATEGY, AND CAREER DEVELOPMENT. BECAUSE IF YOU CAN BUILD HISTORY, ANY OPPORTUNITY IS ATTAINABLE.
           </p>
+          
+          <div class="home-contact">
+            <div class="hc-row">
+              <span class="hc-label">inquiries</span>
+              <a href="mailto:info@accessopera.com" class="hc-link">info@accessopera.com</a>
+            </div>
+            <div class="hc-row">
+              <span class="hc-label">press</span>
+              <a href="mailto:press@accessopera.com" class="hc-link">press@accessopera.com</a>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -620,41 +668,60 @@ body.light-mode .nav-jp { color: #a3a099; }
     <div class="view" id="view-services">
       <div class="sec-num">04</div>
       <h2 class="sec-title">services</h2>
+      
       <div class="services-grid">
         
-        <div class="service-card">
+        <button class="service-card" type="button">
           <div class="svc-content">
             <h3 class="svc-title">marketing</h3>
             <p class="svc-desc">platinum-standard audience acquisition. global rollout strategies, brand positioning, and algorithmic dominance. we do not follow the culture; we engineer it from the ground up to ensure maximum leverage across all digital and physical territories.</p>
+            <div class="svc-extended">
+              <p>Our acquisition models leverage deep behavioral data and structural creative force. We refuse organic luck; we build scalable, targeted campaigns that surround the consumer. From imposing physical billboard domination in tier-one metropolitan hubs to hyper-targeted digital funnels, we dictate the narrative and control the rollout ecosystem entirely.</p>
+            </div>
           </div>
-        </div>
+        </button>
 
-        <div class="service-card">
+        <button class="service-card" type="button">
           <div class="svc-content">
             <h3 class="svc-title">videography</h3>
             <p class="svc-desc">cinematic visual execution. from stadium-scale tour documentaries to high-end music video production. utilizing native raw capture and an elite post-production pipeline, directed by industry visionaries to create era-defining visual assets.</p>
+            <div class="svc-extended">
+              <p>Operating exclusively on high-end cinema camera ecosystems, our directors and cinematographers construct visual monuments. Services include end-to-end production logistics, color grading in certified suites, and bespoke visual effects integration. We treat a 15-second digital asset with the exact same rigorous cinematic discipline as a feature-length film.</p>
+            </div>
           </div>
-        </div>
+        </button>
 
-        <div class="service-card">
+        <button class="service-card" type="button">
           <div class="svc-content">
             <h3 class="svc-title">creative direction</h3>
             <p class="svc-desc">holistic artistic architecture. stage design, dynamic lighting programming, and bespoke wardrobe curation. translating an artist's sonic identity into imposing, physical, and visual environments that dominate the live and digital space.</p>
+            <div class="svc-extended">
+              <p>We build and control the entire universe the artist inhabits. This encompasses monumental stage architecture, synchronized tour lighting mapping, wardrobe styling, and physical merchandise design. We partner intimately with elite industrial designers and avant-garde fashion houses to ensure physical spaces reflect the artist's sonic landscape with aggressive precision.</p>
+            </div>
           </div>
-        </div>
+        </button>
 
-        <div class="service-card">
+        <button class="service-card" type="button">
           <div class="svc-content">
             <h3 class="svc-title">brand partnerships</h3>
             <p class="svc-desc">high-leverage corporate alignment. securing platinum-tier sponsorships, fashion house endorsements, and bespoke product collaborations. we connect visionary talent with global capital to build multi-dimensional empires.</p>
+            <div class="svc-extended">
+              <p>We reject standard transactional influencer deals. We negotiate equity, creative control, and platinum-tier sponsorships. By ruthlessly aligning our exclusive roster with heritage luxury conglomerates and aggressive tech innovators, we build long-term corporate bridges that elevate the artist from musician to a dominant global brand ambassador.</p>
+            </div>
           </div>
-        </div>
+        </button>
 
+      </div>
+
+      <div class="svc-overlay" id="svc-overlay">
+        <button class="svc-overlay-close" id="svc-close-btn">[ close_ ]</button>
+        <div class="svc-overlay-inner" id="svc-overlay-content">
+          </div>
       </div>
     </div>
 
     <div class="view" id="view-past">
-      <div class="sec-num">06</div>
+      <div class="sec-num">05</div>
       <h2 class="sec-title">past performances</h2>
       <div class="schedule-wrap" id="past-wrapper-target">
         <a href="#" class="schedule-row past-deemphasize" id="past-newmexico-row">
@@ -663,21 +730,6 @@ body.light-mode .nav-jp { color: #a3a099; }
           <div class="s-data s-location">new mexico</div>
           <div class="s-data s-action">[ archived_ ]</div>
         </a>
-      </div>
-    </div>
-
-    <div class="view" id="view-contact">
-      <div class="sec-num">05</div>
-      <h2 class="sec-title">contact</h2>
-      <div class="contact-wrap">
-        <div class="c-row">
-          <div class="c-label">general inquiries</div>
-          <a href="mailto:info@accessopera.com" class="c-link">info@accessopera.com</a>
-        </div>
-        <div class="c-row">
-          <div class="c-label">press & media</div>
-          <a href="mailto:press@accessopera.com" class="c-link">press@accessopera.com</a>
-        </div>
       </div>
     </div>
 
@@ -704,11 +756,6 @@ body.light-mode .nav-jp { color: #a3a099; }
         <div class="nav-num">04</div>
         <div class="nav-label">services</div>
         <div class="nav-jp">サービス</div>
-      </a>
-      <a href="#" class="nav-item nav-trigger" data-target="view-contact">
-        <div class="nav-num">05</div>
-        <div class="nav-label">contact</div>
-        <div class="nav-jp">コンタクト</div>
       </a>
     </nav>
   </footer>
@@ -739,22 +786,31 @@ document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; })
   requestAnimationFrame(loop);
 })();
 
-// Navigation View System (SPA Engine)
+// SPA Engine variables
 const triggers = document.querySelectorAll('.nav-trigger');
 const views = document.querySelectorAll('.view');
 const navItems = document.querySelectorAll('.nav-item');
-
 const globalVideo = document.getElementById('custom-video');
 const playBtn = document.getElementById('btn-play');
-
 const artistSelector = document.getElementById('media-artist-selector');
 const workspaces = document.querySelectorAll('.media-workspace');
 
+// Service Overlay Variables
+const svcOverlay = document.getElementById('svc-overlay');
+const svcOverlayContent = document.getElementById('svc-overlay-content');
+const svcCloseBtn = document.getElementById('svc-close-btn');
+
 function switchSPAView(targetId) {
+  // Pause video if moving away
   if(globalVideo && !globalVideo.paused) {
     globalVideo.pause();
     globalVideo.classList.remove('is-playing');
     if(playBtn) playBtn.innerText = 'play_';
+  }
+
+  // Force close service overlay if active
+  if(svcOverlay && svcOverlay.classList.contains('active')) {
+    svcOverlay.classList.remove('active');
   }
 
   navItems.forEach(item => {
@@ -776,7 +832,6 @@ triggers.forEach(trigger => {
   trigger.addEventListener('click', (e) => {
     if(trigger.getAttribute('href') === '#') e.preventDefault();
     
-    // Explicit clean reset on standard navigation requests
     if(trigger.getAttribute('data-target') === 'view-media') {
       artistSelector.style.display = 'flex';
       workspaces.forEach(ws => ws.classList.remove('active'));
@@ -784,6 +839,38 @@ triggers.forEach(trigger => {
 
     switchSPAView(trigger.getAttribute('data-target'));
   });
+});
+
+// SERVICE EXPANSION CLIP-PATH LOGIC
+const svcCards = document.querySelectorAll('.service-card');
+
+svcCards.forEach(card => {
+  card.addEventListener('click', (e) => {
+    // Get mouse coordinates relative to the view container for the circle origin
+    const rect = document.getElementById('view-services').getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    svcOverlay.style.setProperty('--click-x', `${x}px`);
+    svcOverlay.style.setProperty('--click-y', `${y}px`);
+
+    // Extract copy
+    const title = card.querySelector('.svc-title').innerText;
+    const extended = card.querySelector('.svc-extended').innerHTML;
+
+    // Inject into overlay
+    svcOverlayContent.innerHTML = `
+      <h2 class="svc-overlay-title">${title}</h2>
+      <div class="svc-overlay-body">${extended}</div>
+    `;
+
+    // Trigger CSS clip-path reveal
+    svcOverlay.classList.add('active');
+  });
+});
+
+svcCloseBtn.addEventListener('click', () => {
+  svcOverlay.classList.remove('active');
 });
 
 // TIME LIFECYCLE EVALUATION
