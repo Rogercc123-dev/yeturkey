@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>ACCESS OPERA — Live Operations Portal</title>
+  <title>ACCESS OPERA — Talent & Artist Management</title>
   <!-- GSAP & Lenis -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
@@ -12,13 +12,13 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      cursor: none;
+      cursor: none; /* Hide default cursor */
     }
 
     body {
-      background: #1A1917; /* Dark concrete / warm charcoal */
+      background: #1A1917; 
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      color: #E6E1DA; /* High contrast soft text */
+      color: #E6E1DA;
       overflow: hidden;
       height: 100vh;
       -webkit-font-smoothing: antialiased;
@@ -43,35 +43,38 @@
       inset: 0;
       pointer-events: none;
       z-index: 998;
-      opacity: 0.04; /* Restrained noise density */
+      opacity: 0.04;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     }
-    
-    .scanlines {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background: repeating-linear-gradient(0deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 4px);
-      z-index: 997;
-    }
 
-    /* CUSTOM ARCHITECTURAL CURSOR */
-    .cursor {
+    /* REFINED CUSTOM DUAL CURSOR */
+    .cursor-dot, .cursor-outline {
       position: fixed;
-      width: 24px;
-      height: 24px;
-      border: 1px solid #C5A880;
-      background: transparent;
-      pointer-events: none;
-      z-index: 10000;
+      top: 0;
+      left: 0;
       transform: translate(-50%, -50%);
-      transition: width 0.25s cubic-bezier(0.25, 1, 0.5, 1), height 0.25s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.25s;
+      border-radius: 50%;
+      z-index: 10000;
+      pointer-events: none;
     }
-    .cursor.active {
-      width: 44px;
-      height: 44px;
-      background: rgba(197, 168, 128, 0.08);
-      border-color: #E6E1DA;
+    .cursor-dot {
+      width: 6px;
+      height: 6px;
+      background: #C5A880;
+    }
+    .cursor-outline {
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(197, 168, 128, 0.6);
+      transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), 
+                  height 0.3s cubic-bezier(0.25, 1, 0.5, 1), 
+                  background-color 0.3s ease;
+    }
+    .cursor-outline.active {
+      width: 56px;
+      height: 56px;
+      background-color: rgba(197, 168, 128, 0.15);
+      border-color: #C5A880;
     }
     
     a, button, .lobby-item, .back-btn, .client-row, .media-item, .event-item, input, textarea {
@@ -109,6 +112,7 @@
       font-size: 0.65rem;
       letter-spacing: 3px;
       color: #858076;
+      text-transform: uppercase;
     }
 
     /* MAIN NAV LOBBY INTERFACE */
@@ -407,51 +411,53 @@
 <div class="loader" id="loader">
   <div class="loader-symbol">AO</div>
   <div class="loader-progress"><div class="progress-fill" id="progressFill"></div></div>
-  <div class="loader-text">METADATA SYNC // SECURITY CLEARANCE</div>
+  <div class="loader-text">LOADING PORTFOLIOS // SYNCING ASSETS</div>
 </div>
 
 <div class="grain-overlay"></div>
-<div class="scanlines"></div>
-<div class="cursor" id="cursor"></div>
+
+<!-- REFINED DUAL CURSOR -->
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-outline" id="cursor-outline"></div>
 
 <!-- NAVIGATION LOBBY HUB -->
 <div class="lobby" id="lobby">
   <div class="lobby-header">
-    <div class="logo-mark">ACCESS OPERA // DATA PORTAL</div>
-    <div style="font-size:0.65rem; font-family:monospace; color:#858076;">NETWORK MATRIX // REV. 2026</div>
+    <div class="logo-mark">ACCESS OPERA // TALENT AGENCY</div>
+    <div style="font-size:0.65rem; font-family:monospace; color:#858076;">GLOBAL ROSTER // EST. 2026</div>
   </div>
   
-  <div class="lobby-title">SYSTEMS<br>INFRASTRUCTURE</div>
+  <div class="lobby-title">ARTIST<br>MANAGEMENT</div>
   
   <div class="lobby-grid">
     <div class="lobby-item" data-section="clients">
-      <h2>CLIENTS</h2>
-      <p>Roster & Creative Partners</p>
+      <h2>ROSTER</h2>
+      <p>Featured Artists & Creatives</p>
     </div>
     <div class="lobby-item" data-section="media">
-      <h2>MEDIA</h2>
-      <p>Visual Archive Records</p>
+      <h2>CAMPAIGNS</h2>
+      <p>Editorials & Visual Media</p>
     </div>
     <div class="lobby-item" data-section="upcoming">
-      <h2>UPCOMING</h2>
-      <p>Operational Engagements</p>
+      <h2>TOURS</h2>
+      <p>Upcoming Dates & Appearances</p>
     </div>
     <div class="lobby-item" data-section="contact">
       <h2>CONTACT</h2>
-      <p>Secure Communication Line</p>
+      <p>Representation & Booking Inquiries</p>
     </div>
   </div>
   
   <div class="lobby-footer">
-    <span>SYSTEM NODE: ACTIVE</span>
-    <span>EXTERNAL COMMUNICATIONS CORE</span>
+    <span>AGENCY HEADQUARTERS</span>
+    <span>LONDON — NEW YORK — LOS ANGELES</span>
   </div>
 </div>
 
 <!-- COMPONENT PANEL: CLIENTS -->
 <div id="clients-section" class="section-view">
   <div class="section-header">
-    <span class="section-heading">MANAGED CLIENT ROSTER</span>
+    <span class="section-heading">FEATURED ARTISTS</span>
     <button class="back-btn" data-back>⟵ RETURN</button>
   </div>
   <div class="clients-list" id="clientsList"></div>
@@ -460,7 +466,7 @@
 <!-- COMPONENT PANEL: MEDIA -->
 <div id="media-section" class="section-view">
   <div class="section-header">
-    <span class="section-heading">PRODUCTION ARCHIVE</span>
+    <span class="section-heading">CAMPAIGNS & EDITORIALS</span>
     <button class="back-btn" data-back>⟵ RETURN</button>
   </div>
   <div class="media-grid" id="mediaGrid"></div>
@@ -469,7 +475,7 @@
 <!-- COMPONENT PANEL: UPCOMING -->
 <div id="upcoming-section" class="section-view">
   <div class="section-header">
-    <span class="section-heading">FUTURE DEPLOYMENTS</span>
+    <span class="section-heading">TOURS & LIVE APPEARANCES</span>
     <button class="back-btn" data-back>⟵ RETURN</button>
   </div>
   <div class="events-list" id="eventsList"></div>
@@ -478,37 +484,37 @@
 <!-- COMPONENT PANEL: CONTACT -->
 <div id="contact-section" class="section-view">
   <div class="section-header">
-    <span class="section-heading">SECURE INTERACTION TERM</span>
+    <span class="section-heading">BOOKING & REPRESENTATION</span>
     <button class="back-btn" data-back>⟵ RETURN</button>
   </div>
   <div class="contact-wrapper">
     <form class="contact-form" id="portalForm">
       <div class="contact-group">
-        <label class="contact-label">SIGNATURE ID</label>
+        <label class="contact-label">FULL NAME</label>
         <input type="text" class="contact-input" required>
       </div>
       <div class="contact-group">
-        <label class="contact-label">ORGANIZATION CORRELATION</label>
+        <label class="contact-label">COMPANY / PUBLICATION</label>
         <input type="text" class="contact-input" required>
       </div>
       <div class="contact-group">
-        <label class="contact-label">TRANSMISSION DATA BRIEF</label>
+        <label class="contact-label">INQUIRY DETAILS</label>
         <textarea rows="4" class="contact-textarea" required></textarea>
       </div>
-      <button type="submit" class="submit-btn">TRANSMIT</button>
+      <button type="submit" class="submit-btn">SEND INQUIRY</button>
     </form>
     
     <div class="contact-info">
       <div>
-        <strong>ENDPOINT NODE</strong><br>
-        NEW YORK HUB / RE-ROUTE MATRIX
+        <strong>OFFICES</strong><br>
+        NEW YORK / LONDON / LOS ANGELES
       </div>
       <div>
-        <strong>DIRECT ACCESS ROUTE</strong><br>
-        <span class="contact-info-accent">CORE@ACCESS-OPERA.NET</span>
+        <strong>GENERAL INQUIRIES</strong><br>
+        <span class="contact-info-accent">INFO@ACCESSOPERA.COM</span>
       </div>
       <div>
-        Notice: Content streams via this gateway remain monitored under structural integrity directives.
+        Notice: Unsolicited portfolios will not be reviewed. For representation requests, please provide a link to your digital comp card or reel in the inquiry details.
       </div>
     </div>
   </div>
@@ -537,28 +543,38 @@
     progressFill.style.width = progress + '%';
   }, 40);
 
-  // RIGID MECHANICAL HOVER CURSOR
-  const cursor = document.getElementById('cursor');
-  let targetX = 0, targetY = 0, currentX = 0, currentY = 0;
+  // REFINED DUAL CURSOR LOGIC
+  const cursorDot = document.getElementById('cursor-dot');
+  const cursorOutline = document.getElementById('cursor-outline');
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let outlineX = mouseX;
+  let outlineY = mouseY;
 
   document.addEventListener('mousemove', (e) => {
-    targetX = e.clientX;
-    targetY = e.clientY;
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    // Dot instantly follows mouse
+    cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
   });
 
-  function processCursorLoop() {
-    currentX += (targetX - currentX) * 0.15;
-    currentY += (targetY - currentY) * 0.15;
-    cursor.style.transform = `translate(${currentX}px, ${currentY}px)`;
-    requestAnimationFrame(processCursorLoop);
+  function animateCursorOutline() {
+    // Outline fluidly trails the mouse
+    let distX = mouseX - outlineX;
+    let distY = mouseY - outlineY;
+    outlineX += distX * 0.15;
+    outlineY += distY * 0.15;
+    
+    cursorOutline.style.transform = `translate(${outlineX}px, ${outlineY}px)`;
+    requestAnimationFrame(animateCursorOutline);
   }
-  processCursorLoop();
+  animateCursorOutline();
 
   function bindingCursorInteractions() {
     const interactives = document.querySelectorAll('.lobby-item, .back-btn, .client-row, .media-item, .event-item, .submit-btn, input, textarea');
     interactives.forEach(el => {
-      el.addEventListener('mouseenter', () => cursor.classList.add('active'));
-      el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+      el.addEventListener('mouseenter', () => cursorOutline.classList.add('active'));
+      el.addEventListener('mouseleave', () => cursorOutline.classList.remove('active'));
     });
   }
 
@@ -620,11 +636,11 @@
 
   // STRUCTURAL INJECTION OF STATIC ARRAY ARCHIVES
   const clientDataMatrix = [
-    { name: "BEYONCÉ", meta: "PRODUCTION INFRASTRUCTURE CORE" },
-    { name: "THE WEEKND", meta: "STAGE DESIGN ARCHITECTURE" },
-    { name: "ROSALÍA", meta: "GLOBAL SCENIC OPERATIONS" },
-    { name: "TRAVIS SCOTT", meta: "CIRCUIT DISPATCH DIRECTION" },
-    { name: "LONDON SYMPHONY", meta: "ACOUSTIC ENGINEERING RESIDENCY" }
+    { name: "BEYONCÉ", meta: "GLOBAL TOURING & BRAND PARTNERSHIPS" },
+    { name: "THE WEEKND", meta: "CREATIVE DIRECTION & MANAGEMENT" },
+    { name: "ROSALÍA", meta: "INTERNATIONAL REPRESENTATION" },
+    { name: "TRAVIS SCOTT", meta: "LIVE STRATEGY & BOOKING" },
+    { name: "LONDON SYMPHONY", meta: "SPECIAL PROJECTS & CROSSOVER" }
   ];
 
   const clientsList = document.getElementById('clientsList');
@@ -636,16 +652,16 @@
         <div class="client-name">${entry.name}</div>
         <div class="client-meta">${entry.meta}</div>
       </div>
-      <div class="ocr" style="font-size:0.75rem; color:#C5A880;">[ RUNNING ]</div>
+      <div class="ocr" style="font-size:0.75rem; color:#C5A880;">[ VIEW ]</div>
     `;
     clientsList.appendChild(row);
   });
 
   const mediaDataMatrix = [
-    { header: "STAGE LOG ALPHA", context: "INDUSTRIAL MATRIX", asset: "https://images.pexels.com/photos/1194420/concert-music-stage-performance-1194420.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop" },
-    { header: "CROWD ANALYSIS", context: "RESONANCE DATA", asset: "https://images.pexels.com/photos/1763075/concert-stage-lights-audience-1763075.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop" },
-    { header: "STRUCTURAL RIG", context: "MONOLITH BUILD", asset: "https://images.pexels.com/photos/1190297/crowd-concert-music-festival-1190297.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop" },
-    { header: "LIGHT PATTERN ARRAY", context: "PHOTON DEPLOY", asset: "https://images.pexels.com/photos/37728/night-concert-concert-stage-stage-37728.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop" }
+    { header: "VOGUE COVER SHOOT", context: "EDITORIAL", asset: "https://images.pexels.com/photos/1194420/concert-music-stage-performance-1194420.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop" },
+    { header: "WORLD TOUR REHEARSALS", context: "BEHIND THE SCENES", asset: "https://images.pexels.com/photos/1763075/concert-stage-lights-audience-1763075.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop" },
+    { header: "FASHION WEEK RUNWAY", context: "PARIS", asset: "https://images.pexels.com/photos/1190297/crowd-concert-music-festival-1190297.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop" },
+    { header: "BRAND CAMPAIGN", context: "GLOBAL", asset: "https://images.pexels.com/photos/37728/night-concert-concert-stage-stage-37728.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop" }
   ];
 
   const mediaGrid = document.getElementById('mediaGrid');
@@ -660,10 +676,10 @@
   });
 
   const liveEventDataMatrix = [
-    { date: "12.06.2026", task: "METROPOLIS ARCH RESIDENCY", territory: "TOKYO / METRO DOME" },
-    { date: "04.07.2026", task: "LUMINARY RIG PHASE II", territory: "LONDON / OLYMPIC AXIS" },
-    { date: "22.08.2026", task: "CONTINENTAL CIRCUITS", territory: "NORTH AMERICAN MATRIX" },
-    { date: "16.09.2026", task: "SUMMIT ARCHITECTURE ENGINE", territory: "BERLIN CENTRAL" }
+    { date: "12.06.2026", task: "METROPOLIS WORLD TOUR", territory: "TOKYO DOME" },
+    { date: "04.07.2026", task: "HYDE PARK HEADLINE", territory: "LONDON" },
+    { date: "22.08.2026", task: "NORTH AMERICAN LEG", territory: "NEW YORK / MSG" },
+    { date: "16.09.2026", task: "FASHION WEEK GALA", territory: "BERLIN CENTRAL" }
   ];
 
   const eventsList = document.getElementById('eventsList');
@@ -681,7 +697,7 @@
   // FORM HANDLING INTERCEPT
   document.getElementById('portalForm').addEventListener('submit', (e) => {
     e.preventDefault();
-    alert('TRANSMISSION SUCCESSFUL. DATA PACKET QUEUED FOR ANALYSIS.');
+    alert('Inquiry received. A representative will be in touch shortly.');
   });
 
   // SMOOTH SCROLL ROUTINE (LENIS)
