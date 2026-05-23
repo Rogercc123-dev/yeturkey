@@ -103,14 +103,9 @@ body{
 .block-center{
   position: relative; display:flex; flex-direction:column; justify-content:center;
   padding: 40px 56px; 
-  /* ALLOW INVISIBLE SCROLLING IF SCREEN IS TOO SMALL */
-  overflow-y: auto; 
-  overflow-x: hidden;
-  scrollbar-width: none; /* Firefox */
+  overflow-y: auto; overflow-x: hidden; scrollbar-width: none; 
 }
-.block-center::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
-}
+.block-center::-webkit-scrollbar { display: none; }
 
 .view { display: none; flex-direction: column; justify-content: center; width: 100%; min-height: 100%; }
 .view.active { display: flex; animation: massReveal 0.8s cubic-bezier(0.16,1,0.3,1) forwards; }
@@ -175,14 +170,21 @@ body{
 .r-tag { font-size: 9px; letter-spacing: 0.4em; color: #3a3832; margin-left: auto; text-align: right; transition: color 0.5s; }
 .roster-row:hover .r-tag { color: var(--dust); }
 
-/* VIEW: MEDIA (CUSTOM 16:9 PLAYER) */
+/* VIEW: MEDIA (CUSTOM 16:9 PLAYER & GALLERY) */
 .media-container {
   display: grid;
-  grid-template-columns: 2.5fr 1fr;
+  grid-template-columns: 2fr 1fr; /* Adjusted to prevent player from being too tall */
   gap: 40px;
   align-items: start;
 }
-.video-wrapper {
+
+/* Left Side: Display Area */
+.display-area {
+  position: relative;
+  width: 100%;
+}
+
+.video-wrapper, .gallery-wrapper {
   position: relative;
   width: 100%;
   background: var(--deep);
@@ -190,38 +192,44 @@ body{
   display: flex;
   flex-direction: column; 
 }
-#custom-video {
+#custom-video, #gallery-img {
   width: 100%;
-  aspect-ratio: 16 / 9; /* FORCES 16:9 RATIO */
-  max-height: 55vh;     /* PREVENTS CONTROLS FROM BEING PUSHED OFF SCREEN */
-  object-fit: contain;  /* PREVENTS CROPPING */
+  height: auto;
+  aspect-ratio: 16 / 9; /* PERFECTLY LOCKS 16:9 RATIO */
+  object-fit: cover; 
   background: #000;
   display: block;
   filter: grayscale(100%) contrast(1.1);
   transition: filter 0.5s ease;
 }
-#custom-video.is-playing { filter: grayscale(0%) contrast(1); }
+#custom-video.is-playing, #gallery-img.is-active { filter: grayscale(0%) contrast(1); }
 
-.video-controls {
+.media-controls {
   display: flex; justify-content: space-between; align-items: center;
   padding: 16px 24px; background: var(--void);
   border-top: 1px solid rgba(184,180,173,0.08);
-  flex-shrink: 0; /* Ensures controls never shrink away */
 }
-.v-btn-group { display: flex; gap: 24px; }
-.v-btn {
+.m-btn-group { display: flex; gap: 24px; }
+.m-btn {
   background: none; border: none; font-family: 'OCR A BT';
   font-size: 10px; letter-spacing: 0.2em; color: var(--dust);
   cursor: none; transition: color 0.2s;
 }
-.v-btn:hover { color: var(--concrete); }
-.v-time { font-size: 10px; letter-spacing: 0.1em; color: var(--dust); }
+.m-btn:hover { color: var(--concrete); }
+.m-info { font-size: 10px; letter-spacing: 0.1em; color: var(--dust); }
 
-/* Dynamic Playlist */
-.video-playlist { display: flex; flex-direction: column; border-top: 1px solid rgba(184,180,173,0.08); }
+/* Right Side: Playlist & Menu */
+.media-menu {
+  display: flex; flex-direction: column;
+}
+.menu-label {
+  font-size: 9px; letter-spacing: 0.4em; color: var(--dust);
+  margin-bottom: 16px; border-bottom: 1px solid rgba(184,180,173,0.08); padding-bottom: 8px;
+}
+.video-playlist { display: flex; flex-direction: column; margin-bottom: 32px; }
 .pl-item {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 24px 0; border-bottom: 1px solid rgba(184,180,173,0.08);
+  padding: 16px 0; border-bottom: 1px solid rgba(184,180,173,0.08);
   background: none; border-left: none; border-right: none; border-top: none;
   font-family: 'OCR A BT'; text-align: left; cursor: none; transition: color 0.3s;
 }
@@ -233,6 +241,7 @@ body{
 .pl-item:hover .pl-name { color: var(--concrete); }
 .pl-item.active .pl-name { color: var(--concrete); }
 .pl-item.active .pl-status { color: var(--concrete); }
+
 
 /* VIEW: CONTACT */
 .contact-wrap { border-top: 1px solid rgba(184,180,173,0.08); padding-top: 40px; }
@@ -267,14 +276,12 @@ body{
 /* MOBILE */
 @media(max-width:850px){
   body{cursor:auto}.cur{display:none}
-  .block-top{padding:32px 28px 0}
-  .block-center{padding: 32px 28px;}
+  .block-top,.block-center{padding:32px 28px 0}
   .bg-word{font-size:40vw}
   
   .schedule-row { grid-template-columns: 1fr; gap: 12px; padding: 24px 16px; }
   .s-action { margin-top: 12px; border-top: 1px solid rgba(184,180,173,0.08); padding-top: 12px; }
   
-  /* Mobile Roster */
   .roster-row { padding: 24px 16px; }
   .r-avatar { width: 64px; height: 64px; margin-right: 20px; }
   .r-tag { display: none; }
@@ -324,7 +331,6 @@ body{
       <h2 class="sec-title">roster</h2>
       
       <div class="roster-wrap">
-        
         <a href="#" class="roster-row">
           <div class="r-data r-avatar">
             <img src="ye.jpg" alt="YE" onerror="this.style.display='none'" />
@@ -335,16 +341,6 @@ body{
           </div>
           <div class="r-data r-tag">status: active_</div>
         </a>
-
-        <div class="roster-row" style="pointer-events: none;">
-          <div class="r-data r-avatar"></div>
-          <div class="r-data r-details">
-            <div class="r-role">restricted_</div>
-            <div class="r-name">---</div>
-          </div>
-          <div class="r-data r-tag">status: locked_</div>
-        </div>
-
       </div>
     </div>
 
@@ -353,33 +349,63 @@ body{
       <h2 class="sec-title">archive</h2>
       <div class="media-container">
         
-        <div class="video-wrapper">
-          <video id="custom-video" src="video1.mp4" playsinline></video>
-          <div class="video-controls">
-            <div class="v-btn-group">
-              <button id="btn-play" class="v-btn">play_</button>
-              <button id="btn-mute" class="v-btn">mute_</button>
+        <div class="display-area">
+          
+          <div class="video-wrapper" id="display-video">
+            <video id="custom-video" src="video1.mp4" playsinline></video>
+            <div class="media-controls">
+              <div class="m-btn-group">
+                <button id="btn-play" class="m-btn">play_</button>
+                <button id="btn-mute" class="m-btn">mute_</button>
+              </div>
+              <div class="m-info"><span id="time-current">0:00</span> / <span id="time-total">0:00</span></div>
             </div>
-            <div class="v-time"><span id="time-current">0:00</span> / <span id="time-total">0:00</span></div>
           </div>
+
+          <div class="gallery-wrapper" id="display-gallery" style="display: none;">
+            <img id="gallery-img" src="gallery1.jpg" alt="Gallery Frame" onerror="this.style.display='none'"/>
+            <div class="media-controls">
+              <div class="m-btn-group">
+                <button id="btn-prev" class="m-btn">prev_</button>
+                <button id="btn-next" class="m-btn">next_</button>
+              </div>
+              <div class="m-info"><span id="g-current">1</span> / <span id="g-total">3</span></div>
+            </div>
+          </div>
+
         </div>
 
-        <div class="video-playlist">
-          <button class="pl-item active" data-src="video1.mp4">
-            <div class="pl-info">
-              <span class="pl-num">001</span>
-              <span class="pl-name">ISTANBUL_PROMO.MP4</span>
-            </div>
-            <span class="pl-status">playing_</span>
-          </button>
+        <div class="media-menu">
           
-          <button class="pl-item" data-src="video2.mp4">
-            <div class="pl-info">
-              <span class="pl-num">002</span>
-              <span class="pl-name">STAGE_CONCEPT_V3.MP4</span>
-            </div>
-            <span class="pl-status">loaded_</span>
-          </button>
+          <div class="menu-label">motion_</div>
+          <div class="video-playlist">
+            <button class="pl-item active" data-type="video" data-src="video1.mp4">
+              <div class="pl-info">
+                <span class="pl-num">001</span>
+                <span class="pl-name">ISTANBUL_PROMO.MP4</span>
+              </div>
+              <span class="pl-status">playing_</span>
+            </button>
+            <button class="pl-item" data-type="video" data-src="video2.mp4">
+              <div class="pl-info">
+                <span class="pl-num">002</span>
+                <span class="pl-name">STAGE_CONCEPT_V3.MP4</span>
+              </div>
+              <span class="pl-status">loaded_</span>
+            </button>
+          </div>
+
+          <div class="menu-label">stills_</div>
+          <div class="video-playlist">
+            <button class="pl-item" data-type="gallery">
+              <div class="pl-info">
+                <span class="pl-num">003</span>
+                <span class="pl-name">ISTANBUL_ARCHIVE (GALLERY)</span>
+              </div>
+              <span class="pl-status">loaded_</span>
+            </button>
+          </div>
+
         </div>
 
       </div>
@@ -395,12 +421,6 @@ body{
           <div class="s-data s-location">istanbul</div>
           <div class="s-data s-action">explore_</div>
         </a>
-        <div class="schedule-row" style="pointer-events: none;">
-          <div class="s-data s-date">tba</div>
-          <div class="s-data s-artist">---</div>
-          <div class="s-data s-location">global</div>
-          <div class="s-data s-action">locked_</div>
-        </div>
       </div>
     </div>
 
@@ -469,6 +489,7 @@ triggers.forEach(trigger => {
   trigger.addEventListener('click', (e) => {
     if(trigger.getAttribute('href') === '#') e.preventDefault();
 
+    // Pause video when leaving media tab
     if(globalVideo && !globalVideo.paused) {
       globalVideo.pause();
       globalVideo.classList.remove('is-playing');
@@ -498,11 +519,15 @@ triggers.forEach(trigger => {
   });
 });
 
-// --- CUSTOM MEDIA PLAYER LOGIC ---
+// --- MEDIA LOGIC (VIDEO & GALLERY) ---
+const displayVideo = document.getElementById('display-video');
+const displayGallery = document.getElementById('display-gallery');
+const playlistItems = document.querySelectorAll('.pl-item');
+
+// Video Controls
 const muteBtn = document.getElementById('btn-mute');
 const timeCurrent = document.getElementById('time-current');
 const timeTotal = document.getElementById('time-total');
-const playlistItems = document.querySelectorAll('.pl-item');
 
 function formatTime(seconds) {
   if(isNaN(seconds)) return "0:00";
@@ -539,20 +564,74 @@ globalVideo.addEventListener('ended', () => {
   globalVideo.classList.remove('is-playing');
 });
 
+// Gallery Controls
+const galleryImages = ['gallery1.jpg', 'gallery2.jpg', 'gallery3.jpg']; // Add more images here if needed
+let gIndex = 0;
+const gImg = document.getElementById('gallery-img');
+const gCurrent = document.getElementById('g-current');
+const gTotal = document.getElementById('g-total');
+
+// Set initial total
+gTotal.innerText = galleryImages.length;
+
+function updateGallery() {
+  gImg.style.filter = "grayscale(100%) contrast(1.1)"; // Reset filter effect
+  setTimeout(() => {
+    gImg.src = galleryImages[gIndex];
+    gCurrent.innerText = gIndex + 1;
+    gImg.style.display = 'block';
+    gImg.classList.add('is-active'); // Bring color back
+  }, 150);
+}
+
+document.getElementById('btn-prev').addEventListener('click', () => {
+  gIndex = (gIndex - 1 + galleryImages.length) % galleryImages.length;
+  updateGallery();
+});
+document.getElementById('btn-next').addEventListener('click', () => {
+  gIndex = (gIndex + 1) % galleryImages.length;
+  updateGallery();
+});
+
+// Sidebar Playlist Switching Logic
 playlistItems.forEach(item => {
   item.addEventListener('click', () => {
+    
+    // Update active class & text in sidebar
     playlistItems.forEach(pl => {
       pl.classList.remove('active');
       pl.querySelector('.pl-status').innerText = 'loaded_';
     });
     item.classList.add('active');
-    item.querySelector('.pl-status').innerText = 'playing_';
+    
+    const mediaType = item.getAttribute('data-type');
 
-    const newSrc = item.getAttribute('data-src');
-    globalVideo.src = newSrc;
-    globalVideo.play();
-    playBtn.innerText = 'pause_';
-    globalVideo.classList.add('is-playing');
+    if (mediaType === 'video') {
+      // Hide Gallery, Show Video
+      displayGallery.style.display = 'none';
+      displayVideo.style.display = 'flex';
+      item.querySelector('.pl-status').innerText = 'playing_';
+
+      // Load new video
+      const newSrc = item.getAttribute('data-src');
+      globalVideo.src = newSrc;
+      globalVideo.play();
+      playBtn.innerText = 'pause_';
+      globalVideo.classList.add('is-playing');
+
+    } else if (mediaType === 'gallery') {
+      // Pause Video, Hide Video, Show Gallery
+      globalVideo.pause();
+      globalVideo.classList.remove('is-playing');
+      playBtn.innerText = 'play_';
+      
+      displayVideo.style.display = 'none';
+      displayGallery.style.display = 'flex';
+      item.querySelector('.pl-status').innerText = 'viewing_';
+      
+      // Init first image
+      gImg.classList.add('is-active');
+    }
   });
 });
 </script>
