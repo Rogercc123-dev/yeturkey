@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>YE — ISTANBUL | access opera</title>
 <meta name="description" content="YE live at Atatürk Olympic Stadium, Istanbul. May 30 2026. The globe stage returns. Presented by Access Opera." />
-<meta name="theme-color" content="#070706" />
+<meta name="theme-color" content="#121110" />
 
 <style>
 /* --- STRICT CUSTOM FONT INJECTION --- */
@@ -18,13 +18,14 @@
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
+/* --- LIGHTENED DARK MODE (SYNCED WITH INDEX) --- */
 :root{
-  --concrete: #b8b4ad;
-  --raw:       #1a1916;
-  --deep:      #0d0c0b;
-  --void:      #070706;
-  --dust:      #5a574f;
-  --form:      #2e2c28;
+  --concrete: #e6e4df; 
+  --raw:       #242320; 
+  --deep:      #1a1917; 
+  --void:      #121110; 
+  --dust:      #8c8982; 
+  --form:      #45423d;
 }
 
 html,body{
@@ -69,33 +70,37 @@ body{
   position:fixed;inset:0;z-index:500;pointer-events:none;
   background:radial-gradient(ellipse 80% 80% at 50% 50%,
     transparent 25%,
-    rgba(7,7,6,0.4) 55%,
-    rgba(4,4,3,0.92) 100%
+    rgba(0,0,0,0.3) 55%,
+    rgba(0,0,0,0.8) 100%
   );
 }
 
-/* BACKGROUND WORD */
-.bg-word{
-  position:fixed;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  font-size:clamp(150px,30vw,500px);
-  font-weight:400;
-  letter-spacing:-0.04em;
-  color:transparent;
-  -webkit-text-stroke:1px rgba(184,180,173,0.03);
-  white-space:nowrap;
-  pointer-events:none;
-  z-index:1;
-  user-select:none;
-  line-height:1;
+/* DEPRECATION BANNER STYLE */
+.deprecation-banner {
+  display: none;
+  width: 100%;
+  background: var(--raw);
+  border-bottom: 1px solid rgba(230,228,223,0.1);
+  padding: 16px 56px;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--concrete);
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 100;
+}
+.deprecation-banner a {
+  color: var(--concrete);
+  text-decoration: underline;
+  cursor: none;
 }
 
 /* MASS LINES */
 .mass-line{
   position:fixed;left:0;right:0;
   height:1px;
-  background:rgba(184,180,173,0.06);
+  background:rgba(230,228,223,0.06);
   pointer-events:none;
   z-index:2;
 }
@@ -110,8 +115,9 @@ body{
 
 .section-block {
   padding: 10vh 56px;
-  border-bottom: 1px solid rgba(184,180,173,0.06);
+  border-bottom: 1px solid rgba(230,228,223,0.06);
   position: relative;
+  background: var(--void);
 }
 
 /* TOP HEADER */
@@ -122,7 +128,8 @@ body{
   align-items:flex-start;
   opacity:0;
   animation:appear 3s ease 0.4s forwards;
-  position: relative;
+  position: absolute;
+  top: 0; left: 0; right: 0;
   z-index: 20;
 }
 .wordmark-wrap { text-decoration: none; cursor: none; }
@@ -133,20 +140,51 @@ body{
 .open-tag{ font-size:10px; letter-spacing:0.4em; color:var(--dust); text-align:right; text-decoration: none; cursor: none; transition: color 0.4s ease; }
 .open-tag:hover { color: var(--concrete); }
 
-/* HERO */
+/* HERO W/ BACKGROUND VIDEO */
 .hero-wrap {
-  min-height: 70vh;
+  position: relative;
+  min-height: 85vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end; /* Pushes content to the bottom */
   align-items: flex-start;
-  padding: 0 56px;
+  padding: 0 56px 80px 56px;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(230,228,223,0.06);
+}
+
+.hero-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  object-fit: cover;
+  opacity: 0.35; /* Keeps text readable */
+  filter: grayscale(100%) contrast(1.2);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--void) 0%, transparent 60%);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
   opacity: 0;
   animation: massReveal 3s cubic-bezier(0.16,1,0.3,1) 0.6s forwards;
 }
+
 .hero-presenter { font-size: 10px; letter-spacing: 0.4em; color: var(--dust); margin-bottom: 16px; }
 .hero-title { font-size: clamp(80px, 15vw, 220px); font-weight: 400; line-height: 0.85; letter-spacing: -0.04em; color: var(--concrete); }
-.datum { width: 0; height: 1px; background: rgba(184,180,173,0.2); margin: 32px 0; animation: drawLine 2s ease 1.8s forwards; }
+.datum { width: 0; height: 1px; background: rgba(230,228,223,0.2); margin: 32px 0; animation: drawLine 2s ease 1.8s forwards; }
 .hero-meta { display: flex; gap: 40px; font-size: 12px; letter-spacing: 0.3em; color: var(--dust); flex-wrap: wrap; }
 .hero-meta span { color: var(--concrete); }
 
@@ -154,16 +192,17 @@ body{
 .countdown-slab {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  border-top: 1px solid rgba(184,180,173,0.06);
-  border-bottom: 1px solid rgba(184,180,173,0.06);
-  background: rgba(7,7,6,0.5);
+  border-bottom: 1px solid rgba(230,228,223,0.06);
+  background: rgba(18,17,16,0.8);
   opacity: 0;
   animation: appear 2s ease 1s forwards;
+  position: relative;
+  z-index: 10;
 }
 .cd-unit {
   padding: 4vh 2vw;
   text-align: center;
-  border-right: 1px solid rgba(184,180,173,0.06);
+  border-right: 1px solid rgba(230,228,223,0.06);
 }
 .cd-unit:last-child { border-right: none; }
 .cd-num { font-size: clamp(32px, 5vw, 72px); color: var(--concrete); line-height: 1; transition: opacity 0.15s; }
@@ -185,14 +224,14 @@ body{
 .ticket-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  border-top: 1px solid rgba(184,180,173,0.06);
-  border-left: 1px solid rgba(184,180,173,0.06);
+  border-top: 1px solid rgba(230,228,223,0.06);
+  border-left: 1px solid rgba(230,228,223,0.06);
 }
 .t-card {
   position: relative;
   padding: 40px 32px;
-  border-right: 1px solid rgba(184,180,173,0.06);
-  border-bottom: 1px solid rgba(184,180,173,0.06);
+  border-right: 1px solid rgba(230,228,223,0.06);
+  border-bottom: 1px solid rgba(230,228,223,0.06);
   display: flex;
   flex-direction: column;
   min-height: 380px;
@@ -214,11 +253,23 @@ body{
 .t-feats { list-style: none; flex-grow: 1; }
 .t-feats li { font-size: 10px; color: var(--dust); margin-bottom: 8px; position: relative; padding-left: 12px; transition: color 0.4s; }
 .t-feats li::before { content: '-'; position: absolute; left: 0; color: var(--form); }
-.t-action { font-size: 10px; letter-spacing: 0.4em; color: #3a3832; margin-top: auto; padding-top: 24px; border-top: 1px solid rgba(184,180,173,0.06); transition: color 0.4s; }
+.t-action { font-size: 10px; letter-spacing: 0.4em; color: #3a3832; margin-top: auto; padding-top: 24px; border-top: 1px solid rgba(230,228,223,0.06); transition: color 0.4s; }
 
 .t-card:hover .t-tier, .t-card:hover .t-feats li { color: var(--concrete); }
 .t-card:hover .t-name { color: var(--concrete); }
 .t-card:hover .t-action { color: var(--dust); }
+
+/* TERMINATED SALE INFRASTRUCTURE BANNER */
+.lockdown-message-container {
+  display: none;
+  width: 100%;
+  border: 1px dashed rgba(230,228,223,0.2);
+  padding: 48px;
+  text-align: center;
+  font-size: 14px;
+  letter-spacing: 0.15em;
+  color: var(--dust);
+}
 
 /* PROMOTERS */
 .promo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
@@ -226,13 +277,13 @@ body{
 .promo-text { font-size: 12px; line-height: 1.8; color: var(--dust); margin-bottom: 24px; }
 .promo-link { color: var(--concrete); text-decoration: none; font-size: 11px; letter-spacing: 0.2em; border-bottom: 1px solid var(--form); padding-bottom: 2px; cursor: none; transition: border-color 0.3s; }
 .promo-link:hover { border-color: var(--concrete); }
-.promo-side { border-left: 1px solid rgba(184,180,173,0.06); padding-left: 40px; }
+.promo-side { border-left: 1px solid rgba(230,228,223,0.06); padding-left: 40px; }
 .p-block { margin-bottom: 40px; }
 .p-name { font-size: 14px; color: var(--concrete); margin-bottom: 8px; display: block; }
 
 /* FAQ */
-.faq-list { border-top: 1px solid rgba(184,180,173,0.06); }
-.faq-item { border-bottom: 1px solid rgba(184,180,173,0.06); cursor: none; position: relative; overflow: hidden; }
+.faq-list { border-top: 1px solid rgba(230,228,223,0.06); }
+.faq-item { border-bottom: 1px solid rgba(230,228,223,0.06); cursor: none; position: relative; overflow: hidden; }
 .faq-item::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 0; background: var(--raw); transition: height 0.5s cubic-bezier(0.76,0,0.24,1); z-index: 0; }
 .faq-item:hover::before { height: 100%; }
 .faq-row { position: relative; z-index: 1; padding: 32px 0; display: flex; justify-content: space-between; font-size: 12px; letter-spacing: 0.1em; color: var(--concrete); transition: color 0.3s; }
@@ -244,8 +295,8 @@ body{
 .faq-text { padding-bottom: 32px; font-size: 11px; color: var(--dust); line-height: 1.6; max-width: 800px; }
 
 /* FOOTER NAV SLAB */
-.nav-slab{ display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid rgba(184,180,173,0.08); }
-.nav-item{ position:relative; display:flex; flex-direction:column; justify-content:center; padding:28px 56px; text-decoration:none; color:var(--dust); border-right:1px solid rgba(184,180,173,0.06); cursor:none; overflow:hidden; transition:color 0.8s ease; }
+.nav-slab{ display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid rgba(230,228,223,0.08); background: var(--void); }
+.nav-item{ position:relative; display:flex; flex-direction:column; justify-content:center; padding:28px 56px; text-decoration:none; color:var(--dust); border-right:1px solid rgba(230,228,223,0.06); cursor:none; overflow:hidden; transition:color 0.8s ease; }
 .nav-item:last-child{ border-right:none; }
 .nav-item::before{ content:''; position:absolute; bottom:0; left:0; right:0; height:0; background:var(--raw); transition:height 0.6s cubic-bezier(0.76,0,0.24,1); z-index:0; }
 .nav-item:hover::before{ height:100%; }
@@ -259,7 +310,7 @@ body{
 .loader-inner{ font-size:10px; letter-spacing:0.6em; color:#2a2822; animation:loaderFade 1.2s ease 0.8s forwards; }
 @keyframes loaderFade{ to{opacity:0} }
 .loader{ animation:loaderLift 1s cubic-bezier(0.76,0,0.24,1) 1.6s forwards; }
-@keyframes loaderLift{ to{transform:translateY(-100%)} }
+@keyframes loaderLift{ to{transform:translateY(-100%)}}
 @keyframes appear{ from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 @keyframes massReveal{ 0%{opacity:0;filter:blur(16px)} 40%{filter:blur(0)} 100%{opacity:1;filter:blur(0)} }
 @keyframes drawLine{ to{width:100%} }
@@ -267,29 +318,36 @@ body{
 /* MOBILE */
 @media(max-width:850px){
   body{cursor:auto} .cur{display:none}
-  .block-top, .hero-wrap, .section-block, .nav-item { padding-left: 28px; padding-right: 28px; }
-  .bg-word { font-size: 50vw; }
+  .block-top { padding-left: 28px; padding-right: 28px; }
+  .section-block, .nav-item { padding-left: 28px; padding-right: 28px; }
+  
+  .hero-wrap { padding: 0 28px 40px 28px; min-height: 80vh; }
+  .hero-title { font-size: clamp(60px, 18vw, 120px); }
+
   .hero-meta { flex-direction: column; gap: 16px; }
   .countdown-slab { grid-template-columns: repeat(2, 1fr); }
   .cd-unit:nth-child(2) { border-right: none; }
-  .cd-unit:nth-child(1), .cd-unit:nth-child(2) { border-bottom: 1px solid rgba(184,180,173,0.06); }
+  .cd-unit:nth-child(1), .cd-unit:nth-child(2) { border-bottom: 1px solid rgba(230,228,223,0.06); }
   .vision-grid, .promo-grid { grid-template-columns: 1fr; gap: 48px; }
   .ticket-grid { grid-template-columns: 1fr; border-left: none; }
   .t-card { border-right: none; min-height: auto; padding: 32px 28px; }
-  .promo-side { border-left: none; padding-left: 0; border-top: 1px solid rgba(184,180,173,0.06); padding-top: 40px; }
+  .promo-side { border-left: none; padding-left: 0; border-top: 1px solid rgba(230,228,223,0.06); padding-top: 40px; }
   .nav-slab{ grid-template-columns:repeat(2,1fr); }
   .nav-item:nth-child(2){ border-right:none; }
-  .nav-item:nth-child(3), .nav-item:nth-child(4){ border-top:1px solid rgba(184,180,173,0.06); }
+  .nav-item:nth-child(3), .nav-item:nth-child(4){ border-top:1px solid rgba(230,228,223,0.06); }
 }
 </style>
 </head>
 <body>
 
+<div class="deprecation-banner" id="deprecation-banner-frame">
+  <span>[ event log notification ]: this concert presentation concluded on 30.05.26.</span>
+  <a href="index.html?force=post">[ explore past show archives ]</a>
+</div>
+
 <div class="loader"><div class="loader-inner">ye — istanbul</div></div>
 <div class="grain"></div>
 <div class="vignette"></div>
-
-<div class="bg-word">YE</div>
 
 <div class="mass-line" style="top:33.33vh"></div>
 <div class="mass-line" style="top:66.66vh"></div>
@@ -299,30 +357,37 @@ body{
 <div class="page">
   
   <header class="block-top">
-    <a href="upcoming.html" class="wordmark-wrap">
+    <a href="index.html" class="wordmark-wrap">
       <div class="wordmark wordmark-primary">YE</div>
       <div class="wordmark">istanbul</div>
       <div class="wordmark-sub">イスタンブール</div>
     </a>
-    <a href="upcoming.html" class="open-tag">[ return ]</a>
+    <a href="index.html" class="open-tag">[ return ]</a>
   </header>
 
   <section class="hero-wrap">
-    <div class="hero-presenter">access opera presents</div>
-    <h1 class="hero-title">YE</h1>
-    <div class="datum"></div>
-    <div class="hero-meta">
-      <div>date / <span>30.05.26</span></div>
-      <div>venue / <span>atatürk olympic</span></div>
-      <div>city / <span>istanbul</span></div>
+    <video autoplay loop muted playsinline class="hero-video">
+      <source src="ye.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    
+    <div class="hero-content">
+      <div class="hero-presenter">access opera presents</div>
+      <h1 class="hero-title" id="hero-title-target">YE</h1>
+      <div class="datum"></div>
+      <div class="hero-meta">
+        <div>date / <span>30.05.26</span></div>
+        <div>venue / <span>atatürk olympic</span></div>
+        <div>city / <span>istanbul</span></div>
+      </div>
     </div>
   </section>
 
   <section class="countdown-slab">
-    <div class="cd-unit"><div class="cd-num" id="days">00</div><div class="cd-lbl">days</div></div>
-    <div class="cd-unit"><div class="cd-num" id="hours">00</div><div class="cd-lbl">hours</div></div>
-    <div class="cd-unit"><div class="cd-num" id="minutes">00</div><div class="cd-lbl">min</div></div>
-    <div class="cd-unit"><div class="cd-num" id="seconds">00</div><div class="cd-lbl">sec</div></div>
+    <div class="cd-unit"><div class="cd-num" id="days">00</div><div class="cd-lbl" id="lbl-days">days</div></div>
+    <div class="cd-unit"><div class="cd-num" id="hours">00</div><div class="cd-lbl" id="lbl-hours">hours</div></div>
+    <div class="cd-unit"><div class="cd-num" id="minutes">00</div><div class="cd-lbl" id="lbl-min">min</div></div>
+    <div class="cd-unit"><div class="cd-num" id="seconds">00</div><div class="cd-lbl" id="lbl-sec">sec</div></div>
   </section>
 
   <section id="vision" class="section-block">
@@ -345,63 +410,48 @@ body{
       <div class="sec-num">02</div>
       <h2 class="sec-title">tickets</h2>
     </div>
-    <div class="ticket-grid">
-      
+    
+    <div class="ticket-grid" id="ticket-purchase-grid">
       <a href="https://bugece.co" target="_blank" rel="noopener" class="t-card">
         <div class="t-content">
           <div class="t-tier">tier 1</div>
           <div class="t-name">general<br>admission</div>
           <div class="t-price">2.500 <span>try</span></div>
-          <ul class="t-feats">
-            <li>upper bowl viewing</li>
-            <li>stadium access</li>
-          </ul>
+          <ul class="t-feats"><li>upper bowl viewing</li><li>stadium access</li></ul>
           <div class="t-action">acquire_</div>
         </div>
       </a>
-
       <a href="https://bugece.co" target="_blank" rel="noopener" class="t-card">
         <div class="t-content">
           <div class="t-tier">tier 2</div>
           <div class="t-name">reserved<br>seated</div>
           <div class="t-price">4.000 <span>try</span></div>
-          <ul class="t-feats">
-            <li>lower bowl sightlines</li>
-            <li>priority entry lane</li>
-          </ul>
+          <ul class="t-feats"><li>lower bowl sightlines</li><li>priority entry lane</li></ul>
           <div class="t-action">acquire_</div>
         </div>
       </a>
-
       <a href="https://ticketofis.com" target="_blank" rel="noopener" class="t-card">
         <div class="t-content">
           <div class="t-tier">limited</div>
           <div class="t-name">vip<br>floor</div>
           <div class="t-price">8.500 <span>try</span></div>
-          <ul class="t-feats">
-            <li>standing floor access</li>
-            <li>dedicated bar</li>
-            <li>limited edition merch</li>
-          </ul>
+          <ul class="t-feats"><li>standing floor access</li><li>dedicated bar</li><li>limited edition merch</li></ul>
           <div class="t-action">acquire_</div>
         </div>
       </a>
-
       <a href="https://ticketofis.com" target="_blank" rel="noopener" class="t-card">
         <div class="t-content">
           <div class="t-tier">exclusive</div>
           <div class="t-name">vip<br>lounge</div>
           <div class="t-price">15.000 <span>try</span></div>
-          <ul class="t-feats">
-            <li>premium viewing deck</li>
-            <li>open bar & dining</li>
-            <li>exclusive merch</li>
-            <li>parking included</li>
-          </ul>
+          <ul class="t-feats"><li>premium viewing deck</li><li>open bar & dining</li><li>exclusive merch</li><li>parking included</li></ul>
           <div class="t-action">acquire_</div>
         </div>
       </a>
+    </div>
 
+    <div class="lockdown-message-container" id="ticket-lockdown-deck">
+      [ structural status ]: performance finalized. ticket box production pathways terminated.
     </div>
   </section>
 
@@ -431,27 +481,22 @@ body{
     <div class="sec-num">04</div>
     <h2 class="sec-title">faq</h2>
     <div class="faq-list">
-      
       <div class="faq-item">
         <div class="faq-row"><span>when does the general ticket sale start?</span><span class="faq-icon">+</span></div>
         <div class="faq-body"><div><div class="faq-text">The general ticket sale will start soon. Exact dates are announced on the official ticket page via bugece and ticketofis.</div></div></div>
       </div>
-
       <div class="faq-item">
         <div class="faq-row"><span>where can i buy tickets?</span><span class="faq-icon">+</span></div>
         <div class="faq-body"><div><div class="faq-text">Tickets are available exclusively through Bugece and Ticketofis. Do not buy tickets from unofficial resale platforms.</div></div></div>
       </div>
-
       <div class="faq-item">
         <div class="faq-row"><span>is there a ticket limit per person?</span><span class="faq-icon">+</span></div>
         <div class="faq-body"><div><div class="faq-text">Yes. Each person can purchase a maximum of 6 tickets per show. Orders that exceed the limit may be cancelled.</div></div></div>
       </div>
-
       <div class="faq-item">
         <div class="faq-row"><span>what time does the concert start?</span><span class="faq-icon">+</span></div>
         <div class="faq-body"><div><div class="faq-text">Doors open at 18:00. Show begins at 20:00 sharp. Times are subject to change. Nothing is automated.</div></div></div>
       </div>
-
     </div>
   </section>
 
@@ -490,27 +535,60 @@ document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; })
   requestAnimationFrame(loop);
 })();
 
-// Countdown Logic
-var eventDate = new Date('2026-05-30T20:00:00+03:00').getTime();
-var prevValues = ['', '', '', ''];
-function pad(n) { return String(Math.max(0, Math.floor(n))).padStart(2, '0'); }
-function updateCountdown() {
-  var d = Math.max(0, eventDate - Date.now());
-  var values = [pad(d/86400000), pad((d%86400000)/3600000), pad((d%3600000)/60000), pad((d%60000)/1000)];
-  var ids = ['days', 'hours', 'minutes', 'seconds'];
-  ids.forEach(function(id, i) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    if (values[i] !== prevValues[i]) {
-      el.classList.add('glitch');
-      setTimeout(function() { el.classList.remove('glitch'); }, 150);
-      el.textContent = values[i];
-      prevValues[i] = values[i];
+// --- LIFECYCLE CONTROLLER CLOCK ENGINE ---
+var eventDate = new Date('2026-05-30T23:00:00+03:00').getTime();
+const urlParams = new URLSearchParams(window.location.search);
+const forcePostMode = urlParams.get('force') === 'post';
+const isAfterIstanbul = forcePostMode || (Date.now() > eventDate);
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (isAfterIstanbul) {
+    // 1. Fire up the notification array layout
+    const banner = document.getElementById('deprecation-banner-frame');
+    if(banner) banner.style.display = 'flex';
+
+    // 2. Adjust header word tokens
+    const mainTitle = document.getElementById('hero-title-target');
+    if(mainTitle) mainTitle.innerText = "YE — archive";
+
+    // 3. Drop down ticket blocks
+    const tGrid = document.getElementById('ticket-purchase-grid');
+    const tLock = document.getElementById('ticket-lockdown-deck');
+    if(tGrid) tGrid.style.display = 'none';
+    if(tLock) tLock.style.display = 'block';
+
+    // 4. Force terminal ticks out of metric nodes
+    document.querySelectorAll('.cd-num').forEach(el => {
+      el.textContent = "00";
+    });
+    const subLabels = ['lbl-days', 'lbl-hours', 'lbl-min', 'lbl-sec'];
+    subLabels.forEach(id => {
+      const lbl = document.getElementById(id);
+      if(lbl) lbl.innerText = "ended_";
+    });
+  } else {
+    // Keep ticking if we haven't crossed the deadline yet
+    var prevValues = ['', '', '', ''];
+    function pad(n) { return String(Math.max(0, Math.floor(n))).padStart(2, '0'); }
+    function updateCountdown() {
+      var d = Math.max(0, eventDate - Date.now());
+      var values = [pad(d/86400000), pad((d%86400000)/3600000), pad((d%3600000)/60000), pad((d%60000)/1000)];
+      var ids = ['days', 'hours', 'minutes', 'seconds'];
+      ids.forEach(function(id, i) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        if (values[i] !== prevValues[i]) {
+          el.classList.add('glitch');
+          setTimeout(function() { el.classList.remove('glitch'); }, 150);
+          el.textContent = values[i];
+          prevValues[i] = values[i];
+        }
+      });
     }
-  });
-}
-updateCountdown(); 
-setInterval(updateCountdown, 1000);
+    updateCountdown(); 
+    setInterval(updateCountdown, 1000);
+  }
+});
 
 // FAQ Accordion
 document.querySelectorAll('.faq-item').forEach(function(item) { 
