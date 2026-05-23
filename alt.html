@@ -96,8 +96,6 @@ body{
 .wordmark{ font-size:11px; letter-spacing:0.45em; color:var(--dust); line-height:2.2; transition: color 0.4s ease; }
 .wordmark-primary{ color:var(--concrete); font-size:12px; }
 .wordmark-wrap:hover .wordmark { color: var(--concrete); }
-.open-tag{ font-size:10px; letter-spacing:0.4em; color:var(--dust); text-align:right; text-decoration: none; cursor: none; transition: color 0.4s ease; }
-.open-tag:hover { color: var(--concrete); }
 
 /* CENTER BLOCK */
 .block-center{
@@ -159,7 +157,11 @@ body{
 .r-tag { font-size: 9px; letter-spacing: 0.4em; color: #3a3832; margin-left: auto; text-align: right; transition: color 0.5s; }
 .roster-row:hover .r-tag { color: var(--dust); }
 
-/* VIEW: MEDIA */
+/* VIEW: MEDIA (INDEX WORKSPACE) */
+.media-index { display: flex; flex-direction: column; width: 100%; }
+.media-workspace { display: none; width: 100%; height: 100%; }
+.media-workspace.active { display: block; }
+
 .media-container {
   display: grid;
   grid-template-columns: 1.6fr 1fr; 
@@ -265,7 +267,6 @@ body{
 .nav-item:hover .nav-num, .nav-item.active .nav-num{color:var(--dust)}
 .nav-label{ position:relative; z-index:1; font-size:clamp(13px,1.1vw,16px); letter-spacing:0.3em; }
 
-/* RE-ADDED JAPANESE CHARACTER LABELS */
 .nav-jp {
   position: relative; z-index: 1;
   font-size: 8px; letter-spacing: 0.2em; color: #2d2a24;
@@ -282,35 +283,24 @@ body{
 @keyframes appear{ from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 @keyframes massReveal{ 0%{opacity:0;filter:blur(8px)} 100%{opacity:1;filter:blur(0)} }
 
-/* --- RESPONSIVE MOBILE RE-ENGINEERING --- */
+/* --- RESPONSIVE MOBILE OVERRIDES --- */
 @media(max-width:850px){
   body{cursor:auto}.cur{display:none}
-  
-  /* Prevent page breakage by letting content flow naturally on mobile layout */
   html, body { overflow-y: auto; height: auto; }
   .page { height: auto; min-height: 100vh; display: flex; flex-direction: column; }
-  
   .block-top { padding: 32px 24px 0; }
   .block-center { padding: 40px 24px; height: auto; flex-grow: 1; overflow: visible; }
   .view { height: auto; }
   .bg-word{font-size:40vw}
-  
-  /* Schedule Collapse */
   .schedule-row { grid-template-columns: 1fr; gap: 12px; padding: 24px 16px; }
   .s-action { margin-top: 12px; border-top: 1px solid rgba(184,180,173,0.08); padding-top: 12px; }
-  
-  /* Roster Collapse */
   .roster-row { padding: 24px 16px; }
   .r-avatar { width: 64px; height: 64px; margin-right: 20px; }
   .r-tag { display: none; }
-
-  /* Media Screen Collapse */
   .media-container { grid-template-columns: 1fr; gap: 32px; }
   .display-area { aspect-ratio: 4/3; width: 100%; height: auto; }
   .media-menu { max-height: none; gap: 24px; }
   .media-controls-dock { padding-top: 24px; border-top: 1px solid rgba(184,180,173,0.08); }
-  
-  /* Nav Slab Responsive Grid Break */
   .block-bottom { margin-top: auto; }
   .nav-slab{ grid-template-columns: repeat(2,1fr); }
   .nav-item { padding: 24px; border-bottom: 1px solid rgba(184,180,173,0.06); }
@@ -339,7 +329,6 @@ body{
       <div class="wordmark wordmark-primary">access opera</div>
       <div class="wordmark">talent agency</div>
     </a>
-    <div class="open-tag">open for submissions</div>
   </header>
 
   <main class="block-center">
@@ -364,59 +353,92 @@ body{
           </div>
           <div class="r-data r-tag">status: active_</div>
         </a>
+        
+        <div class="roster-row" style="pointer-events: none;">
+          <div class="r-data r-avatar"></div>
+          <div class="r-data r-details">
+            <div class="r-role">director / visual</div>
+            <div class="r-name">SAMPLE_TALENT</div>
+          </div>
+          <div class="r-data r-tag">status: development_</div>
+        </div>
       </div>
     </div>
 
     <div class="view" id="view-media">
       <div class="sec-num">02</div>
       <h2 class="sec-title" style="margin-bottom: 24px;">archive</h2>
-      <div class="media-container">
-        
-        <div class="display-area">
-          <video id="custom-video" src="video1.mp4" playsinline></video>
-          <img id="gallery-img" src="gallery1.jpg" alt="Gallery" style="display: none;" onerror="this.style.display='none'"/>
-        </div>
-
-        <div class="media-menu">
+      
+      <div class="media-index id-active" id="media-artist-selector">
+        <div class="roster-wrap">
+          <button class="roster-row media-artist-btn" data-artist="ye" style="background:none; border:none; width:100%; text-align:left; font-family:inherit; color:inherit;">
+            <div class="r-data r-avatar"><img src="ye.jpg" alt="YE" onerror="this.style.display='none'" /></div>
+            <div class="r-data r-details">
+              <div class="r-role">access logs / 04 files</div>
+              <div class="r-name">YE</div>
+            </div>
+            <div class="r-data r-tag">view_archive_</div>
+          </button>
           
-          <div class="menu-section-top">
-            <div class="menu-label">motion_</div>
-            <div class="video-grid">
-              <button class="v-sel active" data-src="video1.mp4" data-name="ISTANBUL_PROMO.MP4">01</button>
-              <button class="v-sel" data-src="video2.mp4" data-name="STAGE_CONCEPT_V3.MP4">02</button>
-              <button class="v-sel" data-src="video3.mp4" data-name="TOUR_VLOG_ARCHIVE.MP4">03</button>
-              <button class="v-sel" data-src="video4.mp4" data-name="UNRELEASED_STUDIO.MP4">04</button>
+          <button class="roster-row" style="background:none; border:none; width:100%; text-align:left; font-family:inherit; color:inherit; opacity: 0.4; pointer-events: none;">
+            <div class="r-data r-avatar"></div>
+            <div class="r-data r-details">
+              <div class="r-role">access logs / 00 files</div>
+              <div class="r-name">SAMPLE_TALENT</div>
             </div>
-            <div class="active-media-name" id="display-name">ISTANBUL_PROMO.MP4</div>
+            <div class="r-data r-tag">empty_</div>
+          </button>
+        </div>
+      </div>
 
-            <div class="menu-label">stills_</div>
-            <button class="btn-gallery" id="btn-gallery-toggle">
-              <span class="g-name">NEW_MEXICO_ARCHIVE</span>
-              <span class="g-status" id="gallery-status">loaded_</span>
-            </button>
+      <div class="media-workspace" id="media-workspace-ye">
+        <div class="media-container">
+          
+          <div class="display-area">
+            <video id="custom-video" src="video1.mp4" playsinline muted autoplay></video>
+            <img id="gallery-img" src="gallery1.jpg" alt="Gallery" style="display: none;" onerror="this.style.display='none'"/>
           </div>
 
-          <div class="media-controls-dock">
-            <div id="dock-video" class="dock-panel" style="display: flex;">
-              <div class="m-btn-group">
-                <button id="btn-play" class="m-btn">play_</button>
-                <button id="btn-mute" class="m-btn">mute_</button>
+          <div class="media-menu">
+            <div class="menu-section-top">
+              <div class="menu-label">motion_</div>
+              <div class="video-grid">
+                <button class="v-sel active" data-src="video1.mp4" data-name="ISTANBUL_PROMO.MP4">01</button>
+                <button class="v-sel" data-src="video2.mp4" data-name="STAGE_CONCEPT_V3.MP4">02</button>
+                <button class="v-sel" data-src="video3.mp4" data-name="TOUR_VLOG_ARCHIVE.MP4">03</button>
+                <button class="v-sel" data-src="video4.mp4" data-name="UNRELEASED_STUDIO.MP4">04</button>
               </div>
-              <div class="m-info"><span id="time-current">0:00</span> / <span id="time-total">0:00</span></div>
+              <div class="active-media-name" id="display-name">ISTANBUL_PROMO.MP4</div>
+
+              <div class="menu-label">stills_</div>
+              <button class="btn-gallery" id="btn-gallery-toggle">
+                <span class="g-name">NEW_MEXICO_ARCHIVE</span>
+                <span class="g-status" id="gallery-status">loaded_</span>
+              </button>
             </div>
 
-            <div id="dock-gallery" class="dock-panel" style="display: none;">
-              <div class="m-btn-group">
-                <button id="btn-prev" class="m-btn">prev_</button>
-                <button id="btn-next" class="m-btn">next_</button>
+            <div class="media-controls-dock">
+              <div id="dock-video" class="dock-panel" style="display: flex;">
+                <div class="m-btn-group">
+                  <button id="btn-play" class="m-btn">pause_</button>
+                  <button id="btn-mute" class="m-btn">unmute_</button>
+                </div>
+                <div class="m-info"><span id="time-current">0:00</span> / <span id="time-total">0:00</span></div>
               </div>
-              <div class="m-info"><span id="g-current">1</span> / <span id="g-total">3</span></div>
+
+              <div id="dock-gallery" class="dock-panel" style="display: none;">
+                <div class="m-btn-group">
+                  <button id="btn-prev" class="m-btn">prev_</button>
+                  <button id="btn-next" class="m-btn">next_</button>
+                </div>
+                <div class="m-info"><span id="g-current">1</span> / <span id="g-total">3</span></div>
+              </div>
             </div>
           </div>
 
         </div>
-
       </div>
+
     </div>
 
     <div class="view" id="view-upcoming">
@@ -429,6 +451,13 @@ body{
           <div class="s-data s-location">istanbul</div>
           <div class="s-data s-action">explore_</div>
         </a>
+        
+        <div class="schedule-row" style="pointer-events: none; opacity: 0.4;">
+          <div class="s-data s-date">tbd</div>
+          <div class="s-data s-artist">SAMPLE_TALENT</div>
+          <div class="s-data s-location">london</div>
+          <div class="s-data s-action">locked_</div>
+        </div>
       </div>
     </div>
 
@@ -497,6 +526,9 @@ const navItems = document.querySelectorAll('.nav-item');
 const globalVideo = document.getElementById('custom-video');
 const playBtn = document.getElementById('btn-play');
 
+const artistSelector = document.getElementById('media-artist-selector');
+const workspaceYe = document.getElementById('media-workspace-ye');
+
 triggers.forEach(trigger => {
   trigger.addEventListener('click', (e) => {
     if(trigger.getAttribute('href') === '#') e.preventDefault();
@@ -506,6 +538,10 @@ triggers.forEach(trigger => {
       globalVideo.classList.remove('is-playing');
       playBtn.innerText = 'play_';
     }
+
+    // Reset Media tab view back to directory selection screen when leaving
+    artistSelector.style.display = 'flex';
+    workspaceYe.classList.remove('active');
 
     const targetId = trigger.getAttribute('data-target');
     const word = trigger.getAttribute('data-word');
@@ -527,6 +563,28 @@ triggers.forEach(trigger => {
         setTimeout(() => { view.classList.add('active'); }, 50);
       }
     });
+  });
+});
+
+// Media Directory Link Triggers
+const artistBtns = document.querySelectorAll('.media-artist-btn');
+artistBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const artist = btn.getAttribute('data-artist');
+    if (artist === 'ye') {
+      artistSelector.style.display = 'none';
+      workspaceYe.classList.add('active');
+      
+      // Active video load cycle under responsive layout patterns safely
+      globalVideo.load();
+      globalVideo.play().then(() => {
+        playBtn.innerText = 'pause_';
+        globalVideo.classList.add('is-playing');
+      }).catch(err => {
+        // Mobile fallback catch parameters if hardware blocks autoplay flags
+        playBtn.innerText = 'play_';
+      });
+    }
   });
 });
 
@@ -625,9 +683,10 @@ vSelectors.forEach(btn => {
 
     const newSrc = btn.getAttribute('data-src');
     globalVideo.src = newSrc;
-    globalVideo.play();
-    playBtn.innerText = 'pause_';
-    globalVideo.classList.add('is-playing');
+    globalVideo.play().then(() => {
+      playBtn.innerText = 'pause_';
+      globalVideo.classList.add('is-playing');
+    });
   });
 });
 
