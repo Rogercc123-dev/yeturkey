@@ -4,9 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>access opera</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+JP:wght@100&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#070706" />
 
 <style>
 /* --- STRICT CUSTOM FONT INJECTION --- */
@@ -36,7 +34,7 @@ html,body{
 }
 
 body{
-  font-family:'OCR A BT','Share Tech Mono','Courier New',monospace;
+  font-family:'OCR A BT';
   color:var(--concrete);
   text-transform:lowercase;
   letter-spacing:0.05em;
@@ -56,13 +54,9 @@ body{
 
 /* GRAIN & VIGNETTE */
 .grain{
-  position:fixed;inset:0;
-  z-index:600;
-  pointer-events:none;
+  position:fixed;inset:0;z-index:600;pointer-events:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='0.15'/%3E%3C/svg%3E");
-  background-size:300px 300px;
-  opacity:0.7;
-  mix-blend-mode:overlay;
+  background-size:300px 300px; opacity:0.7; mix-blend-mode:overlay;
 }
 .vignette{
   position:fixed;inset:0;z-index:500;pointer-events:none;
@@ -75,27 +69,22 @@ body{
   transform:translate(-50%,-50%);
   font-size:clamp(120px,20vw,420px);
   font-weight:400; letter-spacing:-0.04em;
-  color:transparent;
-  -webkit-text-stroke:1px rgba(184,180,173,0.04);
+  color:transparent; -webkit-text-stroke:1px rgba(184,180,173,0.04);
   white-space:nowrap; pointer-events:none;
   z-index:1; user-select:none; line-height:1;
-  transition: opacity 0.4s ease; /* smooth fade when changing word */
+  transition: opacity 0.4s ease;
 }
 
 /* MASS LINES */
 .mass-line{
   position:fixed;left:0;right:0; height:1px;
-  background:rgba(184,180,173,0.06);
-  pointer-events:none; z-index:2;
+  background:rgba(184,180,173,0.06); pointer-events:none; z-index:2;
 }
 
 /* PAGE LAYOUT */
 .page{
-  position:relative; z-index:10;
-  width:100%; height:100vh;
-  display:grid;
-  grid-template-rows:auto 1fr auto;
-  padding:0;
+  position:relative; z-index:10; width:100%; height:100vh;
+  display:grid; grid-template-rows:auto 1fr auto; padding:0;
 }
 
 /* TOP BLOCK */
@@ -106,45 +95,35 @@ body{
 .wordmark-wrap { text-decoration: none; cursor: none; }
 .wordmark{ font-size:11px; letter-spacing:0.45em; color:var(--dust); line-height:2.2; transition: color 0.4s ease; }
 .wordmark-primary{ color:var(--concrete); font-size:12px; }
-.wordmark-jp{ font-family:'Noto Sans JP',sans-serif; font-weight:100; font-size:9px; letter-spacing:0.5em; color:#3a3832; transition: color 0.4s ease; }
-.wordmark-wrap:hover .wordmark, .wordmark-wrap:hover .wordmark-jp { color: var(--concrete); }
+.wordmark-wrap:hover .wordmark { color: var(--concrete); }
 .open-tag{ font-size:10px; letter-spacing:0.4em; color:var(--dust); text-align:right; text-decoration: none; cursor: none; transition: color 0.4s ease; }
 .open-tag:hover { color: var(--concrete); }
 
 /* CENTER BLOCK - SPA VIEWS */
 .block-center{
-  position: relative;
-  display:flex; flex-direction:column; justify-content:center;
+  position: relative; display:flex; flex-direction:column; justify-content:center;
   padding:0 56px; overflow: hidden;
 }
+.view { display: none; flex-direction: column; justify-content: center; width: 100%; height: 100%; }
+.view.active { display: flex; animation: massReveal 0.8s cubic-bezier(0.16,1,0.3,1) forwards; }
 
-/* VIEW TOGGLING */
-.view {
-  display: none; /* Hidden by default */
-  flex-direction: column; justify-content: center;
-  width: 100%; height: 100%;
-}
-.view.active {
-  display: flex; /* Show active view */
-  animation: massReveal 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
-}
+/* SHARED SECTION HEADERS */
+.sec-num { font-size: 10px; letter-spacing: 0.3em; color: var(--dust); margin-bottom: 12px; }
+.sec-title { font-size: clamp(32px, 5vw, 64px); font-weight: 400; letter-spacing: -0.02em; line-height: 1; margin-bottom: 40px; color: var(--concrete); }
 
 /* VIEW: HOME */
 .logo-img{ width:clamp(280px,42vw,720px); height:auto; object-fit:contain; display:block; margin-bottom:20px; opacity:0.92; }
 .datum{ width:clamp(280px,42vw,720px); height:1px; background:rgba(184,180,173,0.2); margin:32px 0 24px; }
 .descriptor{ font-size:10px; letter-spacing:0.5em; color:var(--dust); }
 
-/* VIEW: UPCOMING (SCHEDULE) */
+/* VIEW: UPCOMING */
 .schedule-wrap{ width: 100%; border-top: 1px solid rgba(184,180,173,0.08); }
 .schedule-row{
   position: relative; display: grid; grid-template-columns: 1fr 2fr 1fr auto; align-items: center;
   padding: 32px 24px; border-bottom: 1px solid rgba(184,180,173,0.08); text-decoration: none;
   color: var(--dust); cursor: none; overflow: hidden; transition: color 0.6s ease;
 }
-.schedule-row::before{
-  content:''; position:absolute; bottom:0;left:0;right:0;height:0;
-  background:var(--raw); transition:height 0.5s cubic-bezier(0.76,0,0.24,1); z-index:0;
-}
+.schedule-row::before{ content:''; position:absolute; bottom:0;left:0;right:0;height:0; background:var(--raw); transition:height 0.5s cubic-bezier(0.76,0,0.24,1); z-index:0; }
 .schedule-row:hover::before{height:100%}
 .schedule-row:hover {color: var(--concrete)}
 .s-data { position: relative; z-index: 1; }
@@ -154,28 +133,135 @@ body{
 .s-action { font-size: 10px; letter-spacing: 0.4em; color: #3a3832; transition: color 0.5s ease; }
 .schedule-row:hover .s-action { color: var(--dust); }
 
+/* VIEW: CLIENTS (ROSTER) */
+.client-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px; /* acts as borders */
+  background: rgba(184,180,173,0.06);
+  border: 1px solid rgba(184,180,173,0.06);
+}
+.client-card {
+  background: var(--void);
+  text-decoration: none;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden; cursor: none;
+}
+.client-img-wrap {
+  width: 100%;
+  aspect-ratio: 3/4; /* Classic portrait ratio */
+  background: var(--deep);
+  overflow: hidden;
+  position: relative;
+}
+.client-img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(100%) contrast(1.2) brightness(0.7);
+  transition: filter 0.5s ease, transform 0.5s ease;
+}
+.client-info {
+  padding: 24px;
+  position: relative; z-index: 2;
+  background: var(--void);
+  transition: background 0.4s ease;
+}
+.client-tag { font-size: 9px; letter-spacing: 0.3em; color: var(--dust); margin-bottom: 8px; transition: color 0.4s; }
+.client-name { font-size: clamp(18px, 2vw, 24px); color: var(--form); transition: color 0.4s, transform 0.4s; }
+
+/* Client Hover Physics */
+.client-card:hover .client-img { filter: grayscale(0%) contrast(1) brightness(1); transform: scale(1.05); }
+.client-card:hover .client-info { background: var(--raw); }
+.client-card:hover .client-tag { color: var(--concrete); }
+.client-card:hover .client-name { color: var(--concrete); transform: translateX(4px); }
+
+/* VIEW: MEDIA (CUSTOM PLAYER) */
+.media-container {
+  display: grid;
+  grid-template-columns: 2.5fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  background: var(--deep);
+  border: 1px solid rgba(184,180,173,0.08);
+}
+#custom-video {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(1.1);
+  transition: filter 0.5s ease;
+}
+/* When playing, restore color */
+#custom-video.is-playing { filter: grayscale(0%) contrast(1); }
+
+.video-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: var(--void);
+  border-top: 1px solid rgba(184,180,173,0.08);
+}
+.v-btn-group { display: flex; gap: 24px; }
+.v-btn {
+  background: none; border: none; font-family: 'OCR A BT';
+  font-size: 10px; letter-spacing: 0.2em; color: var(--dust);
+  cursor: none; transition: color 0.2s;
+}
+.v-btn:hover { color: var(--concrete); }
+.v-time { font-size: 10px; letter-spacing: 0.1em; color: var(--dust); }
+
+/* Dynamic Playlist */
+.video-playlist {
+  display: flex; flex-direction: column;
+  border-top: 1px solid rgba(184,180,173,0.08);
+}
+.pl-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 24px 0; border-bottom: 1px solid rgba(184,180,173,0.08);
+  background: none; border-left: none; border-right: none; border-top: none;
+  font-family: 'OCR A BT'; text-align: left; cursor: none;
+  transition: color 0.3s;
+}
+.pl-info { display: flex; flex-direction: column; gap: 8px; }
+.pl-num { font-size: 8px; letter-spacing: 0.4em; color: var(--dust); }
+.pl-name { font-size: 12px; letter-spacing: 0.1em; color: var(--form); transition: color 0.3s; }
+.pl-status { font-size: 8px; letter-spacing: 0.3em; color: var(--void); transition: color 0.3s; }
+
+.pl-item:hover .pl-name { color: var(--concrete); }
+.pl-item.active .pl-name { color: var(--concrete); }
+.pl-item.active .pl-status { color: var(--concrete); } /* Shows "playing_" */
+
+
+/* VIEW: CONTACT */
+.contact-wrap {
+  border-top: 1px solid rgba(184,180,173,0.08);
+  padding-top: 40px;
+}
+.c-row { margin-bottom: 40px; }
+.c-label { font-size: 9px; letter-spacing: 0.3em; color: var(--dust); margin-bottom: 12px; }
+.c-link {
+  font-size: clamp(24px, 3vw, 40px); color: var(--concrete);
+  text-decoration: none; cursor: none; transition: opacity 0.3s;
+}
+.c-link:hover { opacity: 0.5; }
+
 /* BOTTOM NAV SLAB */
 .block-bottom{ opacity:0; animation:appear 2s ease 2s forwards; }
 .nav-slab{ display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid rgba(184,180,173,0.08); }
-.nav-item{
-  position:relative; display:flex; flex-direction:column; justify-content:center; padding:28px 56px;
-  text-decoration:none; color:var(--dust); border-right:1px solid rgba(184,180,173,0.06); cursor:none; overflow:hidden; transition:color 0.8s ease;
-}
+.nav-item{ position:relative; display:flex; flex-direction:column; justify-content:center; padding:28px 56px; text-decoration:none; color:var(--dust); border-right:1px solid rgba(184,180,173,0.06); cursor:none; overflow:hidden; transition:color 0.8s ease; }
 .nav-item:last-child{border-right:none}
-.nav-item::before{
-  content:''; position:absolute; bottom:0;left:0;right:0;height:0;
-  background:var(--raw); transition:height 0.6s cubic-bezier(0.76,0,0.24,1); z-index:0;
-}
+.nav-item::before{ content:''; position:absolute; bottom:0;left:0;right:0;height:0; background:var(--raw); transition:height 0.6s cubic-bezier(0.76,0,0.24,1); z-index:0; }
 .nav-item:hover::before{height:100%}
 .nav-item:hover{color:var(--concrete)}
 .nav-item.active { color: var(--concrete); }
 .nav-item.active::before { height: 100%; }
-
 .nav-num{ position:relative; z-index:1; font-size:9px; letter-spacing:0.3em; color:#3a3832; margin-bottom:8px; transition:color 0.6s ease; }
 .nav-item:hover .nav-num, .nav-item.active .nav-num{color:var(--dust)}
 .nav-label{ position:relative; z-index:1; font-size:clamp(13px,1.1vw,16px); letter-spacing:0.3em; }
-.nav-jp{ position:relative; z-index:1; font-family:'Noto Sans JP',sans-serif; font-weight:100; font-size:9px; letter-spacing:0.3em; color:#3a3832; margin-top:6px; transition:color 0.6s ease; }
-.nav-item:hover .nav-jp, .nav-item.active .nav-jp{color:var(--dust)}
 
 /* LOADER */
 .loader{ position:fixed; inset:0; background:var(--void); z-index:5000; display:flex; align-items:center; justify-content:center; }
@@ -190,14 +276,15 @@ body{
 @media(max-width:850px){
   body{cursor:auto}.cur{display:none}
   .block-top,.block-center{padding:32px 28px 0}
+  .bg-word{font-size:40vw}
   .schedule-row { grid-template-columns: 1fr; gap: 12px; padding: 24px 16px; }
   .s-action { margin-top: 12px; border-top: 1px solid rgba(184,180,173,0.08); padding-top: 12px; }
-  .schedule-row:hover .s-artist { transform: translateX(4px); }
+  .client-grid { grid-template-columns: repeat(2, 1fr); }
+  .media-container { grid-template-columns: 1fr; gap: 24px; }
   .nav-item{padding:22px 28px}
   .nav-slab{grid-template-columns:repeat(2,1fr)}
   .nav-item:nth-child(2){border-right:none}
   .nav-item:nth-child(3),.nav-item:nth-child(4){border-top:1px solid rgba(184,180,173,0.06)}
-  .bg-word{font-size:40vw}
 }
 </style>
 </head>
@@ -220,7 +307,6 @@ body{
     <a href="#" class="wordmark-wrap nav-trigger" data-target="view-home" data-word="opera">
       <div class="wordmark wordmark-primary">access opera</div>
       <div class="wordmark">talent agency</div>
-      <div class="wordmark-jp">タレントエージェンシー</div>
     </a>
     <div class="open-tag">open for submissions</div>
   </header>
@@ -233,7 +319,72 @@ body{
       <div class="descriptor">talent representation &nbsp;·&nbsp; creative management</div>
     </div>
 
+    <div class="view" id="view-clients">
+      <div class="sec-num">01</div>
+      <h2 class="sec-title">roster</h2>
+      <div class="client-grid">
+        
+        <a href="#" class="client-card">
+          <div class="client-img-wrap">
+            <img src="ye.jpg" alt="YE" class="client-img" onerror="this.style.display='none'" />
+          </div>
+          <div class="client-info">
+            <div class="client-tag">artist / creative</div>
+            <div class="client-name">YE</div>
+          </div>
+        </a>
+
+        <div class="client-card" style="pointer-events: none;">
+          <div class="client-img-wrap"></div>
+          <div class="client-info">
+            <div class="client-tag">restricted_</div>
+            <div class="client-name">---</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="view" id="view-media">
+      <div class="sec-num">02</div>
+      <h2 class="sec-title">archive</h2>
+      <div class="media-container">
+        
+        <div class="video-wrapper">
+          <video id="custom-video" src="video1.mp4" playsinline></video>
+          <div class="video-controls">
+            <div class="v-btn-group">
+              <button id="btn-play" class="v-btn">play_</button>
+              <button id="btn-mute" class="v-btn">mute_</button>
+            </div>
+            <div class="v-time"><span id="time-current">0:00</span> / <span id="time-total">0:00</span></div>
+          </div>
+        </div>
+
+        <div class="video-playlist">
+          <button class="pl-item active" data-src="video1.mp4">
+            <div class="pl-info">
+              <span class="pl-num">001</span>
+              <span class="pl-name">ISTANBUL_PROMO.MP4</span>
+            </div>
+            <span class="pl-status">playing_</span>
+          </button>
+          
+          <button class="pl-item" data-src="video2.mp4">
+            <div class="pl-info">
+              <span class="pl-num">002</span>
+              <span class="pl-name">STAGE_CONCEPT_V3.MP4</span>
+            </div>
+            <span class="pl-status">loaded_</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
     <div class="view" id="view-upcoming">
+      <div class="sec-num">03</div>
+      <h2 class="sec-title">schedule</h2>
       <div class="schedule-wrap">
         <a href="ye.html" class="schedule-row">
           <div class="s-data s-date">30 may</div>
@@ -250,19 +401,19 @@ body{
       </div>
     </div>
 
-    <div class="view" id="view-clients">
-      <div class="descriptor">clients directory / restricted access_</div>
-      <div class="datum" style="width: 200px;"></div>
-    </div>
-
-    <div class="view" id="view-media">
-      <div class="descriptor">media archive / compiling_</div>
-      <div class="datum" style="width: 200px;"></div>
-    </div>
-
     <div class="view" id="view-contact">
-      <div class="descriptor">inquiries / <a href="mailto:info@accessopera.com" style="color:var(--concrete); text-decoration:none; cursor:none;">info@accessopera.com</a></div>
-      <div class="datum" style="width: 200px;"></div>
+      <div class="sec-num">04</div>
+      <h2 class="sec-title">contact</h2>
+      <div class="contact-wrap">
+        <div class="c-row">
+          <div class="c-label">general inquiries</div>
+          <a href="mailto:info@accessopera.com" class="c-link">info@accessopera.com</a>
+        </div>
+        <div class="c-row">
+          <div class="c-label">press & media</div>
+          <a href="mailto:press@accessopera.com" class="c-link">press@accessopera.com</a>
+        </div>
+      </div>
     </div>
 
   </main>
@@ -272,22 +423,18 @@ body{
       <a href="#" class="nav-item nav-trigger" data-target="view-clients" data-word="clients">
         <div class="nav-num">01</div>
         <div class="nav-label">clients</div>
-        <div class="nav-jp">クライアント</div>
       </a>
       <a href="#" class="nav-item nav-trigger" data-target="view-media" data-word="media">
         <div class="nav-num">02</div>
         <div class="nav-label">media</div>
-        <div class="nav-jp">メディア</div>
       </a>
       <a href="#" class="nav-item nav-trigger" data-target="view-upcoming" data-word="upcoming">
         <div class="nav-num">03</div>
         <div class="nav-label">upcoming</div>
-        <div class="nav-jp">予定</div>
       </a>
       <a href="#" class="nav-item nav-trigger" data-target="view-contact" data-word="contact">
         <div class="nav-num">04</div>
         <div class="nav-label">contact</div>
-        <div class="nav-jp">コンタクト</div>
       </a>
     </nav>
   </footer>
@@ -295,7 +442,7 @@ body{
 </div>
 
 <script>
-// Cursor Physics
+// --- PHYSICS CURSOR ---
 const cur = document.getElementById('cur');
 let mx = 0, my = 0, cx = 0, cy = 0;
 document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
@@ -306,44 +453,113 @@ document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; })
   requestAnimationFrame(loop);
 })();
 
-// SPA Tabbing Logic
+// --- SPA TABBING LOGIC ---
 const triggers = document.querySelectorAll('.nav-trigger');
 const views = document.querySelectorAll('.view');
 const bgWord = document.getElementById('bgWord');
 const navItems = document.querySelectorAll('.nav-item');
 
+// Pause video globally when switching tabs
+const globalVideo = document.getElementById('custom-video');
+const playBtn = document.getElementById('btn-play');
+
 triggers.forEach(trigger => {
   trigger.addEventListener('click', (e) => {
-    // If it's the logo or a tab, prevent default link behavior
     if(trigger.getAttribute('href') === '#') e.preventDefault();
+
+    // Pause video when leaving media tab
+    if(globalVideo && !globalVideo.paused) {
+      globalVideo.pause();
+      globalVideo.classList.remove('is-playing');
+      playBtn.innerText = 'play_';
+    }
 
     const targetId = trigger.getAttribute('data-target');
     const word = trigger.getAttribute('data-word');
 
-    // 1. Update active state on bottom tabs
     navItems.forEach(item => item.classList.remove('active'));
-    // Only add active class if the trigger is an actual bottom tab
     if (trigger.classList.contains('nav-item')) {
       trigger.classList.add('active');
     }
 
-    // 2. Change the massive background word
     bgWord.style.opacity = '0';
     setTimeout(() => {
       bgWord.innerText = word;
       bgWord.style.opacity = '1';
     }, 200);
 
-    // 3. Swap the views
     views.forEach(view => {
       view.classList.remove('active');
       if (view.id === targetId) {
-        // slight delay to reset the CSS animation
-        setTimeout(() => {
-          view.classList.add('active');
-        }, 50);
+        setTimeout(() => { view.classList.add('active'); }, 50);
       }
     });
+  });
+});
+
+// --- CUSTOM MEDIA PLAYER LOGIC ---
+const muteBtn = document.getElementById('btn-mute');
+const timeCurrent = document.getElementById('time-current');
+const timeTotal = document.getElementById('time-total');
+const playlistItems = document.querySelectorAll('.pl-item');
+
+// Helper to format seconds into M:SS
+function formatTime(seconds) {
+  if(isNaN(seconds)) return "0:00";
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return m + ":" + (s < 10 ? "0" + s : s);
+}
+
+// Play/Pause
+playBtn.addEventListener('click', () => {
+  if (globalVideo.paused) {
+    globalVideo.play();
+    playBtn.innerText = 'pause_';
+    globalVideo.classList.add('is-playing');
+  } else {
+    globalVideo.pause();
+    playBtn.innerText = 'play_';
+    globalVideo.classList.remove('is-playing');
+  }
+});
+
+// Mute/Unmute
+muteBtn.addEventListener('click', () => {
+  globalVideo.muted = !globalVideo.muted;
+  muteBtn.innerText = globalVideo.muted ? 'unmute_' : 'mute_';
+});
+
+// Update Timers
+globalVideo.addEventListener('loadedmetadata', () => {
+  timeTotal.innerText = formatTime(globalVideo.duration);
+});
+globalVideo.addEventListener('timeupdate', () => {
+  timeCurrent.innerText = formatTime(globalVideo.currentTime);
+});
+// Reset when video ends
+globalVideo.addEventListener('ended', () => {
+  playBtn.innerText = 'play_';
+  globalVideo.classList.remove('is-playing');
+});
+
+// Playlist Switching
+playlistItems.forEach(item => {
+  item.addEventListener('click', () => {
+    // Update active class & text
+    playlistItems.forEach(pl => {
+      pl.classList.remove('active');
+      pl.querySelector('.pl-status').innerText = 'loaded_';
+    });
+    item.classList.add('active');
+    item.querySelector('.pl-status').innerText = 'playing_';
+
+    // Change video source and auto-play
+    const newSrc = item.getAttribute('data-src');
+    globalVideo.src = newSrc;
+    globalVideo.play();
+    playBtn.innerText = 'pause_';
+    globalVideo.classList.add('is-playing');
   });
 });
 </script>
