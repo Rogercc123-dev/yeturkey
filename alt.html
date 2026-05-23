@@ -60,7 +60,7 @@ body{
 }
 .vignette{
   position:fixed;inset:0;z-index:500;pointer-events:none;
-  background:radial-gradient(ellipse 80% 80% at 50% 50%, transparent 25%, rgba(7,7,6,0.4) 55%, rgba(4,4,3,0.92) 100% );
+  background:radial-gradient(ellipse 80% 80% at 50% 50%, transparent 25%, rgba(7,7,6,0.4) 55%, rgba(4,4,3,0.92) 100%);
 }
 
 /* BACKGROUND WORD */
@@ -117,7 +117,7 @@ body{
 .datum{ width:clamp(280px,42vw,720px); height:1px; background:rgba(184,180,173,0.2); margin:32px 0 24px; }
 .descriptor{ font-size:10px; letter-spacing:0.5em; color:var(--dust); }
 
-/* VIEW: UPCOMING & PAST SLABS */
+/* VIEW: UPCOMING */
 .schedule-wrap{ width: 100%; border-top: 1px solid rgba(184,180,173,0.08); }
 .schedule-row{
   position: relative; display: grid; grid-template-columns: 1fr 2fr 1fr auto; align-items: center;
@@ -133,9 +133,6 @@ body{
 .schedule-row:hover .s-artist { color: var(--concrete); transform: translateX(8px); }
 .s-action { font-size: 10px; letter-spacing: 0.4em; color: #3a3832; transition: color 0.5s ease; }
 .schedule-row:hover .s-action { color: var(--dust); }
-
-.schedule-row.past-deemphasize { opacity: 0.65; }
-.schedule-row.past-deemphasize .s-artist { color: #22211e; }
 
 /* VIEW: CLIENTS */
 .roster-wrap { width: 100%; border-top: 1px solid rgba(184,180,173,0.08); }
@@ -174,6 +171,7 @@ body{
   min-height: 0;
 }
 
+/* Redesigned to scale seamlessly according to asset orientation flags */
 .display-area {
   position: relative;
   width: 100%;
@@ -184,10 +182,11 @@ body{
   flex-direction: column;
 }
 
+/* Removed forced heights to let vertical files stretch fully into view */
 #custom-video, #gallery-img {
   width: 100%;
   height: auto;
-  max-height: 52vh; 
+  max-height: 52vh; /* Protects display architecture boundaries */
   object-fit: contain; 
   background: #000;
   display: block;
@@ -278,6 +277,15 @@ body{
   margin-top: 6px; transition: color 0.6s ease;
 }
 .nav-item:hover .nav-jp, .nav-item.active .nav-jp { color: var(--dust); }
+
+/* LOADER */
+.loader{ position:fixed; inset:0; background:var(--void); z-index:5000; display:flex; align-items:center; justify-content:center; }
+.loader-inner{ font-size:10px; letter-spacing:0.6em; color:#2a2822; animation:loaderFade 1.2s ease 0.8s forwards; }
+@keyframes loaderFade{to{opacity:0}}
+.loader{animation:loaderLift 1s cubic-bezier(0.76,0,0.24,1) 1.6s forwards}
+@keyframes loaderLift{to{transform:translateY(-100%)}}
+@keyframes appear{ from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+@keyframes massReveal{ 0%{opacity:0;filter:blur(8px)} 100%{opacity:1;filter:blur(0)} }
 
 /* --- RESPONSIVE MOBILE OVERRIDES --- */
 @media(max-width:850px){
@@ -440,10 +448,9 @@ body{
 
     <div class="view" id="view-upcoming">
       <div class="sec-num">03</div>
-      <h2 class="sec-title" id="upcoming-title-header">upcoming</h2>
-      <div class="schedule-wrap" id="upcoming-wrapper-target">
-        
-        <a href="ye.html" class="schedule-row" id="upcoming-live-row">
+      <h2 class="sec-title">upcoming</h2>
+      <div class="schedule-wrap">
+        <a href="ye.html" class="schedule-row">
           <div class="s-data s-date">30 may</div>
           <div class="s-data s-artist">ye</div>
           <div class="s-data s-location">istanbul</div>
@@ -455,27 +462,6 @@ body{
           <div class="s-data s-artist">sample_talent</div>
           <div class="s-data s-location">london</div>
           <div class="s-data s-action">locked_</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="view" id="view-past">
-      <div class="sec-num">05</div>
-      <h2 class="sec-title">past performances</h2>
-      <div class="schedule-wrap" id="past-wrapper-target">
-        
-        <a href="#" class="schedule-row past-deemphasize" id="past-newmexico-row">
-          <div class="s-data s-date">14 apr 2026</div>
-          <div class="s-data s-artist">ye</div>
-          <div class="s-data s-location">new mexico</div>
-          <div class="s-data s-action">[ archived_ ]</div>
-        </a>
-
-        <div class="schedule-row past-deemphasize" style="pointer-events: none; opacity: 0.25;">
-          <div class="s-data s-date">---</div>
-          <div class="s-data s-artist">sample_talent</div>
-          <div class="s-data s-location">---</div>
-          <div class="s-data s-action">none_</div>
         </div>
       </div>
     </div>
@@ -509,10 +495,10 @@ body{
         <div class="nav-label">archive</div>
         <div class="nav-jp">アーカイブ</div>
       </a>
-      <a href="#" class="nav-item nav-trigger" data-target="view-upcoming" data-word="upcoming" id="nav-item-upcoming-tab">
+      <a href="#" class="nav-item nav-trigger" data-target="view-upcoming" data-word="upcoming">
         <div class="nav-num">03</div>
-        <div class="nav-label" id="nav-label-upcoming-text">upcoming</div>
-        <div class="nav-jp" id="nav-jp-upcoming-text">予定</div>
+        <div class="nav-label">upcoming</div>
+        <div class="nav-jp">予定</div>
       </a>
       <a href="#" class="nav-item nav-trigger" data-target="view-contact" data-word="contact">
         <div class="nav-num">04</div>
@@ -548,114 +534,40 @@ const playBtn = document.getElementById('btn-play');
 const artistSelector = document.getElementById('media-artist-selector');
 const workspaceYe = document.getElementById('media-workspace-ye');
 
-function switchSPAView(targetId, word) {
-  if(globalVideo && !globalVideo.paused) {
-    globalVideo.pause();
-    globalVideo.classList.remove('is-playing');
-    playBtn.innerText = 'play_';
-  }
-
-  navItems.forEach(item => {
-    item.classList.remove('active');
-    if(item.getAttribute('data-target') === targetId) {
-      item.classList.add('active');
-    }
-  });
-
-  bgWord.style.opacity = '0';
-  setTimeout(() => {
-    bgWord.innerText = word;
-    bgWord.style.opacity = '1';
-  }, 200);
-
-  views.forEach(view => {
-    view.classList.remove('active');
-    if (view.id === targetId) {
-      setTimeout(() => { view.classList.add('active'); }, 50);
-    }
-  });
-}
-
 triggers.forEach(trigger => {
   trigger.addEventListener('click', (e) => {
     if(trigger.getAttribute('href') === '#') e.preventDefault();
-    
-    // Explicit clean reset on standard navigation requests
-    if(trigger.getAttribute('data-target') === 'view-media') {
-      artistSelector.style.display = 'flex';
-      workspaceYe.classList.remove('active');
+
+    if(globalVideo && !globalVideo.paused) {
+      globalVideo.pause();
+      globalVideo.classList.remove('is-playing');
+      playBtn.innerText = 'play_';
     }
 
-    switchSPAView(trigger.getAttribute('data-target'), trigger.getAttribute('data-word'));
+    artistSelector.style.display = 'flex';
+    workspaceYe.classList.remove('active');
+
+    const targetId = trigger.getAttribute('data-target');
+    const word = trigger.getAttribute('data-word');
+
+    navItems.forEach(item => item.classList.remove('active'));
+    if (trigger.classList.contains('nav-item')) {
+      trigger.classList.add('active');
+    }
+
+    bgWord.style.opacity = '0';
+    setTimeout(() => {
+      bgWord.innerText = word;
+      bgWord.style.opacity = '1';
+    }, 200);
+
+    views.forEach(view => {
+      view.classList.remove('active');
+      if (view.id === targetId) {
+        setTimeout(() => { view.classList.add('active'); }, 50);
+      }
+    });
   });
-});
-
-// --- TIME LIFECYCLE EVALUATION (TASK 2B & 2C) ---
-const urlParams = new URLSearchParams(window.location.search);
-const forcePostMode = urlParams.get('force') === 'post';
-const targetTimeLimit = new Date('2026-05-30T23:00:00+03:00').getTime();
-const isAfterIstanbul = forcePostMode || (Date.now() > targetTimeLimit);
-
-window.addEventListener('DOMContentLoaded', () => {
-  const liveUpcomingRow = document.getElementById('upcoming-live-row');
-  const upcomingWrapper = document.getElementById('upcoming-wrapper-target');
-  const pastWrapper = document.getElementById('past-wrapper-target');
-  const upcomingTab = document.getElementById('nav-item-upcoming-tab');
-  const upcomingTitle = document.getElementById('upcoming-title-header');
-  const navLabelUpcoming = document.getElementById('nav-label-upcoming-text');
-  const navJpUpcoming = document.getElementById('nav-jp-upcoming-text');
-
-  if (isAfterIstanbul) {
-    // 1. Shift Istanbul Row to the Past block container natively
-    if (liveUpcomingRow) {
-      liveUpcomingRow.classList.add('past-deemphasize');
-      const actionField = liveUpcomingRow.querySelector('.s-action');
-      if(actionField) actionField.innerText = '[ archived_ ]';
-      // Remap link properties to target specific local logic routine instead of individual page
-      liveUpcomingRow.setAttribute('href', '#');
-      liveUpcomingRow.addEventListener('click', (e) => {
-        e.preventDefault();
-        triggerDeepLinkArchive('video');
-      });
-      pastWrapper.insertBefore(liveUpcomingRow, pastWrapper.firstChild);
-    }
-
-    // 2. Adjust Tab Naming Parameters
-    if(upcomingTitle) upcomingTitle.innerText = "past performances";
-    if(upcomingTab) {
-      upcomingTab.setAttribute('data-target', 'view-past');
-      upcomingTab.setAttribute('data-word', 'past');
-    }
-    if(navLabelUpcoming) navLabelUpcoming.innerText = "past";
-    if(navJpUpcoming) navJpUpcoming.innerText = "過去";
-
-    // 3. Load past view directly
-    switchSPAView('view-past', 'past');
-  } else {
-    // Standard Mode Initialization Routine
-    switchSPAView('view-home', 'opera');
-  }
-});
-
-// --- DEEP LINK IMPLEMENTATION ROUTINE (TASK 1) ---
-function triggerDeepLinkArchive(mode) {
-  // Navigate straight to archive system
-  switchSPAView('view-media', 'archive');
-  artistSelector.style.display = 'none';
-  workspaceYe.classList.add('active');
-
-  if (mode === 'gallery') {
-    const btnGalleryToggle = document.getElementById('btn-gallery-toggle');
-    if(btnGalleryToggle) btnGalleryToggle.click();
-  } else {
-    const defaultVideoBtn = document.querySelector('.v-sel[data-src="video1.mp4"]');
-    if(defaultVideoBtn) defaultVideoBtn.click();
-  }
-}
-
-document.getElementById('past-newmexico-row').addEventListener('click', (e) => {
-  e.preventDefault();
-  triggerDeepLinkArchive('gallery');
 });
 
 // Media Directory Link Triggers
