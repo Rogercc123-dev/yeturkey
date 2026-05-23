@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>YE — ISTANBUL | access opera</title>
+<meta name="description" content="YE live at Atatürk Olympic Stadium, Istanbul. May 30 2026. The globe stage returns. Presented by Access Opera." />
+<meta name="theme-color" content="#070706" />
+
+<style>
+/* --- STRICT CUSTOM FONT INJECTION --- */
+@font-face {
+  font-family: 'OCR A BT';
+  src: url('OCR-a___.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --concrete: #b8b4ad;
+  --raw:       #1a1916;
+  --deep:      #0d0c0b;
+  --void:      #070706;
+  --dust:      #5a574f;
+  --form:      #2e2c28;
+}
+
+html,body{
+  width:100vw;
+  min-height:100vh;
+  overflow-x:hidden;
+  background:var(--void);
+  cursor:none;
+}
+
+body{
+  font-family:'OCR A BT','Courier New',monospace;
+  color:var(--concrete);
+  text-transform:lowercase;
+  letter-spacing:0.05em;
+  position:relative;
+}
+
+/* CURSOR */
+.cur{
+  position:fixed;top:0;left:0;
+  width:4px;height:4px;
+  background:var(--concrete);
+  pointer-events:none;
+  z-index:9999;
+  transform:translate(-2px,-2px);
+  transition:none;
+}
+
+/* GRAIN & VIGNETTE */
+.grain{
+  position:fixed;inset:0;
+  z-index:600;
+  pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='0.15'/%3E%3C/svg%3E");
+  background-size:300px 300px;
+  opacity:0.7;
+  mix-blend-mode:overlay;
+}
+
+.vignette{
+  position:fixed;inset:0;z-index:500;pointer-events:none;
+  background:radial-gradient(ellipse 80% 80% at 50% 50%,
+    transparent 25%,
+    rgba(7,7,6,0.4) 55%,
+    rgba(4,4,3,0.92) 100%
+  );
+}
+
+/* BACKGROUND WORD */
+.bg-word{
+  position:fixed;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-size:clamp(150px,30vw,500px);
+  font-weight:400;
+  letter-spacing:-0.04em;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(184,180,173,0.03);
+  white-space:nowrap;
+  pointer-events:none;
+  z-index:1;
+  user-select:none;
+  line-height:1;
+}
+
+/* MASS LINES */
+.mass-line{
+  position:fixed;left:0;right:0;
+  height:1px;
+  background:rgba(184,180,173,0.06);
+  pointer-events:none;
+  z-index:2;
+}
+
+/* LAYOUT BLOCKS */
+.page{
+  position:relative;z-index:10;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+}
+
+.section-block {
+  padding: 10vh 56px;
+  border-bottom: 1px solid rgba(184,180,173,0.06);
+  position: relative;
+}
+
+/* TOP HEADER */
+.block-top{
+  padding:48px 56px 0;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  opacity:0;
+  animation:appear 3s ease 0.4s forwards;
+  position: relative;
+  z-index: 20;
+}
+.wordmark-wrap { text-decoration: none; cursor: none; }
+.wordmark{ font-size:11px; letter-spacing:0.45em; color:var(--dust); line-height:2.2; transition: color 0.4s ease; }
+.wordmark-primary{ color:var(--concrete); font-size:12px; }
+.wordmark-sub { font-size:9px; letter-spacing:0.5em; color:#3a3832; transition: color 0.4s ease; }
+.wordmark-wrap:hover .wordmark, .wordmark-wrap:hover .wordmark-sub { color: var(--concrete); }
+.open-tag{ font-size:10px; letter-spacing:0.4em; color:var(--dust); text-align:right; text-decoration: none; cursor: none; transition: color 0.4s ease; }
+.open-tag:hover { color: var(--concrete); }
+
+/* HERO */
+.hero-wrap {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0 56px;
+  opacity: 0;
+  animation: massReveal 3s cubic-bezier(0.16,1,0.3,1) 0.6s forwards;
+}
+.hero-presenter { font-size: 10px; letter-spacing: 0.4em; color: var(--dust); margin-bottom: 16px; }
+.hero-title { font-size: clamp(80px, 15vw, 220px); font-weight: 400; line-height: 0.85; letter-spacing: -0.04em; color: var(--concrete); }
+.datum { width: 0; height: 1px; background: rgba(184,180,173,0.2); margin: 32px 0; animation: drawLine 2s ease 1.8s forwards; }
+.hero-meta { display: flex; gap: 40px; font-size: 12px; letter-spacing: 0.3em; color: var(--dust); flex-wrap: wrap; }
+.hero-meta span { color: var(--concrete); }
+
+/* COUNTDOWN SLAB */
+.countdown-slab {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid rgba(184,180,173,0.06);
+  border-bottom: 1px solid rgba(184,180,173,0.06);
+  background: rgba(7,7,6,0.5);
+  opacity: 0;
+  animation: appear 2s ease 1s forwards;
+}
+.cd-unit {
+  padding: 4vh 2vw;
+  text-align: center;
+  border-right: 1px solid rgba(184,180,173,0.06);
+}
+.cd-unit:last-child { border-right: none; }
+.cd-num { font-size: clamp(32px, 5vw, 72px); color: var(--concrete); line-height: 1; transition: opacity 0.15s; }
+.cd-num.glitch { opacity: 0; }
+.cd-lbl { font-size: 9px; letter-spacing: 0.4em; color: var(--dust); margin-top: 12px; }
+
+/* SHARED SECTION STYLES */
+.sec-num { font-size: 10px; letter-spacing: 0.3em; color: var(--dust); margin-bottom: 16px; }
+.sec-title { font-size: clamp(32px, 5vw, 80px); font-weight: 400; letter-spacing: -0.02em; line-height: 1; margin-bottom: 48px; color: var(--concrete); }
+
+/* VISION */
+.vision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.vision-text p { font-size: 13px; line-height: 1.8; letter-spacing: 0.05em; color: var(--dust); margin-bottom: 24px; }
+.vision-text p:first-of-type { color: var(--concrete); }
+.embed-box { filter: grayscale(100%) contrast(1.2); opacity: 0.8; transition: all 0.5s ease; cursor: none; }
+.embed-box:hover { filter: grayscale(0%) contrast(1); opacity: 1; }
+
+/* TICKETS */
+.ticket-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid rgba(184,180,173,0.06);
+  border-left: 1px solid rgba(184,180,173,0.06);
+}
+.t-card {
+  position: relative;
+  padding: 40px 32px;
+  border-right: 1px solid rgba(184,180,173,0.06);
+  border-bottom: 1px solid rgba(184,180,173,0.06);
+  display: flex;
+  flex-direction: column;
+  min-height: 380px;
+  text-decoration: none;
+  cursor: none;
+  overflow: hidden;
+  transition: color 0.6s ease;
+}
+.t-card::before {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 0;
+  background: var(--raw); transition: height 0.6s cubic-bezier(0.76,0,0.24,1); z-index: 0;
+}
+.t-card:hover::before { height: 100%; }
+.t-content { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; }
+.t-tier { font-size: 9px; letter-spacing: 0.3em; color: var(--dust); margin-bottom: 16px; transition: color 0.4s; }
+.t-name { font-size: clamp(20px, 2vw, 28px); color: var(--form); line-height: 1.1; margin-bottom: 16px; transition: color 0.4s; }
+.t-price { font-size: clamp(28px, 3vw, 40px); color: var(--concrete); margin-bottom: 24px; }
+.t-price span { font-size: 11px; color: var(--dust); letter-spacing: 0.2em; }
+.t-feats { list-style: none; flex-grow: 1; }
+.t-feats li { font-size: 10px; color: var(--dust); margin-bottom: 8px; position: relative; padding-left: 12px; transition: color 0.4s; }
+.t-feats li::before { content: '-'; position: absolute; left: 0; color: var(--form); }
+.t-action { font-size: 10px; letter-spacing: 0.4em; color: #3a3832; margin-top: auto; padding-top: 24px; border-top: 1px solid rgba(184,180,173,0.06); transition: color 0.4s; }
+
+.t-card:hover .t-tier, .t-card:hover .t-feats li { color: var(--concrete); }
+.t-card:hover .t-name { color: var(--concrete); }
+.t-card:hover .t-action { color: var(--dust); }
+
+/* PROMOTERS */
+.promo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+.promo-lead { font-size: 24px; color: var(--concrete); margin-bottom: 24px; }
+.promo-text { font-size: 12px; line-height: 1.8; color: var(--dust); margin-bottom: 24px; }
+.promo-link { color: var(--concrete); text-decoration: none; font-size: 11px; letter-spacing: 0.2em; border-bottom: 1px solid var(--form); padding-bottom: 2px; cursor: none; transition: border-color 0.3s; }
+.promo-link:hover { border-color: var(--concrete); }
+.promo-side { border-left: 1px solid rgba(184,180,173,0.06); padding-left: 40px; }
+.p-block { margin-bottom: 40px; }
+.p-name { font-size: 14px; color: var(--concrete); margin-bottom: 8px; display: block; }
+
+/* FAQ */
+.faq-list { border-top: 1px solid rgba(184,180,173,0.06); }
+.faq-item { border-bottom: 1px solid rgba(184,180,173,0.06); cursor: none; position: relative; overflow: hidden; }
+.faq-item::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 0; background: var(--raw); transition: height 0.5s cubic-bezier(0.76,0,0.24,1); z-index: 0; }
+.faq-item:hover::before { height: 100%; }
+.faq-row { position: relative; z-index: 1; padding: 32px 0; display: flex; justify-content: space-between; font-size: 12px; letter-spacing: 0.1em; color: var(--concrete); transition: color 0.3s; }
+.faq-icon { color: var(--dust); transition: transform 0.4s; }
+.faq-item.open .faq-icon { transform: rotate(45deg); color: var(--concrete); }
+.faq-body { position: relative; z-index: 1; display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+.faq-item.open .faq-body { grid-template-rows: 1fr; }
+.faq-body > div { overflow: hidden; }
+.faq-text { padding-bottom: 32px; font-size: 11px; color: var(--dust); line-height: 1.6; max-width: 800px; }
+
+/* FOOTER NAV SLAB */
+.nav-slab{ display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid rgba(184,180,173,0.08); }
+.nav-item{ position:relative; display:flex; flex-direction:column; justify-content:center; padding:28px 56px; text-decoration:none; color:var(--dust); border-right:1px solid rgba(184,180,173,0.06); cursor:none; overflow:hidden; transition:color 0.8s ease; }
+.nav-item:last-child{ border-right:none; }
+.nav-item::before{ content:''; position:absolute; bottom:0; left:0; right:0; height:0; background:var(--raw); transition:height 0.6s cubic-bezier(0.76,0,0.24,1); z-index:0; }
+.nav-item:hover::before{ height:100%; }
+.nav-item:hover{ color:var(--concrete); }
+.nav-num{ position:relative; z-index:1; font-size:9px; letter-spacing:0.3em; color:#3a3832; margin-bottom:8px; transition:color 0.6s ease; }
+.nav-item:hover .nav-num{ color:var(--dust); }
+.nav-label{ position:relative; z-index:1; font-size:clamp(13px,1.1vw,16px); letter-spacing:0.3em; }
+
+/* LOADER */
+.loader{ position:fixed; inset:0; background:var(--void); z-index:5000; display:flex; align-items:center; justify-content:center; }
+.loader-inner{ font-size:10px; letter-spacing:0.6em; color:#2a2822; animation:loaderFade 1.2s ease 0.8s forwards; }
+@keyframes loaderFade{ to{opacity:0} }
+.loader{ animation:loaderLift 1s cubic-bezier(0.76,0,0.24,1) 1.6s forwards; }
+@keyframes loaderLift{ to{transform:translateY(-100%)} }
+@keyframes appear{ from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+@keyframes massReveal{ 0%{opacity:0;filter:blur(16px)} 40%{filter:blur(0)} 100%{opacity:1;filter:blur(0)} }
+@keyframes drawLine{ to{width:100%} }
+
+/* MOBILE */
+@media(max-width:850px){
+  body{cursor:auto} .cur{display:none}
+  .block-top, .hero-wrap, .section-block, .nav-item { padding-left: 28px; padding-right: 28px; }
+  .bg-word { font-size: 50vw; }
+  .hero-meta { flex-direction: column; gap: 16px; }
+  .countdown-slab { grid-template-columns: repeat(2, 1fr); }
+  .cd-unit:nth-child(2) { border-right: none; }
+  .cd-unit:nth-child(1), .cd-unit:nth-child(2) { border-bottom: 1px solid rgba(184,180,173,0.06); }
+  .vision-grid, .promo-grid { grid-template-columns: 1fr; gap: 48px; }
+  .ticket-grid { grid-template-columns: 1fr; border-left: none; }
+  .t-card { border-right: none; min-height: auto; padding: 32px 28px; }
+  .promo-side { border-left: none; padding-left: 0; border-top: 1px solid rgba(184,180,173,0.06); padding-top: 40px; }
+  .nav-slab{ grid-template-columns:repeat(2,1fr); }
+  .nav-item:nth-child(2){ border-right:none; }
+  .nav-item:nth-child(3), .nav-item:nth-child(4){ border-top:1px solid rgba(184,180,173,0.06); }
+}
+</style>
+</head>
+<body>
+
+<div class="loader"><div class="loader-inner">ye — istanbul</div></div>
+<div class="grain"></div>
+<div class="vignette"></div>
+
+<div class="bg-word">YE</div>
+
+<div class="mass-line" style="top:33.33vh"></div>
+<div class="mass-line" style="top:66.66vh"></div>
+
+<div class="cur" id="cur"></div>
+
+<div class="page">
+  
+  <header class="block-top">
+    <a href="upcoming.html" class="wordmark-wrap">
+      <div class="wordmark wordmark-primary">YE</div>
+      <div class="wordmark">istanbul</div>
+      <div class="wordmark-sub">イスタンブール</div>
+    </a>
+    <a href="upcoming.html" class="open-tag">[ return ]</a>
+  </header>
+
+  <section class="hero-wrap">
+    <div class="hero-presenter">access opera presents</div>
+    <h1 class="hero-title">YE</h1>
+    <div class="datum"></div>
+    <div class="hero-meta">
+      <div>date / <span>30.05.26</span></div>
+      <div>venue / <span>atatürk olympic</span></div>
+      <div>city / <span>istanbul</span></div>
+    </div>
+  </section>
+
+  <section class="countdown-slab">
+    <div class="cd-unit"><div class="cd-num" id="days">00</div><div class="cd-lbl">days</div></div>
+    <div class="cd-unit"><div class="cd-num" id="hours">00</div><div class="cd-lbl">hours</div></div>
+    <div class="cd-unit"><div class="cd-num" id="minutes">00</div><div class="cd-lbl">min</div></div>
+    <div class="cd-unit"><div class="cd-num" id="seconds">00</div><div class="cd-lbl">sec</div></div>
+  </section>
+
+  <section id="vision" class="section-block">
+    <div class="sec-num">01</div>
+    <h2 class="sec-title">vision</h2>
+    <div class="vision-grid">
+      <div class="vision-text">
+        <p>YE is widely regarded as one of the most influential artists of the past two decades. His work has shaped music, fashion, design and global culture. His live performances are rare and known for their bold artistic vision and immersive scale.</p>
+        <p>This will not be a standard concert. The globe stage returns — a rotating sphere designed with Aus Taylor, YE performing masked atop a world that turns beneath him. The crowd surrounds 360 degrees. Fog. Live-corrected lights. Nothing automated.</p>
+        <p>This marks his first performance in Turkey and one of the largest stadium productions the country has ever seen. An experience designed for presence.</p>
+      </div>
+      <div class="embed-box">
+        <iframe src="https://open.spotify.com/embed/artist/5K4W6rqBFWDnANPTjwZcgG?utm_source=generator&theme=0" width="100%" height="352" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section id="tickets" class="section-block" style="padding-left:0; padding-right:0; padding-bottom:0;">
+    <div style="padding: 0 56px;">
+      <div class="sec-num">02</div>
+      <h2 class="sec-title">tickets</h2>
+    </div>
+    <div class="ticket-grid">
+      
+      <a href="https://bugece.co" target="_blank" rel="noopener" class="t-card">
+        <div class="t-content">
+          <div class="t-tier">tier 1</div>
+          <div class="t-name">general<br>admission</div>
+          <div class="t-price">2.500 <span>try</span></div>
+          <ul class="t-feats">
+            <li>upper bowl viewing</li>
+            <li>stadium access</li>
+          </ul>
+          <div class="t-action">acquire_</div>
+        </div>
+      </a>
+
+      <a href="https://bugece.co" target="_blank" rel="noopener" class="t-card">
+        <div class="t-content">
+          <div class="t-tier">tier 2</div>
+          <div class="t-name">reserved<br>seated</div>
+          <div class="t-price">4.000 <span>try</span></div>
+          <ul class="t-feats">
+            <li>lower bowl sightlines</li>
+            <li>priority entry lane</li>
+          </ul>
+          <div class="t-action">acquire_</div>
+        </div>
+      </a>
+
+      <a href="https://ticketofis.com" target="_blank" rel="noopener" class="t-card">
+        <div class="t-content">
+          <div class="t-tier">limited</div>
+          <div class="t-name">vip<br>floor</div>
+          <div class="t-price">8.500 <span>try</span></div>
+          <ul class="t-feats">
+            <li>standing floor access</li>
+            <li>dedicated bar</li>
+            <li>limited edition merch</li>
+          </ul>
+          <div class="t-action">acquire_</div>
+        </div>
+      </a>
+
+      <a href="https://ticketofis.com" target="_blank" rel="noopener" class="t-card">
+        <div class="t-content">
+          <div class="t-tier">exclusive</div>
+          <div class="t-name">vip<br>lounge</div>
+          <div class="t-price">15.000 <span>try</span></div>
+          <ul class="t-feats">
+            <li>premium viewing deck</li>
+            <li>open bar & dining</li>
+            <li>exclusive merch</li>
+            <li>parking included</li>
+          </ul>
+          <div class="t-action">acquire_</div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <section id="promoters" class="section-block">
+    <div class="sec-num">03</div>
+    <h2 class="sec-title">promoters</h2>
+    <div class="promo-grid">
+      <div>
+        <h3 class="promo-lead">access opera</h3>
+        <p class="promo-text">Access Opera is the exclusive lead promoter for YE at Atatürk Olympic Stadium. As one of Turkey's premier live entertainment companies, Access Opera has delivered landmark stadium shows and built a reputation for flawless production at the highest level.</p>
+        <a href="mailto:info@accessopera.com" class="promo-link">info@accessopera.com</a>
+      </div>
+      <div class="promo-side">
+        <div class="p-block">
+          <span class="p-name">temacc</span>
+          <p class="promo-text" style="margin-bottom:0;">Event production and artist management. Large-scale stadium logistics and operations.</p>
+        </div>
+        <div class="p-block">
+          <span class="p-name">ils vision</span>
+          <p class="promo-text" style="margin-bottom:0;">Stage design and technical production. Immersive visual environments and lighting.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section-block">
+    <div class="sec-num">04</div>
+    <h2 class="sec-title">faq</h2>
+    <div class="faq-list">
+      
+      <div class="faq-item">
+        <div class="faq-row"><span>when does the general ticket sale start?</span><span class="faq-icon">+</span></div>
+        <div class="faq-body"><div><div class="faq-text">The general ticket sale will start soon. Exact dates are announced on the official ticket page via bugece and ticketofis.</div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-row"><span>where can i buy tickets?</span><span class="faq-icon">+</span></div>
+        <div class="faq-body"><div><div class="faq-text">Tickets are available exclusively through Bugece and Ticketofis. Do not buy tickets from unofficial resale platforms.</div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-row"><span>is there a ticket limit per person?</span><span class="faq-icon">+</span></div>
+        <div class="faq-body"><div><div class="faq-text">Yes. Each person can purchase a maximum of 6 tickets per show. Orders that exceed the limit may be cancelled.</div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-row"><span>what time does the concert start?</span><span class="faq-icon">+</span></div>
+        <div class="faq-body"><div><div class="faq-text">Doors open at 18:00. Show begins at 20:00 sharp. Times are subject to change. Nothing is automated.</div></div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="block-bottom">
+    <nav class="nav-slab">
+      <a href="https://bugece.co" target="_blank" rel="noopener" class="nav-item">
+        <div class="nav-num">/01</div>
+        <div class="nav-label">bugece</div>
+      </a>
+      <a href="https://ticketofis.com" target="_blank" rel="noopener" class="nav-item">
+        <div class="nav-num">/02</div>
+        <div class="nav-label">ticketofis</div>
+      </a>
+      <a href="mailto:info@accessopera.com" class="nav-item">
+        <div class="nav-num">/03</div>
+        <div class="nav-label">contact</div>
+      </a>
+      <a href="index.html" class="nav-item">
+        <div class="nav-num">/04</div>
+        <div class="nav-label">agency</div>
+      </a>
+    </nav>
+  </footer>
+
+</div>
+
+<script>
+// Custom Cursor
+const cur = document.getElementById('cur');
+let mx = 0, my = 0, cx = 0, cy = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+(function loop(){
+  cx += (mx - cx) * 0.06;
+  cy += (my - cy) * 0.06;
+  cur.style.transform = `translate(${cx - 2}px,${cy - 2}px)`;
+  requestAnimationFrame(loop);
+})();
+
+// Countdown Logic
+var eventDate = new Date('2026-05-30T20:00:00+03:00').getTime();
+var prevValues = ['', '', '', ''];
+function pad(n) { return String(Math.max(0, Math.floor(n))).padStart(2, '0'); }
+function updateCountdown() {
+  var d = Math.max(0, eventDate - Date.now());
+  var values = [pad(d/86400000), pad((d%86400000)/3600000), pad((d%3600000)/60000), pad((d%60000)/1000)];
+  var ids = ['days', 'hours', 'minutes', 'seconds'];
+  ids.forEach(function(id, i) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    if (values[i] !== prevValues[i]) {
+      el.classList.add('glitch');
+      setTimeout(function() { el.classList.remove('glitch'); }, 150);
+      el.textContent = values[i];
+      prevValues[i] = values[i];
+    }
+  });
+}
+updateCountdown(); 
+setInterval(updateCountdown, 1000);
+
+// FAQ Accordion
+document.querySelectorAll('.faq-item').forEach(function(item) { 
+  item.addEventListener('click', function() { 
+    item.classList.toggle('open'); 
+  }); 
+});
+</script>
+</body>
+</html>
