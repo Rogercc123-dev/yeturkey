@@ -157,9 +157,10 @@ body.light-mode .schedule-wrap { border-color: rgba(0,0,0,0.08); }
 }
 body.light-mode .schedule-row { border-color: rgba(0,0,0,0.08); }
 
-/* Buttons need to act like anchors for the accordion trigger */
 button.schedule-row { width: 100%; text-align: left; font-family: inherit; background: transparent; border: none; border-bottom: 1px solid rgba(184,180,173,0.08); outline: none; }
 body.light-mode button.schedule-row { border-bottom: 1px solid rgba(0,0,0,0.08); }
+button.schedule-row:hover { background: rgba(184,180,173,0.02); }
+body.light-mode button.schedule-row:hover { background: rgba(0,0,0,0.02); }
 
 .schedule-row::before{ content:''; position:absolute; bottom:0;left:0;right:0;height:0; background:var(--raw); transition:height 0.5s cubic-bezier(0.76,0,0.24,1); z-index:0; }
 .schedule-row:hover::before{height:100%}
@@ -172,15 +173,24 @@ body.light-mode button.schedule-row { border-bottom: 1px solid rgba(0,0,0,0.08);
 body.light-mode .s-action { color: #a3a099; }
 .schedule-row:hover .s-action { color: var(--dust); }
 
-/* Tour Accordion Mechanics */
+/* Accordion Smooth Dropdown Mechanics */
 .tour-accordion { border-bottom: 1px solid rgba(184,180,173,0.08); }
 body.light-mode .tour-accordion { border-bottom: 1px solid rgba(0,0,0,0.08); }
-.tour-accordion .schedule-row { border-bottom: none; } /* Handled by wrapper */
-.accordion-content { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-.accordion-inner { display: flex; flex-direction: column; overflow: hidden; }
-.tour-accordion.open .accordion-content { grid-template-rows: 1fr; }
+.tour-accordion .schedule-row { border-bottom: none; }
 
-/* Nested Show Rows */
+.accordion-content { 
+  display: grid; 
+  grid-template-rows: 0fr; 
+  opacity: 0;
+  transition: grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease; 
+}
+.accordion-inner { overflow: hidden; display: flex; flex-direction: column; }
+.tour-accordion.open .accordion-content { grid-template-rows: 1fr; opacity: 1; }
+
+.accordion-icon { display: inline-block; margin-right: 4px; color: var(--form); transition: color 0.3s ease; font-weight: bold; }
+button.schedule-row:hover .accordion-icon { color: var(--dust); }
+
+/* Nested Show Rows (Indented Hierarchy) */
 .accordion-inner .schedule-row { 
   background: rgba(184,180,173,0.015); 
   border-top: 1px solid rgba(184,180,173,0.04);
@@ -189,8 +199,12 @@ body.light-mode .accordion-inner .schedule-row { background: rgba(0,0,0,0.015); 
 
 @media(min-width: 851px) {
   .accordion-inner .schedule-row { padding-left: 56px; }
-  .accordion-inner .s-artist { font-size: clamp(24px, 3vw, 48px); }
+  .accordion-inner .s-artist { font-size: clamp(24px, 3vw, 40px); opacity: 0.8; }
 }
+
+.schedule-row.past-deemphasize { opacity: 0.65; }
+.schedule-row.past-deemphasize .s-artist { color: #22211e; }
+body.light-mode .schedule-row.past-deemphasize .s-artist { color: #cccccc; }
 
 /* VIEW: CLIENTS */
 .roster-wrap { width: 100%; border-top: 1px solid rgba(184,180,173,0.08); }
@@ -518,10 +532,10 @@ body.light-mode .nav-jp { color: #a3a099; }
 
     <div class="view" id="view-upcoming">
       <div class="sec-num">03</div>
-      <h2 class="sec-title">upcoming</h2>
-      <div class="schedule-wrap">
+      <h2 class="sec-title" id="upcoming-title-header">upcoming</h2>
+      <div class="schedule-wrap" id="upcoming-wrapper-target">
         
-        <a href="ye.html" class="schedule-row">
+        <a href="ye.html" class="schedule-row" id="upcoming-live-row">
           <div class="s-data s-date">30 may</div>
           <div class="s-data s-artist">ye</div>
           <div class="s-data s-location">istanbul</div>
@@ -529,11 +543,11 @@ body.light-mode .nav-jp { color: #a3a099; }
         </a>
 
         <div class="tour-accordion" id="rotimi-tour">
-          <button class="schedule-row accordion-trigger">
+          <button type="button" class="schedule-row accordion-trigger">
             <div class="s-data s-date">22 may - 11 jul</div>
             <div class="s-data s-artist">rotimi</div>
             <div class="s-data s-location">world tour</div>
-            <div class="s-data s-action accordion-icon">expand_</div>
+            <div class="s-data s-action"><span class="accordion-icon">[+]</span> expand_</div>
           </button>
           
           <div class="accordion-content">
@@ -553,6 +567,21 @@ body.light-mode .nav-jp { color: #a3a099; }
             </div>
           </div>
         </div>
+
+      </div>
+    </div>
+
+    <div class="view" id="view-past">
+      <div class="sec-num">05</div>
+      <h2 class="sec-title">past performances</h2>
+      <div class="schedule-wrap" id="past-wrapper-target">
+        
+        <a href="#" class="schedule-row past-deemphasize" id="past-newmexico-row">
+          <div class="s-data s-date">14 apr 2026</div>
+          <div class="s-data s-artist">ye</div>
+          <div class="s-data s-location">new mexico</div>
+          <div class="s-data s-action">[ archived_ ]</div>
+        </a>
 
       </div>
     </div>
@@ -586,10 +615,10 @@ body.light-mode .nav-jp { color: #a3a099; }
         <div class="nav-label">archive</div>
         <div class="nav-jp">アーカイブ</div>
       </a>
-      <a href="#" class="nav-item nav-trigger" data-target="view-upcoming">
+      <a href="#" class="nav-item nav-trigger" data-target="view-upcoming" id="nav-item-upcoming-tab">
         <div class="nav-num">03</div>
-        <div class="nav-label">upcoming</div>
-        <div class="nav-jp">予定</div>
+        <div class="nav-label" id="nav-label-upcoming-text">upcoming</div>
+        <div class="nav-jp" id="nav-jp-upcoming-text">予定</div>
       </a>
       <a href="#" class="nav-item nav-trigger" data-target="view-contact">
         <div class="nav-num">04</div>
@@ -625,22 +654,6 @@ document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; })
   requestAnimationFrame(loop);
 })();
 
-// Accordion Logic for Upcoming Tour Dates
-const tourAccordions = document.querySelectorAll('.tour-accordion');
-tourAccordions.forEach(acc => {
-  const trigger = acc.querySelector('.accordion-trigger');
-  const icon = acc.querySelector('.accordion-icon');
-  trigger.addEventListener('click', (e) => {
-    e.preventDefault();
-    acc.classList.toggle('open');
-    if (acc.classList.contains('open')) {
-      icon.innerText = 'collapse_';
-    } else {
-      icon.innerText = 'expand_';
-    }
-  });
-});
-
 // Navigation View System (SPA Engine)
 const triggers = document.querySelectorAll('.nav-trigger');
 const views = document.querySelectorAll('.view');
@@ -652,35 +665,105 @@ const playBtn = document.getElementById('btn-play');
 const artistSelector = document.getElementById('media-artist-selector');
 const workspaces = document.querySelectorAll('.media-workspace');
 
+function switchSPAView(targetId) {
+  if(globalVideo && !globalVideo.paused) {
+    globalVideo.pause();
+    globalVideo.classList.remove('is-playing');
+    if(playBtn) playBtn.innerText = 'play_';
+  }
+
+  navItems.forEach(item => {
+    item.classList.remove('active');
+    if(item.getAttribute('data-target') === targetId) {
+      item.classList.add('active');
+    }
+  });
+
+  views.forEach(view => {
+    view.classList.remove('active');
+    if (view.id === targetId) {
+      setTimeout(() => { view.classList.add('active'); }, 50);
+    }
+  });
+}
+
 triggers.forEach(trigger => {
   trigger.addEventListener('click', (e) => {
     if(trigger.getAttribute('href') === '#') e.preventDefault();
-
-    if(globalVideo && !globalVideo.paused) {
-      globalVideo.pause();
-      globalVideo.classList.remove('is-playing');
-      if(playBtn) playBtn.innerText = 'play_';
+    
+    // Explicit clean reset on standard navigation requests
+    if(trigger.getAttribute('data-target') === 'view-media') {
+      artistSelector.style.display = 'flex';
+      workspaces.forEach(ws => ws.classList.remove('active'));
     }
 
-    // Reset Archive View to Directory
-    artistSelector.style.display = 'flex';
-    workspaces.forEach(ws => ws.classList.remove('active'));
-
-    const targetId = trigger.getAttribute('data-target');
-
-    navItems.forEach(item => item.classList.remove('active'));
-    if (trigger.classList.contains('nav-item')) {
-      trigger.classList.add('active');
-    }
-
-    views.forEach(view => {
-      view.classList.remove('active');
-      if (view.id === targetId) {
-        setTimeout(() => { view.classList.add('active'); }, 50);
-      }
-    });
+    switchSPAView(trigger.getAttribute('data-target'));
   });
 });
+
+// --- TIME LIFECYCLE EVALUATION (ISTANBUL LOCKDOWN) ---
+const urlParams = new URLSearchParams(window.location.search);
+const forcePostMode = urlParams.get('force') === 'post';
+const targetTimeLimit = new Date('2026-05-30T23:00:00+03:00').getTime();
+const isAfterIstanbul = forcePostMode || (Date.now() > targetTimeLimit);
+
+window.addEventListener('DOMContentLoaded', () => {
+  const liveUpcomingRow = document.getElementById('upcoming-live-row');
+  const pastWrapper = document.getElementById('past-wrapper-target');
+  const upcomingTab = document.getElementById('nav-item-upcoming-tab');
+  const upcomingTitle = document.getElementById('upcoming-title-header');
+  const navLabelUpcoming = document.getElementById('nav-label-upcoming-text');
+  const navJpUpcoming = document.getElementById('nav-jp-upcoming-text');
+
+  if (isAfterIstanbul) {
+    if (liveUpcomingRow) {
+      liveUpcomingRow.classList.add('past-deemphasize');
+      const actionField = liveUpcomingRow.querySelector('.s-action');
+      if(actionField) actionField.innerText = '[ archived_ ]';
+      liveUpcomingRow.setAttribute('href', '#');
+      liveUpcomingRow.addEventListener('click', (e) => {
+        e.preventDefault();
+        triggerDeepLinkArchive('video');
+      });
+      pastWrapper.insertBefore(liveUpcomingRow, pastWrapper.firstChild);
+    }
+
+    if(upcomingTitle) upcomingTitle.innerText = "past performances";
+    if(upcomingTab) {
+      upcomingTab.setAttribute('data-target', 'view-past');
+    }
+    if(navLabelUpcoming) navLabelUpcoming.innerText = "past";
+    if(navJpUpcoming) navJpUpcoming.innerText = "過去";
+
+    switchSPAView('view-past');
+  } else {
+    switchSPAView('view-home');
+  }
+});
+
+// --- DEEP LINK IMPLEMENTATION ROUTINE ---
+function triggerDeepLinkArchive(mode) {
+  switchSPAView('view-media');
+  artistSelector.style.display = 'none';
+  const yeWorkspace = document.getElementById('media-workspace-ye');
+  if(yeWorkspace) yeWorkspace.classList.add('active');
+
+  if (mode === 'gallery') {
+    const btnGalleryToggle = document.getElementById('btn-gallery-toggle');
+    if(btnGalleryToggle) btnGalleryToggle.click();
+  } else {
+    const defaultVideoBtn = document.querySelector('.v-sel[data-src="video1.mp4"]');
+    if(defaultVideoBtn) defaultVideoBtn.click();
+  }
+}
+
+const pastNMRow = document.getElementById('past-newmexico-row');
+if(pastNMRow) {
+  pastNMRow.addEventListener('click', (e) => {
+    e.preventDefault();
+    triggerDeepLinkArchive('gallery');
+  });
+}
 
 // Media Directory Link Triggers
 const artistBtns = document.querySelectorAll('.media-artist-btn');
@@ -695,11 +778,28 @@ artistBtns.forEach(btn => {
     if (artist === 'ye') {
       globalVideo.load();
       globalVideo.play().then(() => {
-        playBtn.innerText = 'pause_';
+        if(playBtn) playBtn.innerText = 'pause_';
         globalVideo.classList.add('is-playing');
       }).catch(err => {
-        playBtn.innerText = 'play_';
+        if(playBtn) playBtn.innerText = 'play_';
       });
+    }
+  });
+});
+
+// Accordion Logic for Upcoming Tour Dates
+const tourAccordions = document.querySelectorAll('.tour-accordion');
+tourAccordions.forEach(acc => {
+  const trigger = acc.querySelector('.accordion-trigger');
+  const actionText = trigger.querySelector('.s-action');
+  
+  trigger.addEventListener('click', (e) => {
+    e.preventDefault();
+    acc.classList.toggle('open');
+    if (acc.classList.contains('open')) {
+      actionText.innerHTML = '<span class="accordion-icon">[-]</span> collapse_';
+    } else {
+      actionText.innerHTML = '<span class="accordion-icon">[+]</span> expand_';
     }
   });
 });
