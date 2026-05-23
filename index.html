@@ -128,7 +128,7 @@ body.light-mode .mass-line { background:rgba(0,0,0,0.06); }
 .sec-num { font-size: 10px; letter-spacing: 0.3em; color: var(--dust); margin-bottom: 12px; flex-shrink: 0; }
 .sec-title { font-size: clamp(32px, 5vw, 64px); font-weight: 400; letter-spacing: -0.02em; line-height: 1; margin-bottom: 30px; color: var(--concrete); flex-shrink: 0; }
 
-/* VIEW: HOME */
+/* VIEW: HOME (SPLIT LAYOUT W/ CONTACT) */
 .home-layout {
   display: flex; gap: 64px; align-items: center; justify-content: space-between; width: 100%;
 }
@@ -161,7 +161,7 @@ body.light-mode .home-contact { border-top-color: rgba(0,0,0,0.08); }
 .hc-link { color: var(--concrete); text-decoration: none; cursor: none; transition: opacity 0.3s; }
 .hc-link:hover { opacity: 0.5; }
 
-/* VIEW: UPCOMING */
+/* VIEW: UPCOMING (SCHEDULE & ACCORDION) */
 .schedule-wrap{ width: 100%; border-top: 1px solid rgba(184,180,173,0.08); }
 body.light-mode .schedule-wrap { border-color: rgba(0,0,0,0.08); }
 
@@ -237,7 +237,7 @@ body.light-mode .roster-row { border-color: rgba(0,0,0,0.08); }
 body.light-mode .r-tag { color: #a3a099; }
 .roster-row:hover .r-tag { color: var(--dust); }
 
-/* VIEW: SERVICES */
+/* VIEW: SERVICES (DESKTOP 2x2 GRID) */
 .services-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -282,7 +282,6 @@ body.light-mode .service-card { background: var(--void); }
 
 .service-card:hover .svc-title { color: var(--concrete); transform: translateX(8px); }
 .service-card:hover .svc-desc { color: var(--concrete); }
-
 .svc-extended { display: none; } 
 
 /* SPATIAL EXPANSION OVERLAY FOR SERVICES */
@@ -437,73 +436,78 @@ body.light-mode .nav-jp { color: #a3a099; }
 @keyframes appear{ from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 @keyframes massReveal{ 0%{opacity:0;filter:blur(8px)} 100%{opacity:1;filter:blur(0)} }
 
-/* --- RESPONSIVE MOBILE OVERRIDES (ZERO-SCROLL COMPRESSION) --- */
+/* --- RESPONSIVE MOBILE OVERRIDES --- */
 @media(max-width:850px){
   body{cursor:auto}.cur{display:none}
   html, body { overflow: hidden; height: 100vh; }
   .page { height: 100vh; display: flex; flex-direction: column; justify-content: space-between; }
   
-  .block-top { padding: 16px 20px 0; flex-shrink: 0; }
-  .block-center { padding: 16px 20px; height: 100%; flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-start; overflow: hidden; }
-  .view { height: 100%; min-height: 0; justify-content: flex-start; }
+  .block-top { padding: 20px 24px 0; flex-shrink: 0; }
   
+  /* Restored natural scrolling for views that need it (Services, Roster) */
+  .block-center { padding: 16px 24px; height: 100%; flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-start; overflow-y: auto; }
+  .view { height: auto; min-height: 100%; justify-content: flex-start; }
+  
+  /* Keep Home and Media visually centered */
   #view-home, #view-media { justify-content: center; }
 
   .sec-title { font-size: 28px; margin-bottom: 16px; }
   .sec-num { margin-bottom: 8px; }
   
-  .home-layout { flex-direction: column; align-items: flex-start; gap: 16px; justify-content: center; }
+  /* Tightened Home Layout Gaps to easily fit on screen */
+  .home-layout { flex-direction: column; align-items: flex-start; gap: 12px; }
   .home-right { max-width: 100%; }
-  .logo-img { margin-bottom: 0; max-height: 24px; width: auto; }
+  .logo-img { margin-bottom: 0; max-height: 32px; width: auto; }
   .datum { margin: 12px 0; }
   .descriptor { font-size: 8px; letter-spacing: 0.4em; }
 
-  /* DYNAMIC BLURB TOGGLE FOR MOBILE */
   .blurb-desktop { display: none; }
   .blurb-mobile { display: inline; line-height: 1.5; font-size: 9px; }
 
-  .home-contact { margin-top: 12px; padding-top: 12px; gap: 8px; }
+  /* Pulled Contact up tight to the text */
+  .home-contact { margin-top: 12px; padding-top: 12px; gap: 8px; border-top: 1px solid rgba(184,180,173,0.08); }
+  body.light-mode .home-contact { border-top-color: rgba(0,0,0,0.08); }
   .hc-row { font-size: 9px; }
 
-  .schedule-row { padding: 12px 16px; gap: 8px; }
+  .schedule-row { padding: 16px; gap: 8px; }
   .s-action { margin-top: 8px; padding-top: 8px; }
-  .roster-row { padding: 12px 16px; }
+  .roster-row { padding: 16px; }
   .r-avatar { width: 48px; height: 48px; margin-right: 16px; }
   .r-tag { display: none; }
   
-  /* Services Mobile Override - Forced 2x2 Grid */
+  /* Services Restored to 1-Column Scrolling Stack */
   .services-grid { 
-    grid-template-columns: 1fr 1fr; 
-    grid-template-rows: 1fr 1fr; 
-    height: 100%; 
-    border: 1px solid rgba(184,180,173,0.08); 
-    gap: 1px; 
-    background: rgba(184,180,173,0.08); 
-    width: calc(100% - 2px); 
+    grid-template-columns: 1fr; 
+    grid-template-rows: auto; 
+    height: auto; 
+    border: none; 
+    gap: 12px; 
+    background: transparent; 
+    width: 100%; 
     margin-bottom: 0; 
   }
-  body.light-mode .services-grid { background: rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.08); }
-  .service-card { border: none; padding: 16px 12px; justify-content: center; }
-  body.light-mode .service-card { border: none; }
-  .svc-title { font-size: 16px; margin-bottom: 6px; }
-  .svc-desc { -webkit-line-clamp: 4; display: -webkit-box; overflow: hidden; font-size: 8px; line-height: 1.4; }
+  body.light-mode .services-grid { background: transparent; border: none; }
+  
+  .service-card { border: 1px solid rgba(184,180,173,0.08); padding: 20px 16px; justify-content: flex-start; }
+  body.light-mode .service-card { border: 1px solid rgba(0,0,0,0.08); }
+  
+  .svc-title { font-size: 20px; margin-bottom: 8px; }
+  .svc-desc { -webkit-line-clamp: unset; overflow: visible; font-size: 9px; line-height: 1.5; }
   .svc-overlay-inner { padding: 32px 20px 64px; }
 
-  .media-container { grid-template-columns: 1fr; gap: 16px; }
+  .media-container { grid-template-columns: 1fr; gap: 24px; }
   .display-area { width: 100%; height: auto; max-height: none; }
   #custom-video, #gallery-img { max-height: none; }
-  .media-menu { max-height: none; gap: 16px; }
-  .media-controls-dock { padding: 12px 0; border-top: 1px solid rgba(184,180,173,0.08); }
+  .media-menu { max-height: none; gap: 24px; }
+  .media-controls-dock { padding: 16px 0; border-top: 1px solid rgba(184,180,173,0.08); }
   
   .block-bottom { margin-top: auto; flex-shrink: 0; }
   
-  /* 4 Tab Mobile Layout (1x4 Native App Tab Bar Style) */
+  /* 4 Tab Mobile Layout */
   .nav-slab{ grid-template-columns: repeat(4, 1fr); }
   .nav-item { padding: 12px 4px 10px; align-items: center; border-bottom: none; border-right: 1px solid rgba(184,180,173,0.06); }
   body.light-mode .nav-item { border-right-color: rgba(0,0,0,0.06); }
   .nav-item:last-child { border-right: none; }
-  .nav-item:nth-child(even){ border-right: 1px solid rgba(184,180,173,0.06); }
-  body.light-mode .nav-item:nth-child(even){ border-right-color: rgba(0,0,0,0.06); }
   .nav-item:nth-child(n+3){ border-top: none; }
   body.light-mode .nav-item:nth-child(n+3) { border-top: none; }
   
