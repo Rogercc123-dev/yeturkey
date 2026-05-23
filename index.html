@@ -9,9 +9,12 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;700&family=Noto+Sans+JP:wght@300;500&display=swap" rel="stylesheet">
 
 <style>
+/* Backup font import just in case the HTML links fail */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;700&family=Noto+Sans+JP:wght@300;500&display=swap');
+
 *, *::before, *::after { 
   box-sizing: border-box; 
   margin: 0; 
@@ -22,21 +25,22 @@
   --cream: #e6e3da;
   --void: #030303;
   --concrete: #1f1f1f;
-  --steel: #666666;
-  --akira-red: #cc0000;
-  --portal-glow: rgba(230, 210, 180, 0.04);
+  --steel: #7a7a7a;
+  --portal-glow: rgba(230, 210, 180, 0.05);
+  --grid-line: rgba(255, 255, 255, 0.03);
 }
 
 html, body {
   width: 100vw;
   height: 100vh;
   overflow: hidden; 
-  background: var(--void);
+  background-color: var(--void);
   cursor: none; 
 }
 
 body {
-  font-family: "OCR A BT", "IBM Plex Mono", monospace;
+  /* Locked in the IBM Plex Mono font */
+  font-family: 'IBM Plex Mono', 'Courier New', Courier, monospace;
   color: var(--cream);
   line-height: 1.4;
   letter-spacing: 0.05em;
@@ -44,6 +48,13 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
+  
+  /* Sharper, more premium architectural grid */
+  background-image: 
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 3vw 3vw;
+  background-position: center center;
 }
 
 /* --- CUSTOM CURSOR --- */
@@ -51,36 +62,42 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   background: var(--cream);
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
   mix-blend-mode: difference;
-  transition: width 0.2s, height 0.2s, border-radius 0.2s;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 body:hover .cursor-dot { opacity: 1; }
 
 a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
 }
 
 /* --- ATMOSPHERE --- */
 .atmospheric-glow {
   position: absolute;
-  top: 40%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 80vw;
-  height: 80vw;
+  width: 90vw;
+  height: 90vw;
   border-radius: 50%;
-  background: radial-gradient(circle, var(--portal-glow) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--portal-glow) 0%, transparent 60%);
   pointer-events: none;
   z-index: 0;
+  animation: breathe 8s ease-in-out infinite alternate;
+}
+
+@keyframes breathe {
+  0% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
 }
 
 /* MAIN LAYOUT */
@@ -90,7 +107,7 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  padding: 4vh 4vw; 
+  padding: 6vh 6vw; 
 }
 
 /* --- HERO & CINEMATIC LOAD --- */
@@ -99,71 +116,73 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
 }
 
 @keyframes heavyFadeIn {
-  from { opacity: 0; transform: translateY(15px); filter: blur(5px); }
-  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  0% { opacity: 0; transform: translateY(20px); filter: blur(8px); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 
-/* --- NEW LOGO STYLING --- */
+/* --- UPDATED LOGO STYLING FOR PNG --- */
 .hero-logo {
-  width: clamp(200px, 45vw, 800px); /* Scales massively on desktop, fits on mobile */
+  width: clamp(250px, 40vw, 700px); 
   height: auto;
   object-fit: contain;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   opacity: 0;
-  animation: heavyFadeIn 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
-  
-  /* IF YOUR JPG HAS A BLACK BACKGROUND, THIS MAKES IT BLEND SEAMLESSLY */
-  mix-blend-mode: screen; 
-  /* (Change to 'difference' if the background is white) */
+  animation: heavyFadeIn 2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+  /* Removed mix-blend-mode so your transparent PNG renders perfectly */
 }
 
 .hero-jp-subtitle {
-  font-family: sans-serif;
-  font-size: clamp(10px, 1.5vw, 14px);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 300;
+  font-size: clamp(10px, 1.2vw, 14px);
   color: var(--steel);
-  letter-spacing: 0.5em;
+  letter-spacing: 0.6em;
   margin-left: 4px;
   opacity: 0;
-  animation: heavyFadeIn 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards;
+  animation: heavyFadeIn 2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
 }
 
 /* --- CARDS & HARSH CLIPPING REVEAL --- */
 .cards-section {
   flex-shrink: 0;
-  height: 22vh; 
-  min-height: 120px;
+  height: 20vh; 
+  min-height: 140px;
   opacity: 0;
-  animation: heavyFadeIn 2s cubic-bezier(0.2, 0.8, 0.2, 1) 1.2s forwards;
+  animation: heavyFadeIn 2s cubic-bezier(0.16, 1, 0.3, 1) 1.1s forwards;
 }
+
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1vw;
+  gap: 2px; /* Super tight gap for an architectural look */
   height: 100%;
+  background: var(--grid-line); /* Creates subtle borders between cards */
+  border: 1px solid var(--grid-line);
 }
 
 .minimal-card {
-  border: 1px solid var(--concrete);
-  background: transparent;
+  background: var(--void);
   display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
   color: var(--steel);
-  font-size: clamp(14px, 1.5vw, 20px);
+  font-size: clamp(14px, 1.2vw, 18px);
   font-weight: 400;
   position: relative;
   overflow: hidden;
   cursor: none;
+  transition: color 0.1s;
 }
 
 .minimal-card span {
   position: relative;
   z-index: 2;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .minimal-card::before {
@@ -173,14 +192,14 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   background: var(--cream);
   transform: scaleY(0);
   transform-origin: bottom;
-  transition: transform 0.3s cubic-bezier(0.76, 0, 0.24, 1);
+  transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
   z-index: 1;
 }
 
 .minimal-card:hover span {
   color: var(--void);
   font-weight: 700;
-  transform: translateY(-2px);
+  letter-spacing: 0.15em; /* Text expands slightly on hover */
 }
 
 .minimal-card:hover::before {
@@ -191,8 +210,11 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
 /* MOBILE ADJUSTMENTS */
 @media (max-width: 768px) {
   .cards-section { height: 35vh; }
-  .cards-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); gap: 12px; }
-  body { cursor: auto; } 
+  .cards-grid { 
+    grid-template-columns: repeat(2, 1fr); 
+    grid-template-rows: repeat(2, 1fr); 
+  }
+  body { cursor: auto; background-size: 8vw 8vw; } 
   .cursor-dot { display: none; }
 }
 </style>
@@ -203,7 +225,7 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
 
   <main class="content-wrapper">
     <section class="hero-section">
-      <img src="opera.jpg" alt="Access Opera Logo" class="hero-logo" />
+      <img src="opera.png" alt="access opera logo" class="hero-logo" />
       <div class="hero-jp-subtitle">タレントエージェンシー</div>
     </section>
 
@@ -220,10 +242,10 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   <div class="cursor-dot"></div>
   <script>
     const cursor = document.querySelector('.cursor-dot');
-    let mouseX = 0;
-    let mouseY = 0;
-    let cursorX = 0;
-    let cursorY = 0;
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let cursorX = mouseX;
+    let cursorY = mouseY;
 
     document.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
@@ -234,8 +256,8 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
       let distX = mouseX - cursorX;
       let distY = mouseY - cursorY;
       
-      cursorX = cursorX + (distX * 0.2); 
-      cursorY = cursorY + (distY * 0.2);
+      cursorX = cursorX + (distX * 0.15); 
+      cursorY = cursorY + (distY * 0.15);
       
       cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
       requestAnimationFrame(animateCursor);
