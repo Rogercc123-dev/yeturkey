@@ -157,7 +157,7 @@ body{
 .r-tag { font-size: 9px; letter-spacing: 0.4em; color: #3a3832; margin-left: auto; text-align: right; transition: color 0.5s; }
 .roster-row:hover .r-tag { color: var(--dust); }
 
-/* VIEW: MEDIA (INDEX WORKSPACE) */
+/* VIEW: ARCHIVE */
 .media-index { display: flex; flex-direction: column; width: 100%; }
 .media-workspace { display: none; width: 100%; height: 100%; }
 .media-workspace.active { display: block; }
@@ -198,7 +198,7 @@ body{
   display: flex; flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  max-height: 40vh; 
+  max-height: 38vh; /* Tightened container height to fix clipping vulnerabilities */
 }
 
 .menu-section-top {
@@ -208,11 +208,11 @@ body{
 
 .menu-label {
   font-size: 9px; letter-spacing: 0.4em; color: var(--dust);
-  margin-bottom: 16px; border-bottom: 1px solid rgba(184,180,173,0.08); padding-bottom: 8px;
+  margin-bottom: 12px; border-bottom: 1px solid rgba(184,180,173,0.08); padding-bottom: 8px;
 }
 
 .video-grid {
-  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;
 }
 .v-sel {
   width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
@@ -223,11 +223,11 @@ body{
 .v-sel:hover { border-color: var(--dust); color: var(--concrete); }
 .v-sel.active { background: var(--concrete); color: var(--void); border-color: var(--concrete); }
 
-.active-media-name { font-size: 11px; letter-spacing: 0.1em; color: var(--concrete); margin-bottom: 32px; text-transform: uppercase; min-height: 14px; }
+.active-media-name { font-size: 11px; letter-spacing: 0.1em; color: var(--concrete); margin-bottom: 24px; text-transform: lowercase; min-height: 14px; }
 
 .btn-gallery {
   display: flex; align-items: center; justify-content: space-between;
-  width: 100%; padding: 16px 0; border: none; border-bottom: 1px solid rgba(184,180,173,0.08);
+  width: 100%; padding: 12px 0; border: none; border-bottom: 1px solid rgba(184,180,173,0.08);
   background: transparent; font-family: 'OCR A BT'; text-align: left; cursor: none; transition: color 0.3s;
 }
 .btn-gallery .g-name { font-size: 12px; letter-spacing: 0.1em; color: var(--dust); transition: color 0.3s; }
@@ -237,7 +237,7 @@ body{
 .btn-gallery.active .g-status { color: var(--concrete); }
 
 .media-controls-dock {
-  padding-top: 16px;
+  padding-top: 12px;
 }
 .dock-panel { display: flex; justify-content: space-between; align-items: center; }
 .m-btn-group { display: flex; gap: 24px; }
@@ -341,15 +341,15 @@ body{
 
     <div class="view" id="view-clients">
       <div class="sec-num">01</div>
-      <h2 class="sec-title">roster</h2>
+      <h2 class="sec-title">clients</h2>
       <div class="roster-wrap">
         <a href="#" class="roster-row">
           <div class="r-data r-avatar">
-            <img src="ye.jpg" alt="YE" onerror="this.style.display='none'" />
+            <img src="ye.jpg" alt="ye" onerror="this.style.display='none'" />
           </div>
           <div class="r-data r-details">
             <div class="r-role">artist / creative</div>
-            <div class="r-name">YE</div>
+            <div class="r-name">ye</div>
           </div>
           <div class="r-data r-tag">status: active_</div>
         </a>
@@ -358,7 +358,7 @@ body{
           <div class="r-data r-avatar"></div>
           <div class="r-data r-details">
             <div class="r-role">director / visual</div>
-            <div class="r-name">SAMPLE_TALENT</div>
+            <div class="r-name">sample_talent</div>
           </div>
           <div class="r-data r-tag">status: development_</div>
         </div>
@@ -372,10 +372,10 @@ body{
       <div class="media-index id-active" id="media-artist-selector">
         <div class="roster-wrap">
           <button class="roster-row media-artist-btn" data-artist="ye" style="background:none; border:none; width:100%; text-align:left; font-family:inherit; color:inherit;">
-            <div class="r-data r-avatar"><img src="ye.jpg" alt="YE" onerror="this.style.display='none'" /></div>
+            <div class="r-data r-avatar"><img src="ye.jpg" alt="ye" onerror="this.style.display='none'" /></div>
             <div class="r-data r-details">
               <div class="r-role">access logs / 04 files</div>
-              <div class="r-name">YE</div>
+              <div class="r-name">ye</div>
             </div>
             <div class="r-data r-tag">view_archive_</div>
           </button>
@@ -384,7 +384,7 @@ body{
             <div class="r-data r-avatar"></div>
             <div class="r-data r-details">
               <div class="r-role">access logs / 00 files</div>
-              <div class="r-name">SAMPLE_TALENT</div>
+              <div class="r-name">sample_talent</div>
             </div>
             <div class="r-data r-tag">empty_</div>
           </button>
@@ -403,16 +403,16 @@ body{
             <div class="menu-section-top">
               <div class="menu-label">motion_</div>
               <div class="video-grid">
-                <button class="v-sel active" data-src="video1.mp4" data-name="ISTANBUL_PROMO.MP4">01</button>
-                <button class="v-sel" data-src="video2.mp4" data-name="STAGE_CONCEPT_V3.MP4">02</button>
-                <button class="v-sel" data-src="video3.mp4" data-name="TOUR_VLOG_ARCHIVE.MP4">03</button>
-                <button class="v-sel" data-src="video4.mp4" data-name="UNRELEASED_STUDIO.MP4">04</button>
+                <button class="v-sel active" data-src="video1.mp4" data-name="istanbul_promo.mp4">01</button>
+                <button class="v-sel" data-src="video2.mp4" data-name="stage_concept_v3.mp4">02</button>
+                <button class="v-sel" data-src="video3.mp4" data-name="tour_vlog_archive.mp4">03</button>
+                <button class="v-sel" data-src="video4.mp4" data-name="unreleased_studio.mp4">04</button>
               </div>
-              <div class="active-media-name" id="display-name">ISTANBUL_PROMO.MP4</div>
+              <div class="active-media-name" id="display-name">istanbul_promo.mp4</div>
 
               <div class="menu-label">stills_</div>
               <button class="btn-gallery" id="btn-gallery-toggle">
-                <span class="g-name">NEW_MEXICO_ARCHIVE</span>
+                <span class="g-name">new_mexico_archive</span>
                 <span class="g-status" id="gallery-status">loaded_</span>
               </button>
             </div>
@@ -443,18 +443,18 @@ body{
 
     <div class="view" id="view-upcoming">
       <div class="sec-num">03</div>
-      <h2 class="sec-title">schedule</h2>
+      <h2 class="sec-title">upcoming</h2>
       <div class="schedule-wrap">
         <a href="ye.html" class="schedule-row">
           <div class="s-data s-date">30 may</div>
-          <div class="s-data s-artist">YE</div>
+          <div class="s-data s-artist">ye</div>
           <div class="s-data s-location">istanbul</div>
           <div class="s-data s-action">explore_</div>
         </a>
         
         <div class="schedule-row" style="pointer-events: none; opacity: 0.4;">
           <div class="s-data s-date">tbd</div>
-          <div class="s-data s-artist">SAMPLE_TALENT</div>
+          <div class="s-data s-artist">sample_talent</div>
           <div class="s-data s-location">london</div>
           <div class="s-data s-action">locked_</div>
         </div>
@@ -485,10 +485,10 @@ body{
         <div class="nav-label">clients</div>
         <div class="nav-jp">クライアント</div>
       </a>
-      <a href="#" class="nav-item nav-trigger" data-target="view-media" data-word="media">
+      <a href="#" class="nav-item nav-trigger" data-target="view-media" data-word="archive">
         <div class="nav-num">02</div>
-        <div class="nav-label">media</div>
-        <div class="nav-jp">メディア</div>
+        <div class="nav-label">archive</div>
+        <div class="nav-jp">アーカイブ</div>
       </a>
       <a href="#" class="nav-item nav-trigger" data-target="view-upcoming" data-word="upcoming">
         <div class="nav-num">03</div>
@@ -539,7 +539,6 @@ triggers.forEach(trigger => {
       playBtn.innerText = 'play_';
     }
 
-    // Reset Media tab view back to directory selection screen when leaving
     artistSelector.style.display = 'flex';
     workspaceYe.classList.remove('active');
 
@@ -575,13 +574,11 @@ artistBtns.forEach(btn => {
       artistSelector.style.display = 'none';
       workspaceYe.classList.add('active');
       
-      // Active video load cycle under responsive layout patterns safely
       globalVideo.load();
       globalVideo.play().then(() => {
         playBtn.innerText = 'pause_';
         globalVideo.classList.add('is-playing');
       }).catch(err => {
-        // Mobile fallback catch parameters if hardware blocks autoplay flags
         playBtn.innerText = 'play_';
       });
     }
@@ -695,7 +692,7 @@ btnGalleryToggle.addEventListener('click', () => {
   btnGalleryToggle.classList.add('active');
   gStatus.innerText = 'viewing_';
   
-  displayName.innerText = "NEW_MEXICO_ARCHIVE (STILLS)";
+  displayName.innerText = "new_mexico_archive (stills)";
 
   globalVideo.pause();
   globalVideo.classList.remove('is-playing');
