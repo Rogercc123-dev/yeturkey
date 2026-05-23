@@ -7,261 +7,372 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+JP:wght@100&display=swap" rel="stylesheet">
+
 <style>
+@font-face {
+  font-family: 'OCR A BT';
+  src: url('OCR-a___.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
+:root{
+  --concrete: #b8b4ad;
+  --raw:       #1a1916;
+  --deep:      #0d0c0b;
+  --void:      #070706;
+  --dust:      #5a574f;
+  --form:      #2e2c28;
+}
+
 html,body{
-  width:100vw;
-  height:100vh;
+  width:100vw;height:100vh;
   overflow:hidden;
-  background:#0c0b09;
+  background:var(--void);
   cursor:none;
 }
 
 body{
-  font-family:'Share Tech Mono','Courier New',monospace;
-  color:#9a8e7a;
+  font-family:'OCR A BT','Share Tech Mono','Courier New',monospace;
+  color:var(--concrete);
   text-transform:lowercase;
-  letter-spacing:0.3em;
+  letter-spacing:0.05em;
+  position:relative;
 }
 
-/* CURSOR — just a small cross, nothing technical */
+/* CURSOR — just a pixel */
 .cur{
-  position:fixed;
-  top:0;left:0;
-  width:16px;height:16px;
+  position:fixed;top:0;left:0;
+  width:4px;height:4px;
+  background:var(--concrete);
   pointer-events:none;
   z-index:9999;
-  transform:translate(-8px,-8px);
+  transform:translate(-2px,-2px);
+  transition:none;
 }
-.cur::before,.cur::after{
-  content:'';
-  position:absolute;
-  background:#9a8e7a;
-  opacity:0.5;
-}
-.cur::before{width:1px;height:100%;left:50%;}
-.cur::after{width:100%;height:1px;top:50%;}
 
-/* GRAIN — the most important thing. makes it feel physical. */
+/* GRAIN — concrete surface texture, the most important thing */
 .grain{
   position:fixed;inset:0;
-  z-index:500;
+  z-index:600;
   pointer-events:none;
-  opacity:0.55;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='0.12'/%3E%3C/svg%3E");
-  background-size:200px 200px;
-  mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='0.15'/%3E%3C/svg%3E");
+  background-size:300px 300px;
+  opacity:0.7;
+  mix-blend-mode:overlay;
 }
 
-/* DEEP VIGNETTE — burns the edges to pure black */
+/* VIGNETTE — stone shadow at edges */
 .vignette{
-  position:fixed;inset:0;
-  z-index:400;
-  pointer-events:none;
-  background:radial-gradient(ellipse 75% 75% at 50% 50%,transparent 20%,rgba(8,7,5,0.5) 60%,rgba(4,3,2,0.97) 100%);
+  position:fixed;inset:0;z-index:500;pointer-events:none;
+  background:radial-gradient(ellipse 80% 80% at 50% 50%,
+    transparent 25%,
+    rgba(7,7,6,0.4) 55%,
+    rgba(4,4,3,0.92) 100%
+  );
 }
 
-/* THE WEIGHT — a broad warm band across the mid-page, like light through stone */
-.light-slab{
+/* BACKGROUND — a massive ghost word, like text carved into a wall */
+.bg-word{
   position:fixed;
-  top:0;left:0;right:0;bottom:0;
-  background:
-    radial-gradient(ellipse 55% 35% at 50% 48%,rgba(180,155,100,0.07) 0%,transparent 100%);
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-size:clamp(200px,28vw,420px);
+  font-weight:400;
+  letter-spacing:-0.04em;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(184,180,173,0.04);
+  white-space:nowrap;
   pointer-events:none;
   z-index:1;
+  user-select:none;
+  line-height:1;
 }
 
-/* LAYOUT */
+/* HORIZONTAL MASS LINES — like concrete formwork joints */
+.mass-line{
+  position:fixed;left:0;right:0;
+  height:1px;
+  background:rgba(184,180,173,0.06);
+  pointer-events:none;
+  z-index:2;
+}
+
+/* PAGE LAYOUT */
 .page{
-  position:relative;
-  z-index:10;
+  position:relative;z-index:10;
   width:100%;height:100vh;
   display:grid;
-  grid-template-rows:1fr auto 1fr;
-  padding:52px 56px;
+  grid-template-rows:auto 1fr auto;
+  padding:0;
 }
 
-/* TOP — sparse, just an identifier */
-.top{
+/* TOP BLOCK — pinned to ceiling */
+.block-top{
+  padding:48px 56px 0;
   display:flex;
   justify-content:space-between;
   align-items:flex-start;
   opacity:0;
-  animation:emerge 2.5s ease 0.5s forwards;
+  animation:appear 3s ease 0.4s forwards;
 }
 
-.label{
+.wordmark{
+  font-size:11px;
+  letter-spacing:0.45em;
+  color:var(--dust);
+  line-height:2.2;
+}
+.wordmark-primary{
+  color:var(--concrete);
+  font-size:12px;
+}
+.wordmark-jp{
+  font-family:'Noto Sans JP',sans-serif;
+  font-weight:100;
+  font-size:9px;
+  letter-spacing:0.5em;
+  color:#3a3832;
+}
+
+.open-tag{
   font-size:10px;
   letter-spacing:0.4em;
-  color:#5a5144;
-  line-height:2;
-}
-.label-primary{
-  color:#7a6e5e;
+  color:#3a3832;
+  text-align:right;
 }
 
-/* CENTER — the name. enormous. the whole page. */
-.center{
+/* CENTER — the name, crushing in scale */
+.block-center{
   display:flex;
   flex-direction:column;
   justify-content:center;
+  padding:0 56px;
 }
 
-.name-block{
+.logo-wrap{
   opacity:0;
-  animation:emergeSlow 3.5s ease 0.2s forwards;
+  animation:massReveal 4s cubic-bezier(0.16,1,0.3,1) 0.1s forwards;
 }
 
-.name-line{
-  font-size:clamp(68px,10.5vw,172px);
+/* If opera.png exists it shows, otherwise fallback text */
+.logo-img{
+  width:clamp(280px,42vw,720px);
+  height:auto;
+  object-fit:contain;
+  display:block;
+  margin-bottom:20px;
+  /* No glow, no filter. Just the raw image. */
+  opacity:0.92;
+}
+
+/* Fallback name if no image */
+.logo-text{
+  display:none; /* shown via JS if image fails */
+}
+.logo-text-line{
+  font-size:clamp(72px,11vw,180px);
   font-weight:400;
-  letter-spacing:-0.01em;
-  line-height:0.9;
-  color:#d4c8b0;
+  letter-spacing:-0.02em;
+  line-height:0.88;
+  color:var(--concrete);
+}
+.logo-text-line--sub{
+  color:var(--form);
+  -webkit-text-stroke:1px var(--dust);
 }
 
-/* Second word — lighter, recedes */
-.name-line--ghost{
-  color:#3d3628;
+/* THE RULE — a single heavy horizontal, like a datum line in architecture */
+.datum{
+  width:0;height:1px;
+  background:rgba(184,180,173,0.2);
+  margin:32px 0 24px;
+  animation:drawLine 2s ease 2.2s forwards;
 }
+@keyframes drawLine{to{width:clamp(280px,42vw,720px)}}
 
-.divider{
-  width:100%;
-  height:1px;
-  background:linear-gradient(90deg,rgba(154,142,122,0.25),transparent 60%);
-  margin:36px 0 28px;
-  opacity:0;
-  animation:expand 2s ease 1.8s forwards;
-  transform-origin:left;
-  transform:scaleX(0);
-}
-@keyframes expand{
-  to{opacity:1;transform:scaleX(1)}
-}
-
-.sub-line{
+.descriptor{
   font-size:10px;
   letter-spacing:0.5em;
-  color:#5a5144;
+  color:var(--dust);
   opacity:0;
-  animation:emerge 2s ease 2.4s forwards;
+  animation:appear 2s ease 2.8s forwards;
 }
 
-/* BOTTOM NAV */
-.bottom{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
+/* BOTTOM BLOCK — nav slabs, flush to floor */
+.block-bottom{
   opacity:0;
-  animation:emerge 2s ease 2.8s forwards;
+  animation:appear 2s ease 3s forwards;
 }
 
-.nav{
-  display:flex;
-  gap:48px;
-  align-items:center;
+.nav-slab{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border-top:1px solid rgba(184,180,173,0.08);
 }
 
-.nav-link{
-  font-size:10px;
-  letter-spacing:0.4em;
-  color:#4a4438;
-  text-decoration:none;
-  cursor:none;
+.nav-item{
   position:relative;
-  transition:color 1s ease;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:28px 56px;
+  text-decoration:none;
+  color:var(--dust);
+  border-right:1px solid rgba(184,180,173,0.06);
+  cursor:none;
+  overflow:hidden;
+  transition:color 0.8s ease;
 }
-.nav-link::after{
+.nav-item:last-child{border-right:none}
+
+/* The fill — rises from the ground like poured concrete */
+.nav-item::before{
   content:'';
   position:absolute;
-  bottom:-4px;left:0;
-  width:0;height:1px;
-  background:#9a8e7a;
-  transition:width 0.8s ease;
+  bottom:0;left:0;right:0;height:0;
+  background:var(--raw);
+  transition:height 0.6s cubic-bezier(0.76,0,0.24,1);
+  z-index:0;
 }
-.nav-link:hover{color:#9a8e7a;}
-.nav-link:hover::after{width:100%;}
+.nav-item:hover::before{height:100%}
+.nav-item:hover{color:var(--concrete)}
 
-.coords{
-  font-size:9px;
-  letter-spacing:0.35em;
-  color:#3a342c;
+.nav-num{
+  position:relative;z-index:1;
+  font-size:9px;letter-spacing:0.3em;
+  color:#3a3832;
+  margin-bottom:8px;
+  transition:color 0.6s ease;
+}
+.nav-item:hover .nav-num{color:var(--dust)}
+
+.nav-label{
+  position:relative;z-index:1;
+  font-size:clamp(13px,1.1vw,16px);
+  letter-spacing:0.3em;
+}
+
+.nav-jp{
+  position:relative;z-index:1;
   font-family:'Noto Sans JP',sans-serif;
   font-weight:100;
+  font-size:9px;
+  letter-spacing:0.3em;
+  color:#3a3832;
+  margin-top:6px;
+  transition:color 0.6s ease;
 }
+.nav-item:hover .nav-jp{color:var(--dust)}
 
-/* ANIMATIONS — slow, heavy, inevitable */
-@keyframes emerge{
-  from{opacity:0;transform:translateY(10px)}
-  to{opacity:1;transform:translateY(0)}
-}
-@keyframes emergeSlow{
-  0%{opacity:0}
-  30%{opacity:0}
-  100%{opacity:1}
-}
-
-/* LOADER — pure black, holds for a beat, then lifts */
+/* LOADER — holds in black, lifts like a concrete slab */
 .loader{
   position:fixed;inset:0;
-  background:#000;
+  background:var(--void);
   z-index:5000;
-  animation:loaderLift 0.9s cubic-bezier(0.76,0,0.24,1) 1.4s forwards;
+  display:flex;align-items:center;justify-content:center;
 }
-@keyframes loaderLift{
-  to{transform:translateY(-100%)}
+.loader-inner{
+  font-size:10px;letter-spacing:0.6em;
+  color:#2a2822;
+  animation:loaderFade 1.2s ease 0.8s forwards;
+}
+@keyframes loaderFade{to{opacity:0}}
+.loader{animation:loaderLift 1s cubic-bezier(0.76,0,0.24,1) 1.6s forwards}
+@keyframes loaderLift{to{transform:translateY(-100%)}}
+
+/* ANIMATIONS */
+@keyframes appear{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes massReveal{
+  0%{opacity:0;filter:blur(16px)}
+  40%{filter:blur(0)}
+  100%{opacity:1;filter:blur(0)}
 }
 
 /* MOBILE */
 @media(max-width:680px){
-  body{cursor:auto}
-  .cur{display:none}
-  .page{padding:36px 28px}
-  .name-line{font-size:clamp(52px,14vw,90px)}
-  .nav{gap:28px}
-  .coords{display:none}
+  body{cursor:auto}.cur{display:none}
+  .block-top,.block-center{padding:32px 28px 0}
+  .nav-item{padding:22px 28px}
+  .nav-slab{grid-template-columns:repeat(2,1fr)}
+  .nav-item:nth-child(2){border-right:none}
+  .nav-item:nth-child(3),.nav-item:nth-child(4){border-top:1px solid rgba(184,180,173,0.06)}
+  .bg-word{font-size:50vw}
 }
 </style>
 </head>
 <body>
 
-<div class="loader"></div>
+<div class="loader"><div class="loader-inner">access opera</div></div>
 <div class="grain"></div>
 <div class="vignette"></div>
-<div class="light-slab"></div>
+
+<!-- Ghost word carved into the wall -->
+<div class="bg-word">opera</div>
+
+<!-- Formwork joints -->
+<div class="mass-line" style="top:33.33vh"></div>
+<div class="mass-line" style="top:66.66vh"></div>
+
 <div class="cur" id="cur"></div>
 
 <div class="page">
 
-  <header class="top">
+  <header class="block-top">
     <div>
-      <div class="label label-primary">access opera</div>
-      <div class="label">talent agency</div>
-      <div class="label" style="font-family:'Noto Sans JP',sans-serif;font-weight:100;font-size:9px;margin-top:4px;color:#3a342c">タレントエージェンシー</div>
+      <div class="wordmark wordmark-primary">access opera</div>
+      <div class="wordmark">talent agency</div>
+      <div class="wordmark-jp">タレントエージェンシー</div>
     </div>
-    <div style="text-align:right">
-      <div class="label" style="color:#3a342c">open for submissions</div>
-    </div>
+    <div class="open-tag">open for submissions</div>
   </header>
 
-  <main class="center">
-    <div class="name-block">
-      <div class="name-line">access</div>
-      <div class="name-line name-line--ghost">opera</div>
-      <div class="divider"></div>
-      <div class="sub-line">talent representation &nbsp;/&nbsp; creative management</div>
+  <main class="block-center">
+    <div class="logo-wrap">
+      <img
+        src="opera.png"
+        alt="access opera"
+        class="logo-img"
+        id="logo-img"
+        onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='block'"
+      />
+      <div class="logo-text" id="logo-fallback">
+        <div class="logo-text-line">access</div>
+        <div class="logo-text-line logo-text-line--sub">opera</div>
+      </div>
+      <div class="datum"></div>
+      <div class="descriptor">talent representation &nbsp;·&nbsp; creative management</div>
     </div>
   </main>
 
-  <footer class="bottom">
-    <nav class="nav">
-      <a href="#" class="nav-link">clients</a>
-      <a href="#" class="nav-link">media</a>
-      <a href="#" class="nav-link">upcoming</a>
-      <a href="#" class="nav-link">contact</a>
+  <footer class="block-bottom">
+    <nav class="nav-slab">
+      <a href="#clients" class="nav-item">
+        <div class="nav-num">01</div>
+        <div class="nav-label">clients</div>
+        <div class="nav-jp">クライアント</div>
+      </a>
+      <a href="#media" class="nav-item">
+        <div class="nav-num">02</div>
+        <div class="nav-label">media</div>
+        <div class="nav-jp">メディア</div>
+      </a>
+      <a href="#upcoming" class="nav-item">
+        <div class="nav-num">03</div>
+        <div class="nav-label">upcoming</div>
+        <div class="nav-jp">予定</div>
+      </a>
+      <a href="#contact" class="nav-item">
+        <div class="nav-num">04</div>
+        <div class="nav-label">contact</div>
+        <div class="nav-jp">コンタクト</div>
+      </a>
     </nav>
-    <div class="coords">mmxxiv</div>
   </footer>
 
 </div>
@@ -271,9 +382,9 @@ const cur = document.getElementById('cur');
 let mx = 0, my = 0, cx = 0, cy = 0;
 document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
 (function loop(){
-  cx += (mx - cx) * 0.08;
-  cy += (my - cy) * 0.08;
-  cur.style.transform = `translate(${cx - 8}px, ${cy - 8}px)`;
+  cx += (mx - cx) * 0.06;
+  cy += (my - cy) * 0.06;
+  cur.style.transform = `translate(${cx - 2}px,${cy - 2}px)`;
   requestAnimationFrame(loop);
 })();
 document.querySelectorAll('a').forEach(a => a.addEventListener('click', e => e.preventDefault()));
