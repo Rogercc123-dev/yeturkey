@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+JP:wght@100&display=swap" rel="stylesheet">
 
 <style>
+/* --- STRICT CUSTOM FONT INJECTION --- */
 @font-face {
   font-family: 'OCR A BT';
   src: url('OCR-a___.ttf') format('truetype');
@@ -42,7 +43,7 @@ body{
   position:relative;
 }
 
-/* CURSOR — just a pixel */
+/* CURSOR */
 .cur{
   position:fixed;top:0;left:0;
   width:4px;height:4px;
@@ -53,7 +54,7 @@ body{
   transition:none;
 }
 
-/* GRAIN — concrete surface texture, the most important thing */
+/* GRAIN & VIGNETTE */
 .grain{
   position:fixed;inset:0;
   z-index:600;
@@ -63,246 +64,140 @@ body{
   opacity:0.7;
   mix-blend-mode:overlay;
 }
-
-/* VIGNETTE — stone shadow at edges */
 .vignette{
   position:fixed;inset:0;z-index:500;pointer-events:none;
-  background:radial-gradient(ellipse 80% 80% at 50% 50%,
-    transparent 25%,
-    rgba(7,7,6,0.4) 55%,
-    rgba(4,4,3,0.92) 100%
-  );
+  background:radial-gradient(ellipse 80% 80% at 50% 50%, transparent 25%, rgba(7,7,6,0.4) 55%, rgba(4,4,3,0.92) 100%);
 }
 
-/* BACKGROUND — a massive ghost word, like text carved into a wall */
+/* BACKGROUND WORD */
 .bg-word{
-  position:fixed;
-  top:50%;left:50%;
+  position:fixed; top:50%; left:50%;
   transform:translate(-50%,-50%);
-  font-size:clamp(200px,28vw,420px);
-  font-weight:400;
-  letter-spacing:-0.04em;
+  font-size:clamp(120px,20vw,420px);
+  font-weight:400; letter-spacing:-0.04em;
   color:transparent;
   -webkit-text-stroke:1px rgba(184,180,173,0.04);
-  white-space:nowrap;
-  pointer-events:none;
-  z-index:1;
-  user-select:none;
-  line-height:1;
+  white-space:nowrap; pointer-events:none;
+  z-index:1; user-select:none; line-height:1;
+  transition: opacity 0.4s ease; /* smooth fade when changing word */
 }
 
-/* HORIZONTAL MASS LINES — like concrete formwork joints */
+/* MASS LINES */
 .mass-line{
-  position:fixed;left:0;right:0;
-  height:1px;
+  position:fixed;left:0;right:0; height:1px;
   background:rgba(184,180,173,0.06);
-  pointer-events:none;
-  z-index:2;
+  pointer-events:none; z-index:2;
 }
 
 /* PAGE LAYOUT */
 .page{
-  position:relative;z-index:10;
-  width:100%;height:100vh;
+  position:relative; z-index:10;
+  width:100%; height:100vh;
   display:grid;
   grid-template-rows:auto 1fr auto;
   padding:0;
 }
 
-/* TOP BLOCK — pinned to ceiling */
+/* TOP BLOCK */
 .block-top{
-  padding:48px 56px 0;
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  opacity:0;
-  animation:appear 3s ease 0.4s forwards;
+  padding:48px 56px 0; display:flex; justify-content:space-between; align-items:flex-start;
+  opacity:0; animation:appear 3s ease 0.4s forwards;
 }
+.wordmark-wrap { text-decoration: none; cursor: none; }
+.wordmark{ font-size:11px; letter-spacing:0.45em; color:var(--dust); line-height:2.2; transition: color 0.4s ease; }
+.wordmark-primary{ color:var(--concrete); font-size:12px; }
+.wordmark-jp{ font-family:'Noto Sans JP',sans-serif; font-weight:100; font-size:9px; letter-spacing:0.5em; color:#3a3832; transition: color 0.4s ease; }
+.wordmark-wrap:hover .wordmark, .wordmark-wrap:hover .wordmark-jp { color: var(--concrete); }
+.open-tag{ font-size:10px; letter-spacing:0.4em; color:var(--dust); text-align:right; text-decoration: none; cursor: none; transition: color 0.4s ease; }
+.open-tag:hover { color: var(--concrete); }
 
-.wordmark{
-  font-size:11px;
-  letter-spacing:0.45em;
-  color:var(--dust);
-  line-height:2.2;
-}
-.wordmark-primary{
-  color:var(--concrete);
-  font-size:12px;
-}
-.wordmark-jp{
-  font-family:'Noto Sans JP',sans-serif;
-  font-weight:100;
-  font-size:9px;
-  letter-spacing:0.5em;
-  color:#3a3832;
-}
-
-.open-tag{
-  font-size:10px;
-  letter-spacing:0.4em;
-  color:#3a3832;
-  text-align:right;
-}
-
-/* CENTER — the name, crushing in scale */
+/* CENTER BLOCK - SPA VIEWS */
 .block-center{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  padding:0 56px;
+  position: relative;
+  display:flex; flex-direction:column; justify-content:center;
+  padding:0 56px; overflow: hidden;
 }
 
-.logo-wrap{
-  opacity:0;
-  animation:massReveal 4s cubic-bezier(0.16,1,0.3,1) 0.1s forwards;
+/* VIEW TOGGLING */
+.view {
+  display: none; /* Hidden by default */
+  flex-direction: column; justify-content: center;
+  width: 100%; height: 100%;
+}
+.view.active {
+  display: flex; /* Show active view */
+  animation: massReveal 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
 }
 
-/* If opera.png exists it shows, otherwise fallback text */
-.logo-img{
-  width:clamp(280px,42vw,720px);
-  height:auto;
-  object-fit:contain;
-  display:block;
-  margin-bottom:20px;
-  /* No glow, no filter. Just the raw image. */
-  opacity:0.92;
-}
+/* VIEW: HOME */
+.logo-img{ width:clamp(280px,42vw,720px); height:auto; object-fit:contain; display:block; margin-bottom:20px; opacity:0.92; }
+.datum{ width:clamp(280px,42vw,720px); height:1px; background:rgba(184,180,173,0.2); margin:32px 0 24px; }
+.descriptor{ font-size:10px; letter-spacing:0.5em; color:var(--dust); }
 
-/* Fallback name if no image */
-.logo-text{
-  display:none; /* shown via JS if image fails */
+/* VIEW: UPCOMING (SCHEDULE) */
+.schedule-wrap{ width: 100%; border-top: 1px solid rgba(184,180,173,0.08); }
+.schedule-row{
+  position: relative; display: grid; grid-template-columns: 1fr 2fr 1fr auto; align-items: center;
+  padding: 32px 24px; border-bottom: 1px solid rgba(184,180,173,0.08); text-decoration: none;
+  color: var(--dust); cursor: none; overflow: hidden; transition: color 0.6s ease;
 }
-.logo-text-line{
-  font-size:clamp(72px,11vw,180px);
-  font-weight:400;
-  letter-spacing:-0.02em;
-  line-height:0.88;
-  color:var(--concrete);
+.schedule-row::before{
+  content:''; position:absolute; bottom:0;left:0;right:0;height:0;
+  background:var(--raw); transition:height 0.5s cubic-bezier(0.76,0,0.24,1); z-index:0;
 }
-.logo-text-line--sub{
-  color:var(--form);
-  -webkit-text-stroke:1px var(--dust);
-}
+.schedule-row:hover::before{height:100%}
+.schedule-row:hover {color: var(--concrete)}
+.s-data { position: relative; z-index: 1; }
+.s-date, .s-location { font-size: clamp(12px, 1.1vw, 16px); letter-spacing: 0.2em; }
+.s-artist { font-size: clamp(32px, 4vw, 64px); color: var(--form); letter-spacing: -0.02em; line-height: 1; transition: color 0.5s ease, transform 0.5s ease; }
+.schedule-row:hover .s-artist { color: var(--concrete); transform: translateX(8px); }
+.s-action { font-size: 10px; letter-spacing: 0.4em; color: #3a3832; transition: color 0.5s ease; }
+.schedule-row:hover .s-action { color: var(--dust); }
 
-/* THE RULE — a single heavy horizontal, like a datum line in architecture */
-.datum{
-  width:0;height:1px;
-  background:rgba(184,180,173,0.2);
-  margin:32px 0 24px;
-  animation:drawLine 2s ease 2.2s forwards;
-}
-@keyframes drawLine{to{width:clamp(280px,42vw,720px)}}
-
-.descriptor{
-  font-size:10px;
-  letter-spacing:0.5em;
-  color:var(--dust);
-  opacity:0;
-  animation:appear 2s ease 2.8s forwards;
-}
-
-/* BOTTOM BLOCK — nav slabs, flush to floor */
-.block-bottom{
-  opacity:0;
-  animation:appear 2s ease 3s forwards;
-}
-
-.nav-slab{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  border-top:1px solid rgba(184,180,173,0.08);
-}
-
+/* BOTTOM NAV SLAB */
+.block-bottom{ opacity:0; animation:appear 2s ease 2s forwards; }
+.nav-slab{ display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid rgba(184,180,173,0.08); }
 .nav-item{
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  padding:28px 56px;
-  text-decoration:none;
-  color:var(--dust);
-  border-right:1px solid rgba(184,180,173,0.06);
-  cursor:none;
-  overflow:hidden;
-  transition:color 0.8s ease;
+  position:relative; display:flex; flex-direction:column; justify-content:center; padding:28px 56px;
+  text-decoration:none; color:var(--dust); border-right:1px solid rgba(184,180,173,0.06); cursor:none; overflow:hidden; transition:color 0.8s ease;
 }
 .nav-item:last-child{border-right:none}
-
-/* The fill — rises from the ground like poured concrete */
 .nav-item::before{
-  content:'';
-  position:absolute;
-  bottom:0;left:0;right:0;height:0;
-  background:var(--raw);
-  transition:height 0.6s cubic-bezier(0.76,0,0.24,1);
-  z-index:0;
+  content:''; position:absolute; bottom:0;left:0;right:0;height:0;
+  background:var(--raw); transition:height 0.6s cubic-bezier(0.76,0,0.24,1); z-index:0;
 }
 .nav-item:hover::before{height:100%}
 .nav-item:hover{color:var(--concrete)}
+.nav-item.active { color: var(--concrete); }
+.nav-item.active::before { height: 100%; }
 
-.nav-num{
-  position:relative;z-index:1;
-  font-size:9px;letter-spacing:0.3em;
-  color:#3a3832;
-  margin-bottom:8px;
-  transition:color 0.6s ease;
-}
-.nav-item:hover .nav-num{color:var(--dust)}
+.nav-num{ position:relative; z-index:1; font-size:9px; letter-spacing:0.3em; color:#3a3832; margin-bottom:8px; transition:color 0.6s ease; }
+.nav-item:hover .nav-num, .nav-item.active .nav-num{color:var(--dust)}
+.nav-label{ position:relative; z-index:1; font-size:clamp(13px,1.1vw,16px); letter-spacing:0.3em; }
+.nav-jp{ position:relative; z-index:1; font-family:'Noto Sans JP',sans-serif; font-weight:100; font-size:9px; letter-spacing:0.3em; color:#3a3832; margin-top:6px; transition:color 0.6s ease; }
+.nav-item:hover .nav-jp, .nav-item.active .nav-jp{color:var(--dust)}
 
-.nav-label{
-  position:relative;z-index:1;
-  font-size:clamp(13px,1.1vw,16px);
-  letter-spacing:0.3em;
-}
-
-.nav-jp{
-  position:relative;z-index:1;
-  font-family:'Noto Sans JP',sans-serif;
-  font-weight:100;
-  font-size:9px;
-  letter-spacing:0.3em;
-  color:#3a3832;
-  margin-top:6px;
-  transition:color 0.6s ease;
-}
-.nav-item:hover .nav-jp{color:var(--dust)}
-
-/* LOADER — holds in black, lifts like a concrete slab */
-.loader{
-  position:fixed;inset:0;
-  background:var(--void);
-  z-index:5000;
-  display:flex;align-items:center;justify-content:center;
-}
-.loader-inner{
-  font-size:10px;letter-spacing:0.6em;
-  color:#2a2822;
-  animation:loaderFade 1.2s ease 0.8s forwards;
-}
+/* LOADER */
+.loader{ position:fixed; inset:0; background:var(--void); z-index:5000; display:flex; align-items:center; justify-content:center; }
+.loader-inner{ font-size:10px; letter-spacing:0.6em; color:#2a2822; animation:loaderFade 1.2s ease 0.8s forwards; }
 @keyframes loaderFade{to{opacity:0}}
 .loader{animation:loaderLift 1s cubic-bezier(0.76,0,0.24,1) 1.6s forwards}
 @keyframes loaderLift{to{transform:translateY(-100%)}}
-
-/* ANIMATIONS */
-@keyframes appear{
-  from{opacity:0;transform:translateY(8px)}
-  to{opacity:1;transform:translateY(0)}
-}
-@keyframes massReveal{
-  0%{opacity:0;filter:blur(16px)}
-  40%{filter:blur(0)}
-  100%{opacity:1;filter:blur(0)}
-}
+@keyframes appear{ from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+@keyframes massReveal{ 0%{opacity:0;filter:blur(8px)} 100%{opacity:1;filter:blur(0)} }
 
 /* MOBILE */
-@media(max-width:680px){
+@media(max-width:850px){
   body{cursor:auto}.cur{display:none}
   .block-top,.block-center{padding:32px 28px 0}
+  .schedule-row { grid-template-columns: 1fr; gap: 12px; padding: 24px 16px; }
+  .s-action { margin-top: 12px; border-top: 1px solid rgba(184,180,173,0.08); padding-top: 12px; }
+  .schedule-row:hover .s-artist { transform: translateX(4px); }
   .nav-item{padding:22px 28px}
   .nav-slab{grid-template-columns:repeat(2,1fr)}
   .nav-item:nth-child(2){border-right:none}
   .nav-item:nth-child(3),.nav-item:nth-child(4){border-top:1px solid rgba(184,180,173,0.06)}
-  .bg-word{font-size:50vw}
+  .bg-word{font-size:40vw}
 }
 </style>
 </head>
@@ -312,10 +207,8 @@ body{
 <div class="grain"></div>
 <div class="vignette"></div>
 
-<!-- Ghost word carved into the wall -->
-<div class="bg-word">opera</div>
+<div class="bg-word" id="bgWord">opera</div>
 
-<!-- Formwork joints -->
 <div class="mass-line" style="top:33.33vh"></div>
 <div class="mass-line" style="top:66.66vh"></div>
 
@@ -324,50 +217,74 @@ body{
 <div class="page">
 
   <header class="block-top">
-    <div>
+    <a href="#" class="wordmark-wrap nav-trigger" data-target="view-home" data-word="opera">
       <div class="wordmark wordmark-primary">access opera</div>
       <div class="wordmark">talent agency</div>
       <div class="wordmark-jp">タレントエージェンシー</div>
-    </div>
+    </a>
     <div class="open-tag">open for submissions</div>
   </header>
 
   <main class="block-center">
-    <div class="logo-wrap">
-      <img
-        src="opera.png"
-        alt="access opera"
-        class="logo-img"
-        id="logo-img"
-        onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='block'"
-      />
-      <div class="logo-text" id="logo-fallback">
-        <div class="logo-text-line">access</div>
-        <div class="logo-text-line logo-text-line--sub">opera</div>
-      </div>
+    
+    <div class="view active" id="view-home">
+      <img src="opera.png" alt="access opera" class="logo-img" />
       <div class="datum"></div>
       <div class="descriptor">talent representation &nbsp;·&nbsp; creative management</div>
     </div>
+
+    <div class="view" id="view-upcoming">
+      <div class="schedule-wrap">
+        <a href="ye.html" class="schedule-row">
+          <div class="s-data s-date">30 may</div>
+          <div class="s-data s-artist">YE</div>
+          <div class="s-data s-location">istanbul</div>
+          <div class="s-data s-action">explore_</div>
+        </a>
+        <div class="schedule-row" style="pointer-events: none;">
+          <div class="s-data s-date">tba</div>
+          <div class="s-data s-artist">---</div>
+          <div class="s-data s-location">global</div>
+          <div class="s-data s-action">locked_</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="view" id="view-clients">
+      <div class="descriptor">clients directory / restricted access_</div>
+      <div class="datum" style="width: 200px;"></div>
+    </div>
+
+    <div class="view" id="view-media">
+      <div class="descriptor">media archive / compiling_</div>
+      <div class="datum" style="width: 200px;"></div>
+    </div>
+
+    <div class="view" id="view-contact">
+      <div class="descriptor">inquiries / <a href="mailto:info@accessopera.com" style="color:var(--concrete); text-decoration:none; cursor:none;">info@accessopera.com</a></div>
+      <div class="datum" style="width: 200px;"></div>
+    </div>
+
   </main>
 
   <footer class="block-bottom">
     <nav class="nav-slab">
-      <a href="#clients" class="nav-item">
+      <a href="#" class="nav-item nav-trigger" data-target="view-clients" data-word="clients">
         <div class="nav-num">01</div>
         <div class="nav-label">clients</div>
         <div class="nav-jp">クライアント</div>
       </a>
-      <a href="#media" class="nav-item">
+      <a href="#" class="nav-item nav-trigger" data-target="view-media" data-word="media">
         <div class="nav-num">02</div>
         <div class="nav-label">media</div>
         <div class="nav-jp">メディア</div>
       </a>
-      <a href="#upcoming" class="nav-item">
+      <a href="#" class="nav-item nav-trigger" data-target="view-upcoming" data-word="upcoming">
         <div class="nav-num">03</div>
         <div class="nav-label">upcoming</div>
         <div class="nav-jp">予定</div>
       </a>
-      <a href="#contact" class="nav-item">
+      <a href="#" class="nav-item nav-trigger" data-target="view-contact" data-word="contact">
         <div class="nav-num">04</div>
         <div class="nav-label">contact</div>
         <div class="nav-jp">コンタクト</div>
@@ -378,6 +295,7 @@ body{
 </div>
 
 <script>
+// Cursor Physics
 const cur = document.getElementById('cur');
 let mx = 0, my = 0, cx = 0, cy = 0;
 document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
@@ -387,7 +305,47 @@ document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; })
   cur.style.transform = `translate(${cx - 2}px,${cy - 2}px)`;
   requestAnimationFrame(loop);
 })();
-document.querySelectorAll('a').forEach(a => a.addEventListener('click', e => e.preventDefault()));
+
+// SPA Tabbing Logic
+const triggers = document.querySelectorAll('.nav-trigger');
+const views = document.querySelectorAll('.view');
+const bgWord = document.getElementById('bgWord');
+const navItems = document.querySelectorAll('.nav-item');
+
+triggers.forEach(trigger => {
+  trigger.addEventListener('click', (e) => {
+    // If it's the logo or a tab, prevent default link behavior
+    if(trigger.getAttribute('href') === '#') e.preventDefault();
+
+    const targetId = trigger.getAttribute('data-target');
+    const word = trigger.getAttribute('data-word');
+
+    // 1. Update active state on bottom tabs
+    navItems.forEach(item => item.classList.remove('active'));
+    // Only add active class if the trigger is an actual bottom tab
+    if (trigger.classList.contains('nav-item')) {
+      trigger.classList.add('active');
+    }
+
+    // 2. Change the massive background word
+    bgWord.style.opacity = '0';
+    setTimeout(() => {
+      bgWord.innerText = word;
+      bgWord.style.opacity = '1';
+    }, 200);
+
+    // 3. Swap the views
+    views.forEach(view => {
+      view.classList.remove('active');
+      if (view.id === targetId) {
+        // slight delay to reset the CSS animation
+        setTimeout(() => {
+          view.classList.add('active');
+        }, 50);
+      }
+    });
+  });
+});
 </script>
 </body>
 </html>
