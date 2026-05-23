@@ -119,7 +119,7 @@ body.light-mode .mass-line { background:rgba(0,0,0,0.06); }
 }
 .block-center::-webkit-scrollbar { display: none; }
 
-.view { display: none; flex-direction: column; justify-content: flex-start; width: 100%; min-height: 100%; height: auto; position: relative; }
+.view { display: none; flex-direction: column; justify-content: flex-start; width: 100%; min-height: 100%; height: 100%; position: relative; }
 .view.active { display: flex; animation: massReveal 0.8s cubic-bezier(0.16,1,0.3,1) forwards; }
 
 #view-home, #view-media { justify-content: center; }
@@ -148,7 +148,6 @@ body.light-mode .datum { background:rgba(0,0,0,0.1); }
 }
 .home-blurb strong { color: var(--concrete); font-weight: normal; }
 
-/* Contact Embedded into Home Right */
 .home-contact {
   margin-top: 32px; padding-top: 24px;
   border-top: 1px solid rgba(184,180,173,0.08);
@@ -187,15 +186,12 @@ body.light-mode button.schedule-row:hover { background: rgba(0,0,0,0.02); }
 body.light-mode .s-action { color: #a3a099; }
 .schedule-row:hover .s-action { color: var(--dust); }
 
-/* Accordion Smooth Dropdown Mechanics */
 .tour-accordion { border-bottom: 1px solid rgba(184,180,173,0.08); }
 body.light-mode .tour-accordion { border-bottom: 1px solid rgba(0,0,0,0.08); }
 .tour-accordion .schedule-row { border-bottom: none; }
-
 .accordion-content { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease; }
 .accordion-inner { overflow: hidden; display: flex; flex-direction: column; }
 .tour-accordion.open .accordion-content { grid-template-rows: 1fr; opacity: 1; }
-
 .accordion-icon { display: inline-block; margin-right: 4px; color: var(--form); transition: color 0.3s ease; font-weight: bold; }
 button.schedule-row:hover .accordion-icon { color: var(--dust); }
 
@@ -239,19 +235,22 @@ body.light-mode .roster-row { border-color: rgba(0,0,0,0.08); }
 body.light-mode .r-tag { color: #a3a099; }
 .roster-row:hover .r-tag { color: var(--dust); }
 
-/* VIEW: SERVICES (HIGH-END ANIMATED) */
+/* VIEW: SERVICES (PERFECT 2x2 ZERO-SCROLL GRID) */
 .services-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr; /* Mathematically locked to two rows */
   border-top: 1px solid rgba(184,180,173,0.08);
   border-left: 1px solid rgba(184,180,173,0.08);
-  flex-grow: 1;
+  flex-grow: 1; /* Takes up remaining height perfectly */
+  height: 100%;
+  min-height: 0;
 }
 body.light-mode .services-grid { border-color: rgba(0,0,0,0.08); }
 
 .service-card {
   position: relative;
-  padding: 48px 40px;
+  padding: 32px 40px;
   border-right: 1px solid rgba(184,180,173,0.08);
   border-bottom: 1px solid rgba(184,180,173,0.08);
   display: flex;
@@ -272,14 +271,16 @@ body.light-mode .service-card { border-color: rgba(0,0,0,0.08); }
 .service-card:hover::before { height: 100%; }
 
 .svc-content { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; }
-.svc-title { font-size: clamp(24px, 3vw, 40px); color: var(--form); line-height: 1.1; margin-bottom: 24px; transition: color 0.4s, transform 0.4s; font-weight: normal; }
-.svc-desc { font-size: 11px; line-height: 1.8; letter-spacing: 0.05em; color: var(--dust); transition: color 0.4s; text-align: justify; }
+.svc-title { font-size: clamp(24px, 3vw, 40px); color: var(--form); line-height: 1.1; margin-bottom: 16px; transition: color 0.4s, transform 0.4s; font-weight: normal; }
+.svc-desc { 
+  font-size: 11px; line-height: 1.8; letter-spacing: 0.05em; color: var(--dust); transition: color 0.4s; text-align: justify;
+  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; /* Prevents long text from breaking the vertical lock */
+}
 
 .service-card:hover .svc-title { color: var(--concrete); transform: translateX(8px); }
 .service-card:hover .svc-desc { color: var(--concrete); }
 
-/* The Hidden Extended Content Inside the Card */
-.svc-extended { display: none; }
+.svc-extended { display: none; } /* Hidden payload for overlay */
 
 /* SPATIAL EXPANSION OVERLAY FOR SERVICES */
 .svc-overlay {
@@ -289,13 +290,15 @@ body.light-mode .service-card { border-color: rgba(0,0,0,0.08); }
   z-index: 100;
   display: flex;
   flex-direction: column;
-  padding: 40px 56px;
-  /* Cinematic circle expansion from mouse coordinates */
   clip-path: circle(0px at var(--click-x, 50%) var(--click-y, 50%));
-  transition: clip-path 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+  transition: clip-path 0.8s cubic-bezier(0.76, 0, 0.24, 1), background 0.4s ease;
   pointer-events: none;
   overflow-y: auto;
+  scrollbar-width: none; /* Firefox invisible scrollbar */
 }
+.svc-overlay::-webkit-scrollbar { display: none; } /* Chrome/Safari invisible scrollbar */
+body.light-mode .svc-overlay { background: var(--void); }
+
 .svc-overlay.active {
   clip-path: circle(150% at var(--click-x, 50%) var(--click-y, 50%));
   pointer-events: all;
@@ -303,20 +306,30 @@ body.light-mode .service-card { border-color: rgba(0,0,0,0.08); }
 .svc-overlay-inner {
   opacity: 0; transform: translateY(20px); 
   transition: all 0.6s cubic-bezier(0.16,1,0.3,1) 0.3s;
-  max-width: 800px;
+  width: 100%; max-width: 900px; margin: 0 auto;
+  padding: 40px 56px 80px;
 }
 .svc-overlay.active .svc-overlay-inner { opacity: 1; transform: translateY(0); }
 
 .svc-overlay-close {
-  align-self: flex-end;
+  align-self: flex-start;
   background: transparent; border: none; font-family: inherit;
   font-size: 10px; letter-spacing: 0.4em; color: var(--dust);
-  cursor: none; margin-bottom: 40px; transition: color 0.3s;
+  cursor: none; margin-bottom: 40px; transition: color 0.3s; padding: 0;
 }
 .svc-overlay-close:hover { color: var(--concrete); }
 
 .svc-overlay-title { font-size: clamp(40px, 6vw, 80px); color: var(--concrete); margin-bottom: 32px; font-weight: normal; }
 .svc-overlay-body p { font-size: 13px; line-height: 2; letter-spacing: 0.05em; color: var(--dust); margin-bottom: 24px; text-align: justify; }
+
+/* Cinematic Media Placeholders inside Overlay */
+.svc-media-placeholder {
+  width: 100%; aspect-ratio: 16 / 9; background: var(--deep);
+  border: 1px solid rgba(184,180,173,0.08); display: flex;
+  align-items: center; justify-content: center; margin: 32px 0;
+  color: var(--dust); font-size: 10px; letter-spacing: 0.2em; font-family: 'OCR A BT';
+}
+body.light-mode .svc-media-placeholder { border-color: rgba(0,0,0,0.08); }
 
 /* VIEW: ARCHIVE */
 .media-index { display: flex; flex-direction: column; width: 100%; }
@@ -376,7 +389,7 @@ body.light-mode .v-sel { border-color: rgba(0,0,0,0.08); }
 }
 body.light-mode .btn-gallery { border-color: rgba(0,0,0,0.08); }
 .btn-gallery .g-name { font-size: 12px; letter-spacing: 0.1em; color: var(--dust); transition: color 0.3s; }
-.btn-gallery .g-status { font-size: 8px; letter-spacing: 0.3em; color: var(--form); transition: color 0.3s; }
+.btn-gallery .g-status { font-size: 8px; letter-spacing: 0.3em; color: var(--void); transition: color 0.3s; }
 .btn-gallery:hover .g-name { color: var(--concrete); }
 .btn-gallery.active .g-name { color: var(--concrete); }
 .btn-gallery.active .g-status { color: var(--concrete); }
@@ -392,7 +405,7 @@ body.light-mode .media-controls-dock { border-color: rgba(0,0,0,0.08); }
 .m-btn:hover { color: var(--concrete); }
 .m-info { font-size: 10px; letter-spacing: 0.1em; color: var(--dust); }
 
-/* BOTTOM NAV SLAB (4 COLUMNS - EXTREMELY CLEAN) */
+/* BOTTOM NAV SLAB (4 COLUMNS - SYMMETRIC) */
 .block-bottom{ opacity:0; animation:appear 2s ease 2s forwards; }
 .nav-slab{ display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid rgba(184,180,173,0.08); }
 body.light-mode .nav-slab { border-color: rgba(0,0,0,0.08); }
@@ -440,17 +453,20 @@ body.light-mode .nav-jp { color: #a3a099; }
   .r-avatar { width: 64px; height: 64px; margin-right: 20px; }
   .r-tag { display: none; }
   
-  .services-grid { grid-template-columns: 1fr; border-left: none; }
+  /* Services Mobile Override (Re-enable natural height & unclamped text) */
+  .services-grid { grid-template-columns: 1fr; grid-template-rows: auto; height: auto; border-left: none; }
   .service-card { border-right: none; padding: 32px 24px; }
-  .svc-overlay { padding: 32px 24px; }
+  .svc-desc { -webkit-line-clamp: unset; overflow: visible; }
+  .svc-overlay-inner { padding: 40px 24px 80px; }
 
   .media-container { grid-template-columns: 1fr; gap: 32px; }
   .display-area { width: 100%; height: auto; max-height: none; }
   #custom-video, #gallery-img { max-height: none; }
   .media-menu { max-height: none; gap: 24px; }
   .media-controls-dock { padding: 16px 0; border-top: 1px solid rgba(184,180,173,0.08); }
-  
   .block-bottom { margin-top: auto; }
+  
+  /* 4 Tab Mobile Layout (2x2) */
   .nav-slab{ grid-template-columns: repeat(2,1fr); }
   .nav-item { padding: 24px; border-bottom: none; }
   .nav-item:nth-child(even){ border-right: none; }
@@ -676,7 +692,9 @@ body.light-mode .nav-jp { color: #a3a099; }
             <h3 class="svc-title">marketing</h3>
             <p class="svc-desc">platinum-standard audience acquisition. global rollout strategies, brand positioning, and algorithmic dominance. we do not follow the culture; we engineer it from the ground up to ensure maximum leverage across all digital and physical territories.</p>
             <div class="svc-extended">
+              <div class="svc-media-placeholder">[ image proxy active_ ]</div>
               <p>Our acquisition models leverage deep behavioral data and structural creative force. We refuse organic luck; we build scalable, targeted campaigns that surround the consumer. From imposing physical billboard domination in tier-one metropolitan hubs to hyper-targeted digital funnels, we dictate the narrative and control the rollout ecosystem entirely.</p>
+              <div class="svc-media-placeholder">[ video proxy active_ ]</div>
             </div>
           </div>
         </button>
@@ -686,6 +704,7 @@ body.light-mode .nav-jp { color: #a3a099; }
             <h3 class="svc-title">videography</h3>
             <p class="svc-desc">cinematic visual execution. from stadium-scale tour documentaries to high-end music video production. utilizing native raw capture and an elite post-production pipeline, directed by industry visionaries to create era-defining visual assets.</p>
             <div class="svc-extended">
+              <div class="svc-media-placeholder">[ video proxy active_ ]</div>
               <p>Operating exclusively on high-end cinema camera ecosystems, our directors and cinematographers construct visual monuments. Services include end-to-end production logistics, color grading in certified suites, and bespoke visual effects integration. We treat a 15-second digital asset with the exact same rigorous cinematic discipline as a feature-length film.</p>
             </div>
           </div>
@@ -696,6 +715,7 @@ body.light-mode .nav-jp { color: #a3a099; }
             <h3 class="svc-title">creative direction</h3>
             <p class="svc-desc">holistic artistic architecture. stage design, dynamic lighting programming, and bespoke wardrobe curation. translating an artist's sonic identity into imposing, physical, and visual environments that dominate the live and digital space.</p>
             <div class="svc-extended">
+              <div class="svc-media-placeholder">[ image proxy active_ ]</div>
               <p>We build and control the entire universe the artist inhabits. This encompasses monumental stage architecture, synchronized tour lighting mapping, wardrobe styling, and physical merchandise design. We partner intimately with elite industrial designers and avant-garde fashion houses to ensure physical spaces reflect the artist's sonic landscape with aggressive precision.</p>
             </div>
           </div>
@@ -706,6 +726,7 @@ body.light-mode .nav-jp { color: #a3a099; }
             <h3 class="svc-title">brand partnerships</h3>
             <p class="svc-desc">high-leverage corporate alignment. securing platinum-tier sponsorships, fashion house endorsements, and bespoke product collaborations. we connect visionary talent with global capital to build multi-dimensional empires.</p>
             <div class="svc-extended">
+              <div class="svc-media-placeholder">[ image proxy active_ ]</div>
               <p>We reject standard transactional influencer deals. We negotiate equity, creative control, and platinum-tier sponsorships. By ruthlessly aligning our exclusive roster with heritage luxury conglomerates and aggressive tech innovators, we build long-term corporate bridges that elevate the artist from musician to a dominant global brand ambassador.</p>
             </div>
           </div>
@@ -714,9 +735,11 @@ body.light-mode .nav-jp { color: #a3a099; }
       </div>
 
       <div class="svc-overlay" id="svc-overlay">
-        <button class="svc-overlay-close" id="svc-close-btn">[ close_ ]</button>
-        <div class="svc-overlay-inner" id="svc-overlay-content">
-          </div>
+        <div class="svc-overlay-inner">
+          <button class="svc-overlay-close" id="svc-close-btn">[ return_ ]</button>
+          <div id="svc-overlay-content">
+            </div>
+        </div>
       </div>
     </div>
 
