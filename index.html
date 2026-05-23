@@ -28,7 +28,7 @@ html, body {
   height: 100vh;
   overflow: hidden; 
   background: var(--void);
-  cursor: none; /* Hiding default cursor for the custom one */
+  cursor: none; /* Hiding default cursor */
 }
 
 body {
@@ -60,28 +60,12 @@ body {
 
 body:hover .cursor-dot { opacity: 1; }
 /* Expanding cursor on clickable items */
-a:hover ~ .cursor-dot {
+a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   width: 40px;
   height: 40px;
 }
 
-/* --- ATMOSPHERE & NOISE --- */
-.noise-overlay {
-  position: fixed;
-  inset: -50%;
-  width: 200%;
-  height: 200%;
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 1;
-  animation: staticNoise 0.2s infinite steps(2);
-}
-
-@keyframes staticNoise {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(-2%, -2%); }
-}
-
+/* --- ATMOSPHERE --- */
 .atmospheric-glow {
   position: absolute;
   top: 40%;
@@ -105,6 +89,8 @@ a:hover ~ .cursor-dot {
   align-items: center;
   padding: 0 4vw;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  animation: heavyFadeIn 2s cubic-bezier(0.2, 0.8, 0.2, 1) 1s forwards;
+  opacity: 0;
 }
 .nav-logo {
   font-size: 14px; 
@@ -132,7 +118,7 @@ a:hover ~ .cursor-dot {
   padding: 0 4vw 4vh 4vw;
 }
 
-/* --- HERO & GLITCH TYPOGRAPHY --- */
+/* --- HERO & CINEMATIC LOAD --- */
 .hero-section {
   flex-grow: 1;
   display: flex;
@@ -140,10 +126,9 @@ a:hover ~ .cursor-dot {
   justify-content: center;
 }
 
-.glitch-wrapper {
-  position: relative;
-  display: inline-block;
-  width: fit-content;
+@keyframes heavyFadeIn {
+  from { opacity: 0; transform: translateY(15px); filter: blur(5px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 
 .hero-title {
@@ -153,47 +138,8 @@ a:hover ~ .cursor-dot {
   letter-spacing: -0.06em;
   margin-bottom: 8px;
   position: relative;
-  animation: glitchLoad 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-}
-
-.hero-title::before, .hero-title::after {
-  content: "access opera";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.8;
-}
-
-.hero-title::before {
-  color: #0ff;
-  z-index: -1;
-  animation: glitchAnim 2s infinite linear alternate-reverse;
-}
-
-.hero-title::after {
-  color: var(--akira-red);
-  z-index: -2;
-  animation: glitchAnim 2.5s infinite linear alternate-reverse;
-}
-
-@keyframes glitchLoad {
-  0% { transform: skew(0deg) translateY(50px); opacity: 0; filter: blur(10px); }
-  20% { transform: skew(-20deg) translateY(0); opacity: 1; filter: blur(0); }
-  40% { transform: skew(10deg); }
-  60% { transform: skew(-5deg); }
-  80% { transform: skew(2deg); }
-  100% { transform: skew(0); }
-}
-
-@keyframes glitchAnim {
-  0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 1px); }
-  20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
-  40% { clip-path: inset(40% 0 50% 0); transform: translate(2px, 2px); }
-  60% { clip-path: inset(80% 0 5% 0); transform: translate(-2px, -2px); }
-  80% { clip-path: inset(10% 0 70% 0); transform: translate(2px, -2px); }
-  100% { clip-path: inset(30% 0 50% 0); transform: translate(-2px, 2px); }
+  opacity: 0;
+  animation: heavyFadeIn 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
 }
 
 .hero-jp-subtitle {
@@ -202,6 +148,8 @@ a:hover ~ .cursor-dot {
   color: var(--steel);
   letter-spacing: 0.5em;
   margin-left: 4px;
+  opacity: 0;
+  animation: heavyFadeIn 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards;
 }
 
 /* --- CARDS & HARSH CLIPPING REVEAL --- */
@@ -209,6 +157,8 @@ a:hover ~ .cursor-dot {
   flex-shrink: 0;
   height: 22vh; 
   min-height: 120px;
+  opacity: 0;
+  animation: heavyFadeIn 2s cubic-bezier(0.2, 0.8, 0.2, 1) 1.2s forwards;
 }
 .cards-grid {
   display: grid;
@@ -270,7 +220,6 @@ a:hover ~ .cursor-dot {
 </head>
 
 <body>
-  <div class="noise-overlay"></div>
   <div class="atmospheric-glow"></div>
 
   <nav class="nav-bar">
@@ -282,9 +231,7 @@ a:hover ~ .cursor-dot {
 
   <main class="content-wrapper">
     <section class="hero-section">
-      <div class="glitch-wrapper">
-        <h1 class="hero-title">access opera</h1>
-      </div>
+      <h1 class="hero-title">access opera</h1>
       <div class="hero-jp-subtitle">タレントエージェンシー</div>
     </section>
 
@@ -306,18 +253,16 @@ a:hover ~ .cursor-dot {
     let cursorX = 0;
     let cursorY = 0;
 
-    // Fast tracking for the mouse position
     document.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
     });
 
-    // Smooth physics loop for the cursor dot
     function animateCursor() {
       let distX = mouseX - cursorX;
       let distY = mouseY - cursorY;
       
-      cursorX = cursorX + (distX * 0.2); // Adjust 0.2 for lag/smoothness
+      cursorX = cursorX + (distX * 0.2); 
       cursorY = cursorY + (distY * 0.2);
       
       cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
