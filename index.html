@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>access opera</title>
-<meta name="theme-color" content="#070706" />
+<meta name="theme-color" content="#121110" />
 
 <style>
 /* --- STRICT CUSTOM FONT INJECTION --- */
@@ -17,13 +17,24 @@
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
+/* --- LIGHTENED DARK MODE (DEFAULT) --- */
 :root{
-  --concrete: #b8b4ad;
-  --raw:       #1a1916;
-  --deep:      #0d0c0b;
-  --void:      #070706;
-  --dust:      #5a574f;
-  --form:      #2e2c28;
+  --concrete: #e6e4df; /* Lighter, sharper text */
+  --raw:       #242320; /* Lifted from pitch black */
+  --deep:      #1a1917; 
+  --void:      #121110; /* Softened background void */
+  --dust:      #8c8982; /* Brighter accent text */
+  --form:      #45423d;
+}
+
+/* --- LIGHT MODE OVERRIDES --- */
+body.light-mode {
+  --concrete: #121110; 
+  --raw:       #e0ddd6; 
+  --deep:      #eeebe4; 
+  --void:      #f4f2ec; 
+  --dust:      #6b6861; 
+  --form:      #a3a099;
 }
 
 html,body{
@@ -31,6 +42,7 @@ html,body{
   overflow:hidden;
   background:var(--void);
   cursor:none;
+  transition: background 0.4s ease;
 }
 
 body{
@@ -58,28 +70,22 @@ body{
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='0.15'/%3E%3C/svg%3E");
   background-size:300px 300px; opacity:0.7; mix-blend-mode:overlay;
 }
+/* Adjust grain for light mode so it doesn't look burnt */
+body.light-mode .grain { mix-blend-mode: multiply; opacity: 0.3; }
+
 .vignette{
   position:fixed;inset:0;z-index:500;pointer-events:none;
-  background:radial-gradient(ellipse 80% 80% at 50% 50%, transparent 25%, rgba(7,7,6,0.4) 55%, rgba(4,4,3,0.92) 100%);
-}
-
-/* BACKGROUND WORD */
-.bg-word{
-  position:fixed; top:50%; left:50%;
-  transform:translate(-50%,-50%);
-  font-size:clamp(120px,20vw,420px);
-  font-weight:400; letter-spacing:-0.04em;
-  color:transparent; -webkit-text-stroke:1px rgba(184,180,173,0.04);
-  white-space:nowrap; pointer-events:none;
-  z-index:1; user-select:none; line-height:1;
+  background:radial-gradient(ellipse 80% 80% at 50% 50%, transparent 25%, rgba(0,0,0,0.3) 55%, rgba(0,0,0,0.8) 100%);
   transition: opacity 0.4s ease;
 }
+body.light-mode .vignette { opacity: 0.15; }
 
 /* MASS LINES */
 .mass-line{
   position:fixed;left:0;right:0; height:1px;
   background:rgba(184,180,173,0.06); pointer-events:none; z-index:2;
 }
+body.light-mode .mass-line { background:rgba(0,0,0,0.06); }
 
 /* PAGE LAYOUT */
 .page{
@@ -97,13 +103,22 @@ body{
 .wordmark-primary{ color:var(--concrete); font-size:12px; }
 .wordmark-wrap:hover .wordmark { color: var(--concrete); }
 
+.top-right-actions { display: flex; gap: 24px; align-items: center; }
+.open-tag, .theme-btn { 
+  font-size:10px; letter-spacing:0.4em; color:var(--dust); text-align:right; 
+  text-decoration: none; cursor: none; transition: color 0.4s ease;
+  background: none; border: none; font-family: inherit;
+}
+.open-tag:hover, .theme-btn:hover { color: var(--concrete); }
+
 /* CENTER BLOCK */
 .block-center{
   position: relative; display:flex; flex-direction:column; justify-content:center;
   padding: 20px 56px 40px; 
   height: 100%;
-  overflow: hidden; 
+  overflow-y: auto; overflow-x: hidden; scrollbar-width: none;
 }
+.block-center::-webkit-scrollbar { display: none; }
 
 .view { display: none; flex-direction: column; justify-content: center; width: 100%; height: 100%; min-height: 0; }
 .view.active { display: flex; animation: massReveal 0.8s cubic-bezier(0.16,1,0.3,1) forwards; }
@@ -112,18 +127,37 @@ body{
 .sec-num { font-size: 10px; letter-spacing: 0.3em; color: var(--dust); margin-bottom: 12px; flex-shrink: 0; }
 .sec-title { font-size: clamp(32px, 5vw, 64px); font-weight: 400; letter-spacing: -0.02em; line-height: 1; margin-bottom: 30px; color: var(--concrete); flex-shrink: 0; }
 
-/* VIEW: HOME */
-.logo-img{ width:clamp(280px,42vw,720px); height:auto; object-fit:contain; display:block; margin-bottom:20px; opacity:0.92; }
-.datum{ width:clamp(280px,42vw,720px); height:1px; background:rgba(184,180,173,0.2); margin:32px 0 24px; }
+/* VIEW: HOME (SPLIT LAYOUT) */
+.home-layout {
+  display: flex; gap: 64px; align-items: center; justify-content: space-between; width: 100%;
+}
+.home-left { flex: 1; }
+.home-right { flex: 1; max-width: 500px; }
+
+.logo-img{ width:clamp(200px,35vw,600px); height:auto; object-fit:contain; display:block; margin-bottom:20px; opacity:0.92; transition: filter 0.4s ease; }
+body.light-mode .logo-img { filter: invert(1); } /* Inverts logo to black for light mode */
+
+.datum{ width: 100%; max-width: 600px; height:1px; background:rgba(184,180,173,0.2); margin:32px 0 24px; }
+body.light-mode .datum { background:rgba(0,0,0,0.1); }
 .descriptor{ font-size:10px; letter-spacing:0.5em; color:var(--dust); }
+
+.home-blurb {
+  font-size: 10px; line-height: 2; letter-spacing: 0.15em; color: var(--dust);
+  text-transform: uppercase; text-align: justify;
+}
+.home-blurb strong { color: var(--concrete); font-weight: normal; }
 
 /* VIEW: UPCOMING */
 .schedule-wrap{ width: 100%; border-top: 1px solid rgba(184,180,173,0.08); }
+body.light-mode .schedule-wrap { border-color: rgba(0,0,0,0.08); }
+
 .schedule-row{
   position: relative; display: grid; grid-template-columns: 1fr 2fr 1fr auto; align-items: center;
   padding: 32px 24px; border-bottom: 1px solid rgba(184,180,173,0.08); text-decoration: none;
   color: var(--dust); cursor: none; overflow: hidden; transition: color 0.6s ease;
 }
+body.light-mode .schedule-row { border-color: rgba(0,0,0,0.08); }
+
 .schedule-row::before{ content:''; position:absolute; bottom:0;left:0;right:0;height:0; background:var(--raw); transition:height 0.5s cubic-bezier(0.76,0,0.24,1); z-index:0; }
 .schedule-row:hover::before{height:100%}
 .schedule-row:hover {color: var(--concrete)}
@@ -132,15 +166,20 @@ body{
 .s-artist { font-size: clamp(32px, 4vw, 64px); color: var(--form); letter-spacing: -0.02em; line-height: 1; transition: color 0.5s ease, transform 0.5s ease; }
 .schedule-row:hover .s-artist { color: var(--concrete); transform: translateX(8px); }
 .s-action { font-size: 10px; letter-spacing: 0.4em; color: #3a3832; transition: color 0.5s ease; }
+body.light-mode .s-action { color: #a3a099; }
 .schedule-row:hover .s-action { color: var(--dust); }
 
 /* VIEW: CLIENTS */
 .roster-wrap { width: 100%; border-top: 1px solid rgba(184,180,173,0.08); }
+body.light-mode .roster-wrap { border-color: rgba(0,0,0,0.08); }
+
 .roster-row {
   position: relative; display: flex; align-items: center;
   padding: 24px 32px; border-bottom: 1px solid rgba(184,180,173,0.08);
   text-decoration: none; cursor: none; overflow: hidden;
 }
+body.light-mode .roster-row { border-color: rgba(0,0,0,0.08); }
+
 .roster-row::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 0; background: var(--raw); transition: height 0.5s cubic-bezier(0.76,0,0.24,1); z-index: 0; }
 .roster-row:hover::before { height: 100%; }
 
@@ -155,6 +194,7 @@ body{
 .r-role { font-size: 10px; letter-spacing: 0.3em; color: var(--dust); transition: color 0.5s; }
 .roster-row:hover .r-role { color: var(--concrete); }
 .r-tag { font-size: 9px; letter-spacing: 0.4em; color: #3a3832; margin-left: auto; text-align: right; transition: color 0.5s; }
+body.light-mode .r-tag { color: #a3a099; }
 .roster-row:hover .r-tag { color: var(--dust); }
 
 /* VIEW: ARCHIVE */
@@ -171,56 +211,38 @@ body{
   min-height: 0;
 }
 
-/* Redesigned to scale seamlessly according to asset orientation flags */
 .display-area {
-  position: relative;
-  width: 100%;
-  background: var(--deep);
-  border: 1px solid rgba(184,180,173,0.08);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  position: relative; width: 100%; background: var(--deep);
+  border: 1px solid rgba(184,180,173,0.08); overflow: hidden;
+  display: flex; flex-direction: column;
 }
+body.light-mode .display-area { border-color: rgba(0,0,0,0.08); }
 
-/* Removed forced heights to let vertical files stretch fully into view */
 #custom-video, #gallery-img {
-  width: 100%;
-  height: auto;
-  max-height: 52vh; /* Protects display architecture boundaries */
-  object-fit: contain; 
-  background: #000;
-  display: block;
-  filter: grayscale(100%) contrast(1.1);
-  transition: filter 0.5s ease;
+  width: 100%; height: auto; max-height: 52vh; object-fit: contain; 
+  background: #000; display: block; filter: grayscale(100%) contrast(1.1); transition: filter 0.5s ease;
 }
 #custom-video.is-playing, #gallery-img.is-active { filter: grayscale(0%) contrast(1); }
 
 .media-menu {
-  display: flex; flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-  max-height: 60vh; 
+  display: flex; flex-direction: column; justify-content: space-between;
+  height: 100%; max-height: 60vh; 
 }
-
-.menu-section-top {
-  display: flex;
-  flex-direction: column;
-}
-
+.menu-section-top { display: flex; flex-direction: column; }
 .menu-label {
   font-size: 9px; letter-spacing: 0.4em; color: var(--dust);
   margin-bottom: 12px; border-bottom: 1px solid rgba(184,180,173,0.08); padding-bottom: 8px;
 }
+body.light-mode .menu-label { border-color: rgba(0,0,0,0.08); }
 
-.video-grid {
-  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;
-}
+.video-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
 .v-sel {
   width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
   background: transparent; border: 1px solid rgba(184,180,173,0.08);
   font-family: 'OCR A BT'; font-size: 9px; color: var(--dust);
   cursor: none; transition: all 0.3s ease;
 }
+body.light-mode .v-sel { border-color: rgba(0,0,0,0.08); }
 .v-sel:hover { border-color: var(--dust); color: var(--concrete); }
 .v-sel.active { background: var(--concrete); color: var(--void); border-color: var(--concrete); }
 
@@ -231,18 +253,18 @@ body{
   width: 100%; padding: 12px 0; border: none; border-bottom: 1px solid rgba(184,180,173,0.08);
   background: transparent; font-family: 'OCR A BT'; text-align: left; cursor: none; transition: color 0.3s;
 }
+body.light-mode .btn-gallery { border-color: rgba(0,0,0,0.08); }
 .btn-gallery .g-name { font-size: 12px; letter-spacing: 0.1em; color: var(--dust); transition: color 0.3s; }
-.btn-gallery .g-status { font-size: 8px; letter-spacing: 0.3em; color: var(--void); transition: color 0.3s; }
+.btn-gallery .g-status { font-size: 8px; letter-spacing: 0.3em; color: var(--form); transition: color 0.3s; }
 .btn-gallery:hover .g-name { color: var(--concrete); }
 .btn-gallery.active .g-name { color: var(--concrete); }
 .btn-gallery.active .g-status { color: var(--concrete); }
 
 .media-controls-dock {
-  padding: 16px 24px;
-  background: var(--void);
-  border-top: 1px solid rgba(184,180,173,0.08);
-  width: 100%;
+  padding: 16px 24px; background: var(--void);
+  border-top: 1px solid rgba(184,180,173,0.08); width: 100%;
 }
+body.light-mode .media-controls-dock { border-color: rgba(0,0,0,0.08); }
 .dock-panel { display: flex; justify-content: space-between; align-items: center; }
 .m-btn-group { display: flex; gap: 24px; }
 .m-btn { background: none; border: none; font-family: 'OCR A BT'; font-size: 10px; letter-spacing: 0.2em; color: var(--dust); cursor: none; transition: color 0.2s; }
@@ -251,6 +273,7 @@ body{
 
 /* VIEW: CONTACT */
 .contact-wrap { border-top: 1px solid rgba(184,180,173,0.08); padding-top: 40px; }
+body.light-mode .contact-wrap { border-color: rgba(0,0,0,0.08); }
 .c-row { margin-bottom: 40px; }
 .c-label { font-size: 9px; letter-spacing: 0.3em; color: var(--dust); margin-bottom: 12px; }
 .c-link { font-size: clamp(24px, 3vw, 40px); color: var(--concrete); text-decoration: none; cursor: none; transition: opacity 0.3s; }
@@ -259,7 +282,9 @@ body{
 /* BOTTOM NAV SLAB */
 .block-bottom{ opacity:0; animation:appear 2s ease 2s forwards; }
 .nav-slab{ display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid rgba(184,180,173,0.08); }
+body.light-mode .nav-slab { border-color: rgba(0,0,0,0.08); }
 .nav-item{ position:relative; display:flex; flex-direction:column; justify-content:center; padding:24px 56px 20px; text-decoration:none; color:var(--dust); border-right:1px solid rgba(184,180,173,0.06); cursor:none; overflow:hidden; transition:color 0.8s ease; }
+body.light-mode .nav-item { border-color: rgba(0,0,0,0.06); }
 .nav-item:last-child{border-right:none}
 .nav-item::before{ content:''; position:absolute; bottom:0;left:0;right:0;height:0; background:var(--raw); transition:height 0.6s cubic-bezier(0.76,0,0.24,1); z-index:0; }
 .nav-item:hover::before{height:100%}
@@ -268,18 +293,15 @@ body{
 .nav-item.active::before { height: 100%; }
 
 .nav-num{ position:relative; z-index:1; font-size:9px; letter-spacing:0.3em; color:#3a3832; margin-bottom:6px; transition:color 0.6s ease; }
+body.light-mode .nav-num { color: #a3a099; }
 .nav-item:hover .nav-num, .nav-item.active .nav-num{color:var(--dust)}
 .nav-label{ position:relative; z-index:1; font-size:clamp(13px,1.1vw,16px); letter-spacing:0.3em; }
-
-.nav-jp {
-  position: relative; z-index: 1;
-  font-size: 8px; letter-spacing: 0.2em; color: #2d2a24;
-  margin-top: 6px; transition: color 0.6s ease;
-}
+.nav-jp { position: relative; z-index: 1; font-size: 8px; letter-spacing: 0.2em; color: #3a3832; margin-top: 6px; transition: color 0.6s ease; }
+body.light-mode .nav-jp { color: #a3a099; }
 .nav-item:hover .nav-jp, .nav-item.active .nav-jp { color: var(--dust); }
 
 /* LOADER */
-.loader{ position:fixed; inset:0; background:var(--void); z-index:5000; display:flex; align-items:center; justify-content:center; }
+.loader{ position:fixed; inset:0; background:var(--void); z-index:5000; display:flex; align-items:center; justify-content:center; transition: background 0.4s ease; }
 .loader-inner{ font-size:10px; letter-spacing:0.6em; color:#2a2822; animation:loaderFade 1.2s ease 0.8s forwards; }
 @keyframes loaderFade{to{opacity:0}}
 .loader{animation:loaderLift 1s cubic-bezier(0.76,0,0.24,1) 1.6s forwards}
@@ -295,7 +317,10 @@ body{
   .block-top { padding: 32px 24px 0; }
   .block-center { padding: 40px 24px; height: auto; flex-grow: 1; overflow: visible; }
   .view { height: auto; }
-  .bg-word{font-size:40vw}
+  
+  .home-layout { flex-direction: column; align-items: flex-start; gap: 32px; }
+  .home-right { max-width: 100%; }
+
   .schedule-row { grid-template-columns: 1fr; gap: 12px; padding: 24px 16px; }
   .s-action { margin-top: 12px; border-top: 1px solid rgba(184,180,173,0.08); padding-top: 12px; }
   .roster-row { padding: 24px 16px; }
@@ -320,8 +345,6 @@ body{
 <div class="grain"></div>
 <div class="vignette"></div>
 
-<div class="bg-word" id="bgWord">opera</div>
-
 <div class="mass-line" style="top:33.33vh"></div>
 <div class="mass-line" style="top:66.66vh"></div>
 
@@ -330,18 +353,30 @@ body{
 <div class="page">
 
   <header class="block-top">
-    <a href="#" class="wordmark-wrap nav-trigger" data-target="view-home" data-word="opera">
+    <a href="#" class="wordmark-wrap nav-trigger" data-target="view-home">
       <div class="wordmark wordmark-primary">access opera</div>
       <div class="wordmark">talent agency</div>
     </a>
+    <div class="top-right-actions">
+      <button class="theme-btn" id="theme-toggle">[ light_mode ]</button>
+    </div>
   </header>
 
   <main class="block-center">
     
     <div class="view active" id="view-home">
-      <img src="opera.png" alt="access opera" class="logo-img" onerror="this.style.display='none'" />
-      <div class="datum"></div>
-      <div class="descriptor">talent representation &nbsp;·&nbsp; creative management</div>
+      <div class="home-layout">
+        <div class="home-left">
+          <img src="opera.png" alt="access opera" class="logo-img" onerror="this.style.display='none'" />
+          <div class="datum"></div>
+          <div class="descriptor">talent representation &nbsp;·&nbsp; creative management</div>
+        </div>
+        <div class="home-right">
+          <p class="home-blurb">
+            <strong>ACCESS OPERA (AO)</strong> DEVELOPS THE NEXT GENERATION OF CULTURAL ICONS. BRIDGING CLASSICAL EXCELLENCE WITH CONTEMPORARY INNOVATION TO CREATE CAREERS, DEALS, AND GROUNDBREAKING ART ACROSS FILM, STAGE, AND MUSIC. FROM PRODUCING ERA-DEFINING OPERA WITH THE WORLD’S BIGGEST ARTISTS TO BUILDING THE FUTURE OF CLASSICAL AND POP TALENT, AO OPERATES AT THE HIGHEST LEVEL OF CREATIVE EXECUTION. OUR ARTISTS RECEIVE PLATINUM-STANDARD MANAGEMENT, BRANDING, MARKETING, SOCIAL STRATEGY, AND CAREER DEVELOPMENT. BECAUSE IF YOU CAN BUILD HISTORY, ANY OPPORTUNITY IS ATTAINABLE.
+          </p>
+        </div>
+      </div>
     </div>
 
     <div class="view" id="view-clients">
@@ -358,15 +393,18 @@ body{
           </div>
           <div class="r-data r-tag">status: active_</div>
         </a>
-        
-        <div class="roster-row" style="pointer-events: none;">
-          <div class="r-data r-avatar"></div>
-          <div class="r-data r-details">
-            <div class="r-role">director / visual</div>
-            <div class="r-name">sample_talent</div>
+
+        <a href="#" class="roster-row">
+          <div class="r-data r-avatar">
+            <img src="rotimi.jpg" alt="rotimi" onerror="this.style.display='none'" />
           </div>
-          <div class="r-data r-tag">status: development_</div>
-        </div>
+          <div class="r-data r-details">
+            <div class="r-role">artist / musician</div>
+            <div class="r-name">rotimi</div>
+          </div>
+          <div class="r-data r-tag">status: active_</div>
+        </a>
+        
       </div>
     </div>
 
@@ -385,20 +423,19 @@ body{
             <div class="r-data r-tag">view_archive_</div>
           </button>
           
-          <button class="roster-row" style="background:none; border:none; width:100%; text-align:left; font-family:inherit; color:inherit; opacity: 0.4; pointer-events: none;">
-            <div class="r-data r-avatar"></div>
+          <button class="roster-row media-artist-btn" data-artist="rotimi" style="background:none; border:none; width:100%; text-align:left; font-family:inherit; color:inherit;">
+            <div class="r-data r-avatar"><img src="rotimi.jpg" alt="rotimi" onerror="this.style.display='none'" /></div>
             <div class="r-data r-details">
-              <div class="r-role">access logs / 00 files</div>
-              <div class="r-name">sample_talent</div>
+              <div class="r-role">access logs / empty_</div>
+              <div class="r-name">rotimi</div>
             </div>
-            <div class="r-data r-tag">empty_</div>
+            <div class="r-data r-tag">view_archive_</div>
           </button>
         </div>
       </div>
 
       <div class="media-workspace" id="media-workspace-ye">
         <div class="media-container">
-          
           <div class="display-area">
             <video id="custom-video" src="video1.mp4" playsinline muted autoplay></video>
             <img id="gallery-img" src="gallery1.jpg" alt="Gallery" style="display: none;" onerror="this.style.display='none'"/>
@@ -440,7 +477,18 @@ body{
               </button>
             </div>
           </div>
+        </div>
+      </div>
 
+      <div class="media-workspace" id="media-workspace-rotimi">
+        <div class="media-container">
+          <div class="display-area" style="aspect-ratio: 16/9; justify-content:center; align-items:center;">
+             <p style="font-size: 10px; letter-spacing:0.2em; color:var(--dust);">[ FILE ARCHIVE COMILING_ ]</p>
+          </div>
+          <div class="media-menu">
+             <div class="menu-label">motion_</div>
+             <p style="font-size: 10px; color:var(--dust);">no_files_found</p>
+          </div>
         </div>
       </div>
 
@@ -450,19 +498,85 @@ body{
       <div class="sec-num">03</div>
       <h2 class="sec-title">upcoming</h2>
       <div class="schedule-wrap">
-        <a href="ye.html" class="schedule-row">
+        
+        <a href="#" class="schedule-row">
+          <div class="s-data s-date">22 may</div>
+          <div class="s-data s-artist">rotimi</div>
+          <div class="s-data s-location">geneva</div>
+          <div class="s-data s-action">explore_</div>
+        </a>
+        <a href="#" class="schedule-row">
+          <div class="s-data s-date">24 may</div>
+          <div class="s-data s-artist">rotimi</div>
+          <div class="s-data s-location">manchester</div>
+          <div class="s-data s-action">explore_</div>
+        </a>
+        <a href="#" class="schedule-row">
+          <div class="s-data s-date">24 may</div>
+          <div class="s-data s-artist">rotimi</div>
+          <div class="s-data s-location">birmingham</div>
+          <div class="s-data s-action">explore_</div>
+        </a>
+        <a href="ye.html" class="schedule-row" style="background: rgba(184,180,173,0.03);">
           <div class="s-data s-date">30 may</div>
           <div class="s-data s-artist">ye</div>
           <div class="s-data s-location">istanbul</div>
           <div class="s-data s-action">explore_</div>
         </a>
-        
-        <div class="schedule-row" style="pointer-events: none; opacity: 0.4;">
-          <div class="s-data s-date">tbd</div>
-          <div class="s-data s-artist">sample_talent</div>
-          <div class="s-data s-location">london</div>
-          <div class="s-data s-action">locked_</div>
-        </div>
+        <a href="#" class="schedule-row">
+          <div class="s-data s-date">18 june</div>
+          <div class="s-data s-artist">rotimi</div>
+          <div class="s-data s-location">bali</div>
+          <div class="s-data s-action">explore_</div>
+        </a>
+        <a href="#" class="schedule-row">
+          <div class="s-data s-date">19 june</div>
+          <div class="s-data s-artist">rotimi</div>
+          <div class="s-data s-location">bali</div>
+          <div class="s-data s-action">explore_</div>
+        </a>
+        <a href="#" class="schedule-row">
+          <div class="s-data s-date">24 june</div>
+          <div class="s-data s-artist">rotimi</div>
+          <div class="s-data s-location">montego bay</div>
+          <div class="s-data s-action">explore_</div>
+        </a>
+        <a href="#" class="schedule-row">
+          <div class="s-data s-date">25 june</div>
+          <div class="s-data s-artist">rotimi</div>
+          <div class="s-data s-location">new york, ny</div>
+          <div class="s-data s-action">explore_</div>
+        </a>
+        <a href="#" class="schedule-row">
+          <div class="s-data s-date">27 june</div>
+          <div class="s-data s-artist">rotimi</div>
+          <div class="s-data s-location">chicago, il</div>
+          <div class="s-data s-action">explore_</div>
+        </a>
+        <a href="#" class="schedule-row">
+          <div class="s-data s-date">3 july</div>
+          <div class="s-data s-artist">rotimi</div>
+          <div class="s-data s-location">sydney</div>
+          <div class="s-data s-action">explore_</div>
+        </a>
+        <a href="#" class="schedule-row">
+          <div class="s-data s-date">4 july</div>
+          <div class="s-data s-artist">rotimi</div>
+          <div class="s-data s-location">perth</div>
+          <div class="s-data s-action">explore_</div>
+        </a>
+        <a href="#" class="schedule-row">
+          <div class="s-data s-date">5 july</div>
+          <div class="s-data s-artist">rotimi</div>
+          <div class="s-data s-location">melbourne</div>
+          <div class="s-data s-action">explore_</div>
+        </a>
+        <a href="#" class="schedule-row">
+          <div class="s-data s-date">11 july</div>
+          <div class="s-data s-artist">rotimi</div>
+          <div class="s-data s-location">tokyo</div>
+          <div class="s-data s-action">explore_</div>
+        </a>
       </div>
     </div>
 
@@ -485,22 +599,22 @@ body{
 
   <footer class="block-bottom">
     <nav class="nav-slab">
-      <a href="#" class="nav-item nav-trigger" data-target="view-clients" data-word="clients">
+      <a href="#" class="nav-item nav-trigger" data-target="view-clients">
         <div class="nav-num">01</div>
         <div class="nav-label">clients</div>
         <div class="nav-jp">クライアント</div>
       </a>
-      <a href="#" class="nav-item nav-trigger" data-target="view-media" data-word="archive">
+      <a href="#" class="nav-item nav-trigger" data-target="view-media">
         <div class="nav-num">02</div>
         <div class="nav-label">archive</div>
         <div class="nav-jp">アーカイブ</div>
       </a>
-      <a href="#" class="nav-item nav-trigger" data-target="view-upcoming" data-word="upcoming">
+      <a href="#" class="nav-item nav-trigger" data-target="view-upcoming">
         <div class="nav-num">03</div>
         <div class="nav-label">upcoming</div>
         <div class="nav-jp">予定</div>
       </a>
-      <a href="#" class="nav-item nav-trigger" data-target="view-contact" data-word="contact">
+      <a href="#" class="nav-item nav-trigger" data-target="view-contact">
         <div class="nav-num">04</div>
         <div class="nav-label">contact</div>
         <div class="nav-jp">コンタクト</div>
@@ -511,6 +625,18 @@ body{
 </div>
 
 <script>
+// Theme Engine (Light / Dark Mode)
+const themeToggle = document.getElementById('theme-toggle');
+themeToggle.addEventListener('click', (e) => {
+  e.preventDefault();
+  document.body.classList.toggle('light-mode');
+  if(document.body.classList.contains('light-mode')) {
+    themeToggle.innerText = '[ dark_mode ]';
+  } else {
+    themeToggle.innerText = '[ light_mode ]';
+  }
+});
+
 // Physics Cursor Execution
 const cur = document.getElementById('cur');
 let mx = 0, my = 0, cx = 0, cy = 0;
@@ -525,14 +651,13 @@ document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; })
 // Navigation View System (SPA Engine)
 const triggers = document.querySelectorAll('.nav-trigger');
 const views = document.querySelectorAll('.view');
-const bgWord = document.getElementById('bgWord');
 const navItems = document.querySelectorAll('.nav-item');
 
 const globalVideo = document.getElementById('custom-video');
 const playBtn = document.getElementById('btn-play');
 
 const artistSelector = document.getElementById('media-artist-selector');
-const workspaceYe = document.getElementById('media-workspace-ye');
+const workspaces = document.querySelectorAll('.media-workspace');
 
 triggers.forEach(trigger => {
   trigger.addEventListener('click', (e) => {
@@ -541,25 +666,19 @@ triggers.forEach(trigger => {
     if(globalVideo && !globalVideo.paused) {
       globalVideo.pause();
       globalVideo.classList.remove('is-playing');
-      playBtn.innerText = 'play_';
+      if(playBtn) playBtn.innerText = 'play_';
     }
 
+    // Reset Archive View to Directory
     artistSelector.style.display = 'flex';
-    workspaceYe.classList.remove('active');
+    workspaces.forEach(ws => ws.classList.remove('active'));
 
     const targetId = trigger.getAttribute('data-target');
-    const word = trigger.getAttribute('data-word');
 
     navItems.forEach(item => item.classList.remove('active'));
     if (trigger.classList.contains('nav-item')) {
       trigger.classList.add('active');
     }
-
-    bgWord.style.opacity = '0';
-    setTimeout(() => {
-      bgWord.innerText = word;
-      bgWord.style.opacity = '1';
-    }, 200);
 
     views.forEach(view => {
       view.classList.remove('active');
@@ -575,10 +694,12 @@ const artistBtns = document.querySelectorAll('.media-artist-btn');
 artistBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     const artist = btn.getAttribute('data-artist');
+    
+    artistSelector.style.display = 'none';
+    const targetWorkspace = document.getElementById('media-workspace-' + artist);
+    if(targetWorkspace) targetWorkspace.classList.add('active');
+    
     if (artist === 'ye') {
-      artistSelector.style.display = 'none';
-      workspaceYe.classList.add('active');
-      
       globalVideo.load();
       globalVideo.play().then(() => {
         playBtn.innerText = 'pause_';
@@ -590,7 +711,7 @@ artistBtns.forEach(btn => {
   });
 });
 
-// Structural Media Management
+// Structural Media Management (YE)
 const displayVideo = document.getElementById('custom-video');
 const displayGallery = document.getElementById('gallery-img');
 const displayName = document.getElementById('display-name');
@@ -613,103 +734,123 @@ function formatTime(seconds) {
   return m + ":" + (s < 10 ? "0" + s : s);
 }
 
-playBtn.addEventListener('click', () => {
-  if (globalVideo.paused) {
-    globalVideo.play();
-    playBtn.innerText = 'pause_';
-    globalVideo.classList.add('is-playing');
-  } else {
-    globalVideo.pause();
-    playBtn.innerText = 'play_';
+if(playBtn) {
+  playBtn.addEventListener('click', () => {
+    if (globalVideo.paused) {
+      globalVideo.play();
+      playBtn.innerText = 'pause_';
+      globalVideo.classList.add('is-playing');
+    } else {
+      globalVideo.pause();
+      playBtn.innerText = 'play_';
+      globalVideo.classList.remove('is-playing');
+    }
+  });
+}
+
+if(muteBtn) {
+  muteBtn.addEventListener('click', () => {
+    globalVideo.muted = !globalVideo.muted;
+    muteBtn.innerText = globalVideo.muted ? 'unmute_' : 'mute_';
+  });
+}
+
+if(globalVideo) {
+  globalVideo.addEventListener('loadedmetadata', () => {
+    if(timeTotal) timeTotal.innerText = formatTime(globalVideo.duration);
+  });
+  globalVideo.addEventListener('timeupdate', () => {
+    if(timeCurrent) timeCurrent.innerText = formatTime(globalVideo.currentTime);
+  });
+  globalVideo.addEventListener('ended', () => {
+    if(playBtn) playBtn.innerText = 'play_';
     globalVideo.classList.remove('is-playing');
-  }
-});
+  });
+}
 
-muteBtn.addEventListener('click', () => {
-  globalVideo.muted = !globalVideo.muted;
-  muteBtn.innerText = globalVideo.muted ? 'unmute_' : 'mute_';
-});
-
-globalVideo.addEventListener('loadedmetadata', () => {
-  timeTotal.innerText = formatTime(globalVideo.duration);
-});
-globalVideo.addEventListener('timeupdate', () => {
-  timeCurrent.innerText = formatTime(globalVideo.currentTime);
-});
-globalVideo.addEventListener('ended', () => {
-  playBtn.innerText = 'play_';
-  globalVideo.classList.remove('is-playing');
-});
-
-// Internal Carousel Logic
+// Internal Carousel Logic (YE)
 const galleryImages = ['gallery1.jpg', 'gallery2.jpg', 'gallery3.jpg'];
 let gIndex = 0;
 const gCurrent = document.getElementById('g-current');
 const gTotal = document.getElementById('g-total');
 
-gTotal.innerText = galleryImages.length;
+if(gTotal) gTotal.innerText = galleryImages.length;
 
 function updateGallery() {
+  if(!displayGallery) return;
   displayGallery.style.filter = "grayscale(100%) contrast(1.1)";
   setTimeout(() => {
     displayGallery.src = galleryImages[gIndex];
-    gCurrent.innerText = gIndex + 1;
+    if(gCurrent) gCurrent.innerText = gIndex + 1;
     displayGallery.classList.add('is-active');
   }, 150);
 }
 
-document.getElementById('btn-prev').addEventListener('click', () => {
-  gIndex = (gIndex - 1 + galleryImages.length) % galleryImages.length;
-  updateGallery();
-});
-document.getElementById('btn-next').addEventListener('click', () => {
-  gIndex = (gIndex + 1) % galleryImages.length;
-  updateGallery();
-});
+const btnPrev = document.getElementById('btn-prev');
+const btnNext = document.getElementById('btn-next');
+
+if(btnPrev) {
+  btnPrev.addEventListener('click', () => {
+    gIndex = (gIndex - 1 + galleryImages.length) % galleryImages.length;
+    updateGallery();
+  });
+}
+if(btnNext) {
+  btnNext.addEventListener('click', () => {
+    gIndex = (gIndex + 1) % galleryImages.length;
+    updateGallery();
+  });
+}
 
 // State Switching Matrix
 vSelectors.forEach(btn => {
   btn.addEventListener('click', () => {
     vSelectors.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    btnGalleryToggle.classList.remove('active');
-    gStatus.innerText = 'loaded_';
+    if(btnGalleryToggle) btnGalleryToggle.classList.remove('active');
+    if(gStatus) gStatus.innerText = 'loaded_';
 
-    displayName.innerText = btn.getAttribute('data-name');
+    if(displayName) displayName.innerText = btn.getAttribute('data-name');
 
-    displayGallery.style.display = 'none';
-    displayVideo.style.display = 'block';
+    if(displayGallery) displayGallery.style.display = 'none';
+    if(displayVideo) displayVideo.style.display = 'block';
     
-    dockGallery.style.display = 'none';
-    dockVideo.style.display = 'flex';
+    if(dockGallery) dockGallery.style.display = 'none';
+    if(dockVideo) dockVideo.style.display = 'flex';
 
     const newSrc = btn.getAttribute('data-src');
-    globalVideo.src = newSrc;
-    globalVideo.play().then(() => {
-      playBtn.innerText = 'pause_';
-      globalVideo.classList.add('is-playing');
-    });
+    if(globalVideo) {
+      globalVideo.src = newSrc;
+      globalVideo.play().then(() => {
+        if(playBtn) playBtn.innerText = 'pause_';
+        globalVideo.classList.add('is-playing');
+      });
+    }
   });
 });
 
-btnGalleryToggle.addEventListener('click', () => {
-  vSelectors.forEach(b => b.classList.remove('active'));
-  btnGalleryToggle.classList.add('active');
-  gStatus.innerText = 'viewing_';
-  
-  displayName.innerText = "new_mexico_archive (stills)";
+if(btnGalleryToggle) {
+  btnGalleryToggle.addEventListener('click', () => {
+    vSelectors.forEach(b => b.classList.remove('active'));
+    btnGalleryToggle.classList.add('active');
+    if(gStatus) gStatus.innerText = 'viewing_';
+    
+    if(displayName) displayName.innerText = "new_mexico_archive (stills)";
 
-  globalVideo.pause();
-  globalVideo.classList.remove('is-playing');
-  playBtn.innerText = 'play_';
-  displayVideo.style.display = 'none';
-  
-  displayGallery.style.display = 'block';
-  dockVideo.style.display = 'none';
-  dockGallery.style.display = 'flex';
+    if(globalVideo) {
+      globalVideo.pause();
+      globalVideo.classList.remove('is-playing');
+    }
+    if(playBtn) playBtn.innerText = 'play_';
+    if(displayVideo) displayVideo.style.display = 'none';
+    
+    if(displayGallery) displayGallery.style.display = 'block';
+    if(dockVideo) dockVideo.style.display = 'none';
+    if(dockGallery) dockGallery.style.display = 'flex';
 
-  updateGallery();
-});
+    updateGallery();
+  });
+}
 </script>
 </body>
 </html>
