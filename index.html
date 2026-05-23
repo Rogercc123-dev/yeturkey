@@ -18,7 +18,7 @@
   src: url('OCR-a___.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
-  font-display: swap; /* Ensures text stays visible while the font downloads */
+  font-display: swap; 
 }
 
 /* Backup import just in case the HTML links fail */
@@ -48,8 +48,8 @@ html, body {
 }
 
 body {
-  /* Forces the custom TTF first, falls back to Plex Mono if it fails */
-  font-family: 'OCR A BT', 'IBM Plex Mono', 'Courier New', Courier, monospace;
+  /* Courier New has been completely removed from the fallback stack */
+  font-family: 'OCR A BT', 'IBM Plex Mono', sans-serif;
   color: var(--cream);
   line-height: 1.4;
   letter-spacing: 0.05em;
@@ -149,7 +149,8 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   font-size: clamp(10px, 1.2vw, 14px);
   color: var(--steel);
   letter-spacing: 0.6em;
-  margin-left: 4px;
+  /* Shifted to the right to align better with the PNG */
+  margin-left: 1.5vw; 
   opacity: 0;
   animation: heavyFadeIn 2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
 }
@@ -223,6 +224,11 @@ a:hover ~ .cursor-dot, .minimal-card:hover ~ .cursor-dot {
   }
   body { cursor: auto; background-size: 8vw 8vw; } 
   .cursor-dot { display: none; }
+  
+  .hero-jp-subtitle {
+    /* Adjusting mobile shift slightly */
+    margin-left: 4vw;
+  }
 }
 </style>
 </head>
