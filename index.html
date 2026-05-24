@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>access opera</title>
-<meta name="theme-color" content="#181818" />
+<meta name="theme-color" content="#121110" />
 
 <style>
 /* --- STRICT CUSTOM FONT INJECTION --- */
@@ -17,14 +17,14 @@
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-/* --- THE NEW SOFT, MINIMALIST PALETTE --- */
+/* --- THE MATTE / BONE PALETTE --- */
 :root{
-  --concrete: #f2efe9; /* Creamy White */
-  --raw:      #2a2a2a; /* Soft Grey Borders */
-  --deep:     #1f1f1f; /* Elevated Media Background */
-  --void:     #181818; /* Greyer Black (Matte) */
-  --dust:     #8b8b8b; /* Muted Secondary Text */
-  --form:     #5c5c5c; /* Mid-tones */
+  --concrete: #e8e6e1; /* Warm Off-White */
+  --raw:      rgba(232, 230, 225, 0.06); /* Ghosted Borders */
+  --deep:     #161514; /* Elevated Media Background */
+  --void:     #121110; /* Soft Matte Obsidian */
+  --dust:     #8a8782; /* Muted Secondary Text */
+  --form:     #524e4a; /* Mid-tones */
   --gold:     #bda573; /* Base Gold */
   
   /* Metallic Foil Effect */
@@ -32,12 +32,12 @@
   --lux-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* --- LIGHT MODE OVERRIDES (TRUE BONE/PARCHMENT) --- */
+/* --- LIGHT MODE (TRUE CREAMY BONE/PLASTER) --- */
 body.light-mode {
   --concrete: #1f1d1a; /* Warm Charcoal Text */
-  --raw:      #dcd5c6; /* Limestone Borders */
-  --deep:     #e3dccf; /* Elevated Media Background */
-  --void:     #e8e4d9; /* Deep Cream / Bone Background */
+  --raw:      rgba(31, 29, 26, 0.08); /* Ghosted Limestone Borders */
+  --deep:     #e3ded5; /* Elevated Media Background */
+  --void:     #ECE7DF; /* Deep Creamy Bone Background */
   --dust:     #857d70; /* Warm Muted Text */
   --form:     #a8a195; /* Mid-tones */
   --gold:     #9c8454;
@@ -87,7 +87,7 @@ body.cursor-hover #cursor-ring {
   width: 52px; height: 52px; border-color: var(--gold); opacity: 0.6;
 }
 
-/* GRAIN & VIGNETTE (SOFTENED) */
+/* GRAIN & VIGNETTE (WHISPER QUIET) */
 .grain{
   position:fixed;inset:0;z-index:600;pointer-events:none;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='0.15'/%3E%3C/svg%3E");
@@ -193,7 +193,7 @@ body.light-mode .logo-img { filter: invert(1); opacity: 0.85; }
 }
 
 button.schedule-row { width: 100%; text-align: left; font-family: inherit; background: transparent; border: none; border-bottom: 1px solid var(--raw); outline: none; }
-button.schedule-row:active { transform: scale(0.99); } /* Tactile click */
+button.schedule-row:active { transform: scale(0.99); }
 
 .schedule-row::before{ content:''; position:absolute; bottom:0;left:0;right:0;height:0; background:var(--raw); transition:height 0.6s var(--lux-ease), background 0.8s var(--lux-ease); z-index:0; }
 .schedule-row:hover::before{height:100%}
@@ -256,7 +256,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
 .r-tag { font-size: 9px; letter-spacing: 0.4em; color: var(--form); margin-left: auto; text-align: right; transition: color 0.5s; }
 .roster-row:hover .r-tag { color: var(--gold); }
 
-/* VIEW: SERVICES (PERFECT 2x2 ZERO-SCROLL GRID) */
+/* VIEW: SERVICES (PERFECT 2x2 ZERO-SCROLL GRID FIX) */
 .services-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -437,7 +437,6 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
 .nav-item:hover .nav-num, .nav-item.active .nav-num{color:var(--dust)}
 
 .nav-label{ position:relative; z-index:1; font-size:clamp(11px,1vw,14px); letter-spacing:0.3em; transition: opacity 0.4s; }
-/* Metallic flair on hover */
 .nav-item:hover .nav-label {
   background: var(--gold-gleam); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-size: 200% auto; animation: gleam 3s linear infinite;
@@ -549,7 +548,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
   
   .nav-num { margin-bottom: 2px; font-size: 7px; } 
   .nav-label { font-size: 9px; letter-spacing: 0.1em; }
-  .nav-item:hover .nav-label { background: none; -webkit-text-fill-color: var(--gold); } /* Strip complex glow on mobile */
+  .nav-item:hover .nav-label { background: none; -webkit-text-fill-color: var(--gold); } 
   .nav-jp { margin-top: 2px; font-size: 6px; }
 }
 </style>
@@ -573,7 +572,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
       <div class="wordmark">production agency</div>
     </a>
     <div class="top-right-actions">
-      <button class="theme-btn" id="theme-toggle">[ light_mode ]</button>
+      <button class="theme-btn" id="theme-toggle">[ light mode ]</button>
     </div>
   </header>
 
@@ -622,7 +621,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
             <div class="r-role">artist / creative</div>
             <div class="r-name">ye</div>
           </div>
-          <div class="r-data r-tag">status: active_</div>
+          <div class="r-data r-tag">status: active</div>
         </a>
 
         <a href="#" class="roster-row nav-trigger" data-target="view-media">
@@ -633,7 +632,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
             <div class="r-role">artist / musician</div>
             <div class="r-name">rotimi</div>
           </div>
-          <div class="r-data r-tag">status: active_</div>
+          <div class="r-data r-tag">status: active</div>
         </a>
       </div>
     </div>
@@ -650,16 +649,16 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
               <div class="r-role">access logs / 04 files</div>
               <div class="r-name">ye</div>
             </div>
-            <div class="r-data r-tag">view_archive_</div>
+            <div class="r-data r-tag">view archive</div>
           </button>
           
           <button class="roster-row media-artist-btn" data-artist="rotimi" style="width:100%; text-align:left; font-family:inherit; background:transparent; border:none; outline:none; border-bottom: 1px solid var(--raw);">
             <div class="r-data r-avatar"><img src="rotimi.jpg" alt="rotimi" onerror="this.style.display='none'" /></div>
             <div class="r-data r-details">
-              <div class="r-role">access logs / empty_</div>
+              <div class="r-role">access logs / empty</div>
               <div class="r-name">rotimi</div>
             </div>
-            <div class="r-data r-tag">view_archive_</div>
+            <div class="r-data r-tag">view archive</div>
           </button>
         </div>
       </div>
@@ -673,16 +672,16 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
             <div class="media-controls-dock">
               <div id="dock-video" class="dock-panel" style="display: flex;">
                 <div class="m-btn-group">
-                  <button id="btn-play" class="m-btn">pause_</button>
-                  <button id="btn-mute" class="m-btn">unmute_</button>
+                  <button id="btn-play" class="m-btn">pause</button>
+                  <button id="btn-mute" class="m-btn">unmute</button>
                 </div>
                 <div class="m-info"><span id="time-current">0:00</span> / <span id="time-total">0:00</span></div>
               </div>
 
               <div id="dock-gallery" class="dock-panel" style="display: none;">
                 <div class="m-btn-group">
-                  <button id="btn-prev" class="m-btn">prev_</button>
-                  <button id="btn-next" class="m-btn">next_</button>
+                  <button id="btn-prev" class="m-btn">prev</button>
+                  <button id="btn-next" class="m-btn">next</button>
                 </div>
                 <div class="m-info"><span id="g-current">1</span> / <span id="g-total">3</span></div>
               </div>
@@ -691,19 +690,19 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
 
           <div class="media-menu">
             <div class="menu-section-top">
-              <div class="menu-label">motion_</div>
+              <div class="menu-label">motion</div>
               <div class="video-grid">
-                <button class="v-sel active" data-src="video1.mp4" data-name="istanbul_promo.mp4">01</button>
-                <button class="v-sel" data-src="video2.mp4" data-name="stage_concept_v3.mp4">02</button>
-                <button class="v-sel" data-src="video3.mp4" data-name="tour_vlog_archive.mp4">03</button>
-                <button class="v-sel" data-src="video4.mp4" data-name="unreleased_studio.mp4">04</button>
+                <button class="v-sel active" data-src="video1.mp4" data-name="istanbul promo">01</button>
+                <button class="v-sel" data-src="video2.mp4" data-name="stage concept v3">02</button>
+                <button class="v-sel" data-src="video3.mp4" data-name="tour vlog archive">03</button>
+                <button class="v-sel" data-src="video4.mp4" data-name="unreleased studio">04</button>
               </div>
-              <div class="active-media-name" id="display-name">istanbul_promo.mp4</div>
+              <div class="active-media-name" id="display-name">istanbul promo</div>
 
-              <div class="menu-label">stills_</div>
+              <div class="menu-label">stills</div>
               <button class="btn-gallery" id="btn-gallery-toggle">
-                <span class="g-name">new_mexico_archive</span>
-                <span class="g-status" id="gallery-status">loaded_</span>
+                <span class="g-name">new mexico archive</span>
+                <span class="g-status" id="gallery-status">loaded</span>
               </button>
             </div>
           </div>
@@ -713,11 +712,11 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
       <div class="media-workspace" id="media-workspace-rotimi">
         <div class="media-container">
           <div class="display-area" style="aspect-ratio: 16/9; justify-content:center; align-items:center;">
-             <p style="font-size: 10px; letter-spacing:0.2em; color:var(--dust);">[ FILE ARCHIVE COMPILING_ ]</p>
+             <p style="font-size: 10px; letter-spacing:0.2em; color:var(--dust);">[ FILE ARCHIVE COMPILING ]</p>
           </div>
           <div class="media-menu">
-             <div class="menu-label">motion_</div>
-             <p style="font-size: 10px; color:var(--dust);">no_files_found</p>
+             <div class="menu-label">motion</div>
+             <p style="font-size: 10px; color:var(--dust);">no files found</p>
           </div>
         </div>
       </div>
@@ -732,7 +731,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
           <div class="s-data s-date">30 may</div>
           <div class="s-data s-artist">ye</div>
           <div class="s-data s-location">istanbul</div>
-          <div class="s-data s-action">explore_</div>
+          <div class="s-data s-action">explore</div>
         </a>
 
         <div class="tour-accordion" id="rotimi-tour">
@@ -740,23 +739,23 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
             <div class="s-data s-date">22 may - 11 jul</div>
             <div class="s-data s-artist">rotimi</div>
             <div class="s-data s-location">world tour</div>
-            <div class="s-data s-action"><span class="accordion-icon">[+]</span> expand_</div>
+            <div class="s-data s-action"><span class="accordion-icon">[+]</span> expand</div>
           </button>
           
           <div class="accordion-content">
             <div class="accordion-inner">
-              <a href="#" class="schedule-row"><div class="s-data s-date">22 may</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">geneva</div><div class="s-data s-action">tickets_</div></a>
-              <a href="#" class="schedule-row"><div class="s-data s-date">24 may</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">manchester</div><div class="s-data s-action">tickets_</div></a>
-              <a href="#" class="schedule-row"><div class="s-data s-date">24 may</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">birmingham</div><div class="s-data s-action">tickets_</div></a>
-              <a href="#" class="schedule-row"><div class="s-data s-date">18 june</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">bali</div><div class="s-data s-action">tickets_</div></a>
-              <a href="#" class="schedule-row"><div class="s-data s-date">19 june</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">bali</div><div class="s-data s-action">tickets_</div></a>
-              <a href="#" class="schedule-row"><div class="s-data s-date">24 june</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">montego bay</div><div class="s-data s-action">tickets_</div></a>
-              <a href="#" class="schedule-row"><div class="s-data s-date">25 june</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">new york, ny</div><div class="s-data s-action">tickets_</div></a>
-              <a href="#" class="schedule-row"><div class="s-data s-date">27 june</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">chicago, il</div><div class="s-data s-action">tickets_</div></a>
-              <a href="#" class="schedule-row"><div class="s-data s-date">3 july</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">sydney</div><div class="s-data s-action">tickets_</div></a>
-              <a href="#" class="schedule-row"><div class="s-data s-date">4 july</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">perth</div><div class="s-data s-action">tickets_</div></a>
-              <a href="#" class="schedule-row"><div class="s-data s-date">5 july</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">melbourne</div><div class="s-data s-action">tickets_</div></a>
-              <a href="#" class="schedule-row"><div class="s-data s-date">11 july</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">tokyo</div><div class="s-data s-action">tickets_</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">22 may</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">geneva</div><div class="s-data s-action">tickets</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">24 may</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">manchester</div><div class="s-data s-action">tickets</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">24 may</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">birmingham</div><div class="s-data s-action">tickets</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">18 june</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">bali</div><div class="s-data s-action">tickets</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">19 june</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">bali</div><div class="s-data s-action">tickets</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">24 june</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">montego bay</div><div class="s-data s-action">tickets</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">25 june</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">new york, ny</div><div class="s-data s-action">tickets</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">27 june</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">chicago, il</div><div class="s-data s-action">tickets</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">3 july</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">sydney</div><div class="s-data s-action">tickets</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">4 july</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">perth</div><div class="s-data s-action">tickets</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">5 july</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">melbourne</div><div class="s-data s-action">tickets</div></a>
+              <a href="#" class="schedule-row"><div class="s-data s-date">11 july</div><div class="s-data s-artist">rotimi</div><div class="s-data s-location">tokyo</div><div class="s-data s-action">tickets</div></a>
             </div>
           </div>
         </div>
@@ -775,9 +774,9 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
             <h3 class="svc-title">marketing</h3>
             <p class="svc-desc">platinum-standard audience acquisition. global rollout strategies, brand positioning, and algorithmic dominance. we do not follow the culture; we engineer it from the ground up to ensure maximum leverage across all digital and physical territories.</p>
             <div class="svc-extended">
-              <div class="svc-media-placeholder">[ image proxy active_ ]</div>
+              <div class="svc-media-placeholder">[ image proxy active ]</div>
               <p>Our acquisition models leverage deep behavioral data and structural creative force. We refuse organic luck; we build scalable, targeted campaigns that surround the consumer. From imposing physical billboard domination in tier-one metropolitan hubs to hyper-targeted digital funnels, we dictate the narrative and control the rollout ecosystem entirely.</p>
-              <div class="svc-media-placeholder">[ video proxy active_ ]</div>
+              <div class="svc-media-placeholder">[ video proxy active ]</div>
             </div>
           </div>
         </button>
@@ -787,7 +786,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
             <h3 class="svc-title">videography</h3>
             <p class="svc-desc">cinematic visual execution. from stadium-scale tour documentaries to high-end music video production. utilizing native raw capture and an elite post-production pipeline, directed by industry visionaries to create era-defining visual assets.</p>
             <div class="svc-extended">
-              <div class="svc-media-placeholder">[ video proxy active_ ]</div>
+              <div class="svc-media-placeholder">[ video proxy active ]</div>
               <p>Operating exclusively on high-end cinema camera ecosystems, our directors and cinematographers construct visual monuments. Services include end-to-end production logistics, color grading in certified suites, and bespoke visual effects integration. We treat a 15-second digital asset with the exact same rigorous cinematic discipline as a feature-length film.</p>
             </div>
           </div>
@@ -798,7 +797,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
             <h3 class="svc-title">creative direction</h3>
             <p class="svc-desc">holistic artistic architecture. stage design, dynamic lighting programming, and bespoke wardrobe curation. translating an artist's sonic identity into imposing, physical, and visual environments that dominate the live and digital space.</p>
             <div class="svc-extended">
-              <div class="svc-media-placeholder">[ image proxy active_ ]</div>
+              <div class="svc-media-placeholder">[ image proxy active ]</div>
               <p>We build and control the entire universe the artist inhabits. This encompasses monumental stage architecture, synchronized tour lighting mapping, wardrobe styling, and physical merchandise design. We partner intimately with elite industrial designers and avant-garde fashion houses to ensure physical spaces reflect the artist's sonic landscape with aggressive precision.</p>
             </div>
           </div>
@@ -809,7 +808,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
             <h3 class="svc-title">brand partnerships</h3>
             <p class="svc-desc">high-leverage corporate alignment. securing platinum-tier sponsorships, fashion house endorsements, and bespoke product collaborations. we connect visionary talent with global capital to build multi-dimensional empires.</p>
             <div class="svc-extended">
-              <div class="svc-media-placeholder">[ image proxy active_ ]</div>
+              <div class="svc-media-placeholder">[ image proxy active ]</div>
               <p>We reject standard transactional influencer deals. We negotiate equity, creative control, and platinum-tier sponsorships. By ruthlessly aligning our exclusive roster with heritage luxury conglomerates and aggressive tech innovators, we build long-term corporate bridges that elevate the artist from musician to a dominant global brand ambassador.</p>
             </div>
           </div>
@@ -819,7 +818,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
 
       <div class="svc-overlay" id="svc-overlay">
         <div class="svc-overlay-inner">
-          <button class="svc-overlay-close" id="svc-close-btn">[ return_ ]</button>
+          <button class="svc-overlay-close" id="svc-close-btn">[ return ]</button>
           <div id="svc-overlay-content">
             </div>
         </div>
@@ -834,7 +833,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
           <div class="s-data s-date">14 apr 2026</div>
           <div class="s-data s-artist">ye</div>
           <div class="s-data s-location">new mexico</div>
-          <div class="s-data s-action">[ archived_ ]</div>
+          <div class="s-data s-action">[ archived ]</div>
         </a>
       </div>
     </div>
@@ -904,9 +903,9 @@ if(themeToggle) {
     e.preventDefault();
     document.body.classList.toggle('light-mode');
     if(document.body.classList.contains('light-mode')) {
-      themeToggle.innerText = '[ dark_mode ]';
+      themeToggle.innerText = '[ dark mode ]';
     } else {
-      themeToggle.innerText = '[ light_mode ]';
+      themeToggle.innerText = '[ light mode ]';
     }
   });
 }
@@ -929,7 +928,7 @@ function switchSPAView(targetId) {
   if(globalVideo && !globalVideo.paused) {
     globalVideo.pause();
     globalVideo.classList.remove('is-playing');
-    if(playBtn) playBtn.innerText = 'play_';
+    if(playBtn) playBtn.innerText = 'play';
   }
 
   if(svcOverlay && svcOverlay.classList.contains('active')) {
@@ -1016,7 +1015,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (liveUpcomingRow) {
       liveUpcomingRow.classList.add('past-deemphasize');
       const actionField = liveUpcomingRow.querySelector('.s-action');
-      if(actionField) actionField.innerText = '[ archived_ ]';
+      if(actionField) actionField.innerText = '[ archived ]';
       liveUpcomingRow.setAttribute('href', '#');
       liveUpcomingRow.addEventListener('click', (e) => {
         e.preventDefault();
@@ -1076,10 +1075,10 @@ artistBtns.forEach(btn => {
       if(globalVideo) {
         globalVideo.load();
         globalVideo.play().then(() => {
-          if(playBtn) playBtn.innerText = 'pause_';
+          if(playBtn) playBtn.innerText = 'pause';
           globalVideo.classList.add('is-playing');
         }).catch(err => {
-          if(playBtn) playBtn.innerText = 'play_';
+          if(playBtn) playBtn.innerText = 'play';
         });
       }
     }
@@ -1097,9 +1096,9 @@ tourAccordions.forEach(acc => {
       e.preventDefault();
       acc.classList.toggle('open');
       if (acc.classList.contains('open')) {
-        if(actionText) actionText.innerHTML = '<span class="accordion-icon">[-]</span> collapse_';
+        if(actionText) actionText.innerHTML = '<span class="accordion-icon">[-]</span> collapse';
       } else {
-        if(actionText) actionText.innerHTML = '<span class="accordion-icon">[+]</span> expand_';
+        if(actionText) actionText.innerHTML = '<span class="accordion-icon">[+]</span> expand';
       }
     });
   }
@@ -1132,11 +1131,11 @@ if(playBtn) {
   playBtn.addEventListener('click', () => {
     if (globalVideo.paused) {
       globalVideo.play();
-      playBtn.innerText = 'pause_';
+      playBtn.innerText = 'pause';
       globalVideo.classList.add('is-playing');
     } else {
       globalVideo.pause();
-      playBtn.innerText = 'play_';
+      playBtn.innerText = 'play';
       globalVideo.classList.remove('is-playing');
     }
   });
@@ -1145,7 +1144,7 @@ if(playBtn) {
 if(muteBtn) {
   muteBtn.addEventListener('click', () => {
     globalVideo.muted = !globalVideo.muted;
-    muteBtn.innerText = globalVideo.muted ? 'unmute_' : 'mute_';
+    muteBtn.innerText = globalVideo.muted ? 'unmute' : 'mute';
   });
 }
 
@@ -1157,7 +1156,7 @@ if(globalVideo) {
     if(timeCurrent) timeCurrent.innerText = formatTime(globalVideo.currentTime);
   });
   globalVideo.addEventListener('ended', () => {
-    if(playBtn) playBtn.innerText = 'play_';
+    if(playBtn) playBtn.innerText = 'play';
     globalVideo.classList.remove('is-playing');
   });
 }
@@ -1202,7 +1201,7 @@ vSelectors.forEach(btn => {
     vSelectors.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     if(btnGalleryToggle) btnGalleryToggle.classList.remove('active');
-    if(gStatus) gStatus.innerText = 'loaded_';
+    if(gStatus) gStatus.innerText = 'loaded';
 
     if(displayName) displayName.innerText = btn.getAttribute('data-name');
 
@@ -1216,7 +1215,7 @@ vSelectors.forEach(btn => {
     if(globalVideo) {
       globalVideo.src = newSrc;
       globalVideo.play().then(() => {
-        if(playBtn) playBtn.innerText = 'pause_';
+        if(playBtn) playBtn.innerText = 'pause';
         globalVideo.classList.add('is-playing');
       });
     }
@@ -1227,15 +1226,15 @@ if(btnGalleryToggle) {
   btnGalleryToggle.addEventListener('click', () => {
     vSelectors.forEach(b => b.classList.remove('active'));
     btnGalleryToggle.classList.add('active');
-    if(gStatus) gStatus.innerText = 'viewing_';
+    if(gStatus) gStatus.innerText = 'viewing';
     
-    if(displayName) displayName.innerText = "new_mexico_archive (stills)";
+    if(displayName) displayName.innerText = "new mexico archive (stills)";
 
     if(globalVideo) {
       globalVideo.pause();
       globalVideo.classList.remove('is-playing');
     }
-    if(playBtn) playBtn.innerText = 'play_';
+    if(playBtn) playBtn.innerText = 'play';
     if(displayVideo) displayVideo.style.display = 'none';
     
     if(displayGallery) displayGallery.style.display = 'block';
