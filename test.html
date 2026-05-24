@@ -18,7 +18,7 @@
 
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* --- DEFAULT LIGHT MODE (EXACT HEX: #dfd0b7) --- */
+/* --- DEFAULT LIGHT MODE (MATTE BEIGE) --- */
 :root {
   --concrete: #1a1815;
   --raw:      rgba(31, 29, 26, 0.08);
@@ -101,47 +101,34 @@ body.dark-mode .vignette { background: radial-gradient(ellipse 80% 80% at 50% 50
 @keyframes loaderFade { to { opacity: 0; filter: blur(4px); } }
 .loader.gone { transform: translateY(-100%); }
 
-/* LAYOUT */
-.split-layout {
-  display: flex; width: 100vw; height: 100vh; position: relative; z-index: 10;
+/* ═══════════════════════════════════════
+   GLOBAL UI ELEMENTS
+═══════════════════════════════════════ */
+.top-right-wrap {
+  position: fixed; top: 40px; right: 56px; z-index: 50; display: flex; gap: 32px; align-items: center;
 }
-
-.left-pane {
-  width: 50vw; height: 100vh;
-  display: flex; justify-content: center; align-items: center;
-  position: relative; border-right: 1px solid var(--raw);
-  flex-shrink: 0; transition: border-color 0.8s var(--lux-ease);
-}
-
-.right-pane {
-  flex: 1; height: 100vh;
-  display: flex; flex-direction: column;
-  padding: 64px; position: relative;
-  overflow-y: auto; scrollbar-width: none;
-}
-.right-pane::-webkit-scrollbar { display: none; }
-
-/* THEME TOGGLE */
-.theme-toggle-wrap {
-  position: absolute; top: 40px; right: 64px; z-index: 50;
-}
-.theme-btn {
+.global-btn {
   font-size: 10px; letter-spacing: 0.4em; color: var(--dust);
   background: none; border: none; font-family: inherit; cursor: none;
   transition: all 0.4s var(--lux-ease); text-transform: lowercase;
 }
-.theme-btn:hover { color: var(--gold); text-shadow: 0 0 10px rgba(189, 165, 115, 0.4); }
+.global-btn:hover { color: var(--gold); text-shadow: 0 0 10px rgba(189, 165, 115, 0.4); }
 
-/* TIMESTAMP */
-.timestamp {
-  position: absolute; bottom: 32px; left: 32px; z-index: 50;
-  font-size: 10px; letter-spacing: 0.15em; color: var(--dust);
-  font-family: var(--font);
+.bottom-left-wrap {
+  position: fixed; bottom: 32px; left: 40px; z-index: 50;
+  display: flex; flex-direction: column; gap: 8px; pointer-events: none;
 }
+.wordmark { font-size: 12px; letter-spacing: 0.45em; color: var(--concrete); line-height: 1; }
+.timestamp { font-size: 9px; letter-spacing: 0.15em; color: var(--dust); font-family: var(--font); }
 
 /* ═══════════════════════════════════════
-   CIRCLE MENU (SPATIAL NAV)
+   CENTRAL CIRCLE MENU
 ═══════════════════════════════════════ */
+.main-menu-wrapper {
+  position: fixed; inset: 0; z-index: 10;
+  display: flex; justify-content: center; align-items: center;
+}
+
 .interface-container {
   position: relative; width: 660px; height: 660px;
   display: flex; justify-content: center; align-items: center;
@@ -161,25 +148,18 @@ body.dark-mode .vignette { background: radial-gradient(ellipse 80% 80% at 50% 50
 
 .hold-button .ao-logo {
   width: 55%; height: auto; object-fit: contain; pointer-events: none;
-  opacity: 0.75; transition: all 0.6s ease;
-  filter: invert(1);
+  opacity: 0.75; transition: all 0.6s ease; filter: invert(1);
 }
 body.dark-mode .hold-button .ao-logo { filter: none; }
 
-.hold-button .ao-fallback {
-  display: none; font-size: 16px; letter-spacing: 0.15em;
-  color: var(--dust); font-weight: 500;
-}
+.hold-button .ao-fallback { display: none; font-size: 16px; letter-spacing: 0.15em; color: var(--dust); font-weight: 500; }
 .hold-button .ao-logo[style*="display: none"] ~ .ao-fallback { display: block; }
 
 .hold-button:hover {
   background: var(--raw); border-color: var(--gold);
   transform: scale(1.05); box-shadow: 0 0 20px rgba(189, 165, 115, 0.15);
 }
-
-.hold-button.holding {
-  background: var(--concrete); border-color: var(--concrete); transform: scale(1.1);
-}
+.hold-button.holding { background: var(--concrete); border-color: var(--concrete); transform: scale(1.1); }
 body:not(.dark-mode) .hold-button.holding .ao-logo { filter: none; }
 body.dark-mode .hold-button.holding .ao-logo { filter: invert(1); }
 
@@ -200,7 +180,6 @@ body.dark-mode .ring {
 
 .ring.active { opacity: 1; transform: scale(1); pointer-events: auto; }
 .ring.blur { filter: blur(2px); opacity: 0.4; transform: scale(0.98); }
-
 .ring.selected {
   background: radial-gradient(circle at center, rgba(189,165,115,0.15) 0%, transparent 100%);
   border-color: var(--gold); border-width: 1px;
@@ -215,42 +194,60 @@ body.dark-mode .ring {
 .ring-5 { width: 600px; height: 600px; z-index: 11; }
 
 .rotating-text { position: absolute; width: 100%; height: 100%; pointer-events: none; }
-
-.ring-1 .rotating-text, .ring-3 .rotating-text, .ring-5 .rotating-text {
-  animation: rotate 60s linear infinite;
-}
-.ring-2 .rotating-text, .ring-4 .rotating-text {
-  animation: rotate-reverse 80s linear infinite;
-}
+.ring-1 .rotating-text, .ring-3 .rotating-text, .ring-5 .rotating-text { animation: rotate 60s linear infinite; }
+.ring-2 .rotating-text, .ring-4 .rotating-text { animation: rotate-reverse 80s linear infinite; }
 @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes rotate-reverse { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
 
 .text-char {
-  position: absolute; left: 50%;
-  transform-origin: 0 50%; font-family: var(--font);
-  font-size: 12px; font-weight: 400; color: var(--dust);
-  transition: all 0.3s ease; letter-spacing: 0;
+  position: absolute; left: 50%; transform-origin: 0 50%; font-family: var(--font);
+  font-size: 12px; font-weight: 400; color: var(--dust); transition: all 0.3s ease; letter-spacing: 0;
 }
 .ring.selected .text-char { color: var(--gold); font-weight: 600; text-shadow: 0 0 8px rgba(189, 165, 115, 0.4); }
 
-/* HINT TEXT */
 .hint-text {
   position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%);
   font-size: 9px; letter-spacing: 0.4em; color: var(--dust);
   white-space: nowrap; opacity: 0.6; transition: opacity 0.4s ease;
-  font-family: var(--font);
 }
 .interface-container.expanded .hint-text { opacity: 0; }
 
 /* ═══════════════════════════════════════
-   RIGHT PANE STYLES (THE POLISH)
+   FULL-SCREEN VIEW OVERLAYS
 ═══════════════════════════════════════ */
-.view { display: none; flex-direction: column; width: 100%; height: 100%; min-height: 0; }
-.view.active { display: flex; animation: massReveal 0.8s var(--tech-ease) forwards; }
-@keyframes massReveal { 0% { opacity: 0; filter: blur(8px); transform: translateY(12px); } 100% { opacity: 1; filter: blur(0); transform: translateY(0); } }
+.view-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: var(--void); display: flex; flex-direction: column;
+  clip-path: circle(0px at var(--click-x, 50%) var(--click-y, 50%));
+  transition: clip-path 0.9s var(--lux-ease), background 0.8s var(--lux-ease);
+  pointer-events: none; opacity: 0;
+}
+.view-overlay.active {
+  clip-path: circle(150% at var(--click-x, 50%) var(--click-y, 50%));
+  pointer-events: auto; opacity: 1;
+}
 
-#view-home { justify-content: center; }
+.return-btn {
+  position: absolute; top: 40px; left: 56px; z-index: 300;
+  font-size: 10px; letter-spacing: 0.4em; color: var(--dust);
+  background: none; border: none; font-family: inherit; cursor: none;
+  transition: all 0.4s var(--lux-ease); text-transform: lowercase;
+}
+.return-btn:hover {
+  background: var(--gold-gleam); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-size: 200% auto; animation: gleam 3s linear infinite;
+}
 
+.view-content {
+  width: 100%; max-width: 1000px; margin: 0 auto;
+  padding: 100px 40px 80px; height: 100%; display: flex; flex-direction: column;
+  overflow-y: auto; scrollbar-width: none;
+  opacity: 0; transform: translateY(20px); transition: all 0.8s var(--lux-ease) 0.3s;
+}
+.view-content::-webkit-scrollbar { display: none; }
+.view-overlay.active .view-content { opacity: 1; transform: translateY(0); }
+
+/* --- INTERNAL VIEW STYLES --- */
 .sec-num { 
   font-size: 10px; letter-spacing: 0.3em; margin-bottom: 12px; flex-shrink: 0; 
   background: var(--gold-gleam); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -260,26 +257,22 @@ body.dark-mode .ring {
 
 .sec-title {
   font-size: clamp(32px, 4vw, 64px); font-weight: 400; letter-spacing: -0.02em;
-  line-height: 1; margin-bottom: 24px; color: var(--concrete); flex-shrink: 0;
+  line-height: 1; margin-bottom: 32px; color: var(--concrete); flex-shrink: 0;
 }
-
-.home-blurb {
-  font-size: 10px; line-height: 2; letter-spacing: 0.15em; color: var(--dust);
-  text-transform: uppercase; text-align: justify;
-}
-.home-blurb strong { color: var(--concrete); font-weight: normal; }
 
 .datum { width: 100%; height: 1px; background: var(--raw); margin: 32px 0 24px; transition: background 0.8s var(--lux-ease); }
 
-.home-contact { display: flex; flex-direction: column; gap: 16px; }
-.hc-row { display: flex; align-items: center; gap: 16px; font-size: 10px; letter-spacing: 0.2em; }
-.hc-label { color: var(--dust); width: 80px; }
-.hc-link { color: var(--concrete); text-decoration: none; cursor: none; transition: color 0.3s; }
-.hc-link:hover { color: var(--gold); }
+/* Contact Specifics */
+.contact-grid { display: flex; flex-direction: column; gap: 28px; padding-top: 8px; }
+.contact-item { display: flex; flex-direction: column; gap: 8px; }
+.contact-label { font-size: 9px; letter-spacing: 0.4em; color: var(--dust); }
+.contact-value { font-size: clamp(16px, 2vw, 24px); color: var(--concrete); }
+.contact-link { text-decoration: none; cursor: none; transition: color 0.3s; }
+.contact-link:hover { color: var(--gold); }
+.contact-divider { width: 100%; height: 1px; background: var(--raw); transition: background 0.8s var(--lux-ease); }
 
-/* SHARED DATA ROW ARCHITECTURE */
-.data-list { width: 100%; border-top: 1px solid var(--raw); flex-grow: 1; overflow-y: auto; scrollbar-width: none; transition: border-color 0.8s var(--lux-ease); }
-.data-list::-webkit-scrollbar { display: none; }
+/* Roster / Data Rows */
+.data-list { width: 100%; border-top: 1px solid var(--raw); flex-grow: 1; transition: border-color 0.8s var(--lux-ease); }
 
 .data-row {
   position: relative; display: flex; align-items: center; justify-content: space-between;
@@ -288,7 +281,6 @@ body.dark-mode .ring {
   transition: border-color 0.8s var(--lux-ease);
 }
 .data-row:active { transform: scale(0.99); }
-
 .data-row::before {
   content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 0;
   background: var(--raw); transition: height 0.6s cubic-bezier(0.76, 0, 0.24, 1), background 0.8s var(--lux-ease); z-index: 0;
@@ -312,18 +304,28 @@ body.dark-mode .ring {
 .dr-action { font-size: 10px; letter-spacing: 0.4em; color: var(--form); transition: color 0.5s; }
 .data-row:hover .dr-action { color: var(--gold); }
 
-/* UPCOMING LIST TWEAKS */
+/* Schedule specific tweaks */
 .schedule-row { display: grid; grid-template-columns: 1fr 2fr 1fr auto; align-items: center; }
 .s-date, .s-location { font-size: clamp(12px, 1.1vw, 16px); letter-spacing: 0.2em; color: var(--dust); }
 
-/* SERVICES GRID */
+/* Accordion */
+.tour-accordion .data-row { border-bottom: none; }
+.accordion-content { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 0.5s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.4s ease; }
+.accordion-inner { overflow: hidden; display: flex; flex-direction: column; }
+.tour-accordion.open .accordion-content { grid-template-rows: 1fr; opacity: 1; }
+.accordion-icon { display: inline-block; margin-right: 4px; color: var(--form); transition: transform 0.4s ease; font-weight: bold; }
+.tour-accordion.open .accordion-icon { transform: rotate(45deg); color: var(--gold); }
+.accordion-inner .data-row { padding: 16px 16px 16px 40px; border-top: 1px solid var(--raw); }
+.accordion-inner .data-row .dr-name { font-size: clamp(18px, 2vw, 28px); opacity: 0.6; }
+
+/* Services Grid */
 .services-grid {
   display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 1px;
   background: var(--raw); border: 1px solid var(--raw); flex-grow: 1; min-height: 0;
   transition: background 0.8s var(--lux-ease), border-color 0.8s var(--lux-ease);
 }
 .service-card {
-  position: relative; padding: 32px 40px; display: flex; flex-direction: column;
+  position: relative; padding: 40px; display: flex; flex-direction: column;
   text-align: left; justify-content: center; font-family: inherit; background: var(--void);
   cursor: none; overflow: hidden; border: none; outline: none; transition: background 0.8s var(--lux-ease);
 }
@@ -341,39 +343,18 @@ body.dark-mode .ring {
   background-size: 200% auto; animation: gleam 3s linear infinite;
 }
 
-/* CONTACT */
-.contact-grid { display: flex; flex-direction: column; gap: 28px; padding-top: 8px; }
-.contact-item { display: flex; flex-direction: column; gap: 8px; }
-.contact-label { font-size: 9px; letter-spacing: 0.4em; color: var(--dust); }
-.contact-value { font-size: clamp(13px, 1.5vw, 18px); color: var(--concrete); }
-.contact-link { color: var(--concrete); text-decoration: none; cursor: none; transition: color 0.3s; }
-.contact-link:hover { color: var(--gold); }
-.contact-divider { width: 100%; height: 1px; background: var(--raw); transition: background 0.8s var(--lux-ease); }
-
-/* ACCORDION */
-.tour-accordion .data-row { border-bottom: none; }
-.accordion-content { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows 0.5s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.4s ease; }
-.accordion-inner { overflow: hidden; display: flex; flex-direction: column; }
-.tour-accordion.open .accordion-content { grid-template-rows: 1fr; opacity: 1; }
-.accordion-icon { display: inline-block; margin-right: 4px; color: var(--form); transition: transform 0.4s ease; font-weight: bold; }
-.tour-accordion.open .accordion-icon { transform: rotate(45deg); color: var(--gold); }
-.accordion-inner .data-row { padding: 16px 16px 16px 40px; border-top: 1px solid var(--raw); }
-.accordion-inner .data-row .dr-name { font-size: clamp(18px, 2vw, 28px); opacity: 0.6; }
-
 @media (max-width: 900px) {
   body { cursor: auto; }
   #cursor-dot { display: none; }
-  .split-layout { flex-direction: column; }
-  .left-pane { width: 100vw; height: 50vh; border-right: none; border-bottom: 1px solid var(--raw); }
-  .interface-container { transform: scale(0.48); }
-  .interface-container:hover { transform: scale(0.49); }
-  .right-pane { width: 100vw; height: 50vh; padding: 24px; }
-  .theme-toggle-wrap { top: 24px; right: 24px; }
-  .services-grid { grid-template-columns: 1fr; grid-template-rows: repeat(4, 1fr); }
-  
+  .interface-container { transform: scale(0.5); }
+  .interface-container:hover { transform: scale(0.52); }
+  .services-grid { grid-template-columns: 1fr; }
+  .view-content { padding: 80px 24px 40px; }
   .dr-avatar { width: 44px; height: 44px; margin-right: 16px; }
   .dr-name { font-size: clamp(20px, 3.5vw, 32px); }
   .data-row { padding: 16px; }
+  .return-btn { top: 24px; left: 24px; }
+  .top-right-wrap { top: 24px; right: 24px; }
 }
 </style>
 </head>
@@ -384,185 +365,180 @@ body.dark-mode .ring {
 <div class="grain"></div>
 <div class="vignette"></div>
 
-<div class="split-layout">
+<div class="top-right-wrap">
+  <button class="global-btn" id="theme-toggle">dark mode</button>
+</div>
+<div class="bottom-left-wrap">
+  <div class="wordmark">access opera</div>
+  <div class="timestamp" id="ts"></div>
+</div>
 
-  <div class="left-pane">
-    <div class="interface-container" id="interfaceContainer">
+<main class="main-menu-wrapper">
+  <div class="interface-container" id="interfaceContainer">
 
-      <div class="hold-button" id="holdButton">
-        <img class="ao-logo" src="ao.png" alt="AO" onerror="this.style.display='none'" />
-        <span class="ao-fallback">ao</span>
-      </div>
-
-      <div class="ring ring-1" id="ring1" data-target="view-contact">
-        <div class="rotating-text" id="text1"></div>
-      </div>
-      <div class="ring ring-2" id="ring2" data-target="view-clients">
-        <div class="rotating-text" id="text2"></div>
-      </div>
-      <div class="ring ring-3" id="ring3" data-target="view-archive">
-        <div class="rotating-text" id="text3"></div>
-      </div>
-      <div class="ring ring-4" id="ring4" data-target="view-upcoming">
-        <div class="rotating-text" id="text4"></div>
-      </div>
-      <div class="ring ring-5" id="ring5" data-target="view-services">
-        <div class="rotating-text" id="text5"></div>
-      </div>
-
-      <div class="hint-text">hold to navigate</div>
+    <div class="hold-button" id="holdButton">
+      <img class="ao-logo" src="ao.png" alt="AO" onerror="this.style.display='none'" />
+      <span class="ao-fallback">ao</span>
     </div>
-    <div class="timestamp" id="ts"></div>
+
+    <div class="ring ring-1" id="ring1" data-target="view-contact">
+      <div class="rotating-text" id="text1"></div>
+    </div>
+    <div class="ring ring-2" id="ring2" data-target="view-clients">
+      <div class="rotating-text" id="text2"></div>
+    </div>
+    <div class="ring ring-3" id="ring3" data-target="view-archive">
+      <div class="rotating-text" id="text3"></div>
+    </div>
+    <div class="ring ring-4" id="ring4" data-target="view-upcoming">
+      <div class="rotating-text" id="text4"></div>
+    </div>
+    <div class="ring ring-5" id="ring5" data-target="view-services">
+      <div class="rotating-text" id="text5"></div>
+    </div>
+
+    <div class="hint-text">hold & release to navigate</div>
   </div>
+</main>
 
-  <div class="right-pane">
-
-    <div class="theme-toggle-wrap">
-      <button class="theme-btn" id="theme-toggle">dark mode</button>
-    </div>
-
-    <div class="view active" id="view-home">
-      <div class="sec-num">00</div>
-      <h2 class="sec-title">access opera</h2>
-      <p class="home-blurb">
-        <strong>ACCESS OPERA (AO)</strong> DEVELOPS THE NEXT GENERATION OF CULTURAL ICONS.
-        BRIDGING CLASSICAL EXCELLENCE WITH CONTEMPORARY INNOVATION TO CREATE CAREERS, DEALS, AND GROUNDBREAKING
-        ART ACROSS FILM, STAGE, AND MUSIC. FROM PRODUCING ERA-DEFINING OPERA WITH THE WORLD'S BIGGEST ARTISTS TO
-        BUILDING THE FUTURE OF CLASSICAL AND POP TALENT, AO OPERATES AT THE HIGHEST LEVEL OF CREATIVE EXECUTION.
-      </p>
-      <div class="datum"></div>
-      <div class="home-contact">
-        <div class="hc-row"><span class="hc-label">inquiries</span><a href="mailto:info@accessopera.com" class="hc-link">info@accessopera.com</a></div>
-        <div class="hc-row"><span class="hc-label">press</span><a href="mailto:press@accessopera.com" class="hc-link">press@accessopera.com</a></div>
+<div class="view-overlay" id="view-contact">
+  <button class="return-btn">return</button>
+  <div class="view-content">
+    <div class="sec-num">01</div>
+    <h2 class="sec-title">contact</h2>
+    <div class="contact-grid">
+      <div class="contact-item">
+        <div class="contact-label">general inquiries</div>
+        <a href="mailto:info@accessopera.com" class="contact-link contact-value">info@accessopera.com</a>
+      </div>
+      <div class="contact-divider"></div>
+      <div class="contact-item">
+        <div class="contact-label">press &amp; media</div>
+        <a href="mailto:press@accessopera.com" class="contact-link contact-value">press@accessopera.com</a>
+      </div>
+      <div class="contact-divider"></div>
+      <div class="contact-item">
+        <div class="contact-label">bookings</div>
+        <a href="mailto:bookings@accessopera.com" class="contact-link contact-value">bookings@accessopera.com</a>
+      </div>
+      <div class="contact-divider"></div>
+      <div class="contact-item">
+        <div class="contact-label">partnerships</div>
+        <a href="mailto:partners@accessopera.com" class="contact-link contact-value">partners@accessopera.com</a>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="view" id="view-contact">
-      <div class="sec-num">01</div>
-      <h2 class="sec-title">contact</h2>
-      <div class="contact-grid">
-        <div class="contact-item">
-          <div class="contact-label">general inquiries</div>
-          <a href="mailto:info@accessopera.com" class="contact-link contact-value">info@accessopera.com</a>
+<div class="view-overlay" id="view-clients">
+  <button class="return-btn">return</button>
+  <div class="view-content">
+    <div class="sec-num">02</div>
+    <h2 class="sec-title">clients</h2>
+    <div class="data-list">
+      <button class="data-row">
+        <div class="dr-left">
+          <div class="dr-avatar"><img src="ye.jpg" alt="ye" onerror="this.parentElement.style.display='none'" /></div>
+          <div><div class="dr-sub" style="margin-bottom: 4px;">artist / creative</div><div class="dr-name">ye</div></div>
         </div>
-        <div class="contact-divider"></div>
-        <div class="contact-item">
-          <div class="contact-label">press &amp; media</div>
-          <a href="mailto:press@accessopera.com" class="contact-link contact-value">press@accessopera.com</a>
+        <div class="dr-right"><div class="dr-action">view</div></div>
+      </button>
+      <button class="data-row">
+        <div class="dr-left">
+          <div class="dr-avatar"><img src="rotimi.jpg" alt="rotimi" onerror="this.parentElement.style.display='none'" /></div>
+          <div><div class="dr-sub" style="margin-bottom: 4px;">artist / musician</div><div class="dr-name">rotimi</div></div>
         </div>
-        <div class="contact-divider"></div>
-        <div class="contact-item">
-          <div class="contact-label">bookings</div>
-          <a href="mailto:bookings@accessopera.com" class="contact-link contact-value">bookings@accessopera.com</a>
+        <div class="dr-right"><div class="dr-action">view</div></div>
+      </button>
+      <button class="data-row">
+        <div class="dr-left">
+          <div class="dr-avatar"><img src="havoc.jpg" alt="havoc" onerror="this.parentElement.style.display='none'" /></div>
+          <div><div class="dr-sub" style="margin-bottom: 4px;">artist / producer</div><div class="dr-name">havoc</div></div>
         </div>
-        <div class="contact-divider"></div>
-        <div class="contact-item">
-          <div class="contact-label">partnerships</div>
-          <a href="mailto:partners@accessopera.com" class="contact-link contact-value">partners@accessopera.com</a>
-        </div>
-      </div>
+        <div class="dr-right"><div class="dr-action">view</div></div>
+      </button>
     </div>
+  </div>
+</div>
 
-    <div class="view" id="view-clients">
-      <div class="sec-num">02</div>
-      <h2 class="sec-title">clients</h2>
-      <div class="data-list">
-        <button class="data-row">
-          <div class="dr-left">
-            <div class="dr-avatar"><img src="ye.jpg" alt="ye" onerror="this.parentElement.style.display='none'" /></div>
-            <div><div class="dr-sub" style="margin-bottom: 4px;">artist / creative</div><div class="dr-name">ye</div></div>
-          </div>
-          <div class="dr-right"><div class="dr-action">view</div></div>
-        </button>
-        <button class="data-row">
-          <div class="dr-left">
-            <div class="dr-avatar"><img src="rotimi.jpg" alt="rotimi" onerror="this.parentElement.style.display='none'" /></div>
-            <div><div class="dr-sub" style="margin-bottom: 4px;">artist / musician</div><div class="dr-name">rotimi</div></div>
-          </div>
-          <div class="dr-right"><div class="dr-action">view</div></div>
-        </button>
-        <button class="data-row">
-          <div class="dr-left">
-            <div class="dr-avatar"><img src="havoc.jpg" alt="havoc" onerror="this.parentElement.style.display='none'" /></div>
-            <div><div class="dr-sub" style="margin-bottom: 4px;">artist / producer</div><div class="dr-name">havoc</div></div>
-          </div>
-          <div class="dr-right"><div class="dr-action">view</div></div>
-        </button>
-      </div>
+<div class="view-overlay" id="view-archive">
+  <button class="return-btn">return</button>
+  <div class="view-content">
+    <div class="sec-num">03</div>
+    <h2 class="sec-title">archive</h2>
+    <div class="data-list">
+      <button class="data-row">
+        <div class="dr-left">
+          <div class="dr-avatar"><img src="ye.jpg" alt="ye" onerror="this.parentElement.style.display='none'" /></div>
+          <div><div class="dr-sub" style="margin-bottom: 4px;">04 files</div><div class="dr-name">ye</div></div>
+        </div>
+        <div class="dr-right"><div class="dr-action">open</div></div>
+      </button>
+      <button class="data-row">
+        <div class="dr-left">
+          <div class="dr-avatar"><img src="rotimi.jpg" alt="rotimi" onerror="this.parentElement.style.display='none'" /></div>
+          <div><div class="dr-sub" style="margin-bottom: 4px;">empty</div><div class="dr-name">rotimi</div></div>
+        </div>
+        <div class="dr-right"><div class="dr-action">open</div></div>
+      </button>
+      <button class="data-row">
+        <div class="dr-left">
+          <div class="dr-avatar"><img src="havoc.jpg" alt="havoc" onerror="this.parentElement.style.display='none'" /></div>
+          <div><div class="dr-sub" style="margin-bottom: 4px;">empty</div><div class="dr-name">havoc</div></div>
+        </div>
+        <div class="dr-right"><div class="dr-action">open</div></div>
+      </button>
     </div>
+  </div>
+</div>
 
-    <div class="view" id="view-archive">
-      <div class="sec-num">03</div>
-      <h2 class="sec-title">archive</h2>
-      <div class="data-list">
-        <button class="data-row">
-          <div class="dr-left">
-            <div class="dr-avatar"><img src="ye.jpg" alt="ye" onerror="this.parentElement.style.display='none'" /></div>
-            <div><div class="dr-sub" style="margin-bottom: 4px;">04 files</div><div class="dr-name">ye</div></div>
-          </div>
-          <div class="dr-right"><div class="dr-action">open</div></div>
+<div class="view-overlay" id="view-upcoming">
+  <button class="return-btn">return</button>
+  <div class="view-content">
+    <div class="sec-num">04</div>
+    <h2 class="sec-title">upcoming</h2>
+    <div class="data-list">
+      <a href="ye.html" class="data-row schedule-row">
+        <div class="s-date">30 may</div>
+        <div class="dr-name">ye</div>
+        <div class="s-location">istanbul</div>
+        <div class="dr-right"><div class="dr-action">explore</div></div>
+      </a>
+      <div class="tour-accordion">
+        <button type="button" class="data-row schedule-row accordion-trigger">
+          <div class="s-date">22 may — 11 jul</div>
+          <div class="dr-name">rotimi</div>
+          <div class="s-location">world tour</div>
+          <div class="dr-right"><div class="dr-action"><span class="accordion-icon">+</span> expand</div></div>
         </button>
-        <button class="data-row">
-          <div class="dr-left">
-            <div class="dr-avatar"><img src="rotimi.jpg" alt="rotimi" onerror="this.parentElement.style.display='none'" /></div>
-            <div><div class="dr-sub" style="margin-bottom: 4px;">empty</div><div class="dr-name">rotimi</div></div>
-          </div>
-          <div class="dr-right"><div class="dr-action">open</div></div>
-        </button>
-        <button class="data-row">
-          <div class="dr-left">
-            <div class="dr-avatar"><img src="havoc.jpg" alt="havoc" onerror="this.parentElement.style.display='none'" /></div>
-            <div><div class="dr-sub" style="margin-bottom: 4px;">empty</div><div class="dr-name">havoc</div></div>
-          </div>
-          <div class="dr-right"><div class="dr-action">open</div></div>
-        </button>
-      </div>
-    </div>
-
-    <div class="view" id="view-upcoming">
-      <div class="sec-num">04</div>
-      <h2 class="sec-title">upcoming</h2>
-      <div class="data-list">
-        <a href="ye.html" class="data-row schedule-row">
-          <div class="s-date">30 may</div>
-          <div class="dr-name">ye</div>
-          <div class="s-location">istanbul</div>
-          <div class="dr-right"><div class="dr-action">explore</div></div>
-        </a>
-        <div class="tour-accordion" id="rotimi-tour">
-          <button type="button" class="data-row schedule-row accordion-trigger">
-            <div class="s-date">22 may — 11 jul</div>
-            <div class="dr-name">rotimi</div>
-            <div class="s-location">world tour</div>
-            <div class="dr-right"><div class="dr-action"><span class="accordion-icon">+</span> expand</div></div>
-          </button>
-          <div class="accordion-content">
-            <div class="accordion-inner">
-              <a href="#" class="data-row schedule-row"><div class="s-date">22 may</div><div class="dr-name">rotimi</div><div class="s-location">geneva</div><div class="dr-right"><div class="dr-action">tickets</div></div></a>
-              <a href="#" class="data-row schedule-row"><div class="s-date">24 may</div><div class="dr-name">rotimi</div><div class="s-location">manchester</div><div class="dr-right"><div class="dr-action">tickets</div></div></a>
-              <a href="#" class="data-row schedule-row"><div class="s-date">11 jul</div><div class="dr-name">rotimi</div><div class="s-location">tokyo</div><div class="dr-right"><div class="dr-action">tickets</div></div></a>
-            </div>
+        <div class="accordion-content">
+          <div class="accordion-inner">
+            <a href="#" class="data-row schedule-row"><div class="s-date">22 may</div><div class="dr-name">rotimi</div><div class="s-location">geneva</div><div class="dr-right"><div class="dr-action">tickets</div></div></a>
+            <a href="#" class="data-row schedule-row"><div class="s-date">24 may</div><div class="dr-name">rotimi</div><div class="s-location">manchester</div><div class="dr-right"><div class="dr-action">tickets</div></div></a>
+            <a href="#" class="data-row schedule-row"><div class="s-date">11 jul</div><div class="dr-name">rotimi</div><div class="s-location">tokyo</div><div class="dr-right"><div class="dr-action">tickets</div></div></a>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="view" id="view-services">
-      <div class="sec-num">05</div>
-      <h2 class="sec-title">services</h2>
-      <div class="services-grid">
-        <button class="service-card"><div class="svc-content"><h3 class="svc-title">marketing</h3></div></button>
-        <button class="service-card"><div class="svc-content"><h3 class="svc-title">videography</h3></div></button>
-        <button class="service-card"><div class="svc-content"><h3 class="svc-title">creative direction</h3></div></button>
-        <button class="service-card"><div class="svc-content"><h3 class="svc-title">brand partnerships</h3></div></button>
-      </div>
+<div class="view-overlay" id="view-services">
+  <button class="return-btn">return</button>
+  <div class="view-content">
+    <div class="sec-num">05</div>
+    <h2 class="sec-title">services</h2>
+    <div class="services-grid">
+      <button class="service-card"><div class="svc-content"><h3 class="svc-title">marketing</h3></div></button>
+      <button class="service-card"><div class="svc-content"><h3 class="svc-title">videography</h3></div></button>
+      <button class="service-card"><div class="svc-content"><h3 class="svc-title">creative direction</h3></div></button>
+      <button class="service-card"><div class="svc-content"><h3 class="svc-title">brand partnerships</h3></div></button>
     </div>
-
   </div>
 </div>
 
 <script>
-// Cursor Engine (Magnetic Bloom)
+// Magnetic Cursor
 const dot = document.getElementById('cursor-dot');
 let mx = 0, my = 0;
 document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
@@ -575,18 +551,18 @@ document.querySelectorAll('a, button, .hold-button, .data-row, .service-card').f
   el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
 });
 
-// Slide-up Loader
+// Loader Setup
 window.addEventListener('load', () => {
   setTimeout(() => { const l = document.querySelector('.loader'); if(l) l.classList.add('gone'); }, 800);
 });
 
-// Theme Engine (Obsidian Matte)
+// Theme Setup
 document.getElementById('theme-toggle').addEventListener('click', () => {
   document.body.classList.toggle('dark-mode');
   document.getElementById('theme-toggle').innerText = document.body.classList.contains('dark-mode') ? 'light mode' : 'dark mode';
 });
 
-// Timestamp
+// Timestamp setup
 function updateTs() {
   const n = new Date();
   const pad = (v, l=2) => String(v).padStart(l, '0');
@@ -594,7 +570,7 @@ function updateTs() {
 }
 setInterval(updateTs, 100); updateTs();
 
-// Circle text generation
+// Construct Circular Menu Text
 const ringTexts = ['CONTACT', 'CLIENTS', 'ARCHIVE', 'UPCOMING', 'SERVICES'];
 const ringRadiusPx = [90, 135, 180, 225, 300];
 
@@ -628,7 +604,7 @@ ringTexts.forEach((t, i) => {
   if (el) createCircularText(el, t, i);
 });
 
-// Menu logic (Hold to Navigate)
+// Core Menu Logic (Hold & Release)
 const holdButton = document.getElementById('holdButton');
 const rings = document.querySelectorAll('.ring');
 const ic = document.getElementById('interfaceContainer');
@@ -636,14 +612,17 @@ let isHolding = false, holdTimeout, selectedTarget = null, currentRing = -1;
 
 function getRingIndex(e) {
   const r = ic.getBoundingClientRect();
-  const scale = window.innerWidth <= 900 ? 0.48 : 1;
-  const dist = Math.sqrt(Math.pow(e.clientX - (r.left + r.width/2), 2) + Math.pow(e.clientY - (r.top + r.height/2), 2)) / scale;
+  const scale = window.innerWidth <= 900 ? 0.5 : 1;
+  const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+  const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+  const dist = Math.sqrt(Math.pow(clientX - (r.left + r.width/2), 2) + Math.pow(clientY - (r.top + r.height/2), 2)) / scale;
+  
   const thresholds = [90, 135, 180, 225, 310];
   for (let i = 0; i < thresholds.length; i++) { if (dist <= thresholds[i] + 12) return i; }
   return -1;
 }
 
-ic.addEventListener('mousemove', e => {
+function handleMove(e) {
   if (!ic.classList.contains('expanded')) return;
   const idx = getRingIndex(e);
   if (idx !== currentRing && idx >= 0) {
@@ -657,10 +636,13 @@ ic.addEventListener('mousemove', e => {
     currentRing = -1; selectedTarget = null;
     rings.forEach(r => { r.classList.remove('selected', 'blur'); });
   }
-});
+}
 
-holdButton.addEventListener('mousedown', e => {
-  e.preventDefault();
+ic.addEventListener('mousemove', handleMove);
+ic.addEventListener('touchmove', handleMove, {passive: true});
+
+function triggerHold(e) {
+  if(e.type === 'mousedown') e.preventDefault();
   isHolding = true;
   holdButton.classList.add('shrinking');
   holdTimeout = setTimeout(() => {
@@ -670,40 +652,48 @@ holdButton.addEventListener('mousedown', e => {
     ic.classList.add('expanded');
     rings.forEach((r, i) => setTimeout(() => r.classList.add('active'), i * 80));
   }, 220);
-});
+}
 
-holdButton.addEventListener('touchstart', e => {
-  isHolding = true;
-  holdButton.classList.add('shrinking');
-  holdTimeout = setTimeout(() => {
-    if (!isHolding) return;
-    holdButton.classList.remove('shrinking');
-    holdButton.classList.add('holding');
-    ic.classList.add('expanded');
-    rings.forEach((r, i) => setTimeout(() => r.classList.add('active'), i * 80));
-  }, 220);
-}, { passive: true });
+holdButton.addEventListener('mousedown', triggerHold);
+holdButton.addEventListener('touchstart', triggerHold, { passive: true });
 
-function release() {
+function release(e) {
   if (holdTimeout) clearTimeout(holdTimeout);
-  if (isHolding && selectedTarget) switchView(selectedTarget);
+  
+  if (isHolding && selectedTarget) {
+    const clientX = e.clientX || (e.changedTouches && e.changedTouches[0].clientX) || window.innerWidth/2;
+    const clientY = e.clientY || (e.changedTouches && e.changedTouches[0].clientY) || window.innerHeight/2;
+    
+    // Map overlay to cursor release coordinates & deploy clip path
+    const view = document.getElementById(selectedTarget);
+    if(view) {
+      view.style.setProperty('--click-x', `${clientX}px`);
+      view.style.setProperty('--click-y', `${clientY}px`);
+      view.classList.add('active');
+    }
+  }
+  
+  // Reset Core Menu
   ic.classList.remove('expanded');
   holdButton.classList.remove('holding', 'shrinking');
   rings.forEach(r => r.classList.remove('active', 'selected', 'blur'));
   isHolding = false; selectedTarget = null; currentRing = -1;
 }
+
 document.addEventListener('mouseup', release);
 document.addEventListener('touchend', release);
 
-// SPA switching
-function switchView(id) {
-  document.querySelectorAll('.view').forEach(v => {
-    v.classList.remove('active');
-    if (v.id === id) setTimeout(() => v.classList.add('active'), 50);
+// Return functionality mapped dynamically
+document.querySelectorAll('.return-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    const parentView = e.target.closest('.view-overlay');
+    if(parentView) {
+      parentView.classList.remove('active');
+    }
   });
-}
+});
 
-// Accordion
+// Accordion deployment
 document.querySelectorAll('.tour-accordion .accordion-trigger').forEach(btn => {
   btn.addEventListener('click', () => { 
     const acc = btn.closest('.tour-accordion');
