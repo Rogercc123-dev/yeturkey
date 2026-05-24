@@ -24,6 +24,7 @@
   --raw:      rgba(31, 29, 26, 0.08);
   --deep:     #d5c7ad;
   --void:     #dfd0b7;
+  --ring-bg:  #d1c0a3; /* Flat, slightly darker than void */
   --dust:     #80786b;
   --form:     #a8a195;
   --gold:     #9c8454;
@@ -40,6 +41,7 @@ body.dark-mode {
   --raw:      rgba(232, 230, 225, 0.06);
   --deep:     #161514;
   --void:     #121110;
+  --ring-bg:  #0a0908; /* Flat, slightly darker than void */
   --dust:     #8a8782;
   --form:     #524e4a;
   --gold:     #bda573;
@@ -143,7 +145,7 @@ body.dark-mode .vignette { background: radial-gradient(ellipse 80% 80% at 50% 50
   background: #ffffff !important; border: 2px solid #ffffff !important; 
   cursor: none; transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: flex; justify-content: center; align-items: center; z-index: 100;
-  backdrop-filter: blur(4px); overflow: hidden;
+  overflow: hidden;
 }
 
 .hold-button .ao-logo {
@@ -161,28 +163,18 @@ body.dark-mode .vignette { background: radial-gradient(ellipse 80% 80% at 50% 50
 .hold-button.holding { transform: scale(1.1); background: #f0f0f0 !important; border-color: #f0f0f0 !important; }
 .hold-button.shrinking { transform: scale(0.8); }
 
-/* RINGS */
+/* RINGS (FLAT, NO GRADIENTS) */
 .ring {
   position: absolute; border-radius: 50%;
-  background: rgba(0, 0, 0, 0.05); /* Slightly darker than page background */
-  backdrop-filter: blur(10px);
+  background: var(--ring-bg); /* Strict solid color slightly darker than void */
   border: 1px solid var(--raw);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.05);
-  opacity: 0; transform: scale(0); filter: blur(0px); pointer-events: none; transition: all 0.8s ease-out;
+  opacity: 0; transform: scale(0); pointer-events: none; transition: all 0.8s ease-out;
 }
-body.dark-mode .ring {
-  background: rgba(0, 0, 0, 0.25); /* Slightly darker than page background in dark mode */
-  border: 1px solid rgba(255,255,255,0.03);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.02);
-}
-
 .ring.active { opacity: 1; transform: scale(1); pointer-events: auto; }
-.ring.blur { filter: blur(2px); opacity: 0.4; transform: scale(0.98); }
+.ring.blur { opacity: 0.4; transform: scale(0.98); }
 .ring.selected {
-  background: radial-gradient(circle at center, rgba(189,165,115,0.15) 0%, transparent 100%);
   border-color: var(--gold); border-width: 1px;
-  filter: blur(0px); opacity: 1; transform: scale(1.04);
-  box-shadow: 0 0 20px rgba(189, 165, 115, 0.1);
+  opacity: 1; transform: scale(1.04);
 }
 
 /* Sized for 5 rings evenly spaced */
@@ -198,7 +190,6 @@ body.dark-mode .ring {
 @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes rotate-reverse { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
 
-/* Text sized up & detached from lines */
 .text-char {
   position: absolute; left: 50%; top: 50%; 
   transform-origin: center center;
@@ -208,10 +199,13 @@ body.dark-mode .ring {
 .ring.selected .text-char { color: var(--gold); font-weight: 600; text-shadow: 0 0 8px rgba(189, 165, 115, 0.4); }
 
 .hint-text {
-  position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%);
-  font-size: 11px; letter-spacing: 0.25em; color: var(--concrete);
+  position: absolute; 
+  bottom: 24px; /* Placed cleanly in the empty gap beneath the outer ring */
+  left: 50%; 
+  transform: translateX(-50%);
+  font-size: 11px; letter-spacing: 0.3em; color: var(--concrete);
   white-space: nowrap; opacity: 0.7; transition: opacity 0.4s ease;
-  text-transform: uppercase;
+  text-transform: uppercase; pointer-events: none;
 }
 .interface-container.expanded .hint-text { opacity: 0; }
 
@@ -251,6 +245,33 @@ body.dark-mode .ring {
 }
 .view-overlay.active .view-content { opacity: 1; transform: translateY(0); }
 
+/* About Page Specific Layout (No Scrolling) */
+.about-no-scroll {
+  justify-content: center;
+  overflow: hidden;
+  padding-top: 0; padding-bottom: 0; height: 100vh; height: 100dvh;
+}
+.home-layout { display: flex; gap: 64px; align-items: center; justify-content: space-between; width: 100%; }
+.home-left { flex: 1; }
+.home-right { flex: 1; max-width: 500px; display: flex; flex-direction: column; justify-content: center; }
+.logo-img { width: clamp(200px,35vw,600px); height: auto; object-fit: contain; display: block; margin-bottom: 20px; opacity: 0.85; filter: invert(1); transition: filter 0.8s var(--lux-ease), opacity 0.8s var(--lux-ease); }
+body.dark-mode .logo-img { filter: none; opacity: 0.92; } 
+.home-blurb { font-size: 10px; line-height: 2; letter-spacing: 0.15em; color: var(--dust); text-transform: uppercase; text-align: justify; }
+.home-blurb strong { color: var(--concrete); font-weight: normal; }
+
+.blurb-mobile { display: none; }
+
+.home-contact {
+  margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--raw);
+  display: flex; flex-direction: column; gap: 12px;
+  transition: border-color 0.8s var(--lux-ease);
+}
+.hc-row { display: flex; align-items: center; gap: 16px; font-size: 10px; letter-spacing: 0.2em; }
+.hc-label { color: var(--dust); width: 80px; }
+.hc-link { color: var(--concrete); text-decoration: none; cursor: none; transition: color 0.3s; }
+.hc-link:hover { color: var(--gold); }
+
+
 /* --- INTERNAL VIEW STYLES --- */
 .sec-num { 
   font-size: 10px; letter-spacing: 0.3em; margin-bottom: 12px; flex-shrink: 0; 
@@ -265,24 +286,6 @@ body.dark-mode .ring {
 }
 
 .datum { width: 100%; height: 1px; background: var(--raw); margin: 32px 0 24px; transition: background 0.8s var(--lux-ease); }
-
-/* About specific */
-.home-layout { display: flex; gap: 64px; align-items: center; justify-content: space-between; width: 100%; flex-grow: 1; }
-.home-left { flex: 1; }
-.home-right { flex: 1; max-width: 500px; display: flex; flex-direction: column; justify-content: center; }
-.logo-img { width: clamp(200px,35vw,600px); height: auto; object-fit: contain; display: block; margin-bottom: 20px; opacity: 0.85; filter: invert(1); transition: filter 0.8s var(--lux-ease), opacity 0.8s var(--lux-ease); }
-body.dark-mode .logo-img { filter: none; opacity: 0.92; } 
-.home-blurb { font-size: 10px; line-height: 2; letter-spacing: 0.15em; color: var(--dust); text-transform: uppercase; text-align: justify; }
-.home-blurb strong { color: var(--concrete); font-weight: normal; }
-
-/* Contact Specifics */
-.contact-grid { display: flex; flex-direction: column; gap: 28px; padding-top: 8px; }
-.contact-item { display: flex; flex-direction: column; gap: 8px; }
-.contact-label { font-size: 9px; letter-spacing: 0.4em; color: var(--dust); }
-.contact-value { font-size: clamp(16px, 2vw, 24px); color: var(--concrete); }
-.contact-link { text-decoration: none; cursor: none; transition: color 0.3s; }
-.contact-link:hover { color: var(--gold); }
-.contact-divider { width: 100%; height: 1px; background: var(--raw); transition: background 0.8s var(--lux-ease); }
 
 /* Roster / Data Rows */
 .data-list { width: 100%; border-top: 1px solid var(--raw); flex-grow: 1; transition: border-color 0.8s var(--lux-ease); }
@@ -488,8 +491,15 @@ body.dark-mode .logo-img { filter: none; opacity: 0.92; }
   .return-btn, .overlay-close-btn { top: 24px; left: 24px; }
   .top-right-wrap { top: 24px; right: 24px; }
   
-  .home-layout { flex-direction: column; align-items: flex-start; gap: 32px; }
-  .home-left, .home-right { max-width: 100%; }
+  .about-no-scroll { padding: 24px; }
+  .home-layout { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .home-left, .home-right { max-width: 100%; width: 100%; }
+  .logo-img { max-height: 24px; margin-bottom: 0; width: auto; }
+  .datum { margin: 12px 0; }
+  
+  .blurb-desktop { display: none; }
+  .blurb-mobile { display: inline; line-height: 1.4; font-size: 9px; }
+  .home-contact { margin-top: 12px; padding-top: 12px; gap: 8px; }
   
   .media-container { grid-template-columns: 1fr; gap: 12px; }
   .media-menu { max-height: none; gap: 12px; flex-shrink: 0; }
@@ -543,9 +553,7 @@ body.dark-mode .logo-img { filter: none; opacity: 0.92; }
 
 <div class="view-overlay" id="view-about">
   <button class="return-btn">return</button>
-  <div class="view-content">
-    <div class="sec-num">01</div>
-    <h2 class="sec-title">about</h2>
+  <div class="view-content about-no-scroll">
     <div class="home-layout">
       <div class="home-left">
         <img src="opera.png" alt="access opera" class="logo-img" onerror="this.style.display='none'" />
@@ -554,33 +562,29 @@ body.dark-mode .logo-img { filter: none; opacity: 0.92; }
       </div>
       <div class="home-right">
         <p class="home-blurb">
-          <strong>ACCESS OPERA (AO)</strong> DEVELOPS THE NEXT GENERATION OF CULTURAL ICONS. BRIDGING CLASSICAL EXCELLENCE WITH CONTEMPORARY INNOVATION TO CREATE CAREERS, DEALS, AND GROUNDBREAKING ART ACROSS FILM, STAGE, AND MUSIC. FROM PRODUCING ERA-DEFINING OPERA WITH THE WORLD’S BIGGEST ARTISTS TO BUILDING THE FUTURE OF CLASSICAL AND POP TALENT, AO OPERATES AT THE HIGHEST LEVEL OF CREATIVE EXECUTION. OUR ARTISTS RECEIVE PLATINUM-STANDARD MANAGEMENT, BRANDING, MARKETING, SOCIAL STRATEGY, AND CAREER DEVELOPMENT. BECAUSE IF YOU CAN BUILD HISTORY, ANY OPPORTUNITY IS ATTAINABLE.
+          <span class="blurb-desktop">
+            <strong>ACCESS OPERA (AO)</strong> DEVELOPS THE NEXT GENERATION OF CULTURAL ICONS. BRIDGING CLASSICAL EXCELLENCE WITH CONTEMPORARY INNOVATION TO CREATE CAREERS, DEALS, AND GROUNDBREAKING ART ACROSS FILM, STAGE, AND MUSIC. FROM PRODUCING ERA-DEFINING OPERA WITH THE WORLD’S BIGGEST ARTISTS TO BUILDING THE FUTURE OF CLASSICAL AND POP TALENT, AO OPERATES AT THE HIGHEST LEVEL OF CREATIVE EXECUTION. OUR ARTISTS RECEIVE PLATINUM-STANDARD MANAGEMENT, BRANDING, MARKETING, SOCIAL STRATEGY, AND CAREER DEVELOPMENT. BECAUSE IF YOU CAN BUILD HISTORY, ANY OPPORTUNITY IS ATTAINABLE.
+          </span>
+          <span class="blurb-mobile">
+            <strong>ACCESS OPERA</strong> DEVELOPS THE NEXT GENERATION OF CULTURAL ICONS, BLENDING CLASSICAL EXCELLENCE WITH CONTEMPORARY INNOVATION ACROSS FILM, STAGE, AND MUSIC. AO DELIVERS WORLD-CLASS PRODUCTION, MANAGEMENT, BRANDING, MARKETING, AND CAREER DEVELOPMENT FOR ARTISTS SHAPING THE FUTURE OF CULTURE.
+          </span>
         </p>
-      </div>
-    </div>
-    
-    <div class="datum" style="margin: 64px 0 40px;"></div>
-    
-    <h3 class="sec-title" style="font-size: clamp(24px, 3vw, 40px); margin-bottom: 24px;">contact</h3>
-    <div class="contact-grid">
-      <div class="contact-item">
-        <div class="contact-label">general inquiries</div>
-        <a href="mailto:info@accessopera.com" class="contact-link contact-value">info@accessopera.com</a>
-      </div>
-      <div class="contact-divider"></div>
-      <div class="contact-item">
-        <div class="contact-label">press &amp; media</div>
-        <a href="mailto:press@accessopera.com" class="contact-link contact-value">press@accessopera.com</a>
-      </div>
-      <div class="contact-divider"></div>
-      <div class="contact-item">
-        <div class="contact-label">bookings</div>
-        <a href="mailto:bookings@accessopera.com" class="contact-link contact-value">bookings@accessopera.com</a>
-      </div>
-      <div class="contact-divider"></div>
-      <div class="contact-item">
-        <div class="contact-label">partnerships</div>
-        <a href="mailto:partners@accessopera.com" class="contact-link contact-value">partners@accessopera.com</a>
+        
+        <div class="home-contact">
+          <div class="hc-row">
+            <span class="hc-label">inquiries</span>
+            <a href="mailto:info@accessopera.com" class="hc-link">info@accessopera.com</a>
+          </div>
+          <div class="hc-row">
+            <span class="hc-label">press</span>
+            <a href="mailto:press@accessopera.com" class="hc-link">press@accessopera.com</a>
+          </div>
+          <div class="hc-row">
+            <span class="hc-label">bookings</span>
+            <a href="mailto:bookings@accessopera.com" class="hc-link">bookings@accessopera.com</a>
+          </div>
+        </div>
+        
       </div>
     </div>
   </div>
@@ -850,11 +854,9 @@ const ringTexts = ['ABOUT', 'CLIENTS', 'ARCHIVE', 'UPCOMING', 'SERVICES'];
 const ringRadiusPx = [110, 150, 190, 230, 270];
 
 // Calculate perfectly centered radiuses for text between the rings
-// Center hold-button radius = 55px
 const textRadiusPx = [82, 130, 170, 210, 250];
 
 function createCircularText(el, text, ringIndex) {
-  // Pull radius from the shifted array
   const radius = textRadiusPx[ringIndex];
   el.innerHTML = '';
   const arcPx = 22; 
@@ -898,7 +900,6 @@ function getRingIndex(e) {
   const clientY = e.clientY || (e.touches && e.touches[0].clientY);
   const dist = Math.sqrt(Math.pow(clientX - (r.left + r.width/2), 2) + Math.pow(clientY - (r.top + r.height/2), 2)) / scale;
   
-  // Midpoint thresholds mapped to match the 5 ring config
   const thresholds = [110, 150, 190, 230, 270];
   for (let i = 0; i < thresholds.length; i++) { if (dist <= thresholds[i] + 16) return i; }
   return -1;
