@@ -164,13 +164,15 @@ body.dark-mode .vignette { background: radial-gradient(ellipse 80% 80% at 50% 50
 /* RINGS */
 .ring {
   position: absolute; border-radius: 50%;
-  background: rgba(255,255,255,0.03); backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.05); /* Slightly darker than page background */
+  backdrop-filter: blur(10px);
   border: 1px solid var(--raw);
   box-shadow: 0 8px 32px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.05);
   opacity: 0; transform: scale(0); filter: blur(0px); pointer-events: none; transition: all 0.8s ease-out;
 }
 body.dark-mode .ring {
-  background: rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.03);
+  background: rgba(0, 0, 0, 0.25); /* Slightly darker than page background in dark mode */
+  border: 1px solid rgba(255,255,255,0.03);
   box-shadow: 0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.02);
 }
 
@@ -183,16 +185,16 @@ body.dark-mode .ring {
   box-shadow: 0 0 20px rgba(189, 165, 115, 0.1);
 }
 
-.ring-1 { width: 180px; height: 180px; z-index: 16; }
-.ring-2 { width: 250px; height: 250px; z-index: 15; }
-.ring-3 { width: 320px; height: 320px; z-index: 14; }
-.ring-4 { width: 390px; height: 390px; z-index: 13; }
-.ring-5 { width: 460px; height: 460px; z-index: 12; }
-.ring-6 { width: 540px; height: 540px; z-index: 11; }
+/* Sized for 5 rings evenly spaced */
+.ring-1 { width: 220px; height: 220px; z-index: 15; }
+.ring-2 { width: 300px; height: 300px; z-index: 14; }
+.ring-3 { width: 380px; height: 380px; z-index: 13; }
+.ring-4 { width: 460px; height: 460px; z-index: 12; }
+.ring-5 { width: 540px; height: 540px; z-index: 11; }
 
 .rotating-text { position: absolute; width: 100%; height: 100%; pointer-events: none; }
 .ring-1 .rotating-text, .ring-3 .rotating-text, .ring-5 .rotating-text { animation: rotate 60s linear infinite; }
-.ring-2 .rotating-text, .ring-4 .rotating-text, .ring-6 .rotating-text { animation: rotate-reverse 80s linear infinite; }
+.ring-2 .rotating-text, .ring-4 .rotating-text { animation: rotate-reverse 80s linear infinite; }
 @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes rotate-reverse { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
 
@@ -207,8 +209,9 @@ body.dark-mode .ring {
 
 .hint-text {
   position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%);
-  font-size: 9px; letter-spacing: 0.4em; color: var(--dust);
-  white-space: nowrap; opacity: 0.6; transition: opacity 0.4s ease;
+  font-size: 11px; letter-spacing: 0.25em; color: var(--concrete);
+  white-space: nowrap; opacity: 0.7; transition: opacity 0.4s ease;
+  text-transform: uppercase;
 }
 .interface-container.expanded .hint-text { opacity: 0; }
 
@@ -217,7 +220,7 @@ body.dark-mode .ring {
 ═══════════════════════════════════════ */
 .view-overlay {
   position: fixed; inset: 0; z-index: 200;
-  background: var(--void); display: block; /* changed to block to naturally handle overflow scrolling */
+  background: var(--void); display: block; 
   overflow-y: auto; scrollbar-width: none;
   clip-path: circle(0px at var(--click-x, 50%) var(--click-y, 50%));
   transition: clip-path 0.9s var(--lux-ease), background 0.8s var(--lux-ease);
@@ -521,23 +524,20 @@ body.dark-mode .logo-img { filter: none; opacity: 0.92; }
     <div class="ring ring-1" id="ring1" data-target="view-about">
       <div class="rotating-text" id="text1"></div>
     </div>
-    <div class="ring ring-2" id="ring2" data-target="view-contact">
+    <div class="ring ring-2" id="ring2" data-target="view-clients">
       <div class="rotating-text" id="text2"></div>
     </div>
-    <div class="ring ring-3" id="ring3" data-target="view-clients">
+    <div class="ring ring-3" id="ring3" data-target="view-archive">
       <div class="rotating-text" id="text3"></div>
     </div>
-    <div class="ring ring-4" id="ring4" data-target="view-archive">
+    <div class="ring ring-4" id="ring4" data-target="view-upcoming">
       <div class="rotating-text" id="text4"></div>
     </div>
-    <div class="ring ring-5" id="ring5" data-target="view-upcoming">
+    <div class="ring ring-5" id="ring5" data-target="view-services">
       <div class="rotating-text" id="text5"></div>
     </div>
-    <div class="ring ring-6" id="ring6" data-target="view-services">
-      <div class="rotating-text" id="text6"></div>
-    </div>
 
-    <div class="hint-text">hold & release to navigate</div>
+    <div class="hint-text">hold to start</div>
   </div>
 </main>
 
@@ -558,14 +558,10 @@ body.dark-mode .logo-img { filter: none; opacity: 0.92; }
         </p>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="view-overlay" id="view-contact">
-  <button class="return-btn">return</button>
-  <div class="view-content">
-    <div class="sec-num">02</div>
-    <h2 class="sec-title">contact</h2>
+    
+    <div class="datum" style="margin: 64px 0 40px;"></div>
+    
+    <h3 class="sec-title" style="font-size: clamp(24px, 3vw, 40px); margin-bottom: 24px;">contact</h3>
     <div class="contact-grid">
       <div class="contact-item">
         <div class="contact-label">general inquiries</div>
@@ -593,7 +589,7 @@ body.dark-mode .logo-img { filter: none; opacity: 0.92; }
 <div class="view-overlay" id="view-clients">
   <button class="return-btn">return</button>
   <div class="view-content">
-    <div class="sec-num">03</div>
+    <div class="sec-num">02</div>
     <h2 class="sec-title">clients</h2>
     <div class="data-list">
       <button class="data-row">
@@ -624,7 +620,7 @@ body.dark-mode .logo-img { filter: none; opacity: 0.92; }
 <div class="view-overlay" id="view-archive">
   <button class="return-btn">return</button>
   <div class="view-content">
-    <div class="sec-num">04</div>
+    <div class="sec-num">03</div>
     <h2 class="sec-title">archive</h2>
     <div class="data-list">
       <button class="data-row archive-btn" data-artist="ye">
@@ -734,7 +730,7 @@ body.dark-mode .logo-img { filter: none; opacity: 0.92; }
 <div class="view-overlay" id="view-upcoming">
   <button class="return-btn">return</button>
   <div class="view-content">
-    <div class="sec-num">05</div>
+    <div class="sec-num">04</div>
     <h2 class="sec-title">upcoming</h2>
     <div class="data-list">
       <a href="ye.html" class="data-row schedule-row">
@@ -765,7 +761,7 @@ body.dark-mode .logo-img { filter: none; opacity: 0.92; }
 <div class="view-overlay" id="view-services">
   <button class="return-btn">return</button>
   <div class="view-content">
-    <div class="sec-num">06</div>
+    <div class="sec-num">05</div>
     <h2 class="sec-title">services</h2>
     <div class="services-grid">
       <button class="service-card">
@@ -849,21 +845,21 @@ function updateTs() {
 }
 setInterval(updateTs, 100); updateTs();
 
-// Construct Circular Menu Text
-const ringTexts = ['ABOUT', 'CONTACT', 'CLIENTS', 'ARCHIVE', 'UPCOMING', 'SERVICES'];
-const ringRadiusPx = [90, 125, 160, 195, 230, 270];
+// Construct Circular Menu Text (5 Rings)
+const ringTexts = ['ABOUT', 'CLIENTS', 'ARCHIVE', 'UPCOMING', 'SERVICES'];
+const ringRadiusPx = [110, 150, 190, 230, 270];
 
 // Calculate perfectly centered radiuses for text between the rings
-// 55px is the center hold-button radius
-const textRadiusPx = [74, 108, 142, 178, 212, 250];
+// Center hold-button radius = 55px
+const textRadiusPx = [82, 130, 170, 210, 250];
 
 function createCircularText(el, text, ringIndex) {
-  // Pull radius from the shifted array instead of drawing directly on the line
+  // Pull radius from the shifted array
   const radius = textRadiusPx[ringIndex];
   el.innerHTML = '';
-  const arcPx = 22; // Increased spacing slightly to account for the larger font
+  const arcPx = 22; 
   const charDeg = (arcPx / radius) * (180 / Math.PI);
-  const instances = ringIndex === 0 ? 3 : ringIndex === 1 ? 4 : ringIndex === 2 ? 4 : ringIndex === 3 ? 5 : ringIndex === 4 ? 5 : 6;
+  const instances = ringIndex === 0 ? 3 : ringIndex === 1 ? 4 : ringIndex === 2 ? 4 : ringIndex === 3 ? 5 : 6;
 
   for (let inst = 0; inst < instances; inst++) {
     const anchor = inst * (360 / instances);
@@ -902,7 +898,8 @@ function getRingIndex(e) {
   const clientY = e.clientY || (e.touches && e.touches[0].clientY);
   const dist = Math.sqrt(Math.pow(clientX - (r.left + r.width/2), 2) + Math.pow(clientY - (r.top + r.height/2), 2)) / scale;
   
-  const thresholds = [90, 125, 160, 195, 230, 270];
+  // Midpoint thresholds mapped to match the 5 ring config
+  const thresholds = [110, 150, 190, 230, 270];
   for (let i = 0; i < thresholds.length; i++) { if (dist <= thresholds[i] + 16) return i; }
   return -1;
 }
