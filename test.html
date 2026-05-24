@@ -140,7 +140,7 @@ body.dark-mode .vignette { background: radial-gradient(ellipse 80% 80% at 50% 50
 
 .hold-button {
   width: 110px; height: 110px; border-radius: 50%;
-  background: transparent; border: 2px solid var(--raw);
+  background: #ffffff !important; border: 2px solid #ffffff !important; /* Force true white */
   cursor: none; transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: flex; justify-content: center; align-items: center; z-index: 100;
   backdrop-filter: blur(4px); overflow: hidden;
@@ -148,22 +148,18 @@ body.dark-mode .vignette { background: radial-gradient(ellipse 80% 80% at 50% 50
 
 .hold-button .ao-logo {
   width: 55%; height: auto; object-fit: contain; pointer-events: none;
-  opacity: 0.75; transition: all 0.6s ease; filter: invert(1);
+  opacity: 0.9; transition: all 0.6s ease;
+  filter: invert(1) !important; /* Ensure visibility on white */
 }
-body.dark-mode .hold-button .ao-logo { filter: none; }
 
-.hold-button .ao-fallback { display: none; font-size: 16px; letter-spacing: 0.15em; color: var(--dust); font-weight: 500; }
+.hold-button .ao-fallback { display: none; font-size: 16px; letter-spacing: 0.15em; color: #1a1815; font-weight: 500; }
 .hold-button .ao-logo[style*="display: none"] ~ .ao-fallback { display: block; }
 
 .hold-button:hover {
-  background: var(--raw); border-color: var(--gold);
-  transform: scale(1.05); box-shadow: 0 0 20px rgba(189, 165, 115, 0.15);
+  transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
 }
-.hold-button.holding { background: var(--concrete); border-color: var(--concrete); transform: scale(1.1); }
-body:not(.dark-mode) .hold-button.holding .ao-logo { filter: none; }
-body.dark-mode .hold-button.holding .ao-logo { filter: invert(1); }
-
-.hold-button.shrinking { transform: scale(0.8); background: var(--raw); border-color: var(--dust); }
+.hold-button.holding { transform: scale(1.1); background: #f0f0f0 !important; border-color: #f0f0f0 !important; }
+.hold-button.shrinking { transform: scale(0.8); }
 
 /* RINGS */
 .ring {
@@ -187,21 +183,26 @@ body.dark-mode .ring {
   box-shadow: 0 0 20px rgba(189, 165, 115, 0.1);
 }
 
-.ring-1 { width: 180px; height: 180px; z-index: 15; }
-.ring-2 { width: 270px; height: 270px; z-index: 14; }
-.ring-3 { width: 360px; height: 360px; z-index: 13; }
-.ring-4 { width: 450px; height: 450px; z-index: 12; }
-.ring-5 { width: 600px; height: 600px; z-index: 11; }
+/* Resized to accommodate 6 rings */
+.ring-1 { width: 180px; height: 180px; z-index: 16; }
+.ring-2 { width: 250px; height: 250px; z-index: 15; }
+.ring-3 { width: 320px; height: 320px; z-index: 14; }
+.ring-4 { width: 390px; height: 390px; z-index: 13; }
+.ring-5 { width: 460px; height: 460px; z-index: 12; }
+.ring-6 { width: 540px; height: 540px; z-index: 11; }
 
 .rotating-text { position: absolute; width: 100%; height: 100%; pointer-events: none; }
 .ring-1 .rotating-text, .ring-3 .rotating-text, .ring-5 .rotating-text { animation: rotate 60s linear infinite; }
-.ring-2 .rotating-text, .ring-4 .rotating-text { animation: rotate-reverse 80s linear infinite; }
+.ring-2 .rotating-text, .ring-4 .rotating-text, .ring-6 .rotating-text { animation: rotate-reverse 80s linear infinite; }
 @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes rotate-reverse { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
 
+/* Fixed text alignment to mathematically lock to the ring */
 .text-char {
-  position: absolute; left: 50%; transform-origin: 0 50%; font-family: var(--font);
-  font-size: 12px; font-weight: 400; color: var(--dust); transition: all 0.3s ease; letter-spacing: 0;
+  position: absolute; left: 50%; top: 50%; 
+  transform-origin: center center; /* Force center rotation */
+  font-family: var(--font); font-size: 12px; font-weight: 400; color: var(--dust); 
+  transition: all 0.3s ease; letter-spacing: 0; line-height: 1;
 }
 .ring.selected .text-char { color: var(--gold); font-weight: 600; text-shadow: 0 0 8px rgba(189, 165, 115, 0.4); }
 
@@ -261,6 +262,15 @@ body.dark-mode .ring {
 }
 
 .datum { width: 100%; height: 1px; background: var(--raw); margin: 32px 0 24px; transition: background 0.8s var(--lux-ease); }
+
+/* About specific */
+.home-layout { display: flex; gap: 64px; align-items: center; justify-content: space-between; width: 100%; flex-grow: 1; }
+.home-left { flex: 1; }
+.home-right { flex: 1; max-width: 500px; display: flex; flex-direction: column; justify-content: center; }
+.logo-img { width: clamp(200px,35vw,600px); height: auto; object-fit: contain; display: block; margin-bottom: 20px; opacity: 0.85; filter: invert(1); transition: filter 0.8s var(--lux-ease), opacity 0.8s var(--lux-ease); }
+body.dark-mode .logo-img { filter: none; opacity: 0.92; } 
+.home-blurb { font-size: 10px; line-height: 2; letter-spacing: 0.15em; color: var(--dust); text-transform: uppercase; text-align: justify; }
+.home-blurb strong { color: var(--concrete); font-weight: normal; }
 
 /* Contact Specifics */
 .contact-grid { display: flex; flex-direction: column; gap: 28px; padding-top: 8px; }
@@ -342,19 +352,146 @@ body.dark-mode .ring {
   background: var(--gold-gleam); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-size: 200% auto; animation: gleam 3s linear infinite;
 }
+.svc-extended { display: none; } 
+
+/* ═══════════════════════════════════════
+   IMPORTED OVERLAYS & WORKSPACES
+═══════════════════════════════════════ */
+.svc-overlay, .media-workspace {
+  position: fixed; inset: 0; background: var(--void); z-index: 350;
+  display: flex; flex-direction: column;
+  clip-path: circle(0px at var(--click-x, 50%) var(--click-y, 50%));
+  transition: clip-path 0.9s var(--lux-ease), background 0.8s var(--lux-ease), opacity 0.4s ease;
+  pointer-events: none; opacity: 0;
+}
+
+.svc-overlay { overflow-y: auto; scrollbar-width: none; }
+.svc-overlay::-webkit-scrollbar { display: none; } 
+
+.svc-overlay.active, .media-workspace.active {
+  clip-path: circle(150% at var(--click-x, 50%) var(--click-y, 50%));
+  pointer-events: all; opacity: 1;
+}
+
+.svc-overlay-inner {
+  opacity: 0; transform: translateY(20px); 
+  transition: all 0.8s var(--lux-ease) 0.3s;
+  width: 100%; max-width: 900px; margin: 0 auto;
+  padding: 100px 40px 80px;
+}
+.svc-overlay.active .svc-overlay-inner { opacity: 1; transform: translateY(0); }
+
+.overlay-close-btn {
+  position: absolute; top: 40px; left: 56px;
+  background: transparent; border: none; font-family: inherit;
+  font-size: 10px; letter-spacing: 0.4em; color: var(--dust);
+  cursor: none; transition: color 0.4s var(--lux-ease); padding: 0;
+}
+.overlay-close-btn:hover { 
+  background: var(--gold-gleam); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-size: 200% auto; animation: gleam 3s linear infinite;
+}
+
+.svc-overlay-title { font-size: clamp(40px, 6vw, 80px); color: var(--concrete); margin-bottom: 32px; font-weight: normal; margin-top: 40px; }
+.svc-overlay-body p { font-size: 13px; line-height: 2; letter-spacing: 0.05em; color: var(--dust); margin-bottom: 24px; text-align: justify; }
+
+.svc-media-placeholder {
+  width: 100%; aspect-ratio: 16 / 9; background: var(--deep);
+  border: 1px solid var(--raw); display: flex;
+  align-items: center; justify-content: center; margin: 32px 0;
+  color: var(--dust); font-size: 10px; letter-spacing: 0.2em; font-family: inherit;
+  transition: background 0.8s var(--lux-ease), border-color 0.8s var(--lux-ease);
+}
+
+.media-workspace { padding: 100px 40px 40px; align-items: center; }
+.media-ws-header { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1100px; margin-bottom: 30px; opacity: 0; transform: translateY(10px); transition: all 0.8s var(--lux-ease) 0.3s; }
+.media-workspace.active .media-ws-header { opacity: 1; transform: translateY(0); }
+.ws-artist-title { font-size: clamp(32px, 5vw, 64px); color: var(--concrete); margin: 0; line-height: 1; }
+
+.media-container {
+  display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: center; height: 100%; width: 100%; max-width: 1100px; min-height: 0;
+  opacity: 0; transform: translateY(20px); transition: all 0.8s var(--lux-ease) 0.4s;
+}
+.media-workspace.active .media-container { opacity: 1; transform: translateY(0); }
+
+.display-area {
+  position: relative; width: 100%; background: var(--deep);
+  border: 1px solid var(--raw); overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: background 0.8s var(--lux-ease), border-color 0.8s var(--lux-ease);
+}
+
+#custom-video, #gallery-img {
+  width: 100%; height: auto; max-height: 52vh; object-fit: contain; 
+  background: transparent; display: block; filter: grayscale(100%) contrast(1.1); transition: filter 0.8s var(--lux-ease);
+}
+#custom-video.is-playing, #gallery-img.is-active { filter: grayscale(0%) contrast(1); }
+
+.media-menu {
+  display: flex; flex-direction: column; justify-content: space-between;
+  height: 100%; max-height: 60vh; 
+}
+.menu-section-top { display: flex; flex-direction: column; }
+.menu-label {
+  font-size: 9px; letter-spacing: 0.4em; color: var(--dust);
+  margin-bottom: 12px; border-bottom: 1px solid var(--raw); padding-bottom: 8px;
+  transition: border-color 0.8s var(--lux-ease);
+}
+
+.video-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.v-sel {
+  width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+  background: transparent; border: 1px solid var(--raw);
+  font-family: inherit; font-size: 9px; color: var(--dust);
+  cursor: none; transition: all 0.4s var(--lux-ease);
+}
+.v-sel:hover { border-color: var(--gold); color: var(--concrete); }
+.v-sel.active { background: var(--concrete); color: var(--void); border-color: var(--concrete); }
+
+.active-media-name { font-size: 11px; letter-spacing: 0.1em; color: var(--concrete); margin-bottom: 24px; text-transform: lowercase; min-height: 14px; }
+
+.btn-gallery {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; padding: 12px 0; border: none; border-bottom: 1px solid var(--raw);
+  background: transparent; font-family: inherit; text-align: left; cursor: none; transition: color 0.4s var(--lux-ease);
+}
+.btn-gallery .g-name { font-size: 12px; letter-spacing: 0.1em; color: var(--dust); transition: color 0.4s var(--lux-ease); }
+.btn-gallery .g-status { font-size: 8px; letter-spacing: 0.3em; color: var(--form); transition: color 0.4s var(--lux-ease); }
+.btn-gallery:hover .g-name { color: var(--gold); }
+.btn-gallery.active .g-name { color: var(--concrete); }
+.btn-gallery.active .g-status { color: var(--concrete); }
+
+.media-controls-dock {
+  padding: 16px 24px; background: var(--void);
+  border-top: 1px solid var(--raw); width: 100%;
+  transition: background 0.8s var(--lux-ease), border-color 0.8s var(--lux-ease);
+}
+.dock-panel { display: flex; justify-content: space-between; align-items: center; }
+.m-btn-group { display: flex; gap: 24px; }
+.m-btn { background: none; border: none; font-family: inherit; font-size: 10px; letter-spacing: 0.2em; color: var(--dust); cursor: none; transition: all 0.4s var(--lux-ease); }
+.m-btn:hover { color: var(--gold); }
+.m-info { font-size: 10px; letter-spacing: 0.1em; color: var(--dust); }
 
 @media (max-width: 900px) {
   body { cursor: auto; }
   #cursor-dot { display: none; }
-  .interface-container { transform: scale(0.5); }
-  .interface-container:hover { transform: scale(0.52); }
+  .interface-container { transform: scale(0.45); }
+  .interface-container:hover { transform: scale(0.48); }
   .services-grid { grid-template-columns: 1fr; }
   .view-content { padding: 80px 24px 40px; }
   .dr-avatar { width: 44px; height: 44px; margin-right: 16px; }
   .dr-name { font-size: clamp(20px, 3.5vw, 32px); }
   .data-row { padding: 16px; }
-  .return-btn { top: 24px; left: 24px; }
+  .return-btn, .overlay-close-btn { top: 24px; left: 24px; }
   .top-right-wrap { top: 24px; right: 24px; }
+  
+  .home-layout { flex-direction: column; align-items: flex-start; gap: 32px; }
+  .home-left, .home-right { max-width: 100%; }
+  
+  .media-container { grid-template-columns: 1fr; gap: 12px; }
+  .media-menu { max-height: none; gap: 12px; flex-shrink: 0; }
+  .media-workspace { padding: 80px 24px 40px; overflow-y: auto; }
+  .svc-overlay-inner { padding: 80px 24px 40px; }
 }
 </style>
 </head>
@@ -377,34 +514,57 @@ body.dark-mode .ring {
   <div class="interface-container" id="interfaceContainer">
 
     <div class="hold-button" id="holdButton">
-      <img class="ao-logo" src="ao.png" alt="AO" onerror="this.style.display='none'" />
+      <img class="ao-logo" src="opera.png" alt="AO" onerror="this.style.display='none'" />
       <span class="ao-fallback">ao</span>
     </div>
 
-    <div class="ring ring-1" id="ring1" data-target="view-contact">
+    <div class="ring ring-1" id="ring1" data-target="view-about">
       <div class="rotating-text" id="text1"></div>
     </div>
-    <div class="ring ring-2" id="ring2" data-target="view-clients">
+    <div class="ring ring-2" id="ring2" data-target="view-contact">
       <div class="rotating-text" id="text2"></div>
     </div>
-    <div class="ring ring-3" id="ring3" data-target="view-archive">
+    <div class="ring ring-3" id="ring3" data-target="view-clients">
       <div class="rotating-text" id="text3"></div>
     </div>
-    <div class="ring ring-4" id="ring4" data-target="view-upcoming">
+    <div class="ring ring-4" id="ring4" data-target="view-archive">
       <div class="rotating-text" id="text4"></div>
     </div>
-    <div class="ring ring-5" id="ring5" data-target="view-services">
+    <div class="ring ring-5" id="ring5" data-target="view-upcoming">
       <div class="rotating-text" id="text5"></div>
+    </div>
+    <div class="ring ring-6" id="ring6" data-target="view-services">
+      <div class="rotating-text" id="text6"></div>
     </div>
 
     <div class="hint-text">hold & release to navigate</div>
   </div>
 </main>
 
-<div class="view-overlay" id="view-contact">
+<div class="view-overlay" id="view-about">
   <button class="return-btn">return</button>
   <div class="view-content">
     <div class="sec-num">01</div>
+    <h2 class="sec-title">about</h2>
+    <div class="home-layout">
+      <div class="home-left">
+        <img src="opera.png" alt="access opera" class="logo-img" onerror="this.style.display='none'" />
+        <div class="datum"></div>
+        <div class="descriptor" style="font-size:10px; letter-spacing:0.5em; color:var(--dust);">production agency &nbsp;·&nbsp; creative management</div>
+      </div>
+      <div class="home-right">
+        <p class="home-blurb">
+          <strong>ACCESS OPERA (AO)</strong> DEVELOPS THE NEXT GENERATION OF CULTURAL ICONS. BRIDGING CLASSICAL EXCELLENCE WITH CONTEMPORARY INNOVATION TO CREATE CAREERS, DEALS, AND GROUNDBREAKING ART ACROSS FILM, STAGE, AND MUSIC. FROM PRODUCING ERA-DEFINING OPERA WITH THE WORLD’S BIGGEST ARTISTS TO BUILDING THE FUTURE OF CLASSICAL AND POP TALENT, AO OPERATES AT THE HIGHEST LEVEL OF CREATIVE EXECUTION. OUR ARTISTS RECEIVE PLATINUM-STANDARD MANAGEMENT, BRANDING, MARKETING, SOCIAL STRATEGY, AND CAREER DEVELOPMENT. BECAUSE IF YOU CAN BUILD HISTORY, ANY OPPORTUNITY IS ATTAINABLE.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="view-overlay" id="view-contact">
+  <button class="return-btn">return</button>
+  <div class="view-content">
+    <div class="sec-num">02</div>
     <h2 class="sec-title">contact</h2>
     <div class="contact-grid">
       <div class="contact-item">
@@ -433,7 +593,7 @@ body.dark-mode .ring {
 <div class="view-overlay" id="view-clients">
   <button class="return-btn">return</button>
   <div class="view-content">
-    <div class="sec-num">02</div>
+    <div class="sec-num">03</div>
     <h2 class="sec-title">clients</h2>
     <div class="data-list">
       <button class="data-row">
@@ -464,24 +624,24 @@ body.dark-mode .ring {
 <div class="view-overlay" id="view-archive">
   <button class="return-btn">return</button>
   <div class="view-content">
-    <div class="sec-num">03</div>
+    <div class="sec-num">04</div>
     <h2 class="sec-title">archive</h2>
     <div class="data-list">
-      <button class="data-row">
+      <button class="data-row archive-btn" data-artist="ye">
         <div class="dr-left">
           <div class="dr-avatar"><img src="ye.jpg" alt="ye" onerror="this.parentElement.style.display='none'" /></div>
           <div><div class="dr-sub" style="margin-bottom: 4px;">04 files</div><div class="dr-name">ye</div></div>
         </div>
         <div class="dr-right"><div class="dr-action">open</div></div>
       </button>
-      <button class="data-row">
+      <button class="data-row archive-btn" data-artist="rotimi">
         <div class="dr-left">
           <div class="dr-avatar"><img src="rotimi.jpg" alt="rotimi" onerror="this.parentElement.style.display='none'" /></div>
           <div><div class="dr-sub" style="margin-bottom: 4px;">empty</div><div class="dr-name">rotimi</div></div>
         </div>
         <div class="dr-right"><div class="dr-action">open</div></div>
       </button>
-      <button class="data-row">
+      <button class="data-row archive-btn" data-artist="havoc">
         <div class="dr-left">
           <div class="dr-avatar"><img src="havoc.jpg" alt="havoc" onerror="this.parentElement.style.display='none'" /></div>
           <div><div class="dr-sub" style="margin-bottom: 4px;">empty</div><div class="dr-name">havoc</div></div>
@@ -490,12 +650,91 @@ body.dark-mode .ring {
       </button>
     </div>
   </div>
+  
+  <div class="media-workspace" id="media-workspace-ye">
+    <button class="overlay-close-btn workspace-back-btn">return</button>
+    <div class="media-ws-header">
+      <h2 class="ws-artist-title">ye</h2>
+    </div>
+    <div class="media-container">
+      <div class="display-area">
+        <video id="custom-video" src="video1.mp4" playsinline muted autoplay></video>
+        <img id="gallery-img" src="gallery1.jpg" alt="Gallery" style="display: none;" onerror="this.style.display='none'"/>
+        <div class="media-controls-dock">
+          <div id="dock-video" class="dock-panel" style="display: flex;">
+            <div class="m-btn-group">
+              <button id="btn-play" class="m-btn">pause</button>
+              <button id="btn-mute" class="m-btn">unmute</button>
+            </div>
+            <div class="m-info"><span id="time-current">0:00</span> / <span id="time-total">0:00</span></div>
+          </div>
+          <div id="dock-gallery" class="dock-panel" style="display: none;">
+            <div class="m-btn-group">
+              <button id="btn-prev" class="m-btn">prev</button>
+              <button id="btn-next" class="m-btn">next</button>
+            </div>
+            <div class="m-info"><span id="g-current">1</span> / <span id="g-total">3</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="media-menu">
+        <div class="menu-section-top">
+          <div class="menu-label">motion</div>
+          <div class="video-grid">
+            <button class="v-sel active" data-src="video1.mp4" data-name="istanbul promo">01</button>
+            <button class="v-sel" data-src="video2.mp4" data-name="stage concept">02</button>
+            <button class="v-sel" data-src="video3.mp4" data-name="tour vlog">03</button>
+            <button class="v-sel" data-src="video4.mp4" data-name="unreleased studio">04</button>
+          </div>
+          <div class="active-media-name" id="display-name">istanbul promo</div>
+          <div class="menu-label">stills</div>
+          <button class="btn-gallery" id="btn-gallery-toggle">
+            <span class="g-name">new mexico archive</span>
+            <span class="g-status" id="gallery-status">loaded</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="media-workspace" id="media-workspace-rotimi">
+    <button class="overlay-close-btn workspace-back-btn">return</button>
+    <div class="media-ws-header">
+      <h2 class="ws-artist-title">rotimi</h2>
+    </div>
+    <div class="media-container">
+      <div class="display-area" style="aspect-ratio: 16/9; justify-content:center; align-items:center;">
+         <p style="font-size: 10px; letter-spacing:0.2em; color:var(--dust);">compiling</p>
+      </div>
+      <div class="media-menu">
+         <div class="menu-label">motion</div>
+         <p style="font-size: 10px; color:var(--dust);">no files found</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="media-workspace" id="media-workspace-havoc">
+    <button class="overlay-close-btn workspace-back-btn">return</button>
+    <div class="media-ws-header">
+      <h2 class="ws-artist-title">havoc</h2>
+    </div>
+    <div class="media-container">
+      <div class="display-area" style="aspect-ratio: 16/9; justify-content:center; align-items:center;">
+         <p style="font-size: 10px; letter-spacing:0.2em; color:var(--dust);">compiling</p>
+      </div>
+      <div class="media-menu">
+         <div class="menu-label">motion</div>
+         <p style="font-size: 10px; color:var(--dust);">no files found</p>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <div class="view-overlay" id="view-upcoming">
   <button class="return-btn">return</button>
   <div class="view-content">
-    <div class="sec-num">04</div>
+    <div class="sec-num">05</div>
     <h2 class="sec-title">upcoming</h2>
     <div class="data-list">
       <a href="ye.html" class="data-row schedule-row">
@@ -526,15 +765,55 @@ body.dark-mode .ring {
 <div class="view-overlay" id="view-services">
   <button class="return-btn">return</button>
   <div class="view-content">
-    <div class="sec-num">05</div>
+    <div class="sec-num">06</div>
     <h2 class="sec-title">services</h2>
     <div class="services-grid">
-      <button class="service-card"><div class="svc-content"><h3 class="svc-title">marketing</h3></div></button>
-      <button class="service-card"><div class="svc-content"><h3 class="svc-title">videography</h3></div></button>
-      <button class="service-card"><div class="svc-content"><h3 class="svc-title">creative direction</h3></div></button>
-      <button class="service-card"><div class="svc-content"><h3 class="svc-title">brand partnerships</h3></div></button>
+      <button class="service-card">
+        <div class="svc-content">
+          <h3 class="svc-title">marketing</h3>
+          <div class="svc-extended">
+            <div class="svc-media-placeholder">image proxy active</div>
+            <p>Our acquisition models leverage deep behavioral data and structural creative force. We refuse organic luck; we build scalable, targeted campaigns that surround the consumer. From imposing physical billboard domination in tier-one metropolitan hubs to hyper-targeted digital funnels, we dictate the narrative and control the rollout ecosystem entirely.</p>
+            <div class="svc-media-placeholder">video proxy active</div>
+          </div>
+        </div>
+      </button>
+      <button class="service-card">
+        <div class="svc-content">
+          <h3 class="svc-title">videography</h3>
+          <div class="svc-extended">
+            <div class="svc-media-placeholder">video proxy active</div>
+            <p>Operating exclusively on high-end cinema camera ecosystems, our directors and cinematographers construct visual monuments. Services include end-to-end production logistics, color grading in certified suites, and bespoke visual effects integration. We treat a 15-second digital asset with the exact same rigorous cinematic discipline as a feature-length film.</p>
+          </div>
+        </div>
+      </button>
+      <button class="service-card">
+        <div class="svc-content">
+          <h3 class="svc-title">creative direction</h3>
+          <div class="svc-extended">
+            <div class="svc-media-placeholder">image proxy active</div>
+            <p>We build and control the entire universe the artist inhabits. This encompasses monumental stage architecture, synchronized tour lighting mapping, wardrobe styling, and physical merchandise design. We partner intimately with elite industrial designers and avant-garde fashion houses to ensure physical spaces reflect the artist's sonic landscape with aggressive precision.</p>
+          </div>
+        </div>
+      </button>
+      <button class="service-card">
+        <div class="svc-content">
+          <h3 class="svc-title">brand partnerships</h3>
+          <div class="svc-extended">
+            <div class="svc-media-placeholder">image proxy active</div>
+            <p>We reject standard transactional influencer deals. We negotiate equity, creative control, and platinum-tier sponsorships. By ruthlessly aligning our exclusive roster with heritage luxury conglomerates and aggressive tech innovators, we build long-term corporate bridges that elevate the artist from musician to a dominant global brand ambassador.</p>
+          </div>
+        </div>
+      </button>
     </div>
   </div>
+
+  <div class="svc-overlay" id="svc-overlay">
+    <button class="overlay-close-btn" id="svc-close-btn">return</button>
+    <div class="svc-overlay-inner" id="svc-overlay-content">
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -546,7 +825,7 @@ document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; })
   if (dot) dot.style.transform = `translate(calc(${mx}px - 50%), calc(${my}px - 50%))`;
   requestAnimationFrame(loop);
 })();
-document.querySelectorAll('a, button, .hold-button, .data-row, .service-card').forEach(el => {
+document.querySelectorAll('a, button, .hold-button, .data-row, .service-card, .overlay-close-btn').forEach(el => {
   el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
   el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
 });
@@ -571,15 +850,15 @@ function updateTs() {
 setInterval(updateTs, 100); updateTs();
 
 // Construct Circular Menu Text
-const ringTexts = ['CONTACT', 'CLIENTS', 'ARCHIVE', 'UPCOMING', 'SERVICES'];
-const ringRadiusPx = [90, 135, 180, 225, 300];
+const ringTexts = ['ABOUT', 'CONTACT', 'CLIENTS', 'ARCHIVE', 'UPCOMING', 'SERVICES'];
+const ringRadiusPx = [90, 125, 160, 195, 230, 270];
 
 function createCircularText(el, text, ringIndex) {
   const radius = ringRadiusPx[ringIndex];
   el.innerHTML = '';
   const arcPx = 15;
   const charDeg = (arcPx / radius) * (180 / Math.PI);
-  const instances = ringIndex === 0 ? 3 : ringIndex === 1 ? 4 : ringIndex === 2 ? 4 : ringIndex === 3 ? 5 : 6;
+  const instances = ringIndex === 0 ? 3 : ringIndex === 1 ? 4 : ringIndex === 2 ? 4 : ringIndex === 3 ? 5 : ringIndex === 4 ? 5 : 6;
 
   for (let inst = 0; inst < instances; inst++) {
     const anchor = inst * (360 / instances);
@@ -593,6 +872,8 @@ function createCircularText(el, text, ringIndex) {
       const y = Math.sin((angle - 90) * Math.PI / 180) * radius;
       span.style.left = `calc(50% + ${x}px)`;
       span.style.top = `calc(50% + ${y}px)`;
+      
+      // Rotates around the true center thanks to transform-origin: center center;
       span.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
       el.appendChild(span);
     }
@@ -612,13 +893,14 @@ let isHolding = false, holdTimeout, selectedTarget = null, currentRing = -1;
 
 function getRingIndex(e) {
   const r = ic.getBoundingClientRect();
-  const scale = window.innerWidth <= 900 ? 0.5 : 1;
+  const scale = window.innerWidth <= 900 ? 0.45 : 1;
   const clientX = e.clientX || (e.touches && e.touches[0].clientX);
   const clientY = e.clientY || (e.touches && e.touches[0].clientY);
   const dist = Math.sqrt(Math.pow(clientX - (r.left + r.width/2), 2) + Math.pow(clientY - (r.top + r.height/2), 2)) / scale;
   
-  const thresholds = [90, 135, 180, 225, 310];
-  for (let i = 0; i < thresholds.length; i++) { if (dist <= thresholds[i] + 12) return i; }
+  // Midpoint thresholds mapped to ringRadiusPx
+  const thresholds = [90, 125, 160, 195, 230, 270];
+  for (let i = 0; i < thresholds.length; i++) { if (dist <= thresholds[i] + 16) return i; }
   return -1;
 }
 
@@ -664,7 +946,6 @@ function release(e) {
     const clientX = e.clientX || (e.changedTouches && e.changedTouches[0].clientX) || window.innerWidth/2;
     const clientY = e.clientY || (e.changedTouches && e.changedTouches[0].clientY) || window.innerHeight/2;
     
-    // Map overlay to cursor release coordinates & deploy clip path
     const view = document.getElementById(selectedTarget);
     if(view) {
       view.style.setProperty('--click-x', `${clientX}px`);
@@ -673,7 +954,6 @@ function release(e) {
     }
   }
   
-  // Reset Core Menu
   ic.classList.remove('expanded');
   holdButton.classList.remove('holding', 'shrinking');
   rings.forEach(r => r.classList.remove('active', 'selected', 'blur'));
@@ -683,12 +963,19 @@ function release(e) {
 document.addEventListener('mouseup', release);
 document.addEventListener('touchend', release);
 
-// Return functionality mapped dynamically
+// Top Level Return functionality
 document.querySelectorAll('.return-btn').forEach(btn => {
   btn.addEventListener('click', (e) => {
     const parentView = e.target.closest('.view-overlay');
     if(parentView) {
       parentView.classList.remove('active');
+      // Clean up internals if returning from archive
+      if (globalVideo && !globalVideo.paused) {
+        globalVideo.pause();
+        globalVideo.classList.remove('is-playing');
+        if(playBtn) playBtn.innerText = 'play';
+      }
+      document.querySelectorAll('.media-workspace, .svc-overlay').forEach(w => w.classList.remove('active'));
     }
   });
 });
@@ -706,6 +993,221 @@ document.querySelectorAll('.tour-accordion .accordion-trigger').forEach(btn => {
     }
   });
 });
+
+// SERVICE EXPANSION LOGIC
+const svcCards = document.querySelectorAll('.service-card');
+const svcOverlay = document.getElementById('svc-overlay');
+const svcOverlayContent = document.getElementById('svc-overlay-content');
+const svcCloseBtn = document.getElementById('svc-close-btn');
+
+svcCards.forEach(card => {
+  card.addEventListener('click', (e) => {
+    const rect = document.getElementById('view-services').getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    if(svcOverlay) {
+      svcOverlay.style.setProperty('--click-x', `${x}px`);
+      svcOverlay.style.setProperty('--click-y', `${y}px`);
+    }
+
+    const title = card.querySelector('.svc-title').innerText;
+    const extended = card.querySelector('.svc-extended').innerHTML;
+
+    if(svcOverlayContent) {
+      svcOverlayContent.innerHTML = `
+        <h2 class="svc-overlay-title">${title}</h2>
+        <div class="svc-overlay-body">${extended}</div>
+      `;
+    }
+
+    if(svcOverlay) svcOverlay.classList.add('active');
+  });
+});
+
+if(svcCloseBtn) {
+  svcCloseBtn.addEventListener('click', () => {
+    if(svcOverlay) svcOverlay.classList.remove('active');
+  });
+}
+
+// MEDIA ARCHIVE LOGIC
+const artistBtns = document.querySelectorAll('.archive-btn');
+const globalVideo = document.getElementById('custom-video');
+const playBtn = document.getElementById('btn-play');
+
+artistBtns.forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    const artist = btn.getAttribute('data-artist');
+    const targetWorkspace = document.getElementById('media-workspace-' + artist);
+    
+    if(targetWorkspace) {
+      const rect = document.getElementById('view-archive').getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      targetWorkspace.style.setProperty('--click-x', `${x}px`);
+      targetWorkspace.style.setProperty('--click-y', `${y}px`);
+      targetWorkspace.classList.add('active');
+    }
+    
+    if (artist === 'ye') {
+      if(globalVideo) {
+        globalVideo.load();
+        globalVideo.play().then(() => {
+          if(playBtn) playBtn.innerText = 'pause';
+          globalVideo.classList.add('is-playing');
+        }).catch(err => {
+          if(playBtn) playBtn.innerText = 'play';
+        });
+      }
+    }
+  });
+});
+
+document.querySelectorAll('.workspace-back-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.media-workspace').forEach(ws => ws.classList.remove('active'));
+    if(globalVideo && !globalVideo.paused) {
+      globalVideo.pause();
+      globalVideo.classList.remove('is-playing');
+      if(playBtn) playBtn.innerText = 'play';
+    }
+  });
+});
+
+// MEDIA CONTROLS
+const displayVideo = document.getElementById('custom-video');
+const displayGallery = document.getElementById('gallery-img');
+const displayName = document.getElementById('display-name');
+const dockVideo = document.getElementById('dock-video');
+const dockGallery = document.getElementById('dock-gallery');
+const vSelectors = document.querySelectorAll('.v-sel');
+const btnGalleryToggle = document.getElementById('btn-gallery-toggle');
+const gStatus = document.getElementById('gallery-status');
+const muteBtn = document.getElementById('btn-mute');
+const timeCurrent = document.getElementById('time-current');
+const timeTotal = document.getElementById('time-total');
+
+function formatTime(seconds) {
+  if(isNaN(seconds)) return "0:00";
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return m + ":" + (s < 10 ? "0" + s : s);
+}
+
+if(playBtn) {
+  playBtn.addEventListener('click', () => {
+    if (globalVideo.paused) {
+      globalVideo.play();
+      playBtn.innerText = 'pause';
+      globalVideo.classList.add('is-playing');
+    } else {
+      globalVideo.pause();
+      playBtn.innerText = 'play';
+      globalVideo.classList.remove('is-playing');
+    }
+  });
+}
+
+if(muteBtn) {
+  muteBtn.addEventListener('click', () => {
+    globalVideo.muted = !globalVideo.muted;
+    muteBtn.innerText = globalVideo.muted ? 'unmute' : 'mute';
+  });
+}
+
+if(globalVideo) {
+  globalVideo.addEventListener('loadedmetadata', () => {
+    if(timeTotal) timeTotal.innerText = formatTime(globalVideo.duration);
+  });
+  globalVideo.addEventListener('timeupdate', () => {
+    if(timeCurrent) timeCurrent.innerText = formatTime(globalVideo.currentTime);
+  });
+  globalVideo.addEventListener('ended', () => {
+    if(playBtn) playBtn.innerText = 'play';
+    globalVideo.classList.remove('is-playing');
+  });
+}
+
+const galleryImages = ['gallery1.jpg', 'gallery2.jpg', 'gallery3.jpg'];
+let gIndex = 0;
+const gCurrent = document.getElementById('g-current');
+const gTotal = document.getElementById('g-total');
+if(gTotal) gTotal.innerText = galleryImages.length;
+
+function updateGallery() {
+  if(!displayGallery) return;
+  displayGallery.style.filter = "grayscale(100%) contrast(1.1)";
+  setTimeout(() => {
+    displayGallery.src = galleryImages[gIndex];
+    if(gCurrent) gCurrent.innerText = gIndex + 1;
+    displayGallery.classList.add('is-active');
+  }, 150);
+}
+
+const btnPrev = document.getElementById('btn-prev');
+const btnNext = document.getElementById('btn-next');
+
+if(btnPrev) {
+  btnPrev.addEventListener('click', () => {
+    gIndex = (gIndex - 1 + galleryImages.length) % galleryImages.length;
+    updateGallery();
+  });
+}
+if(btnNext) {
+  btnNext.addEventListener('click', () => {
+    gIndex = (gIndex + 1) % galleryImages.length;
+    updateGallery();
+  });
+}
+
+vSelectors.forEach(btn => {
+  btn.addEventListener('click', () => {
+    vSelectors.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    if(btnGalleryToggle) btnGalleryToggle.classList.remove('active');
+    if(gStatus) gStatus.innerText = 'loaded';
+
+    if(displayName) displayName.innerText = btn.getAttribute('data-name');
+    if(displayGallery) displayGallery.style.display = 'none';
+    if(displayVideo) displayVideo.style.display = 'block';
+    if(dockGallery) dockGallery.style.display = 'none';
+    if(dockVideo) dockVideo.style.display = 'flex';
+
+    const newSrc = btn.getAttribute('data-src');
+    if(globalVideo) {
+      globalVideo.src = newSrc;
+      globalVideo.play().then(() => {
+        if(playBtn) playBtn.innerText = 'pause';
+        globalVideo.classList.add('is-playing');
+      });
+    }
+  });
+});
+
+if(btnGalleryToggle) {
+  btnGalleryToggle.addEventListener('click', () => {
+    vSelectors.forEach(b => b.classList.remove('active'));
+    btnGalleryToggle.classList.add('active');
+    if(gStatus) gStatus.innerText = 'viewing';
+    
+    if(displayName) displayName.innerText = "new mexico archive (stills)";
+
+    if(globalVideo) {
+      globalVideo.pause();
+      globalVideo.classList.remove('is-playing');
+    }
+    if(playBtn) playBtn.innerText = 'play';
+    if(displayVideo) displayVideo.style.display = 'none';
+    
+    if(displayGallery) displayGallery.style.display = 'block';
+    if(dockVideo) dockVideo.style.display = 'none';
+    if(dockGallery) dockGallery.style.display = 'flex';
+
+    updateGallery();
+  });
+}
 </script>
 </body>
 </html>
