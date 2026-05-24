@@ -41,7 +41,7 @@ body.dark-mode {
   --raw:      rgba(232, 230, 225, 0.06);
   --deep:     #161514;
   --void:     #121110;
-  --ring-bg:  #0a0908; /* Flat, slightly darker than void */
+  --ring-bg:  #1e1c1a; /* Flat, slightly lighter than void to stand out */
   --dust:     #8a8782;
   --form:     #524e4a;
   --gold:     #bda573;
@@ -57,6 +57,10 @@ html, body {
 body {
   font-family: var(--font); color: var(--concrete);
   text-transform: lowercase; letter-spacing: 0.05em; position: relative;
+  /* Prevent mobile copy/paste/selection context menus during long-press */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 /* ═══════════════════════════════════════
@@ -166,7 +170,7 @@ body.dark-mode .vignette { background: radial-gradient(ellipse 80% 80% at 50% 50
 /* RINGS (FLAT, NO GRADIENTS) */
 .ring {
   position: absolute; border-radius: 50%;
-  background: var(--ring-bg); /* Strict solid color slightly darker than void */
+  background: var(--ring-bg);
   border: 1px solid var(--raw);
   opacity: 0; transform: scale(0); pointer-events: none; transition: all 0.8s ease-out;
 }
@@ -200,7 +204,7 @@ body.dark-mode .vignette { background: radial-gradient(ellipse 80% 80% at 50% 50
 
 .hint-text {
   position: absolute; 
-  bottom: 24px; /* Placed cleanly in the empty gap beneath the outer ring */
+  bottom: 35px; /* Placed exactly directly beneath the outermost ring */
   left: 50%; 
   transform: translateX(-50%);
   font-size: 11px; letter-spacing: 0.3em; color: var(--concrete);
@@ -547,7 +551,7 @@ body.dark-mode .logo-img { filter: none; opacity: 0.92; }
       <div class="rotating-text" id="text5"></div>
     </div>
 
-    <div class="hint-text">hold to start</div>
+    <div class="hint-text">HOLD</div>
   </div>
 </main>
 
