@@ -136,7 +136,7 @@ body.dark-mode .vignette { background: radial-gradient(ellipse 80% 80% at 50% 50
 }
 
 .interface-container {
-  --base-scale: 1; /* Desktop base scale */
+  --base-scale: 1; /* Desktop base scale, mobile handled dynamically via JS */
   position: relative; width: 660px; height: 660px;
   display: flex; justify-content: center; align-items: center;
   transition: transform 0.3s ease;
@@ -209,7 +209,7 @@ body.dark-mode .vignette { background: radial-gradient(ellipse 80% 80% at 50% 50
 
 .hint-text {
   position: absolute; 
-  bottom: 40px; /* Snug directly underneath the 540px outer ring margin */
+  top: calc(50% + 65px); /* Snug directly underneath the 110px center circle */
   left: 50%; 
   transform: translateX(-50%);
   font-size: 12px; letter-spacing: 0.4em; color: var(--concrete);
@@ -492,13 +492,13 @@ body.dark-mode .logo-img { filter: none; opacity: 0.92; }
   #cursor-dot { display: none; }
   
   .interface-container { 
-    --base-scale: 0.45; /* Scales the container down safely for mobile */
+    /* Base scale is now natively managed by JS for perfect width fitting */
+    --base-scale: 0.5;
   }
   
   /* Counter-scale the text so it is highly visible on mobile even when container is shrunk */
   .hint-text {
-    font-size: 26px; /* Massively scaled up inside the 0.45x container */
-    bottom: 20px; /* Snugger relative layout for mobile */
+    font-size: 24px; 
     letter-spacing: 0.4em;
   }
 
@@ -836,6 +836,20 @@ body.dark-mode .logo-img { filter: none; opacity: 0.92; }
 </div>
 
 <script>
+// Dynamic Scale for Mobile Interface
+function setMobileScale() {
+  const ic = document.getElementById('interfaceContainer');
+  if (window.innerWidth <= 900) {
+    // Fits the screen width perfectly, leaving 40px margin (20px each side)
+    const scale = Math.min((window.innerWidth - 40) / 660, 0.95);
+    ic.style.setProperty('--base-scale', scale);
+  } else {
+    ic.style.removeProperty('--base-scale');
+  }
+}
+window.addEventListener('resize', setMobileScale);
+setMobileScale();
+
 // Magnetic Cursor
 const dot = document.getElementById('cursor-dot');
 let mx = 0, my = 0;
@@ -914,7 +928,9 @@ let isHolding = false, holdTimeout, selectedTarget = null, currentRing = -1;
 
 function getRingIndex(e) {
   const r = ic.getBoundingClientRect();
-  const scale = window.innerWidth <= 900 ? 0.45 : 1;
+  // Automatically grab the live bounding scale relative to original 660px 
+  // This ensures hover targets never break regardless of mobile screen size
+  const scale = r.width / 660; 
   
   // Safely extract coordinates for both touch and mouse events
   let clientX, clientY;
