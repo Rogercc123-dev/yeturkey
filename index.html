@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>access opera</title>
-<meta name="theme-color" content="#DED0B0" />
+<meta name="theme-color" content="#e3ded6" />
 
 <style>
 /* --- STRICT CUSTOM FONT INJECTION --- */
@@ -17,12 +17,12 @@
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-/* --- DEFAULT LIGHT MODE (DEEPER BONEY CREAMY PARCHMENT) --- */
+/* --- DEFAULT LIGHT MODE (TRUE DESATURATED BONE/PLASTER) --- */
 :root{
   --concrete: #1a1815; /* Warm Charcoal Text */
   --raw:      rgba(31, 29, 26, 0.08); /* Ghosted Limestone Borders */
-  --deep:     #d8d0bd; /* Elevated Media Background */
-  --void:     #DED0B0; /* 30% Deeper Creamy Bone */
+  --deep:     #dcd8cf; /* Elevated Media Background (Bone) */
+  --void:     #e3ded6; /* True Bone / Plaster (No yellow) */
   --dust:     #80786b; /* Warm Muted Text */
   --form:     #a8a195; /* Mid-tones */
   --gold:     #9c8454;
@@ -285,25 +285,17 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
 .service-card:hover::before { height: 100%; }
 
 .svc-content { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; justify-content: center; }
-/* Refined Size: Just a little bigger than tabs (tab max is 14px) */
-.svc-title { font-size: 16px; color: var(--concrete); line-height: 1.1; margin-bottom: 12px; transition: color 0.6s var(--lux-ease), transform 0.6s var(--lux-ease); font-weight: normal; opacity: 0.9;}
-.svc-desc { 
-  font-size: 10px; line-height: 1.6; letter-spacing: 0.05em; color: var(--dust); transition: color 0.6s var(--lux-ease); text-align: justify;
-  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; 
-}
+.svc-title { font-size: clamp(18px, 2.5vw, 32px); color: var(--concrete); line-height: 1.1; margin-bottom: 0; transition: color 0.6s var(--lux-ease), transform 0.6s var(--lux-ease); font-weight: normal; opacity: 0.9;}
 
 .service-card:hover .svc-title { 
   opacity: 1; 
   transform: translateX(8px); 
-  
-  /* Apply Golden Flash Glow on Hover */
   background: var(--gold-gleam);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-size: 200% auto;
   animation: gleam 3s linear infinite;
 }
-.service-card:hover .svc-desc { color: var(--concrete); }
 
 .svc-extended { display: none; } 
 
@@ -534,8 +526,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
   }
   
   .service-card { border: none; padding: 12px 10px; justify-content: center; }
-  /* Reduced Title size for Mobile */
-  .svc-title { font-size: 11px; margin-bottom: 0; }
+  .svc-title { font-size: clamp(12px, 3.5vw, 16px); margin-bottom: 0; }
   
   .svc-overlay-inner { padding: 24px 20px 40px; }
   .svc-overlay-title { font-size: 28px; }
