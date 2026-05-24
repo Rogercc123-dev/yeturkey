@@ -140,7 +140,7 @@ body.dark-mode .vignette { background: radial-gradient(ellipse 80% 80% at 50% 50
 
 .hold-button {
   width: 110px; height: 110px; border-radius: 50%;
-  background: #ffffff !important; border: 2px solid #ffffff !important; /* Force true white */
+  background: #ffffff !important; border: 2px solid #ffffff !important; 
   cursor: none; transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: flex; justify-content: center; align-items: center; z-index: 100;
   backdrop-filter: blur(4px); overflow: hidden;
@@ -149,7 +149,7 @@ body.dark-mode .vignette { background: radial-gradient(ellipse 80% 80% at 50% 50
 .hold-button .ao-logo {
   width: 55%; height: auto; object-fit: contain; pointer-events: none;
   opacity: 0.9; transition: all 0.6s ease;
-  filter: invert(1) !important; /* Ensure visibility on white */
+  filter: invert(1) !important; 
 }
 
 .hold-button .ao-fallback { display: none; font-size: 16px; letter-spacing: 0.15em; color: #1a1815; font-weight: 500; }
@@ -183,7 +183,6 @@ body.dark-mode .ring {
   box-shadow: 0 0 20px rgba(189, 165, 115, 0.1);
 }
 
-/* Resized to accommodate 6 rings */
 .ring-1 { width: 180px; height: 180px; z-index: 16; }
 .ring-2 { width: 250px; height: 250px; z-index: 15; }
 .ring-3 { width: 320px; height: 320px; z-index: 14; }
@@ -197,11 +196,11 @@ body.dark-mode .ring {
 @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes rotate-reverse { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
 
-/* Fixed text alignment to mathematically lock to the ring */
+/* Text sized up & detached from lines */
 .text-char {
   position: absolute; left: 50%; top: 50%; 
-  transform-origin: center center; /* Force center rotation */
-  font-family: var(--font); font-size: 12px; font-weight: 400; color: var(--dust); 
+  transform-origin: center center;
+  font-family: var(--font); font-size: 16px; font-weight: 400; color: var(--dust); 
   transition: all 0.3s ease; letter-spacing: 0; line-height: 1;
 }
 .ring.selected .text-char { color: var(--gold); font-weight: 600; text-shadow: 0 0 8px rgba(189, 165, 115, 0.4); }
@@ -218,11 +217,14 @@ body.dark-mode .ring {
 ═══════════════════════════════════════ */
 .view-overlay {
   position: fixed; inset: 0; z-index: 200;
-  background: var(--void); display: flex; flex-direction: column;
+  background: var(--void); display: block; /* changed to block to naturally handle overflow scrolling */
+  overflow-y: auto; scrollbar-width: none;
   clip-path: circle(0px at var(--click-x, 50%) var(--click-y, 50%));
   transition: clip-path 0.9s var(--lux-ease), background 0.8s var(--lux-ease);
   pointer-events: none; opacity: 0;
 }
+.view-overlay::-webkit-scrollbar { display: none; }
+
 .view-overlay.active {
   clip-path: circle(150% at var(--click-x, 50%) var(--click-y, 50%));
   pointer-events: auto; opacity: 1;
@@ -241,11 +243,9 @@ body.dark-mode .ring {
 
 .view-content {
   width: 100%; max-width: 1000px; margin: 0 auto;
-  padding: 100px 40px 80px; height: 100%; display: flex; flex-direction: column;
-  overflow-y: auto; scrollbar-width: none;
+  padding: 100px 40px 80px; min-height: 100%; display: flex; flex-direction: column;
   opacity: 0; transform: translateY(20px); transition: all 0.8s var(--lux-ease) 0.3s;
 }
-.view-content::-webkit-scrollbar { display: none; }
 .view-overlay.active .view-content { opacity: 1; transform: translateY(0); }
 
 /* --- INTERNAL VIEW STYLES --- */
@@ -514,7 +514,7 @@ body.dark-mode .logo-img { filter: none; opacity: 0.92; }
   <div class="interface-container" id="interfaceContainer">
 
     <div class="hold-button" id="holdButton">
-      <img class="ao-logo" src="opera.png" alt="AO" onerror="this.style.display='none'" />
+      <img class="ao-logo" src="ao.png" alt="AO" onerror="this.style.display='none'" />
       <span class="ao-fallback">ao</span>
     </div>
 
@@ -853,10 +853,15 @@ setInterval(updateTs, 100); updateTs();
 const ringTexts = ['ABOUT', 'CONTACT', 'CLIENTS', 'ARCHIVE', 'UPCOMING', 'SERVICES'];
 const ringRadiusPx = [90, 125, 160, 195, 230, 270];
 
+// Calculate perfectly centered radiuses for text between the rings
+// 55px is the center hold-button radius
+const textRadiusPx = [74, 108, 142, 178, 212, 250];
+
 function createCircularText(el, text, ringIndex) {
-  const radius = ringRadiusPx[ringIndex];
+  // Pull radius from the shifted array instead of drawing directly on the line
+  const radius = textRadiusPx[ringIndex];
   el.innerHTML = '';
-  const arcPx = 15;
+  const arcPx = 22; // Increased spacing slightly to account for the larger font
   const charDeg = (arcPx / radius) * (180 / Math.PI);
   const instances = ringIndex === 0 ? 3 : ringIndex === 1 ? 4 : ringIndex === 2 ? 4 : ringIndex === 3 ? 5 : ringIndex === 4 ? 5 : 6;
 
@@ -873,7 +878,6 @@ function createCircularText(el, text, ringIndex) {
       span.style.left = `calc(50% + ${x}px)`;
       span.style.top = `calc(50% + ${y}px)`;
       
-      // Rotates around the true center thanks to transform-origin: center center;
       span.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
       el.appendChild(span);
     }
@@ -898,7 +902,6 @@ function getRingIndex(e) {
   const clientY = e.clientY || (e.touches && e.touches[0].clientY);
   const dist = Math.sqrt(Math.pow(clientX - (r.left + r.width/2), 2) + Math.pow(clientY - (r.top + r.height/2), 2)) / scale;
   
-  // Midpoint thresholds mapped to ringRadiusPx
   const thresholds = [90, 125, 160, 195, 230, 270];
   for (let i = 0; i < thresholds.length; i++) { if (dist <= thresholds[i] + 16) return i; }
   return -1;
@@ -969,7 +972,6 @@ document.querySelectorAll('.return-btn').forEach(btn => {
     const parentView = e.target.closest('.view-overlay');
     if(parentView) {
       parentView.classList.remove('active');
-      // Clean up internals if returning from archive
       if (globalVideo && !globalVideo.paused) {
         globalVideo.pause();
         globalVideo.classList.remove('is-playing');
