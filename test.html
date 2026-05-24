@@ -57,7 +57,7 @@ html, body {
 body {
   font-family: var(--font); color: var(--concrete);
   text-transform: lowercase; letter-spacing: 0.05em; position: relative;
-  /* Prevent mobile copy/paste/selection context menus during long-press */
+  /* Prevent mobile selection/magnifying glass during long press */
   -webkit-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
@@ -136,13 +136,18 @@ body.dark-mode .vignette { background: radial-gradient(ellipse 80% 80% at 50% 50
 }
 
 .interface-container {
+  --base-scale: 1; /* Desktop base scale */
   position: relative; width: 660px; height: 660px;
   display: flex; justify-content: center; align-items: center;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease;
+  transform: scale(var(--base-scale));
 }
-.interface-container:hover { transform: scale(1.01); }
+.interface-container:hover { transform: scale(calc(var(--base-scale) + 0.01)); }
 .interface-container.expanded { animation: breathe 4s ease-in-out infinite; }
-@keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.01); } }
+@keyframes breathe { 
+  0%, 100% { transform: scale(var(--base-scale)); } 
+  50% { transform: scale(calc(var(--base-scale) + 0.01)); } 
+}
 
 .hold-button {
   width: 110px; height: 110px; border-radius: 50%;
@@ -204,12 +209,12 @@ body.dark-mode .vignette { background: radial-gradient(ellipse 80% 80% at 50% 50
 
 .hint-text {
   position: absolute; 
-  bottom: 35px; /* Placed exactly directly beneath the outermost ring */
+  bottom: 40px; /* Snug directly underneath the 540px outer ring margin */
   left: 50%; 
   transform: translateX(-50%);
-  font-size: 11px; letter-spacing: 0.3em; color: var(--concrete);
-  white-space: nowrap; opacity: 0.7; transition: opacity 0.4s ease;
-  text-transform: uppercase; pointer-events: none;
+  font-size: 12px; letter-spacing: 0.4em; color: var(--concrete);
+  white-space: nowrap; opacity: 0.8; transition: opacity 0.4s ease;
+  text-transform: uppercase; pointer-events: none; font-weight: 500;
 }
 .interface-container.expanded .hint-text { opacity: 0; }
 
@@ -485,8 +490,18 @@ body.dark-mode .logo-img { filter: none; opacity: 0.92; }
 @media (max-width: 900px) {
   body { cursor: auto; }
   #cursor-dot { display: none; }
-  .interface-container { transform: scale(0.45); }
-  .interface-container:hover { transform: scale(0.48); }
+  
+  .interface-container { 
+    --base-scale: 0.45; /* Scales the container down safely for mobile */
+  }
+  
+  /* Counter-scale the text so it is highly visible on mobile even when container is shrunk */
+  .hint-text {
+    font-size: 26px; /* Massively scaled up inside the 0.45x container */
+    bottom: 20px; /* Snugger relative layout for mobile */
+    letter-spacing: 0.4em;
+  }
+
   .services-grid { grid-template-columns: 1fr; }
   .view-content { padding: 80px 24px 40px; }
   .dr-avatar { width: 44px; height: 44px; margin-right: 16px; }
@@ -900,8 +915,17 @@ let isHolding = false, holdTimeout, selectedTarget = null, currentRing = -1;
 function getRingIndex(e) {
   const r = ic.getBoundingClientRect();
   const scale = window.innerWidth <= 900 ? 0.45 : 1;
-  const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-  const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+  
+  // Safely extract coordinates for both touch and mouse events
+  let clientX, clientY;
+  if (e.touches && e.touches.length > 0) {
+    clientX = e.touches[0].clientX;
+    clientY = e.touches[0].clientY;
+  } else {
+    clientX = e.clientX;
+    clientY = e.clientY;
+  }
+  
   const dist = Math.sqrt(Math.pow(clientX - (r.left + r.width/2), 2) + Math.pow(clientY - (r.top + r.height/2), 2)) / scale;
   
   const thresholds = [110, 150, 190, 230, 270];
@@ -911,6 +935,11 @@ function getRingIndex(e) {
 
 function handleMove(e) {
   if (!ic.classList.contains('expanded')) return;
+  // Prevent swipe/scroll on mobile while actively dragging to select rings
+  if (e.cancelable && e.type === 'touchmove') {
+    e.preventDefault();
+  }
+  
   const idx = getRingIndex(e);
   if (idx !== currentRing && idx >= 0) {
     currentRing = idx;
@@ -926,7 +955,7 @@ function handleMove(e) {
 }
 
 ic.addEventListener('mousemove', handleMove);
-ic.addEventListener('touchmove', handleMove, {passive: true});
+ic.addEventListener('touchmove', handleMove, {passive: false});
 
 function triggerHold(e) {
   if(e.type === 'mousedown') e.preventDefault();
