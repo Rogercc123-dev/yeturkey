@@ -17,10 +17,10 @@
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-/* --- THE WABI-SABI / BONE PALETTE --- */
+/* --- LIGHT MODE (EXACT BONE/PARCHMENT PALETTE) --- */
 :root{
   --concrete: #1a1815; /* Warm Charcoal Text */
-  --raw:      rgba(31, 29, 26, 0.08); /* Ghosted Borders */
+  --raw:      rgba(31, 29, 26, 0.08); /* Ghosted Limestone Borders */
   --deep:     #d5c7ad; /* Elevated Media Background */
   --void:     #dfd0b7; /* EXACT REQUESTED BONE/BEIGE */
   --dust:     #80786b; /* Warm Muted Text */
@@ -32,6 +32,7 @@
   --tech-ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* --- DARK MODE OVERRIDES (MATTE OBSIDIAN) --- */
 body.dark-mode {
   --concrete: #e8e6e1; 
   --raw:      rgba(232, 230, 225, 0.06); 
@@ -55,7 +56,7 @@ body{
 }
 
 /* ═══════════════════════════════════════
-   MAGNETIC DOT CURSOR (NO RING)
+   MAGNETIC DOT CURSOR
 ═══════════════════════════════════════ */
 #cursor-dot {
   position: fixed; top: 0; left: 0; z-index: 10000;
@@ -92,17 +93,15 @@ body.dark-mode .vignette { background:radial-gradient(ellipse 80% 80% at 50% 50%
 }
 
 .nav-hub {
-  width: 50vw; height: 100vh; display: flex; justify-content: center; align-items: center; position: relative;
+  width: 45vw; height: 100vh; display: flex; justify-content: center; align-items: center; position: relative;
 }
 
 .content-hub {
-  width: 50vw; height: 100vh; display: flex; flex-direction: column;
+  width: 55vw; height: 100vh; display: flex; flex-direction: column;
   padding: 40px 64px 40px 24px; position: relative;
 }
 
-.top-actions {
-  position: absolute; top: 40px; right: 64px; z-index: 50;
-}
+.top-actions { position: absolute; top: 40px; right: 64px; z-index: 50; }
 .theme-btn { 
   font-size:9px; letter-spacing:0.4em; color:var(--dust); text-align:right; 
   text-decoration: none; cursor: none; transition: all 0.4s var(--lux-ease);
@@ -111,63 +110,83 @@ body.dark-mode .vignette { background:radial-gradient(ellipse 80% 80% at 50% 50%
 .theme-btn:hover { color: var(--gold); text-shadow: 0 0 10px rgba(189, 165, 115, 0.4); }
 
 /* ═══════════════════════════════════════
-   CIRCULAR INTERFACE GIMMICK
+   EXACT RADIAL MENU GIMMICK
 ═══════════════════════════════════════ */
 .interface-container {
   position: relative; width: 600px; height: 600px;
   display: flex; justify-content: center; align-items: center;
-  transition: transform 0.6s var(--lux-ease);
+  transition: all 0.3s ease;
 }
-.interface-container.expanded { animation: breathe 6s ease-in-out infinite; }
-@keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+.interface-container:hover { transform: scale(1.02); }
+.interface-container.expanded { animation: breathe 4s ease-in-out infinite; }
+@keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.01); } }
 
 .hold-button {
-  width: 90px; height: 90px; border-radius: 50%;
-  background: transparent; border: 1px solid var(--dust);
-  cursor: none; transition: all 0.6s var(--lux-ease);
+  width: 100px; height: 100px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1); border: 2px solid rgba(0, 0, 0, 0.15);
+  cursor: none; transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   display: flex; justify-content: center; align-items: center; z-index: 100;
-  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.3); backdrop-filter: blur(4px);
 }
-.hold-button img { width: 65%; height: auto; object-fit: contain; pointer-events: none; filter: invert(1); transition: filter 0.6s ease; opacity: 0.8;}
-body.dark-mode .hold-button img { filter: none; opacity: 1;}
+body.dark-mode .hold-button { background: rgba(0, 0, 0, 0.2); border-color: rgba(255,255,255,0.15); }
 
-.hold-button:hover { transform: scale(1.05); border-color: var(--gold); }
-.hold-button.holding { background: var(--concrete); border-color: var(--concrete); transform: scale(1.1); box-shadow: 0 0 0 30px var(--raw); }
-body.dark-mode .hold-button.holding img { filter: invert(1); }
+.hold-button img { width: 55%; height: auto; object-fit: contain; pointer-events: none; opacity: 0.8; transition: filter 0.6s ease; filter: invert(1); }
+body.dark-mode .hold-button img { filter: none; }
+
+.hold-button:hover {
+  background: rgba(255, 255, 255, 0.3); border-color: var(--concrete);
+  transform: scale(1.05); box-shadow: 0 0 0 20px rgba(0, 0, 0, 0.05);
+}
+body.dark-mode .hold-button:hover { background: rgba(255, 255, 255, 0.05); box-shadow: 0 0 0 20px rgba(255, 255, 255, 0.02); }
+
+.hold-button.holding {
+  background: var(--concrete); border-color: var(--concrete);
+  transform: scale(1.1); box-shadow: 0 0 0 40px rgba(0, 0, 0, 0.08);
+}
 body:not(.dark-mode) .hold-button.holding img { filter: none; }
-.hold-button.shrinking { transform: scale(0.85); border-color: var(--dust); }
+body.dark-mode .hold-button.holding img { filter: invert(1); }
 
+.hold-button.shrinking { transform: scale(0.8); background: rgba(0, 0, 0, 0.05); border-color: var(--dust); }
+body.dark-mode .hold-button.shrinking { background: rgba(255,255,255,0.05); }
+
+/* The Glass Rings */
 .ring {
   position: absolute; border-radius: 50%;
-  background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(4px);
-  border: 1px solid var(--raw);
-  opacity: 0; transform: scale(0); filter: blur(0px); pointer-events: none;
-  transition: all 0.8s var(--lux-ease);
+  background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  opacity: 0; transform: scale(0); filter: blur(0px); pointer-events: none; transition: all 0.8s ease-out;
 }
-body.dark-mode .ring { background: rgba(0, 0, 0, 0.02); }
+body.dark-mode .ring {
+  background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
 
 .ring.active { opacity: 1; transform: scale(1); pointer-events: auto; }
-.ring.blur { filter: blur(3px); opacity: 0.3; transform: scale(0.98); }
+.ring.blur { filter: blur(2px); opacity: 0.4; transform: scale(0.98); }
+
 .ring.selected {
-  background: rgba(189, 165, 115, 0.05); border-color: var(--gold); border-width: 1px;
-  filter: blur(0px); opacity: 1; transform: scale(1.02);
-  box-shadow: 0 0 20px rgba(189, 165, 115, 0.1);
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.4) 0%, rgba(240, 240, 240, 0.2) 100%);
+  border-color: #000000; border-width: 2px;
+  filter: blur(0px); opacity: 1; transform: scale(1.04);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+body.dark-mode .ring.selected {
+  background: radial-gradient(circle at center, rgba(189, 165, 115, 0.15) 0%, rgba(0, 0, 0, 0.4) 100%);
+  border-color: var(--gold);
 }
 
-.ring-1 { width: 180px; height: 180px; z-index: 15; } /* CONTACT */
-.ring-2 { width: 270px; height: 270px; z-index: 14; } /* CLIENTS */
-.ring-3 { width: 360px; height: 360px; z-index: 13; } /* ARCHIVE */
-.ring-4 { width: 450px; height: 450px; z-index: 12; } /* UPCOMING */
-.ring-5 { width: 540px; height: 540px; z-index: 11; } /* SERVICES */
+.ring-1 { width: 200px; height: 200px; z-index: 15; }
+.ring-2 { width: 300px; height: 300px; z-index: 14; }
+.ring-3 { width: 400px; height: 400px; z-index: 13; }
+.ring-4 { width: 500px; height: 500px; z-index: 12; }
+.ring-5 { width: 600px; height: 600px; z-index: 11; }
 
-.rotating-text {
-  position: absolute; width: 100%; height: 100%; pointer-events: none;
-}
+.rotating-text { position: absolute; width: 100%; height: 100%; pointer-events: none; }
 .text-char {
   position: absolute; left: 50%; transform-origin: 0 50%;
   transition: all 0.3s ease; font-family: 'OCR A BT', monospace;
-  font-size: 10px; letter-spacing: 0.1em; color: var(--dust);
+  font-size: 10px; letter-spacing: 0.1em; color: var(--dust); text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.05);
 }
 .ring.selected .text-char {
   color: transparent; background: var(--gold-gleam); -webkit-background-clip: text;
@@ -178,6 +197,13 @@ body.dark-mode .ring { background: rgba(0, 0, 0, 0.02); }
 .ring-2 .rotating-text, .ring-4 .rotating-text { animation: rotate-reverse 80s linear infinite; }
 @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes rotate-reverse { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+
+.ripple {
+  position: absolute; border-radius: 50%; background: rgba(0, 0, 0, 0.1);
+  transform: scale(0); animation: ripple-animation 0.6s ease-out; pointer-events: none;
+}
+body.dark-mode .ripple { background: rgba(255, 255, 255, 0.1); }
+@keyframes ripple-animation { to { transform: scale(4); opacity: 0; } }
 
 /* ═══════════════════════════════════════
    CONTENT VIEWS
@@ -248,8 +274,11 @@ body.dark-mode .ring { background: rgba(0, 0, 0, 0.02); }
 .service-card:hover::before { height: 100%; }
 
 .svc-content { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; justify-content: center; }
-.svc-title { font-size: clamp(14px, 1.5vw, 18px); color: var(--concrete); line-height: 1.2; margin-bottom: 0; transition: transform 0.6s var(--lux-ease); font-weight: normal; opacity: 0.9;}
 
+/* Reduced title text size (just slightly larger than the 11px nav labels) */
+.svc-title { font-size: clamp(12px, 1.5vw, 16px); color: var(--concrete); line-height: 1.2; margin-bottom: 0; transition: transform 0.6s var(--lux-ease); font-weight: normal; opacity: 0.9;}
+
+/* Same Golden Flash Glow as Tabs */
 .service-card:hover .svc-title { 
   transform: translateX(8px); 
   background: var(--gold-gleam); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -349,7 +378,7 @@ body.dark-mode .ring { background: rgba(0, 0, 0, 0.02); }
   <div class="nav-hub">
     <div class="interface-container" id="interfaceContainer">
       <div class="hold-button" id="holdButton">
-        <img src="opera.png" alt="AO" />
+        <img src="opera.png" alt="AO" onerror="this.style.display='none'" />
       </div>
       <div class="ring ring-1" data-target="view-contact"><div class="rotating-text" id="text1"></div></div>
       <div class="ring ring-2" data-target="view-clients"><div class="rotating-text" id="text2"></div></div>
@@ -607,21 +636,22 @@ function getInstanceCount(text) {
 
 function createCircularText(textElement, text, ringIndex) {
   let radius;
-  if (ringIndex === 0) radius = 90;
-  else if (ringIndex === 1) radius = 135;
-  else if (ringIndex === 2) radius = 180;
-  else if (ringIndex === 3) radius = 225;
-  else if (ringIndex === 4) radius = 270;
+  if (ringIndex === 0) radius = 100;
+  else if (ringIndex === 1) radius = 150;
+  else if (ringIndex === 2) radius = 200;
+  else if (ringIndex === 3) radius = 250;
+  else if (ringIndex === 4) radius = 300;
   
   textElement.innerHTML = '';
   
   for (let instance = 0; instance < getInstanceCount(text); instance++) {
     const totalChars = text.length;
-    let charSpacing = 7;
-    if (text === 'CONTACT') charSpacing = 14;
-    else if (text === 'CLIENTS') charSpacing = 12;
-    else if (text === 'ARCHIVE') charSpacing = 10;
-    else if (text === 'UPCOMING') charSpacing = 8;
+    let charSpacing;
+    if (ringIndex === 0) charSpacing = 20;
+    else if (ringIndex === 1) charSpacing = 16;
+    else if (ringIndex === 2) charSpacing = 12;
+    else if (ringIndex === 3) charSpacing = 10;
+    else charSpacing = 9;
     
     const startAngle = (instance * (360 / getInstanceCount(text))) - ((totalChars * charSpacing) / 2); 
     
@@ -657,7 +687,7 @@ function getRingFromMousePosition(e) {
   const centerY = rect.top + rect.height / 2;
   const distance = Math.sqrt(Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2));
   
-  const ringRadii = [110, 155, 200, 245, 295]; 
+  const ringRadii = [100, 150, 200, 250, 300]; 
   for (let i = 0; i < ringRadii.length; i++) {
     if (distance <= ringRadii[i]) return i;
   }
