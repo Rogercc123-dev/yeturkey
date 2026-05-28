@@ -3,8 +3,43 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>access opera</title>
+<title>access opera | production agency</title>
 <meta name="theme-color" content="#dfd0b7" />
+
+<!-- ═══════════════════════════════════════
+   SEO & SOCIAL META MAPPING
+═══════════════════════════════════════ -->
+<meta name="description" content="access opera is a premier production agency and creative management firm bridging classical excellence with contemporary innovation across film, stage, and music.">
+<meta name="keywords" content="access opera, production agency, creative management, artist management, opera, contemporary music, creative direction">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://accessopera.com/">
+<meta property="og:title" content="access opera | production agency">
+<meta property="og:description" content="developing the next generation of cultural icons. bridging classical excellence with contemporary innovation.">
+<meta property="og:image" content="https://accessopera.com/og-image.jpg">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://accessopera.com/">
+<meta name="twitter:title" content="access opera | production agency">
+<meta name="twitter:description" content="developing the next generation of cultural icons. bridging classical excellence with contemporary innovation.">
+<meta name="twitter:image" content="https://accessopera.com/og-image.jpg">
+
+<!-- ═══════════════════════════════════════
+   PRODUCTION FAVICON SUITE
+═══════════════════════════════════════ -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<!-- ═══════════════════════════════════════
+   PERFORMANCE: FONT PRELOAD
+═══════════════════════════════════════ -->
+<link rel="preload" href="OCR-a___.ttf" as="font" type="font/truetype" crossorigin>
 
 <style>
 /* --- STRICT CUSTOM FONT INJECTION --- */
@@ -13,6 +48,7 @@
   src: url('OCR-a___.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: block;
 }
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -218,13 +254,13 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
 .schedule-row.past-deemphasize { opacity: 0.4; pointer-events: none; }
 .schedule-row.past-deemphasize .s-artist { color: var(--dust); }
 
-/* VIEW: CLIENTS / ARCHIVE ROWS (COMPRESSED TO FIT 3 ARTISTS) */
+/* VIEW: CLIENTS / ARCHIVE ROWS */
 .roster-wrap { width: 100%; border-top: 1px solid var(--raw); flex-grow: 1; overflow-y: auto; scrollbar-width: none; transition: border-color 0.8s var(--lux-ease); }
 .roster-wrap::-webkit-scrollbar { display: none; }
 
 .roster-row {
   position: relative; display: flex; align-items: center;
-  padding: 12px 32px; /* Compressed padding for desktop */
+  padding: 12px 32px; 
   border-bottom: 1px solid var(--raw);
   text-decoration: none; cursor: none; overflow: hidden;
   transition: border-color 0.8s var(--lux-ease);
@@ -247,7 +283,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
 .r-tag { font-size: 9px; letter-spacing: 0.4em; color: var(--form); margin-left: auto; text-align: right; transition: color 0.5s; }
 .roster-row:hover .r-tag { color: var(--gold); }
 
-/* VIEW: SERVICES (PERFECT 2x2 ZERO-SCROLL GRID FIX) */
+/* VIEW: SERVICES */
 .services-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -299,7 +335,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
 
 .svc-extended { display: none; } 
 
-/* SPATIAL EXPANSION OVERLAYS (Services & Media Workspaces) */
+/* SPATIAL EXPANSION OVERLAYS */
 .svc-overlay, .media-workspace {
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
@@ -423,7 +459,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
 .m-btn:hover { color: var(--gold); }
 .m-info { font-size: 10px; letter-spacing: 0.1em; color: var(--dust); }
 
-/* BOTTOM NAV SLAB (Updated to 3 columns) */
+/* BOTTOM NAV SLAB */
 .block-bottom{ opacity:0; animation:appear 2s var(--lux-ease) 0.8s forwards; flex-shrink: 0; }
 .nav-slab{ display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid var(--raw); transition: border-color 0.8s var(--lux-ease); }
 .nav-item{ position:relative; display:flex; flex-direction:column; justify-content:center; padding:24px 32px 20px; text-decoration:none; color:var(--dust); border-right:1px solid var(--raw); cursor:none; overflow:hidden; transition:color 0.8s var(--lux-ease), border-color 0.8s var(--lux-ease); }
@@ -446,7 +482,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
 .nav-jp { position: relative; z-index: 1; font-size: 8px; letter-spacing: 0.2em; color: var(--form); margin-top: 6px; transition: color 0.6s var(--lux-ease); }
 .nav-item:hover .nav-jp, .nav-item.active .nav-jp { color: var(--dust); }
 
-/* LOADER (SLIDE UP) */
+/* LOADER */
 .loader{ position:fixed; inset:0; background:var(--void); z-index:5000; display:flex; align-items:center; justify-content:center; transition: transform 1s var(--tech-ease), background 0.8s var(--lux-ease); }
 .loader-inner{ 
   font-size:10px; letter-spacing:0.6em; color:var(--concrete); text-transform: lowercase;
@@ -508,10 +544,9 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
     text-align: right; justify-self: end;
   }
 
-  /* Compact Roster & Archive Grid */
   .roster-row { padding: 8px 16px; display: flex; }
   .r-avatar { width: 44px; height: 44px; margin-right: 16px; }
-  .r-tag { display: block; /* Ensure it stays visible */ }
+  .r-tag { display: block; }
   .r-name { font-size: clamp(20px, 3.5vw, 32px); }
   
   .services-grid { 
@@ -660,8 +695,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
       <div class="svc-overlay" id="svc-overlay">
         <div class="svc-overlay-inner">
           <button class="overlay-close-btn" id="svc-close-btn">return</button>
-          <div id="svc-overlay-content">
-            </div>
+          <div id="svc-overlay-content"></div>
         </div>
       </div>
     </div>
@@ -704,6 +738,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
         </button>
       </div>
 
+      <!-- MEDIA WORKSPACES -->
       <div class="media-workspace" id="media-workspace-ye">
         <div class="media-ws-header">
           <button class="overlay-close-btn workspace-back-btn">return</button>
@@ -991,7 +1026,7 @@ if(svcCloseBtn) {
   });
 }
 
-// MEDIA ARCHIVE EXPANSION CLIP-PATH LOGIC (Now triggered from Clients view)
+// MEDIA ARCHIVE EXPANSION CLIP-PATH LOGIC
 const artistBtns = document.querySelectorAll('.media-artist-btn');
 artistBtns.forEach(btn => {
   btn.addEventListener('click', (e) => {
