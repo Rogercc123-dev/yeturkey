@@ -423,9 +423,9 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
 .m-btn:hover { color: var(--gold); }
 .m-info { font-size: 10px; letter-spacing: 0.1em; color: var(--dust); }
 
-/* BOTTOM NAV SLAB */
+/* BOTTOM NAV SLAB (Updated to 3 columns) */
 .block-bottom{ opacity:0; animation:appear 2s var(--lux-ease) 0.8s forwards; flex-shrink: 0; }
-.nav-slab{ display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--raw); transition: border-color 0.8s var(--lux-ease); }
+.nav-slab{ display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid var(--raw); transition: border-color 0.8s var(--lux-ease); }
 .nav-item{ position:relative; display:flex; flex-direction:column; justify-content:center; padding:24px 32px 20px; text-decoration:none; color:var(--dust); border-right:1px solid var(--raw); cursor:none; overflow:hidden; transition:color 0.8s var(--lux-ease), border-color 0.8s var(--lux-ease); }
 .nav-item:last-child{border-right:none}
 .nav-item::before{ content:''; position:absolute; bottom:0;left:0;right:0;height:0; background:var(--raw); transition:height 0.6s var(--lux-ease), background 0.8s var(--lux-ease); z-index:0; }
@@ -511,7 +511,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
   /* Compact Roster & Archive Grid */
   .roster-row { padding: 8px 16px; display: flex; }
   .r-avatar { width: 44px; height: 44px; margin-right: 16px; }
-  .r-tag { display: none; }
+  .r-tag { display: block; /* Ensure it stays visible */ }
   .r-name { font-size: clamp(20px, 3.5vw, 32px); }
   
   .services-grid { 
@@ -540,7 +540,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
   .media-controls-dock { padding: 12px 0 0; border-top: 1px solid var(--raw); }
   
   .block-bottom { margin-top: 0; flex-shrink: 0; }
-  .nav-slab{ grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--raw); }
+  .nav-slab{ grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--raw); }
   .nav-item { padding: 12px 4px 10px; align-items: center; border-bottom: none; border-right: 1px solid var(--raw); }
   .nav-item:last-child { border-right: none; }
   .nav-item:nth-child(even){ border-right: 1px solid var(--raw); }
@@ -608,11 +608,69 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
       </div>
     </div>
 
-    <div class="view" id="view-clients">
+    <div class="view" id="view-services">
       <div class="sec-num">01</div>
+      <h2 class="sec-title">services</h2>
+      
+      <div class="services-grid">
+        
+        <button class="service-card" type="button">
+          <div class="svc-content">
+            <h3 class="svc-title">marketing</h3>
+            <div class="svc-extended">
+              <div class="svc-media-placeholder">image proxy active</div>
+              <p>Our acquisition models leverage deep behavioral data and structural creative force. We refuse organic luck; we build scalable, targeted campaigns that surround the consumer. From imposing physical billboard domination in tier-one metropolitan hubs to hyper-targeted digital funnels, we dictate the narrative and control the rollout ecosystem entirely.</p>
+              <div class="svc-media-placeholder">video proxy active</div>
+            </div>
+          </div>
+        </button>
+
+        <button class="service-card" type="button">
+          <div class="svc-content">
+            <h3 class="svc-title">videography</h3>
+            <div class="svc-extended">
+              <div class="svc-media-placeholder">video proxy active</div>
+              <p>Operating exclusively on high-end cinema camera ecosystems, our directors and cinematographers construct visual monuments. Services include end-to-end production logistics, color grading in certified suites, and bespoke visual effects integration. We treat a 15-second digital asset with the exact same rigorous cinematic discipline as a feature-length film.</p>
+            </div>
+          </div>
+        </button>
+
+        <button class="service-card" type="button">
+          <div class="svc-content">
+            <h3 class="svc-title">creative direction</h3>
+            <div class="svc-extended">
+              <div class="svc-media-placeholder">image proxy active</div>
+              <p>We build and control the entire universe the artist inhabits. This encompasses monumental stage architecture, synchronized tour lighting mapping, wardrobe styling, and physical merchandise design. We partner intimately with elite industrial designers and avant-garde fashion houses to ensure physical spaces reflect the artist's sonic landscape with aggressive precision.</p>
+            </div>
+          </div>
+        </button>
+
+        <button class="service-card" type="button">
+          <div class="svc-content">
+            <h3 class="svc-title">brand partnerships</h3>
+            <div class="svc-extended">
+              <div class="svc-media-placeholder">image proxy active</div>
+              <p>We reject standard transactional influencer deals. We negotiate equity, creative control, and platinum-tier sponsorships. By ruthlessly aligning our exclusive roster with heritage luxury conglomerates and aggressive tech innovators, we build long-term corporate bridges that elevate the artist from musician to a dominant global brand ambassador.</p>
+            </div>
+          </div>
+        </button>
+
+      </div>
+
+      <div class="svc-overlay" id="svc-overlay">
+        <div class="svc-overlay-inner">
+          <button class="overlay-close-btn" id="svc-close-btn">return</button>
+          <div id="svc-overlay-content">
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="view" id="view-clients">
+      <div class="sec-num">02</div>
       <h2 class="sec-title">clients</h2>
       <div class="roster-wrap">
-        <a href="#" class="roster-row nav-trigger" data-target="view-media">
+        <button class="roster-row media-artist-btn" data-artist="ye" style="width:100%; text-align:left; font-family:inherit; background:transparent; border:none; outline:none; border-bottom: 1px solid var(--raw);">
           <div class="r-data r-avatar">
             <img src="ye.jpg" alt="ye" onerror="this.style.display='none'" />
           </div>
@@ -620,10 +678,10 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
             <div class="r-role">artist / creative</div>
             <div class="r-name">ye</div>
           </div>
-          <div class="r-data r-tag"></div>
-        </a>
+          <div class="r-data r-tag">archive</div>
+        </button>
 
-        <a href="#" class="roster-row nav-trigger" data-target="view-media">
+        <button class="roster-row media-artist-btn" data-artist="rotimi" style="width:100%; text-align:left; font-family:inherit; background:transparent; border:none; outline:none; border-bottom: 1px solid var(--raw);">
           <div class="r-data r-avatar">
             <img src="rotimi.jpg" alt="rotimi" onerror="this.style.display='none'" />
           </div>
@@ -631,10 +689,10 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
             <div class="r-role">artist / musician</div>
             <div class="r-name">rotimi</div>
           </div>
-          <div class="r-data r-tag"></div>
-        </a>
+          <div class="r-data r-tag">archive</div>
+        </button>
 
-        <a href="#" class="roster-row nav-trigger" data-target="view-media">
+        <button class="roster-row media-artist-btn" data-artist="havoc" style="width:100%; text-align:left; font-family:inherit; background:transparent; border:none; outline:none; border-bottom: 1px solid var(--raw);">
           <div class="r-data r-avatar">
             <img src="havoc.jpg" alt="havoc" onerror="this.style.display='none'" />
           </div>
@@ -642,44 +700,8 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
             <div class="r-role">artist / producer</div>
             <div class="r-name">havoc</div>
           </div>
-          <div class="r-data r-tag"></div>
-        </a>
-      </div>
-    </div>
-
-    <div class="view" id="view-media">
-      <div class="sec-num">02</div>
-      <h2 class="sec-title" style="margin-bottom: 24px;">archive</h2>
-      
-      <div class="media-index id-active" id="media-artist-selector">
-        <div class="roster-wrap">
-          <button class="roster-row media-artist-btn" data-artist="ye" style="width:100%; text-align:left; font-family:inherit; background:transparent; border:none; outline:none; border-bottom: 1px solid var(--raw);">
-            <div class="r-data r-avatar"><img src="ye.jpg" alt="ye" onerror="this.style.display='none'" /></div>
-            <div class="r-data r-details">
-              <div class="r-role">04 files</div>
-              <div class="r-name">ye</div>
-            </div>
-            <div class="r-data r-tag">view</div>
-          </button>
-          
-          <button class="roster-row media-artist-btn" data-artist="rotimi" style="width:100%; text-align:left; font-family:inherit; background:transparent; border:none; outline:none; border-bottom: 1px solid var(--raw);">
-            <div class="r-data r-avatar"><img src="rotimi.jpg" alt="rotimi" onerror="this.style.display='none'" /></div>
-            <div class="r-data r-details">
-              <div class="r-role">empty</div>
-              <div class="r-name">rotimi</div>
-            </div>
-            <div class="r-data r-tag">view</div>
-          </button>
-
-          <button class="roster-row media-artist-btn" data-artist="havoc" style="width:100%; text-align:left; font-family:inherit; background:transparent; border:none; outline:none; border-bottom: 1px solid var(--raw);">
-            <div class="r-data r-avatar"><img src="havoc.jpg" alt="havoc" onerror="this.style.display='none'" /></div>
-            <div class="r-data r-details">
-              <div class="r-role">empty</div>
-              <div class="r-name">havoc</div>
-            </div>
-            <div class="r-data r-tag">view</div>
-          </button>
-        </div>
+          <div class="r-data r-tag">archive</div>
+        </button>
       </div>
 
       <div class="media-workspace" id="media-workspace-ye">
@@ -806,66 +828,8 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
       </div>
     </div>
 
-    <div class="view" id="view-services">
-      <div class="sec-num">04</div>
-      <h2 class="sec-title">services</h2>
-      
-      <div class="services-grid">
-        
-        <button class="service-card" type="button">
-          <div class="svc-content">
-            <h3 class="svc-title">marketing</h3>
-            <div class="svc-extended">
-              <div class="svc-media-placeholder">image proxy active</div>
-              <p>Our acquisition models leverage deep behavioral data and structural creative force. We refuse organic luck; we build scalable, targeted campaigns that surround the consumer. From imposing physical billboard domination in tier-one metropolitan hubs to hyper-targeted digital funnels, we dictate the narrative and control the rollout ecosystem entirely.</p>
-              <div class="svc-media-placeholder">video proxy active</div>
-            </div>
-          </div>
-        </button>
-
-        <button class="service-card" type="button">
-          <div class="svc-content">
-            <h3 class="svc-title">videography</h3>
-            <div class="svc-extended">
-              <div class="svc-media-placeholder">video proxy active</div>
-              <p>Operating exclusively on high-end cinema camera ecosystems, our directors and cinematographers construct visual monuments. Services include end-to-end production logistics, color grading in certified suites, and bespoke visual effects integration. We treat a 15-second digital asset with the exact same rigorous cinematic discipline as a feature-length film.</p>
-            </div>
-          </div>
-        </button>
-
-        <button class="service-card" type="button">
-          <div class="svc-content">
-            <h3 class="svc-title">creative direction</h3>
-            <div class="svc-extended">
-              <div class="svc-media-placeholder">image proxy active</div>
-              <p>We build and control the entire universe the artist inhabits. This encompasses monumental stage architecture, synchronized tour lighting mapping, wardrobe styling, and physical merchandise design. We partner intimately with elite industrial designers and avant-garde fashion houses to ensure physical spaces reflect the artist's sonic landscape with aggressive precision.</p>
-            </div>
-          </div>
-        </button>
-
-        <button class="service-card" type="button">
-          <div class="svc-content">
-            <h3 class="svc-title">brand partnerships</h3>
-            <div class="svc-extended">
-              <div class="svc-media-placeholder">image proxy active</div>
-              <p>We reject standard transactional influencer deals. We negotiate equity, creative control, and platinum-tier sponsorships. By ruthlessly aligning our exclusive roster with heritage luxury conglomerates and aggressive tech innovators, we build long-term corporate bridges that elevate the artist from musician to a dominant global brand ambassador.</p>
-            </div>
-          </div>
-        </button>
-
-      </div>
-
-      <div class="svc-overlay" id="svc-overlay">
-        <div class="svc-overlay-inner">
-          <button class="overlay-close-btn" id="svc-close-btn">return</button>
-          <div id="svc-overlay-content">
-            </div>
-        </div>
-      </div>
-    </div>
-
     <div class="view" id="view-past">
-      <div class="sec-num">05</div>
+      <div class="sec-num">04</div>
       <h2 class="sec-title">past performances</h2>
       <div class="schedule-wrap" id="past-wrapper-target">
         <a href="#" class="schedule-row past-deemphasize" id="past-newmexico-row">
@@ -881,25 +845,20 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
 
   <footer class="block-bottom">
     <nav class="nav-slab">
-      <a href="#" class="nav-item nav-trigger" data-target="view-clients">
+      <a href="#" class="nav-item nav-trigger" data-target="view-services">
         <div class="nav-num">01</div>
+        <div class="nav-label">services</div>
+        <div class="nav-jp">サービス</div>
+      </a>
+      <a href="#" class="nav-item nav-trigger" data-target="view-clients">
+        <div class="nav-num">02</div>
         <div class="nav-label">clients</div>
         <div class="nav-jp">クライアント</div>
-      </a>
-      <a href="#" class="nav-item nav-trigger" data-target="view-media">
-        <div class="nav-num">02</div>
-        <div class="nav-label">archive</div>
-        <div class="nav-jp">アーカイブ</div>
       </a>
       <a href="#" class="nav-item nav-trigger" data-target="view-upcoming" id="nav-item-upcoming-tab">
         <div class="nav-num">03</div>
         <div class="nav-label" id="nav-label-upcoming-text">upcoming</div>
         <div class="nav-jp" id="nav-jp-upcoming-text">予定</div>
-      </a>
-      <a href="#" class="nav-item nav-trigger" data-target="view-services">
-        <div class="nav-num">04</div>
-        <div class="nav-label">services</div>
-        <div class="nav-jp">サービス</div>
       </a>
     </nav>
   </footer>
@@ -951,7 +910,6 @@ const views = document.querySelectorAll('.view');
 const navItems = document.querySelectorAll('.nav-item');
 const globalVideo = document.getElementById('custom-video');
 const playBtn = document.getElementById('btn-play');
-const artistSelector = document.getElementById('media-artist-selector');
 const workspaces = document.querySelectorAll('.media-workspace');
 
 // Overlays
@@ -991,8 +949,7 @@ triggers.forEach(trigger => {
   trigger.addEventListener('click', (e) => {
     if(trigger.getAttribute('href') === '#') e.preventDefault();
     
-    if(trigger.getAttribute('data-target') === 'view-media') {
-      if(artistSelector) artistSelector.style.display = 'flex';
+    if(trigger.getAttribute('data-target') === 'view-clients') {
       workspaces.forEach(ws => ws.classList.remove('active'));
     }
 
@@ -1034,7 +991,7 @@ if(svcCloseBtn) {
   });
 }
 
-// MEDIA ARCHIVE EXPANSION CLIP-PATH LOGIC
+// MEDIA ARCHIVE EXPANSION CLIP-PATH LOGIC (Now triggered from Clients view)
 const artistBtns = document.querySelectorAll('.media-artist-btn');
 artistBtns.forEach(btn => {
   btn.addEventListener('click', (e) => {
@@ -1042,7 +999,7 @@ artistBtns.forEach(btn => {
     const targetWorkspace = document.getElementById('media-workspace-' + artist);
     
     if(targetWorkspace) {
-      const rect = document.getElementById('view-media').getBoundingClientRect();
+      const rect = document.getElementById('view-clients').getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       
@@ -1120,7 +1077,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // DEEP LINK IMPLEMENTATION ROUTINE
 function triggerDeepLinkArchive(mode) {
-  switchSPAView('view-media');
+  switchSPAView('view-clients');
   const yeWorkspace = document.getElementById('media-workspace-ye');
   
   if(yeWorkspace) {
