@@ -6,31 +6,22 @@
 <title>access opera | production agency</title>
 <meta name="theme-color" content="#dfd0b7" />
 
-<!-- ═══════════════════════════════════════
-   SEO & SOCIAL META MAPPING
-═══════════════════════════════════════ -->
 <meta name="description" content="access opera is a premier production agency and creative management firm bridging classical excellence with contemporary innovation across film, stage, and music.">
 <meta name="keywords" content="access opera, production agency, creative management, artist management, opera, contemporary music, creative direction">
 <meta name="robots" content="index, follow">
 
-<!-- Open Graph / Meta Social Suite -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://yeturkiye.netlify.app/">
 <meta property="og:title" content="access opera | production agency">
 <meta property="og:description" content="developing the next generation of cultural icons. bridging classical excellence with contemporary innovation.">
 
-<!-- THIS IS THE FIX: Explicitly provide the 512px image for Meta -->
 <meta property="og:image" content="https://yeturkiye.netlify.app/web-app-manifest-512x512.png">
 
-<!-- Twitter -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:url" content="https://yeturkiye.netlify.app/">
 <meta name="twitter:title" content="access opera | production agency">
 <meta name="twitter:description" content="developing the next generation of cultural icons. bridging classical excellence with contemporary innovation.">
 
-<!-- ═══════════════════════════════════════
-   FAVICON & MANIFEST SUITE (GENERATOR OUTPUT)
-═══════════════════════════════════════ -->
 <link rel="manifest" href="/site.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -736,7 +727,6 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
         </button>
       </div>
 
-      <!-- MEDIA WORKSPACES -->
       <div class="media-workspace" id="media-workspace-ye">
         <div class="media-ws-header">
           <button class="overlay-close-btn workspace-back-btn">return</button>
@@ -825,13 +815,6 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
       <h2 class="sec-title" id="upcoming-title-header">upcoming</h2>
       <div class="schedule-wrap" id="upcoming-wrapper-target">
         
-        <a href="ye.html" class="schedule-row" id="upcoming-live-row">
-          <div class="s-data s-date">30 may</div>
-          <div class="s-data s-artist">ye</div>
-          <div class="s-data s-location">istanbul</div>
-          <div class="s-data s-action">explore</div>
-        </a>
-
         <div class="tour-accordion" id="rotimi-tour">
           <button type="button" class="schedule-row accordion-trigger">
             <div class="s-data s-date">22 may - 11 jul</div>
@@ -1068,44 +1051,9 @@ wsBackBtns.forEach(btn => {
   });
 });
 
-// TIME LIFECYCLE EVALUATION
-const urlParams = new URLSearchParams(window.location.search);
-const forcePostMode = urlParams.get('force') === 'post';
-const targetTimeLimit = new Date('2026-05-30T23:00:00+03:00').getTime();
-const isAfterIstanbul = forcePostMode || (Date.now() > targetTimeLimit);
-
+// DEFAULT LOAD BEHAVIOR
 window.addEventListener('DOMContentLoaded', () => {
-  const liveUpcomingRow = document.getElementById('upcoming-live-row');
-  const pastWrapper = document.getElementById('past-wrapper-target');
-  const upcomingTab = document.getElementById('nav-item-upcoming-tab');
-  const upcomingTitle = document.getElementById('upcoming-title-header');
-  const navLabelUpcoming = document.getElementById('nav-label-upcoming-text');
-  const navJpUpcoming = document.getElementById('nav-jp-upcoming-text');
-
-  if (isAfterIstanbul) {
-    if (liveUpcomingRow) {
-      liveUpcomingRow.classList.add('past-deemphasize');
-      const actionField = liveUpcomingRow.querySelector('.s-action');
-      if(actionField) actionField.innerText = 'archived';
-      liveUpcomingRow.setAttribute('href', '#');
-      liveUpcomingRow.addEventListener('click', (e) => {
-        e.preventDefault();
-        triggerDeepLinkArchive('video');
-      });
-      if(pastWrapper) pastWrapper.insertBefore(liveUpcomingRow, pastWrapper.firstChild);
-    }
-
-    if(upcomingTitle) upcomingTitle.innerText = "past performances";
-    if(upcomingTab) {
-      upcomingTab.setAttribute('data-target', 'view-past');
-    }
-    if(navLabelUpcoming) navLabelUpcoming.innerText = "past";
-    if(navJpUpcoming) navJpUpcoming.innerText = "過去";
-
-    switchSPAView('view-past');
-  } else {
-    switchSPAView('view-home');
-  }
+  switchSPAView('view-home');
 });
 
 // DEEP LINK IMPLEMENTATION ROUTINE
