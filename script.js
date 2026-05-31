@@ -1,1 +1,361 @@
-!function(){var e=document.getElementById("preloader");window.addEventListener("load",function(){setTimeout(function(){e.classList.add("hidden")},600)}),setTimeout(function(){e.classList.add("hidden")},4e3);var t=new Date("2026-05-30T20:00:00+03:00").getTime(),n=["","","",""];function o(e){return String(Math.max(0,Math.floor(e))).padStart(2,"0")}function i(){var e=Math.max(0,t-Date.now()),i=[o(e/864e5),o(e%864e5/36e5),o(e%36e5/6e4),o(e%6e4/1e3)];["days","hours","minutes","seconds"].forEach(function(e,t){var o=document.getElementById(e);o&&(i[t]!==n[t]?(o.classList.add("glitch"),setTimeout(function(){o.classList.remove("glitch")},200),o.style.opacity="0",setTimeout(function(){o.textContent=i[t],o.style.opacity="1"},100),n[t]=i[t]):""===n[t]&&(o.textContent=i[t],n[t]=i[t]))})}i(),setInterval(i,1e3),document.querySelectorAll(".faq-item").forEach(function(e){e.addEventListener("click",function(){e.classList.toggle("open")})});var c=document.getElementById("menuBtn"),r=document.getElementById("navMenu");c&&r&&(c.addEventListener("click",function(){r.classList.toggle("open")}),r.querySelectorAll("a, button").forEach(function(e){e.addEventListener("click",function(){r.classList.remove("open")})}));var s=document.getElementById("seatMapOverlay"),a=document.getElementById("seatMapImg"),l=document.getElementById("seatMapClose"),d=document.getElementById("seatMapHeaderBtn"),u=document.getElementById("seatMapFooterBtn");function f(){s&&s.classList.add("open")}function m(){s&&s.classList.remove("open")}d&&d.addEventListener("click",f),u&&u.addEventListener("click",f),l&&l.addEventListener("click",m),s&&s.addEventListener("click",function(e){e.target===s&&m()}),a&&(a.onerror=function(){a.style.display="none"});var h=document.querySelectorAll(".reveal"),v=new IntersectionObserver(function(e){e.forEach(function(e){e.isIntersecting&&e.target.classList.add("visible")})},{threshold:.12});h.forEach(function(e){v.observe(e)}),document.querySelectorAll('a[href^="#"]').forEach(function(e){e.addEventListener("click",function(e){var t=this.getAttribute("href");if("#"!==t){var n=document.querySelector(t);if(n){e.preventDefault();var o=n.getBoundingClientRect().top+window.pageYOffset-56;window.scrollTo({top:o,behavior:"smooth"})}}})}),setTimeout(function(){document.querySelectorAll(".countdown-number").forEach(function(e){"00"!==e.textContent&&(e.classList.add("glitch"),setTimeout(function(){e.classList.remove("glitch")},200))})},500),document.querySelectorAll(".ticket-btn").forEach(function(e){e.addEventListener("click",function(e){var t=this.closest(".ticket-card"),n="";if(t){var o=t.querySelector(".ticket-name");o&&(n=o.innerText.replace(/\n/g," ").trim())}console.log("Ticket click: "+n+" -> "+this.href)})}),document.querySelectorAll(".promoters-main a, .press-note a").forEach(function(e){e.addEventListener("click",function(){console.log("Promoter link click: "+this.href)})});var E,y=document.querySelector(".footer-bottom");if(y){var g=(new Date).getFullYear(),L=y.querySelector("span:first-child");L&&L.textContent.includes("2026")&&(L.textContent="© "+g+" YE ISTANBUL")}setTimeout(function(){e&&!e.classList.contains("hidden")&&e.classList.add("hidden")},5e3),document.addEventListener("keydown",function(e){"Escape"===e.key&&s&&s.classList.contains("open")&&m()}),window.addEventListener("resize",function(){clearTimeout(E),E=setTimeout(function(){window.innerWidth>767&&r&&r.classList.contains("open")&&r.classList.remove("open")},250)}),document.querySelectorAll(".hero-bg img").forEach(function(e){e.onerror=function(){this.style.backgroundColor="#0D0D0D",this.style.minHeight="100vh"}});var p=document.querySelector(".embed-box iframe");(p&&p.setAttribute("title","YE Album Spotify Embed"),"ontouchstart"in window)&&document.querySelectorAll(".faq-item").forEach(function(e){e.addEventListener("touchstart",function(e){this.style.cursor="pointer"})})}();
+// Magnetic Cursor Engine (Dot only)
+const dot = document.getElementById('cursor-dot');
+let dx = 0, dy = 0;
+
+document.addEventListener('mousemove', e => { dx = e.clientX; dy = e.clientY; });
+
+(function cursorLoop() {
+  if(dot) dot.style.transform = `translate(calc(${dx}px - 50%), calc(${dy}px - 50%))`;
+  requestAnimationFrame(cursorLoop);
+})();
+
+document.querySelectorAll('a, button, .nav-trigger, .v-sel, .service-card, .overlay-close-btn').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+});
+
+// Slide-up Loader
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const loader = document.querySelector('.loader');
+    if(loader) loader.classList.add('gone');
+  }, 1000);
+});
+
+// Theme Engine (Light / Dark Mode)
+const themeToggle = document.getElementById('theme-toggle');
+if(themeToggle) {
+  themeToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.body.classList.toggle('dark-mode');
+    if(document.body.classList.contains('dark-mode')) {
+      themeToggle.innerText = 'light mode';
+    } else {
+      themeToggle.innerText = 'dark mode';
+    }
+  });
+}
+
+// SPA Engine variables
+const triggers = document.querySelectorAll('.nav-trigger');
+const views = document.querySelectorAll('.view');
+const navItems = document.querySelectorAll('.nav-item');
+const globalVideo = document.getElementById('custom-video');
+const playBtn = document.getElementById('btn-play');
+const workspaces = document.querySelectorAll('.media-workspace');
+
+// Overlays
+const svcOverlay = document.getElementById('svc-overlay');
+const svcOverlayContent = document.getElementById('svc-overlay-content');
+const svcCloseBtn = document.getElementById('svc-close-btn');
+
+function switchSPAView(targetId) {
+  if(globalVideo && !globalVideo.paused) {
+    globalVideo.pause();
+    globalVideo.classList.remove('is-playing');
+    if(playBtn) playBtn.innerText = 'play';
+  }
+
+  if(svcOverlay && svcOverlay.classList.contains('active')) {
+    svcOverlay.classList.remove('active');
+  }
+
+  workspaces.forEach(ws => ws.classList.remove('active'));
+
+  navItems.forEach(item => {
+    item.classList.remove('active');
+    if(item.getAttribute('data-target') === targetId) {
+      item.classList.add('active');
+    }
+  });
+
+  views.forEach(view => {
+    view.classList.remove('active');
+    if (view.id === targetId) {
+      setTimeout(() => { view.classList.add('active'); }, 50);
+    }
+  });
+}
+
+triggers.forEach(trigger => {
+  trigger.addEventListener('click', (e) => {
+    if(trigger.getAttribute('href') === '#') e.preventDefault();
+    
+    if(trigger.getAttribute('data-target') === 'view-clients') {
+      workspaces.forEach(ws => ws.classList.remove('active'));
+    }
+
+    switchSPAView(trigger.getAttribute('data-target'));
+  });
+});
+
+// SERVICE EXPANSION CLIP-PATH LOGIC
+const svcCards = document.querySelectorAll('.service-card');
+
+svcCards.forEach(card => {
+  card.addEventListener('click', (e) => {
+    const rect = document.getElementById('view-services').getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    if(svcOverlay) {
+      svcOverlay.style.setProperty('--click-x', `${x}px`);
+      svcOverlay.style.setProperty('--click-y', `${y}px`);
+    }
+
+    const title = card.querySelector('.svc-title').innerText;
+    const extended = card.querySelector('.svc-extended').innerHTML;
+
+    if(svcOverlayContent) {
+      svcOverlayContent.innerHTML = `
+        <h2 class="svc-overlay-title">${title}</h2>
+        <div class="svc-overlay-body">${extended}</div>
+      `;
+    }
+
+    if(svcOverlay) svcOverlay.classList.add('active');
+  });
+});
+
+if(svcCloseBtn) {
+  svcCloseBtn.addEventListener('click', () => {
+    if(svcOverlay) svcOverlay.classList.remove('active');
+  });
+}
+
+// MEDIA ARCHIVE EXPANSION CLIP-PATH LOGIC
+const artistBtns = document.querySelectorAll('.media-artist-btn');
+artistBtns.forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    const artist = btn.getAttribute('data-artist');
+    const targetWorkspace = document.getElementById('media-workspace-' + artist);
+    
+    if(targetWorkspace) {
+      const rect = document.getElementById('view-clients').getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      targetWorkspace.style.setProperty('--click-x', `${x}px`);
+      targetWorkspace.style.setProperty('--click-y', `${y}px`);
+      
+      targetWorkspace.classList.add('active');
+    }
+    
+    if (artist === 'ye') {
+      if(globalVideo) {
+        globalVideo.load();
+        globalVideo.play().then(() => {
+          if(playBtn) playBtn.innerText = 'pause';
+          globalVideo.classList.add('is-playing');
+        }).catch(err => {
+          if(playBtn) playBtn.innerText = 'play';
+        });
+      }
+    }
+  });
+});
+
+const wsBackBtns = document.querySelectorAll('.workspace-back-btn');
+wsBackBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    workspaces.forEach(ws => ws.classList.remove('active'));
+    if(globalVideo && !globalVideo.paused) {
+      globalVideo.pause();
+      globalVideo.classList.remove('is-playing');
+      if(playBtn) playBtn.innerText = 'play';
+    }
+  });
+});
+
+// DEFAULT LOAD BEHAVIOR
+window.addEventListener('DOMContentLoaded', () => {
+  switchSPAView('view-home');
+});
+
+// DEEP LINK IMPLEMENTATION ROUTINE
+function triggerDeepLinkArchive(mode) {
+  switchSPAView('view-clients');
+  const yeWorkspace = document.getElementById('media-workspace-ye');
+  
+  if(yeWorkspace) {
+    yeWorkspace.style.setProperty('--click-x', `50%`);
+    yeWorkspace.style.setProperty('--click-y', `50%`);
+    yeWorkspace.classList.add('active');
+  }
+
+  if (mode === 'gallery') {
+    const btnGalleryToggle = document.getElementById('btn-gallery-toggle');
+    if(btnGalleryToggle) btnGalleryToggle.click();
+  } else {
+    const defaultVideoBtn = document.querySelector('.v-sel[data-src="video1.mp4"]');
+    if(defaultVideoBtn) defaultVideoBtn.click();
+  }
+}
+
+const pastNMRow = document.getElementById('past-newmexico-row');
+if(pastNMRow) {
+  pastNMRow.addEventListener('click', (e) => {
+    e.preventDefault();
+    triggerDeepLinkArchive('gallery');
+  });
+}
+
+// Accordion Logic for Upcoming Tour Dates
+const tourAccordions = document.querySelectorAll('.tour-accordion');
+tourAccordions.forEach(acc => {
+  const trigger = acc.querySelector('.accordion-trigger');
+  const actionText = trigger.querySelector('.s-action');
+  
+  if(trigger) {
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      acc.classList.toggle('open');
+      if (acc.classList.contains('open')) {
+        if(actionText) actionText.innerHTML = '<span class="accordion-icon">+</span> collapse';
+      } else {
+        if(actionText) actionText.innerHTML = '<span class="accordion-icon">+</span> expand';
+      }
+    });
+  }
+});
+
+// Structural Media Management (YE)
+const displayVideo = document.getElementById('custom-video');
+const displayGallery = document.getElementById('gallery-img');
+const displayName = document.getElementById('display-name');
+
+const dockVideo = document.getElementById('dock-video');
+const dockGallery = document.getElementById('dock-gallery');
+
+const vSelectors = document.querySelectorAll('.v-sel');
+const btnGalleryToggle = document.getElementById('btn-gallery-toggle');
+const gStatus = document.getElementById('gallery-status');
+
+const muteBtn = document.getElementById('btn-mute');
+const timeCurrent = document.getElementById('time-current');
+const timeTotal = document.getElementById('time-total');
+
+function formatTime(seconds) {
+  if(isNaN(seconds)) return "0:00";
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return m + ":" + (s < 10 ? "0" + s : s);
+}
+
+if(playBtn) {
+  playBtn.addEventListener('click', () => {
+    if (globalVideo.paused) {
+      globalVideo.play();
+      playBtn.innerText = 'pause';
+      globalVideo.classList.add('is-playing');
+    } else {
+      globalVideo.pause();
+      playBtn.innerText = 'play';
+      globalVideo.classList.remove('is-playing');
+    }
+  });
+}
+
+if(muteBtn) {
+  muteBtn.addEventListener('click', () => {
+    globalVideo.muted = !globalVideo.muted;
+    muteBtn.innerText = globalVideo.muted ? 'unmute' : 'mute';
+  });
+}
+
+if(globalVideo) {
+  globalVideo.addEventListener('loadedmetadata', () => {
+    if(timeTotal) timeTotal.innerText = formatTime(globalVideo.duration);
+  });
+  globalVideo.addEventListener('timeupdate', () => {
+    if(timeCurrent) timeCurrent.innerText = formatTime(globalVideo.currentTime);
+  });
+  globalVideo.addEventListener('ended', () => {
+    if(playBtn) playBtn.innerText = 'play';
+    globalVideo.classList.remove('is-playing');
+  });
+}
+
+// Internal Carousel Logic (YE)
+const galleryImages = ['gallery1.jpg', 'gallery2.jpg', 'gallery3.jpg'];
+let gIndex = 0;
+const gCurrent = document.getElementById('g-current');
+const gTotal = document.getElementById('g-total');
+
+if(gTotal) gTotal.innerText = galleryImages.length;
+
+function updateGallery() {
+  if(!displayGallery) return;
+  displayGallery.style.filter = "grayscale(100%) contrast(1.1)";
+  setTimeout(() => {
+    displayGallery.src = galleryImages[gIndex];
+    if(gCurrent) gCurrent.innerText = gIndex + 1;
+    displayGallery.classList.add('is-active');
+  }, 150);
+}
+
+const btnPrev = document.getElementById('btn-prev');
+const btnNext = document.getElementById('btn-next');
+
+if(btnPrev) {
+  btnPrev.addEventListener('click', () => {
+    gIndex = (gIndex - 1 + galleryImages.length) % galleryImages.length;
+    updateGallery();
+  });
+}
+if(btnNext) {
+  btnNext.addEventListener('click', () => {
+    gIndex = (gIndex + 1) % galleryImages.length;
+    updateGallery();
+  });
+}
+
+// State Switching Matrix
+vSelectors.forEach(btn => {
+  btn.addEventListener('click', () => {
+    vSelectors.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    if(btnGalleryToggle) btnGalleryToggle.classList.remove('active');
+    if(gStatus) gStatus.innerText = 'loaded';
+
+    if(displayName) displayName.innerText = btn.getAttribute('data-name');
+
+    if(displayGallery) displayGallery.style.display = 'none';
+    if(displayVideo) displayVideo.style.display = 'block';
+    
+    if(dockGallery) dockGallery.style.display = 'none';
+    if(dockVideo) dockVideo.style.display = 'flex';
+
+    const newSrc = btn.getAttribute('data-src');
+    if(globalVideo) {
+      globalVideo.src = newSrc;
+      globalVideo.play().then(() => {
+        if(playBtn) playBtn.innerText = 'pause';
+        globalVideo.classList.add('is-playing');
+      });
+    }
+  });
+});
+
+if(btnGalleryToggle) {
+  btnGalleryToggle.addEventListener('click', () => {
+    vSelectors.forEach(b => b.classList.remove('active'));
+    btnGalleryToggle.classList.add('active');
+    if(gStatus) gStatus.innerText = 'viewing';
+    
+    if(displayName) displayName.innerText = "new mexico archive (stills)";
+
+    if(globalVideo) {
+      globalVideo.pause();
+      globalVideo.classList.remove('is-playing');
+    }
+    if(playBtn) playBtn.innerText = 'play';
+    if(displayVideo) displayVideo.style.display = 'none';
+    
+    if(displayGallery) displayGallery.style.display = 'block';
+    if(dockVideo) dockVideo.style.display = 'none';
+    if(dockGallery) dockGallery.style.display = 'flex';
+
+    updateGallery();
+  });
+}
