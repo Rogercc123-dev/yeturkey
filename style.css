@@ -1014,7 +1014,10 @@ button.schedule-row:hover .accordion-icon {
 .nav-item.active, .nav-item:hover {
   color: var(--concrete);
 }
-
+.nav-item.active::before, 
+.nav-item:hover::before {
+  height: 100%;
+}
 .nav-item:hover .nav-label {
   background: var(--gold-gleam);
   -webkit-background-clip: text;
