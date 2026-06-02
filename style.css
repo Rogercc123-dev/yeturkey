@@ -163,7 +163,11 @@ body.dark-mode .logo-img { filter: none; opacity: 0.92; }
   transition: border-color 0.8s var(--lux-ease);
 }
 .hc-row { display: flex; align-items: center; gap: 16px; font-size: 13px; letter-spacing: 0.2em; }
-.hc-label { color: var(--dust); width: 80px; }
+.hc-label { 
+  color: var(--dust); 
+  width: 140px; 
+  flex-shrink: 0; 
+}
 .hc-link { color: var(--concrete); text-decoration: none; cursor: none; transition: color 0.3s; }
 .hc-link:hover { color: var(--gold); }
 
@@ -482,6 +486,7 @@ button.schedule-row:hover .accordion-icon { color: var(--gold); }
 
   .home-contact { margin-top: 12px; padding-top: 12px; gap: 8px; flex-shrink: 0; border-top: 1px solid var(--raw); }
   .hc-row { font-size: 12px; }
+  .hc-label { width: 110px; }
 
   .schedule-row { 
     display: grid;
