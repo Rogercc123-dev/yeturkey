@@ -1277,7 +1277,10 @@ button.schedule-row:hover .accordion-icon {
   .r-tag { 
     display: block; 
   }
-  
+  .text-arrow {
+  font-variant-emoji: text; /* Explicitly tells the browser NOT to use emoji styling */
+  font-family: Arial, Helvetica, sans-serif; /* A fallback that guarantees a text-based arrow */
+}
   .r-name { 
     font-size: clamp(20px, 3.5vw, 32px); 
   }
