@@ -82,17 +82,36 @@
             </span>
           </p>
           
-          <div class="home-contact">
+      <div class="home-contact">
             <div class="hc-row">
               <span class="hc-label">inquiries</span>
               <a href="mailto:inquiry@accessopera.com" class="hc-link">inquiry@accessopera.com</a>
             </div>
+            
             <div class="hc-row">
               <span class="hc-label">press</span>
-            <a href="https://www.billboard.com/business/touring/kanye-west-comeback-tour-john-burton-access-opera-1236258800/" target="_blank" rel="noopener noreferrer" class="hc-link">read billboard feature ↗&#xFE0E;</a>
+              <a href="https://www.billboard.com/business/touring/kanye-west-comeback-tour-john-burton-access-opera-1236258800/" target="_blank" rel="noopener noreferrer" class="hc-link" style="display: inline-flex; align-items: center; gap: 4px;">
+                read billboard feature 
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </a>
+            </div>
+
+            <div class="hc-row">
+              <span class="hc-label">direct</span>
+              <button type="button" class="hc-link" id="form-open-btn" style="background: none; border: none; font-family: inherit; font-size: inherit; padding: 0; text-align: left; letter-spacing: inherit; cursor: none; display: inline-flex; align-items: center; gap: 4px;">
+                submit details
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </button>
             </div>
           </div>
-        </div>
+            
+          </div>
       </div>
     </div>
 
@@ -343,7 +362,21 @@
   </footer>
 
 </div>
-
+<div class="form-modal" id="contact-modal">
+  <div class="form-modal-inner">
+    <div class="form-modal-header">
+      <h3 class="svc-title" style="margin-bottom: 0;">direct contact</h3>
+      <button class="overlay-close-btn" id="form-close-btn" style="margin-bottom: 0;">close</button>
+    </div>
+    <form action="https://api.web3forms.com/submit" method="POST" class="ao-form">
+      <input type="hidden" name="access_key" value="ed4ea971-fcf2-4b41-a982-69f2556057d9">
+      <input type="text" name="name" placeholder="name *" required class="ao-input">
+      <input type="email" name="email" placeholder="email *" required class="ao-input">
+      <input type="text" name="instagram" placeholder="instagram (optional)" class="ao-input">
+      <button type="submit" class="ao-submit">submit</button>
+    </form>
+  </div>
+</div>
 <script src="script.js"></script>
 </body>
 </html>
