@@ -1,3 +1,22 @@
+// --- FIREBASE SETUP ---
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDrT6zXJwT4O2OgRCvKxF9oR4ckAcLJjSU",
+  authDomain: "accessopera-41a7e.firebaseapp.com",
+  projectId: "accessopera-41a7e",
+  storageBucket: "accessopera-41a7e.firebasestorage.app",
+  messagingSenderId: "893285810406",
+  appId: "1:893285810406:web:69bdcb11b99ab8842ebb27",
+  measurementId: "G-892MVXEC3R"
+};
+
+// Initialize Firebase and the Database
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+
 (function (_0x3ad377, _0x396ba8) {
   const _0x7d2bd7 = _0x3ad377();
   while (true) {
