@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AO | Control Room</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    * { cursor: auto !important; }
+    button, a, select, input[type="file"] { cursor: pointer !important; }
+    input, textarea { cursor: text !important; }
+
+    body { background: var(--void); color: var(--concrete); display: block; padding: 40px 20px; overflow-y: auto; min-height: 100vh; }
+    .admin-container { width: 100%; max-width: 500px; margin: 0 auto; border: 1px solid var(--raw); padding: 32px; background: var(--void); position: relative; }
+    .admin-header { font-size: 14px; letter-spacing: 0.2em; border-bottom: 1px solid var(--raw); padding-bottom: 16px; margin-bottom: 24px; text-align: center; }
+    
+    .view-section { display: none; }
+    .view-section.active { display: block; }
+    
+    .dash-menu { display: flex; flex-direction: column; gap: 12px; }
+    .dash-btn { background: transparent; border: 1px solid var(--raw); color: var(--concrete); padding: 12px; font-family: inherit; font-size: 11px; letter-spacing: 0.15em; transition: all 0.3s ease; text-align: left; display: flex; justify-content: space-between; }
+    .dash-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .logout-btn { border-color: red; color: red; margin-top: 24px; justify-content: center; }
+    .logout-btn:hover { background: red; color: var(--void); }
+
+    .back-btn { background: none; border: none; color: var(--dust); font-family: inherit; font-size: 10px; letter-spacing: 0.2em; margin-bottom: 24px; padding: 0; }
+    .back-btn:hover { color: var(--concrete); }
+    .section-title { font-size: 12px; color: var(--gold); letter-spacing: 0.2em; margin-bottom: 16px; text-transform: lowercase; }
+
+    .existing-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 32px; }
+    .existing-item { display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--dust); padding: 8px 12px; font-size: 11px; }
+    .item-actions { display: flex; gap: 12px; }
+    .action-btn { background: none; border: none; font-size: 10px; letter-spacing: 0.1em; padding: 0; }
+    .edit-btn { color: var(--gold); } .edit-btn:hover { color: var(--concrete); }
+    .delete-btn { color: red; } .delete-btn:hover { color: var(--concrete); }
+    .cancel-edit-btn { display: none; background: transparent; border: 1px solid red; color: red; width: 100%; padding: 10px; font-family: inherit; font-size: 10px; margin-top: 8px; letter-spacing: 0.15em; }
+
+    .file-input-wrapper { border: 1px dashed var(--dust); padding: 12px; text-align: center; margin-bottom: 4px; transition: border 0.3s ease; }
+    .file-input-wrapper:hover { border-color: var(--gold); }
+    input[type="file"] { font-family: inherit; font-size: 10px; color: var(--dust); width: 100%; }
+    
+    .dynamic-list { margin-top: 12px; border-left: 1px solid var(--raw); padding-left: 12px; display: flex; flex-direction: column; gap: 12px; }
+    .dynamic-row { display: flex; flex-direction: column; gap: 8px; position: relative; }
+    .remove-row-btn { position: absolute; right: 0; top: -4px; background: none; border: none; color: red; font-size: 12px; padding: 4px; z-index: 2; }
+    .add-row-btn { background: transparent; border: 1px dotted var(--dust); color: var(--dust); padding: 8px; font-family: inherit; font-size: 10px; letter-spacing: 0.1em; margin-top: 8px; flex: 1; }
+    .add-row-btn:hover { color: var(--gold); border-color: var(--gold); }
+    
+    .loading-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 100; font-size: 12px; letter-spacing: 0.2em; color: var(--gold); text-align: center; flex-direction: column; gap: 8px; }
+  </style>
+</head>
+<body>
+
+  <div class="admin-container">
+    <div class="loading-overlay" id="loading-overlay">
+      <span>syncing data...</span>
+    </div>
+    
+    <div class="admin-header">AO // CONTROL ROOM</div>
+
+    <div id="login-view" class="view-section active">
+      <form id="admin-login-form" class="ao-form">
+        <input type="email" id="admin-email" placeholder="admin email" required class="ao-input">
+        <input type="password" id="admin-pass" placeholder="password" required class="ao-input">
+        <button type="submit" class="ao-submit">authenticate</button>
+        <p id="login-error" style="color: red; font-size: 11px; margin-top: 10px; display: none; text-align: center;"></p>
+      </form>
+    </div>
+
+    <div id="dashboard-view" class="view-section">
+      <p style="font-size: 11px; color: var(--gold); margin-bottom: 24px; text-align: center;">connection established.</p>
+      <div class="dash-menu">
+        <button class="dash-btn" data-target="inquiries-view"><span>inbox & inquiries</span><span>-></span></button>
+        <button class="dash-btn" data-target="services-view"><span>manage services</span><span>-></span></button>
+        <button class="dash-btn" data-target="clients-view"><span>manage clients roster</span><span>-></span></button>
+        <button class="dash-btn" data-target="tours-view"><span>manage upcoming tours</span><span>-></span></button>
+        <button class="dash-btn logout-btn" id="btn-logout">terminate session</button>
+      </div>
+    </div>
+
+    <div id="inquiries-view" class="view-section">
+      <button class="back-btn"><- return to menu</button>
+      <h3 class="section-title">direct inquiries</h3>
+      <div id="list-inquiries" class="existing-list"></div>
+    </div>
+
+    <div id="services-view" class="view-section">
+      <button class="back-btn"><- return to menu</button>
+      
+      <h3 class="section-title">current services</h3>
+      <div id="list-services" class="existing-list"></div>
+
+      <h3 class="section-title" id="title-service-form">add new modular service</h3>
+      <form id="form-service" class="ao-form">
+        <input type="hidden" id="edit-id-svc">
+        <input type="text" id="svc-title" placeholder="service title (e.g. creative direction)" required class="ao-input">
+        
+        <h4 style="font-size: 10px; color: var(--gold); letter-spacing: 0.1em; margin-top: 12px; margin-bottom: 0;">CONTENT BLOCKS</h4>
+        <div class="dynamic-list" id="svc-block-list"></div>
+        
+        <div style="display: flex; gap: 4px; margin-top: 8px;">
+          <button type="button" class="add-row-btn" id="btn-add-txt-block">+ add text</button>
+          <button type="button" class="add-row-btn" id="btn-add-img-block">+ add image</button>
+          <button type="button" class="add-row-btn" id="btn-add-vid-block">+ add video</button>
+        </div>
+        
+        <button type="submit" class="ao-submit" id="btn-submit-svc" style="margin-top: 24px;">publish service</button>
+        <button type="button" class="cancel-edit-btn" id="cancel-edit-svc">cancel edit</button>
+      </form>
+    </div>
+
+    <div id="clients-view" class="view-section">
+      <button class="back-btn"><- return to menu</button>
+
+      <h3 class="section-title">current roster</h3>
+      <div id="list-clients" class="existing-list"></div>
+
+      <h3 class="section-title" id="title-client-form">add new client</h3>
+      <form id="form-client" class="ao-form">
+        <input type="hidden" id="edit-id-client">
+        <input type="hidden" id="old-avatar-client">
+        <input type="hidden" id="old-gallery-client">
+        
+        <input type="text" id="cl-name" placeholder="artist name" required class="ao-input">
+        <input type="text" id="cl-role" placeholder="role (e.g. artist / creative)" required class="ao-input">
+        
+        <div class="file-input-wrapper">
+          <label style="font-size: 10px; color: var(--dust); display: block; margin-bottom: 4px;">Profile Avatar (Leave blank to keep current)</label>
+          <input type="file" id="cl-avatar" accept="image/*">
+        </div>
+
+        <h4 style="font-size: 10px; color: var(--gold); letter-spacing: 0.1em; margin-top: 12px; margin-bottom: 0;">STILLS ARCHIVE</h4>
+        <input type="text" id="cl-gal-name" placeholder="gallery name (e.g. new mexico archive)" class="ao-input">
+        <div class="file-input-wrapper">
+          <label style="font-size: 10px; color: var(--dust); display: block; margin-bottom: 4px;">Gallery Images (Uploading new files overwrites existing gallery)</label>
+          <input type="file" id="cl-gal-files" accept="image/*" multiple>
+        </div>
+
+        <h4 style="font-size: 10px; color: var(--gold); letter-spacing: 0.1em; margin-top: 12px; margin-bottom: 0;">MOTION ARCHIVE</h4>
+        <div class="dynamic-list" id="video-list"></div>
+        <button type="button" class="add-row-btn" id="btn-add-video" style="width:100%;">+ add video row</button>
+
+        <button type="submit" class="ao-submit" id="btn-submit-client" style="margin-top: 24px;">publish client</button>
+        <button type="button" class="cancel-edit-btn" id="cancel-edit-client">cancel edit</button>
+      </form>
+    </div>
+
+    <div id="tours-view" class="view-section">
+      <button class="back-btn"><- return to menu</button>
+
+      <h3 class="section-title">current tours</h3>
+      <div id="list-tours" class="existing-list"></div>
+
+      <h3 class="section-title" id="title-tour-form">add new tour</h3>
+      <form id="form-tour" class="ao-form">
+        <input type="hidden" id="edit-id-tour">
+        
+        <input type="text" id="tr-artist" placeholder="artist name" required class="ao-input">
+        <input type="text" id="tr-name" placeholder="tour name (e.g. world tour)" required class="ao-input">
+        <input type="text" id="tr-dates" placeholder="date range (e.g. 22 may - 11 jul)" required class="ao-input">
+        
+        <h4 style="font-size: 10px; color: var(--gold); letter-spacing: 0.1em; margin-top: 12px; margin-bottom: 0;">TOUR DATES</h4>
+        <div class="dynamic-list" id="show-list"></div>
+        <button type="button" class="add-row-btn" id="btn-add-show" style="width:100%;">+ add show row</button>
+
+        <button type="submit" class="ao-submit" id="btn-submit-tour" style="margin-top: 24px;">publish tour</button>
+        <button type="button" class="cancel-edit-btn" id="cancel-edit-tour">cancel edit</button>
+      </form>
+    </div>
+
+  </div>
+
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
