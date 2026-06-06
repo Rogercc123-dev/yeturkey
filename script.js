@@ -1,6 +1,6 @@
 // --- FIREBASE SETUP ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDrT6zXJwT4O2OgRCvKxF9oR4ckAcLJjSU",
@@ -12,696 +12,424 @@ const firebaseConfig = {
   measurementId: "G-892MVXEC3R"
 };
 
-// Initialize Firebase and the Database
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const db = getFirestore(app, "clients");
 
-
-(function (_0x3ad377, _0x396ba8) {
-  const _0x7d2bd7 = _0x3ad377();
-  while (true) {
-    try {
-      const _0x2d8d9f = -parseInt(_0x2a7a(0x1a2)) / 1 + -parseInt(_0x2a7a(0xba)) / 2 + -parseInt(_0x2a7a(0x16f)) / 3 + -parseInt(_0x2a7a(0x15d)) / 4 * (-parseInt(_0x2a7a(0x17b)) / 5) + -parseInt(_0x2a7a(0x17e)) / 6 * (parseInt(_0x2a7a(0xd3)) / 7) + parseInt(_0x2a7a(0x114)) / 8 * (parseInt(_0x2a7a(0x195)) / 9) + parseInt(_0x2a7a(0xc0)) / 10 * (parseInt(_0x2a7a(0xab)) / 11);
-      if (_0x2d8d9f === _0x396ba8) {
-        break;
-      } else {
-        _0x7d2bd7.push(_0x7d2bd7.shift());
-      }
-    } catch (_0x505de5) {
-      _0x7d2bd7.push(_0x7d2bd7.shift());
-    }
-  }
-})(_0x1407, 148744);
-const dot = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0xac));
-let dx = 0;
-let dy = 0;
-document[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x2a7a(0x122), _0x2d10ff => {
-  dx = _0x2d10ff[_0x2a7a(0xad)];
-  dy = _0x2d10ff[_0x2a7a(0x11c)];
-});
-(function cursorLoop() {
-  const _0x2c219e = {
-    'pThrF': function (_0x4766f1, _0x1f8e03) {
-      return _0x4766f1(_0x1f8e03);
-    }
-  };
-  if (dot) {
-    dot[_0x2a7a(0x158)][_0x2a7a(0x190)] = _0x2a7a(0x116) + _0x2a7a(0xbc) + dx + (_0x2a7a(0xc5) + _0x2a7a(0x9d)) + dy + _0x2a7a(0x172);
-  }
-  _0x2c219e[_0x2a7a(0xf1)](requestAnimationFrame, cursorLoop);
-})();
-document[_0x2a7a(0xf4) + _0x2a7a(0x17f)](_0x2a7a(0xdd) + _0x2a7a(0xb4) + _0x2a7a(0xde) + _0x2a7a(0x157) + _0x2a7a(0xdb) + _0x2a7a(0x196) + _0x2a7a(0x130))[_0x2a7a(0x14f)](_0x945ffe => {
-  const _0x43625c = {
-    'pfVtG': _0x2a7a(0x167),
-    'ExfVW': _0x2a7a(0xdc)
-  };
-  _0x945ffe[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x43625c[_0x2a7a(0x112)], () => document[_0x2a7a(0x109)][_0x2a7a(0x197)][_0x2a7a(0x1b9)](_0x2a7a(0x16e) + 'er'));
-  _0x945ffe[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x43625c[_0x2a7a(0x131)], () => document[_0x2a7a(0x109)][_0x2a7a(0x197)][_0x2a7a(0x177)](_0x2a7a(0x16e) + 'er'));
-});
-window[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x2a7a(0xb7), () => {
-  const _0x470264 = {
-    'yiKQj': _0x2a7a(0x148),
-    'DcYZq': _0x2a7a(0x9c),
-    'toGnw': function (_0x20b351, _0x254418, _0x565eaa) {
-      return _0x20b351(_0x254418, _0x565eaa);
-    }
-  };
-  _0x470264[_0x2a7a(0x13a)](setTimeout, () => {
-    const _0x271f06 = document[_0x2a7a(0xf4) + _0x2a7a(0x132)](_0x470264[_0x2a7a(0xc2)]);
-    if (_0x271f06) {
-      _0x271f06[_0x2a7a(0x197)][_0x2a7a(0x1b9)](_0x470264[_0x2a7a(0x1a4)]);
+// ==========================================
+// 1. EXACT ORIGINAL LOADER ANIMATION
+// ==========================================
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const loader = document.querySelector('.loader');
+    if (loader) {
+      loader.classList.add('gone');
     }
   }, 1000);
 });
-const themeToggle = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0xd2) + 'le');
+
+// ==========================================
+// 2. CURSOR & UI LOGIC
+// ==========================================
+const dot = document.getElementById('cursor-dot');
+let cursorX = window.innerWidth / 2, cursorY = window.innerHeight / 2;
+window.addEventListener('mousemove', (e) => { cursorX = e.clientX; cursorY = e.clientY; });
+
+function updateCursor() {
+  if (dot) dot.style.transform = `translate(calc(${cursorX}px - 50%), calc(${cursorY}px - 50%))`;
+  requestAnimationFrame(updateCursor);
+}
+updateCursor();
+
+const themeToggle = document.getElementById('theme-toggle');
 if (themeToggle) {
-  themeToggle[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x2a7a(0xc6), _0x3357fc => {
-    const _0x301670 = {
-      'YOjLD': _0x2a7a(0x1b2),
-      'ubXku': _0x2a7a(0x134),
-      'azsDr': _0x2a7a(0xbe)
-    };
-    _0x3357fc[_0x2a7a(0xfa) + _0x2a7a(0x1b1)]();
-    document[_0x2a7a(0x109)][_0x2a7a(0x197)][_0x2a7a(0x144)](_0x301670[_0x2a7a(0xb3)]);
-    if (document[_0x2a7a(0x109)][_0x2a7a(0x197)][_0x2a7a(0x104)](_0x301670[_0x2a7a(0xb3)])) {
-      themeToggle[_0x2a7a(0xc9)] = _0x301670[_0x2a7a(0xfb)];
-    } else {
-      themeToggle[_0x2a7a(0xc9)] = _0x301670[_0x2a7a(0x141)];
-    }
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    themeToggle.innerText = document.body.classList.contains('dark-mode') ? 'light mode' : 'dark mode';
   });
 }
-const triggers = document[_0x2a7a(0xf4) + _0x2a7a(0x17f)](_0x2a7a(0x140) + 'er');
-const views = document[_0x2a7a(0xf4) + _0x2a7a(0x17f)](_0x2a7a(0x1bc));
-const navItems = document[_0x2a7a(0xf4) + _0x2a7a(0x17f)](_0x2a7a(0x18d));
-const globalVideo = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0xb5) + 'eo');
-const playBtn = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0xe0));
-const workspaces = document[_0x2a7a(0xf4) + _0x2a7a(0x17f)](_0x2a7a(0xe3) + _0x2a7a(0x145));
-const svcOverlay = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0x192) + 'y');
-const svcOverlayContent = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0x192) + _0x2a7a(0x117));
-const svcCloseBtn = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0x1c5) + _0x2a7a(0x1a7));
-function switchSPAView(_0xdc5ab9) {
-  const _0x162c4d = {
-    'boSKy': _0x2a7a(0x11f),
-    'hWZGT': function (_0x12c01b, _0x17d55f) {
-      return _0x12c01b === _0x17d55f;
-    },
-    'yAotp': _0x2a7a(0x12d) + 't',
-    'QqVfE': function (_0x447220, _0x4819ee, _0x2694f9) {
-      return _0x447220(_0x4819ee, _0x2694f9);
-    },
-    'HPUov': _0x2a7a(0xe9),
-    'MBNnN': _0x2a7a(0x1a5)
-  };
-  if (globalVideo && !globalVideo[_0x2a7a(0xcb)]) {
-    globalVideo[_0x2a7a(0x126)]();
-    globalVideo[_0x2a7a(0x197)][_0x2a7a(0x177)](_0x162c4d[_0x2a7a(0x14c)]);
-    if (playBtn) {
-      playBtn[_0x2a7a(0xc9)] = _0x162c4d[_0x2a7a(0xda)];
-    }
-  }
-  if (svcOverlay && svcOverlay[_0x2a7a(0x197)][_0x2a7a(0x104)](_0x162c4d[_0x2a7a(0x178)])) {
-    svcOverlay[_0x2a7a(0x197)][_0x2a7a(0x177)](_0x162c4d[_0x2a7a(0x178)]);
-  }
-  workspaces[_0x2a7a(0x14f)](_0x4f1ea6 => _0x4f1ea6[_0x2a7a(0x197)][_0x2a7a(0x177)](_0x2a7a(0x11f)));
-  navItems[_0x2a7a(0x14f)](_0x4861b8 => {
-    _0x4861b8[_0x2a7a(0x197)][_0x2a7a(0x177)](_0x162c4d[_0x2a7a(0x178)]);
-    if (_0x162c4d[_0x2a7a(0x147)](_0x4861b8[_0x2a7a(0xe1) + 'te'](_0x162c4d[_0x2a7a(0x152)]), _0xdc5ab9)) {
-      _0x4861b8[_0x2a7a(0x197)][_0x2a7a(0x1b9)](_0x162c4d[_0x2a7a(0x178)]);
-    }
-  });
-  views[_0x2a7a(0x14f)](_0x145f47 => {
-    _0x145f47[_0x2a7a(0x197)][_0x2a7a(0x177)](_0x162c4d[_0x2a7a(0x178)]);
-    if (_0x162c4d[_0x2a7a(0x147)](_0x145f47.id, _0xdc5ab9)) {
-      _0x162c4d[_0x2a7a(0x146)](setTimeout, () => {
-        _0x145f47[_0x2a7a(0x197)][_0x2a7a(0x1b9)](_0x162c4d[_0x2a7a(0x178)]);
-      }, 50);
-    }
-  });
+
+function switchSPAView(targetId) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  const target = document.getElementById(targetId);
+  if (target) target.classList.add('active');
+
+  document.querySelectorAll('.media-workspace').forEach(ws => ws.classList.remove('active'));
+  document.querySelectorAll('.svc-overlay').forEach(overlay => overlay.classList.remove('active'));
+  
+  const globalVid = document.getElementById('custom-video');
+  if (globalVid) globalVid.pause();
 }
-triggers[_0x2a7a(0x14f)](_0x1698bf => {
-  const _0x12b2fb = {
-    'sYPIj': function (_0x426a7d, _0x412bd3) {
-      return _0x426a7d === _0x412bd3;
-    },
-    'CBPjG': _0x2a7a(0xf2),
-    'ZooBn': function (_0x4a52da, _0x274754) {
-      return _0x4a52da === _0x274754;
-    },
-    'uLzdC': _0x2a7a(0x12d) + 't',
-    'rvhZL': _0x2a7a(0xbd) + 'ts',
-    'XiNXw': function (_0x1f88f1, _0x3c251e) {
-      return _0x1f88f1(_0x3c251e);
-    },
-    'QDxUu': _0x2a7a(0xc6)
-  };
-  _0x1698bf[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x12b2fb[_0x2a7a(0x123)], _0x359e75 => {
-    if (_0x12b2fb[_0x2a7a(0xb0)](_0x1698bf[_0x2a7a(0xe1) + 'te'](_0x12b2fb[_0x2a7a(0xe2)]), '#')) {
-      _0x359e75[_0x2a7a(0xfa) + _0x2a7a(0x1b1)]();
-    }
-    if (_0x12b2fb[_0x2a7a(0xca)](_0x1698bf[_0x2a7a(0xe1) + 'te'](_0x12b2fb[_0x2a7a(0x12f)]), _0x12b2fb[_0x2a7a(0x1a3)])) {
-      workspaces[_0x2a7a(0x14f)](_0x2d53f9 => _0x2d53f9[_0x2a7a(0x197)][_0x2a7a(0x177)](_0x2a7a(0x11f)));
-    }
-    _0x12b2fb[_0x2a7a(0x12e)](switchSPAView, _0x1698bf[_0x2a7a(0xe1) + 'te'](_0x12b2fb[_0x2a7a(0x12f)]));
+
+document.querySelectorAll('.nav-trigger').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    switchSPAView(btn.getAttribute('data-target'));
   });
 });
-const svcCards = document[_0x2a7a(0xf4) + _0x2a7a(0x17f)](_0x2a7a(0x173) + _0x2a7a(0xa6));
-svcCards[_0x2a7a(0x14f)](_0x308b12 => {
-  const _0x53ffcc = {
-    'kNlYs': _0x2a7a(0x184) + _0x2a7a(0xd6),
-    'RzKuo': function (_0x3e7727, _0x25eb84) {
-      return _0x3e7727 - _0x25eb84;
-    },
-    'FSyXx': function (_0x5e19dc, _0x5b5afe) {
-      return _0x5e19dc - _0x5b5afe;
-    },
-    'XLZPJ': _0x2a7a(0x15c),
-    'uZlms': _0x2a7a(0x186),
-    'cHDuz': _0x2a7a(0xd7),
-    'rnMPl': _0x2a7a(0xd8) + _0x2a7a(0x1ae),
-    'gjuuT': _0x2a7a(0x11f),
-    'onuBg': _0x2a7a(0xc6)
-  };
-  _0x308b12[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x53ffcc[_0x2a7a(0xc3)], _0x529007 => {
-    const _0x1f8a53 = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x53ffcc[_0x2a7a(0x103)])[_0x2a7a(0x169) + _0x2a7a(0x1b6) + 't']();
-    const _0xe80230 = _0x53ffcc[_0x2a7a(0x19f)](_0x529007[_0x2a7a(0xad)], _0x1f8a53[_0x2a7a(0xff)]);
-    const _0x2d602d = _0x53ffcc[_0x2a7a(0xce)](_0x529007[_0x2a7a(0x11c)], _0x1f8a53[_0x2a7a(0xcf)]);
-    if (svcOverlay) {
-      svcOverlay[_0x2a7a(0x158)][_0x2a7a(0x160) + 'y'](_0x53ffcc[_0x2a7a(0x168)], _0xe80230 + 'px');
-      svcOverlay[_0x2a7a(0x158)][_0x2a7a(0x160) + 'y'](_0x53ffcc[_0x2a7a(0x16a)], _0x2d602d + 'px');
-    }
-    const _0x289b62 = _0x308b12[_0x2a7a(0xf4) + _0x2a7a(0x132)](_0x53ffcc[_0x2a7a(0x121)])[_0x2a7a(0xc9)];
-    const _0x38229e = _0x308b12[_0x2a7a(0xf4) + _0x2a7a(0x132)](_0x53ffcc[_0x2a7a(0x120)])[_0x2a7a(0x153)];
-    if (svcOverlayContent) {
-      svcOverlayContent[_0x2a7a(0x153)] = _0x2a7a(0x11e) + _0x2a7a(0x108) + _0x2a7a(0x192) + _0x2a7a(0x16c) + _0x289b62 + (_0x2a7a(0x1b7) + _0x2a7a(0x1b0) + _0x2a7a(0x10a) + _0x2a7a(0xfe) + _0x2a7a(0xb9)) + _0x38229e + (_0x2a7a(0x14b) + _0x2a7a(0x1c0));
-    }
-    if (svcOverlay) {
-      svcOverlay[_0x2a7a(0x197)][_0x2a7a(0x1b9)](_0x53ffcc[_0x2a7a(0x128)]);
-    }
-  });
-});
-if (svcCloseBtn) {
-  svcCloseBtn[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x2a7a(0xc6), () => {
-    const _0xaaea88 = {
-      'GgNMb': _0x2a7a(0x11f)
-    };
-    if (svcOverlay) {
-      svcOverlay[_0x2a7a(0x197)][_0x2a7a(0x177)](_0xaaea88[_0x2a7a(0x18f)]);
-    }
-  });
+
+// ==========================================
+// 3. DYNAMIC MODULAR SERVICES
+// ==========================================
+const servicesContainer = document.getElementById('dynamic-services-list');
+const overlay = document.getElementById('svc-overlay');
+const overlayContent = document.getElementById('svc-overlay-content');
+const svcCloseBtn = document.getElementById('svc-close-btn');
+
+if (svcCloseBtn && overlay) {
+  svcCloseBtn.addEventListener('click', () => overlay.classList.remove('active'));
 }
-function _0x1407() {
-  const _0x307440 = ['8KIqCpj', 'dock-video', 'translate(', 'y-content', 'Loaded', 'gallery', 'flex', 'iCJhr', 'clientY', 'kjXWA', "\n        <", 'active', 'rnMPl', 'cHDuz', 'mousemove', 'QDxUu', 'rdion', '0:00', 'pause', 'VzFLf', 'gjuuT', 'vYqec', 'btn-galler', 'IvqPd', 'OLiBs', 'data-targe', 'XiNXw', 'uLzdC', 'se-btn', 'ExfVW', 'tor', 'dfLir', "light mode", 'ttswR', 'currentTim', 'nNTBB', 'pand', 'viewing', 'toGnw', '.accordion', 'tPtQz', 'tRnWo', 'gallery3.j', 'fvAVc', '.nav-trigg', 'azsDr', 'Pfaic', 'DOMContent', 'toggle', 'kspace', 'QqVfE', 'hWZGT', '.loader', 'data', 'space-ye', "</div>\n   ", 'HPUov', 'MgWnl', 'data-artis', 'forEach', 'then', 'rIOFH', 'yAotp', 'innerHTML', 'llapse', 'filter', 'kczab', "l, .servic", 'style', 'lcJLw', 'NGLjG', "100%) cont", '--click-x', '271596hfZcXR', 'g-total', 'unmute', 'setPropert', 'gallery2.j', 'display-na', 'display', 'EfWea', 'media-work', 'gallery-st', 'mouseenter', 'XLZPJ', 'getBoundin', 'uZlms', 'g-current', "y-title\">", 'atus', 'cursor-hov', '438579aPOllm', 'ist-btn', 'stener', "px - 50%))", '.service-c', 'bHSZm', 'IjKUd', 'bDdWl', 'remove', 'boSKy', 'RCBWu', 'time-total', '10moeeGn', 'tdJBe', 'data-name', '306906blrezr', 'torAll', 'GmiWe', 'RmcSz', 'split', '50%', 'view-servi', "new mexico", '--click-y', 'is-active', '.tour-acco', 'soTXd', "eo1.mp4\"]", 'dODqX', 'iYVdU', '.nav-item', 'AoCcz', 'GgNMb', 'transform', '-trigger', 'svc-overla', 'catch', 'XAFUL', '257805RcfGyP', 'verlay-clo', 'classList', 'btn-mute', 'mute', 'xico-row', 'AhORR', 'DmBlx', 'QxAYx', 'view-home', 'RzKuo', 'BaMBM', 'kEjAJ', '86696yWUMdU', 'rvhZL', 'DcYZq', 'play', 'time-curre', 'btn', 'UCmzA', '10|9|4|5|6', 'mLVfB', 'loaded', 'Cjoqz', 'timeupdate', 'ded', 'ePLiB', "    <div c", 'ault', 'dark-mode', 'yKMGI', "</span> co", 'IxBoO', 'gClientRec', "</h2>\n    ", 'LlAGo', 'add', 'mVQNh', 'block', '.view', 'addEventLi', 'loadedmeta', 'PvpJh', "   ", 'getElement', 'stills)', "</span> ex", 'UMUcn', 'svc-close-', "<span clas", 'cVuqY', 'gone', " calc(", '-back-btn', 'src', 'vqdde', 'length', 'vSCgu', 'ById', 'gZTyE', 'duration', 'ard', "s=\"accordi", 'OcvNN', 'NmezA', 'open', '55JkEbjO', 'cursor-dot', 'clientX', 'UFtxa', '.media-art', 'sYPIj', 'JJfQC', 'LexIn', 'YOjLD', " .nav-trig", 'custom-vid', "on-icon\">+", 'load', 'tSgXv', "dy\">", '579560WWPnGp', 'y-toggle', 'calc(', 'view-clien', "dark mode", 'NTQwT', '1525450QzqRaR', 'space-', 'yiKQj', 'onuBg', 'ended', "px - 50%),", 'click', 'xVpwy', 'blybF', 'innerText', 'ZooBn', 'paused', '7|3|8|1|0|', 'floor', 'FSyXx', 'top', 'aCzpZ', '.workspace', 'theme-togg', '35kQxUBJ', '.v-sel[dat', 'btn-prev', 'ces', '.svc-title', '.svc-exten', 'Ltomx', 'MBNnN', "e-card, .o", 'mouseleave', "a, button,", "ger, .v-se", 'oYFGz', 'btn-play', 'getAttribu', 'CBPjG', '.media-wor', 'FcjEm', 'KnQIU', 'mOBLy', 'HMdGC', 'past-newme', 'is-playing', 'YewVR', 'hIDWB', '.s-action', 'EpjxO', 'rast(1.1)', 'btn-next', 'gallery1.j', 'pThrF', 'href', 'ZZQiW', 'querySelec', 'OCrfv', 'DUKjM', 'dock-galle', 'muted', 'SuhYU', 'preventDef', 'ubXku', 'gallery-im', " archive (", 'overlay-bo', 'left', 'data-src', 'Rmpfm', 'grayscale(', 'kNlYs', 'contains', 'SHImq', 'UwhTQ', 'IZGbX', "h2 class=\"", 'body', "lass=\"svc-", 'EQamg', 'zJZzq', '.v-sel', 'QFRsa', 'EOIOh', "a-src=\"vid", 'hYLsV', 'pfVtG', 'none'];
-  _0x1407 = function () {
-    return _0x307440;
-  };
-  return _0x1407();
-}
-const artistBtns = document[_0x2a7a(0xf4) + _0x2a7a(0x17f)](_0x2a7a(0xaf) + _0x2a7a(0x170));
-artistBtns[_0x2a7a(0x14f)](_0x567f81 => {
-  const _0x4ecdd6 = {
-    'Cjoqz': _0x2a7a(0x126),
-    'Pfaic': _0x2a7a(0xe9),
-    'mLVfB': _0x2a7a(0x1a5),
-    'ZZQiW': _0x2a7a(0x14e) + 't',
-    'bDdWl': function (_0x42fb7f, _0x206c5c) {
-      return _0x42fb7f + _0x206c5c;
-    },
-    'ePLiB': _0x2a7a(0x165) + _0x2a7a(0xc1),
-    'EOIOh': _0x2a7a(0xbd) + 'ts',
-    'kczab': function (_0xf366cf, _0x15d0e5) {
-      return _0xf366cf - _0x15d0e5;
-    },
-    'bHSZm': _0x2a7a(0x15c),
-    'BaMBM': _0x2a7a(0x186),
-    'blybF': _0x2a7a(0x11f),
-    'HMdGC': function (_0x49f8b4, _0x19b029) {
-      return _0x49f8b4 === _0x19b029;
-    },
-    'Rmpfm': _0x2a7a(0xc6)
-  };
-  _0x567f81[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x4ecdd6[_0x2a7a(0x101)], _0x4c7b30 => {
-    const _0x53e752 = _0x567f81[_0x2a7a(0xe1) + 'te'](_0x4ecdd6[_0x2a7a(0xf3)]);
-    const _0x440b46 = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x4ecdd6[_0x2a7a(0x176)](_0x4ecdd6[_0x2a7a(0x1af)], _0x53e752));
-    if (_0x440b46) {
-      const _0x347c2e = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x4ecdd6[_0x2a7a(0x10f)])[_0x2a7a(0x169) + _0x2a7a(0x1b6) + 't']();
-      const _0x4b4030 = _0x4ecdd6[_0x2a7a(0x156)](_0x4c7b30[_0x2a7a(0xad)], _0x347c2e[_0x2a7a(0xff)]);
-      const _0x4491f2 = _0x4ecdd6[_0x2a7a(0x156)](_0x4c7b30[_0x2a7a(0x11c)], _0x347c2e[_0x2a7a(0xcf)]);
-      _0x440b46[_0x2a7a(0x158)][_0x2a7a(0x160) + 'y'](_0x4ecdd6[_0x2a7a(0x174)], _0x4b4030 + 'px');
-      _0x440b46[_0x2a7a(0x158)][_0x2a7a(0x160) + 'y'](_0x4ecdd6[_0x2a7a(0x1a0)], _0x4491f2 + 'px');
-      _0x440b46[_0x2a7a(0x197)][_0x2a7a(0x1b9)](_0x4ecdd6[_0x2a7a(0xc8)]);
-    }
-    if (_0x4ecdd6[_0x2a7a(0xe7)](_0x53e752, 'ye')) {
-      if (globalVideo) {
-        globalVideo[_0x2a7a(0xb7)]();
-        globalVideo[_0x2a7a(0x1a5)]()[_0x2a7a(0x150)](() => {
-          if (playBtn) {
-            playBtn[_0x2a7a(0xc9)] = _0x4ecdd6[_0x2a7a(0x1ac)];
-          }
-          globalVideo[_0x2a7a(0x197)][_0x2a7a(0x1b9)](_0x4ecdd6[_0x2a7a(0x142)]);
-        })[_0x2a7a(0x193)](_0xaa6522 => {
-          if (playBtn) {
-            playBtn[_0x2a7a(0xc9)] = _0x4ecdd6[_0x2a7a(0x1aa)];
-          }
+
+async function loadServices() {
+  if (!servicesContainer) return;
+  try {
+    const querySnapshot = await getDocs(collection(db, "services"));
+    servicesContainer.innerHTML = ''; 
+    querySnapshot.forEach((doc) => {
+      const service = doc.data() || {};
+      const serviceTitle = service.title || 'Untitled Service';
+      
+      let blocksHTML = '';
+      if (service.blocks && Array.isArray(service.blocks)) {
+        service.blocks.forEach(block => {
+          if (block.type === 'text') blocksHTML += `<p style="margin-bottom: 16px;">${block.value || ''}</p>`;
+          else if (block.type === 'image' && block.value) blocksHTML += `<img src="${block.value}" style="width: 100%; height: auto; border: 1px solid var(--raw); margin-bottom: 16px;">`;
+          else if (block.type === 'video' && block.value) blocksHTML += `<video src="${block.value}" playsinline muted loop autoplay style="width: 100%; height: auto; border: 1px solid var(--raw); margin-bottom: 16px;"></video>`;
         });
       }
-    }
-  });
-});
-const wsBackBtns = document[_0x2a7a(0xf4) + _0x2a7a(0x17f)](_0x2a7a(0xd1) + _0x2a7a(0x9e));
-wsBackBtns[_0x2a7a(0x14f)](_0x1da8b4 => {
-  const _0x2426f3 = {
-    'hIDWB': _0x2a7a(0xe9),
-    'KnQIU': _0x2a7a(0x1a5),
-    'RmcSz': _0x2a7a(0xc6)
-  };
-  _0x1da8b4[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x2426f3[_0x2a7a(0x181)], () => {
-    workspaces[_0x2a7a(0x14f)](_0x5a8923 => _0x5a8923[_0x2a7a(0x197)][_0x2a7a(0x177)](_0x2a7a(0x11f)));
-    if (globalVideo && !globalVideo[_0x2a7a(0xcb)]) {
-      globalVideo[_0x2a7a(0x126)]();
-      globalVideo[_0x2a7a(0x197)][_0x2a7a(0x177)](_0x2426f3[_0x2a7a(0xeb)]);
-      if (playBtn) {
-        playBtn[_0x2a7a(0xc9)] = _0x2426f3[_0x2a7a(0xe5)];
-      }
-    }
-  });
-});
-window[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x2a7a(0x143) + _0x2a7a(0x118), () => {
-  const _0x5bb07b = {
-    'SuhYU': function (_0x243a68, _0x4656d8) {
-      return _0x243a68(_0x4656d8);
-    },
-    'tdJBe': _0x2a7a(0x19e)
-  };
-  _0x5bb07b[_0x2a7a(0xf9)](switchSPAView, _0x5bb07b[_0x2a7a(0x17c)]);
-});
-function triggerDeepLinkArchive(_0x1b7dda) {
-  const _0x50b0b8 = {
-    'EpjxO': function (_0xccaf3a, _0x8fc245) {
-      return _0xccaf3a(_0x8fc245);
-    },
-    'QxAYx': _0x2a7a(0xbd) + 'ts',
-    'AoCcz': _0x2a7a(0x165) + _0x2a7a(0x14a),
-    'FcjEm': _0x2a7a(0x15c),
-    'vYqec': _0x2a7a(0x186),
-    'DmBlx': _0x2a7a(0x11f),
-    'SHImq': function (_0x51070c, _0x557ab7) {
-      return _0x51070c === _0x557ab7;
-    },
-    'AhORR': _0x2a7a(0x119),
-    'RCBWu': _0x2a7a(0x12a) + _0x2a7a(0xbb),
-    'kjXWA': _0x2a7a(0xd4) + _0x2a7a(0x110) + _0x2a7a(0x18a)
-  };
-  _0x50b0b8[_0x2a7a(0xed)](switchSPAView, _0x50b0b8[_0x2a7a(0x19d)]);
-  const _0x6c74dd = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x50b0b8[_0x2a7a(0x18e)]);
-  if (_0x6c74dd) {
-    _0x6c74dd[_0x2a7a(0x158)][_0x2a7a(0x160) + 'y'](_0x50b0b8[_0x2a7a(0xe4)], _0x2a7a(0x183));
-    _0x6c74dd[_0x2a7a(0x158)][_0x2a7a(0x160) + 'y'](_0x50b0b8[_0x2a7a(0x129)], _0x2a7a(0x183));
-    _0x6c74dd[_0x2a7a(0x197)][_0x2a7a(0x1b9)](_0x50b0b8[_0x2a7a(0x19c)]);
-  }
-  if (_0x50b0b8[_0x2a7a(0x105)](_0x1b7dda, _0x50b0b8[_0x2a7a(0x19b)])) {
-    const _0x28a509 = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x50b0b8[_0x2a7a(0x179)]);
-    if (_0x28a509) {
-      _0x28a509[_0x2a7a(0xc6)]();
-    }
-  } else {
-    const _0x1e0688 = document[_0x2a7a(0xf4) + _0x2a7a(0x132)](_0x50b0b8[_0x2a7a(0x11d)]);
-    if (_0x1e0688) {
-      _0x1e0688[_0x2a7a(0xc6)]();
-    }
-  }
-}
-const pastNMRow = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0xe8) + _0x2a7a(0x19a));
-function _0x2a7a(_0x35d659, _0x507909) {
-  _0x35d659 = _0x35d659 - 156;
-  const _0x10ea02 = _0x1407();
-  let _0x455c8f = _0x10ea02[_0x35d659];
-  return _0x455c8f;
-}
-if (pastNMRow) {
-  pastNMRow[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x2a7a(0xc6), _0x267525 => {
-    const _0x49e133 = {
-      'mOBLy': function (_0x4bf7d7, _0x11fd50) {
-        return _0x4bf7d7(_0x11fd50);
-      },
-      'JJfQC': _0x2a7a(0x119)
-    };
-    _0x267525[_0x2a7a(0xfa) + _0x2a7a(0x1b1)]();
-    _0x49e133[_0x2a7a(0xe6)](triggerDeepLinkArchive, _0x49e133[_0x2a7a(0xb1)]);
-  });
-}
-const tourAccordions = document[_0x2a7a(0xf4) + _0x2a7a(0x17f)](_0x2a7a(0x188) + _0x2a7a(0x124));
-tourAccordions[_0x2a7a(0x14f)](_0x290e5f => {
-  const _0x213e70 = {
-    'NTQwT': _0x2a7a(0xaa),
-    'zJZzq': _0x2a7a(0x1c6) + _0x2a7a(0xa7) + _0x2a7a(0xb6) + _0x2a7a(0x1b4) + _0x2a7a(0x154),
-    'GmiWe': _0x2a7a(0x1c6) + _0x2a7a(0xa7) + _0x2a7a(0xb6) + _0x2a7a(0x1c3) + _0x2a7a(0x138),
-    'IZGbX': _0x2a7a(0x13b) + _0x2a7a(0x191),
-    'hYLsV': _0x2a7a(0xec),
-    'OCrfv': _0x2a7a(0xc6)
-  };
-  const _0x4ab3a9 = _0x290e5f[_0x2a7a(0xf4) + _0x2a7a(0x132)](_0x213e70[_0x2a7a(0x107)]);
-  const _0x4c7cad = _0x4ab3a9[_0x2a7a(0xf4) + _0x2a7a(0x132)](_0x213e70[_0x2a7a(0x111)]);
-  if (_0x4ab3a9) {
-    _0x4ab3a9[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x213e70[_0x2a7a(0xf5)], _0x3291bd => {
-      _0x3291bd[_0x2a7a(0xfa) + _0x2a7a(0x1b1)]();
-      _0x290e5f[_0x2a7a(0x197)][_0x2a7a(0x144)](_0x213e70[_0x2a7a(0xbf)]);
-      if (_0x290e5f[_0x2a7a(0x197)][_0x2a7a(0x104)](_0x213e70[_0x2a7a(0xbf)])) {
-        if (_0x4c7cad) {
-          _0x4c7cad[_0x2a7a(0x153)] = _0x213e70[_0x2a7a(0x10c)];
+
+      const serviceHTML = `
+        <button class="service-card dynamic-svc-btn" type="button">
+          <div class="svc-content">
+            <h3 class="svc-title">${serviceTitle}</h3>
+            <div class="svc-extended" style="display: none;">${blocksHTML}</div>
+          </div>
+        </button>
+      `;
+      servicesContainer.insertAdjacentHTML('beforeend', serviceHTML);
+    });
+
+    document.querySelectorAll('.dynamic-svc-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const rect = btn.getBoundingClientRect();
+        if (overlay) {
+          overlay.style.setProperty('--click-x', (e.clientX - rect.left) + 'px');
+          overlay.style.setProperty('--click-y', (e.clientY - rect.top) + 'px');
         }
-      } else {
-        if (_0x4c7cad) {
-          _0x4c7cad[_0x2a7a(0x153)] = _0x213e70[_0x2a7a(0x180)];
+        if (overlayContent) {
+          overlayContent.innerHTML = `<h2 class="svc-overlay-title">${btn.querySelector('.svc-title').innerText}</h2><div class="svc-overlay-body">${btn.querySelector('.svc-extended').innerHTML}</div>`;
+        }
+        if (overlay) overlay.classList.add('active');
+      });
+    });
+  } catch (error) { console.error("Services Fetch Error:", error); }
+}
+
+// ==========================================
+// 4. DYNAMIC CLIENT ROSTER & ARCHIVES
+// ==========================================
+const clientListContainer = document.getElementById('dynamic-client-list');
+const workspacesTarget = document.getElementById('dynamic-workspaces-target');
+
+async function loadClients() {
+  if (!clientListContainer || !workspacesTarget) return;
+
+  try {
+    const querySnapshot = await getDocs(collection(db, "clients"));
+    clientListContainer.innerHTML = ''; 
+    workspacesTarget.innerHTML = '';
+
+    querySnapshot.forEach((doc) => {
+      const client = doc.data() || {};
+      if (!client.name) return; 
+
+      const clientName = client.name.toString();
+      const safeName = clientName.replace(/\s+/g, '-').toLowerCase() + '-' + doc.id;
+      const clientRole = (client.role || 'Artist').toString();
+      const clientImage = client.image_url || '';
+
+      const clientHTML = `
+        <button class="roster-row media-artist-btn" data-artist="${safeName}" style="width:100%; text-align:left; font-family:inherit; background:transparent; border:none; outline:none; border-bottom: 1px solid var(--raw);">
+          <div class="r-data r-avatar"><img src="${clientImage}" alt="${clientName}" onerror="this.style.display='none'" /></div>
+          <div class="r-data r-details"><div class="r-role">${clientRole}</div><div class="r-name">${clientName}</div></div>
+          <div class="r-data r-tag">archive</div> 
+        </button>
+      `;
+      clientListContainer.insertAdjacentHTML('beforeend', clientHTML);
+
+      const vids = Array.isArray(client.videos) && client.videos.length > 0 ? client.videos : [{name: 'motion', src: ''}];
+      const images = Array.isArray(client.gallery_images) && client.gallery_images.length > 0 ? client.gallery_images : [''];
+      const gName = client.gallery_name || 'archive';
+
+      let videoGridHTML = '';
+      vids.forEach((vid, idx) => {
+        let activeClass = idx === 0 ? 'active' : '';
+        const vidName = vid.name || `Video ${idx + 1}`;
+        videoGridHTML += `<button class="v-sel ${activeClass}" data-src="${vid.src || ''}" data-name="${vidName}">0${idx + 1}</button>`;
+      });
+      
+      const firstVid = vids[0] || {name: 'motion', src: ''};
+      let gData = "[]";
+      try { gData = JSON.stringify(images).replace(/"/g, '&quot;'); } catch(e){}
+
+      const workspaceHTML = `
+        <div class="media-workspace" id="media-workspace-${safeName}">
+          <div class="media-ws-header">
+            <button class="overlay-close-btn workspace-back-btn">return</button>
+            <h2 class="ws-artist-title">${clientName}</h2>
+          </div>
+          <div class="media-container">
+            <div class="display-area">
+              <video class="custom-video" src="${firstVid.src || ''}" playsinline muted loop></video>
+              <img class="gallery-img" src="${images[0] || ''}" style="display: none;" onerror="this.style.display='none'" />
+              
+              <div class="media-controls-dock">
+                <div class="dock-video dock-panel" style="display: flex;">
+                  <div class="m-btn-group"><button class="btn-play m-btn">play</button><button class="btn-mute m-btn">unmute</button></div>
+                </div>
+                <div class="dock-gallery dock-panel" style="display: none;">
+                  <div class="m-btn-group"><button class="btn-prev m-btn">prev</button><button class="btn-next m-btn">next</button></div>
+                  <div class="m-info"><span class="g-current">1</span> / <span class="g-total">${images.length}</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="media-menu">
+              <div class="menu-section-top">
+                <div class="menu-label">motion</div>
+                <div class="video-grid">${videoGridHTML}</div>
+                <div class="active-media-name display-name">${firstVid.name || 'Video'}</div>
+                <div class="menu-label">stills</div>
+                <button class="btn-gallery btn-gallery-toggle" data-gallery="${gData}">
+                  <span class="g-name">${gName}</span><span class="g-status gallery-status">loaded</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      workspacesTarget.insertAdjacentHTML('beforeend', workspaceHTML);
+    });
+
+    attachWorkspaceLogic();
+  } catch (error) { console.error("Client Fetch Error:", error); }
+}
+
+function attachWorkspaceLogic() {
+  document.querySelectorAll('.media-artist-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const targetId = btn.getAttribute('data-artist');
+      const ws = document.getElementById(`media-workspace-${targetId}`);
+      if (ws) {
+        ws.style.setProperty('--click-x', e.clientX + 'px');
+        ws.style.setProperty('--click-y', e.clientY + 'px');
+        ws.classList.add('active');
+        const vid = ws.querySelector('.custom-video');
+        const playBtn = ws.querySelector('.btn-play');
+        if (vid && vid.src && !vid.src.endsWith('undefined') && vid.src !== window.location.href) {
+            vid.play().then(() => { if (playBtn) playBtn.innerText = 'pause'; }).catch(err=>{});
         }
       }
     });
-  }
-});
-const displayVideo = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0xb5) + 'eo');
-const displayGallery = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0xfc) + 'g');
-const displayName = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0x162) + 'me');
-const dockVideo = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0x115));
-const dockGallery = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0xf7) + 'ry');
-const vSelectors = document[_0x2a7a(0xf4) + _0x2a7a(0x17f)](_0x2a7a(0x10d));
-const btnGalleryToggle = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0x12a) + _0x2a7a(0xbb));
-const gStatus = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0x166) + _0x2a7a(0x16d));
-const muteBtn = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0x198));
-const timeCurrent = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0x1a6) + 'nt');
-const timeTotal = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0x17a));
-function formatTime(_0x12a3bf) {
-  const _0x4e9f47 = {
-    'OLiBs': function (_0x4848f8, _0x1baffe) {
-      return _0x4848f8(_0x1baffe);
-    },
-    'PvpJh': _0x2a7a(0x125),
-    'xVpwy': function (_0x223056, _0x3b5044) {
-      return _0x223056 / _0x3b5044;
-    },
-    'UMUcn': function (_0x1b742f, _0x262140) {
-      return _0x1b742f % _0x262140;
-    },
-    'vqdde': function (_0x27dce5, _0x57627d) {
-      return _0x27dce5 + _0x57627d;
-    },
-    'UwhTQ': function (_0xcdead6, _0x4ecaab) {
-      return _0xcdead6 < _0x4ecaab;
-    }
-  };
-  if (_0x4e9f47[_0x2a7a(0x12c)](isNaN, _0x12a3bf)) {
-    return _0x4e9f47[_0x2a7a(0x1bf)];
-  }
-  const _0x246268 = Math[_0x2a7a(0xcd)](_0x4e9f47[_0x2a7a(0xc7)](_0x12a3bf, 60));
-  const _0x369c71 = Math[_0x2a7a(0xcd)](_0x4e9f47[_0x2a7a(0x1c4)](_0x12a3bf, 60));
-  return _0x4e9f47[_0x2a7a(0xa0)](_0x4e9f47[_0x2a7a(0xa0)](_0x246268, ':'), _0x4e9f47[_0x2a7a(0x106)](_0x369c71, 10) ? _0x4e9f47[_0x2a7a(0xa0)]('0', _0x369c71) : _0x369c71);
-}
-if (playBtn) {
-  playBtn[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x2a7a(0xc6), () => {
-    const _0x2f002c = {
-      'UFtxa': _0x2a7a(0x126),
-      'iYVdU': _0x2a7a(0xe9),
-      'IjKUd': _0x2a7a(0x1a5)
-    };
-    if (globalVideo[_0x2a7a(0xcb)]) {
-      globalVideo[_0x2a7a(0x1a5)]();
-      playBtn[_0x2a7a(0xc9)] = _0x2f002c[_0x2a7a(0xae)];
-      globalVideo[_0x2a7a(0x197)][_0x2a7a(0x1b9)](_0x2f002c[_0x2a7a(0x18c)]);
-    } else {
-      globalVideo[_0x2a7a(0x126)]();
-      playBtn[_0x2a7a(0xc9)] = _0x2f002c[_0x2a7a(0x175)];
-      globalVideo[_0x2a7a(0x197)][_0x2a7a(0x177)](_0x2f002c[_0x2a7a(0x18c)]);
-    }
   });
-}
-if (muteBtn) {
-  muteBtn[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x2a7a(0xc6), () => {
-    const _0x17b9ad = {
-      'LexIn': _0x2a7a(0x15f),
-      'iCJhr': _0x2a7a(0x199)
-    };
-    globalVideo[_0x2a7a(0xf8)] = !globalVideo[_0x2a7a(0xf8)];
-    muteBtn[_0x2a7a(0xc9)] = globalVideo[_0x2a7a(0xf8)] ? _0x17b9ad[_0x2a7a(0xb2)] : _0x17b9ad[_0x2a7a(0x11b)];
-  });
-}
-if (globalVideo) {
-  globalVideo[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x2a7a(0x1be) + _0x2a7a(0x149), () => {
-    const _0x914998 = {
-      'QFRsa': function (_0x49be3e, _0x22898d) {
-        return _0x49be3e(_0x22898d);
+
+  document.querySelectorAll('.workspace-back-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const ws = e.target.closest('.media-workspace');
+      if (ws) {
+        ws.classList.remove('active');
+        const vid = ws.querySelector('.custom-video');
+        const playBtn = ws.querySelector('.btn-play');
+        if (vid) { vid.pause(); if (playBtn) playBtn.innerText = 'play'; }
       }
-    };
-    if (timeTotal) {
-      timeTotal[_0x2a7a(0xc9)] = _0x914998[_0x2a7a(0x10e)](formatTime, globalVideo[_0x2a7a(0xa5)]);
-    }
+    });
   });
-  globalVideo[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x2a7a(0x1ad), () => {
-    const _0x267536 = {
-      'cVuqY': function (_0x66e0b1, _0x373b03) {
-        return _0x66e0b1(_0x373b03);
-      }
-    };
-    if (timeCurrent) {
-      timeCurrent[_0x2a7a(0xc9)] = _0x267536[_0x2a7a(0x1c7)](formatTime, globalVideo[_0x2a7a(0x136) + 'e']);
+
+  document.querySelectorAll('.media-workspace').forEach(ws => {
+    const vidEl = ws.querySelector('.custom-video');
+    const imgEl = ws.querySelector('.gallery-img');
+    const dockVid = ws.querySelector('.dock-video');
+    const dockGal = ws.querySelector('.dock-gallery');
+    const dispName = ws.querySelector('.display-name');
+    const galStatus = ws.querySelector('.gallery-status');
+    
+    const playBtn = ws.querySelector('.btn-play');
+    if (playBtn && vidEl) {
+      playBtn.addEventListener('click', () => {
+        if (vidEl.paused) { vidEl.play(); playBtn.innerText = 'pause'; }
+        else { vidEl.pause(); playBtn.innerText = 'play'; }
+      });
     }
-  });
-  globalVideo[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x2a7a(0xc4), () => {
-    const _0x211b8f = {
-      'nNTBB': _0x2a7a(0x1a5),
-      'tSgXv': _0x2a7a(0xe9)
-    };
-    if (playBtn) {
-      playBtn[_0x2a7a(0xc9)] = _0x211b8f[_0x2a7a(0x137)];
+
+    const muteBtn = ws.querySelector('.btn-mute');
+    if (muteBtn && vidEl) {
+      muteBtn.addEventListener('click', () => {
+        vidEl.muted = !vidEl.muted;
+        muteBtn.innerText = vidEl.muted ? 'unmute' : 'mute';
+      });
     }
-    globalVideo[_0x2a7a(0x197)][_0x2a7a(0x177)](_0x211b8f[_0x2a7a(0xb8)]);
-  });
-}
-const galleryImages = [_0x2a7a(0xf0) + 'pg', _0x2a7a(0x161) + 'pg', _0x2a7a(0x13e) + 'pg'];
-let gIndex = 0;
-const gCurrent = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0x16b));
-const gTotal = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0x15e));
-if (gTotal) {
-  gTotal[_0x2a7a(0xc9)] = galleryImages[_0x2a7a(0xa1)];
-}
-function updateGallery() {
-  const _0x2a6d72 = {
-    'gZTyE': function (_0x470af2, _0x35fb27) {
-      return _0x470af2 + _0x35fb27;
-    },
-    'tRnWo': _0x2a7a(0x187),
-    'DUKjM': _0x2a7a(0x102) + _0x2a7a(0x15b) + _0x2a7a(0xee),
-    'rIOFH': function (_0x115d2d, _0x4f47e2, _0x2b4594) {
-      return _0x115d2d(_0x4f47e2, _0x2b4594);
-    }
-  };
-  if (!displayGallery) {
-    return;
-  }
-  displayGallery[_0x2a7a(0x158)][_0x2a7a(0x155)] = _0x2a6d72[_0x2a7a(0xf6)];
-  _0x2a6d72[_0x2a7a(0x151)](setTimeout, () => {
-    displayGallery[_0x2a7a(0x9f)] = galleryImages[gIndex];
-    if (gCurrent) {
-      gCurrent[_0x2a7a(0xc9)] = _0x2a6d72[_0x2a7a(0xa4)](gIndex, 1);
-    }
-    displayGallery[_0x2a7a(0x197)][_0x2a7a(0x1b9)](_0x2a6d72[_0x2a7a(0x13d)]);
-  }, 150);
-}
-const btnPrev = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0xd5));
-const btnNext = document[_0x2a7a(0x1c1) + _0x2a7a(0xa3)](_0x2a7a(0xef));
-if (btnPrev) {
-  btnPrev[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x2a7a(0xc6), () => {
-    const _0x54c374 = {
-      'UCmzA': function (_0x2b7576, _0x500679) {
-        return _0x2b7576 % _0x500679;
-      },
-      'kEjAJ': function (_0x56ef4c, _0x3900d6) {
-        return _0x56ef4c + _0x3900d6;
-      },
-      'ttswR': function (_0x5142b1, _0x5e8165) {
-        return _0x5142b1 - _0x5e8165;
-      },
-      'soTXd': function (_0x4c7093) {
-        return _0x4c7093();
-      }
-    };
-    gIndex = _0x54c374[_0x2a7a(0x1a8)](_0x54c374[_0x2a7a(0x1a1)](_0x54c374[_0x2a7a(0x135)](gIndex, 1), galleryImages[_0x2a7a(0xa1)]), galleryImages[_0x2a7a(0xa1)]);
-    _0x54c374[_0x2a7a(0x189)](updateGallery);
-  });
-}
-if (btnNext) {
-  btnNext[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x2a7a(0xc6), () => {
-    const _0x1850f6 = {
-      'vSCgu': function (_0x80d48a, _0xdab4f2) {
-        return _0x80d48a % _0xdab4f2;
-      },
-      'LlAGo': function (_0x1cd41c, _0x5f01ee) {
-        return _0x1cd41c + _0x5f01ee;
-      },
-      'VzFLf': function (_0xff0ff2) {
-        return _0xff0ff2();
-      }
-    };
-    gIndex = _0x1850f6[_0x2a7a(0xa2)](_0x1850f6[_0x2a7a(0x1b8)](gIndex, 1), galleryImages[_0x2a7a(0xa1)]);
-    _0x1850f6[_0x2a7a(0x127)](updateGallery);
-  });
-}
-vSelectors[_0x2a7a(0x14f)](_0x2a8bd5 => {
-  const _0x39e20b = {
-    'dfLir': _0x2a7a(0x126),
-    'fvAVc': _0x2a7a(0xe9),
-    'tPtQz': _0x2a7a(0x11f),
-    'yKMGI': _0x2a7a(0x1ab),
-    'EQamg': _0x2a7a(0x17d),
-    'lcJLw': _0x2a7a(0x113),
-    'YewVR': _0x2a7a(0x1bb),
-    'mVQNh': _0x2a7a(0x11a),
-    'OcvNN': _0x2a7a(0x100),
-    'Ltomx': _0x2a7a(0xc6)
-  };
-  _0x2a8bd5[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x39e20b[_0x2a7a(0xd9)], () => {
-    vSelectors[_0x2a7a(0x14f)](_0x53a430 => _0x53a430[_0x2a7a(0x197)][_0x2a7a(0x177)](_0x2a7a(0x11f)));
-    _0x2a8bd5[_0x2a7a(0x197)][_0x2a7a(0x1b9)](_0x39e20b[_0x2a7a(0x13c)]);
-    if (btnGalleryToggle) {
-      btnGalleryToggle[_0x2a7a(0x197)][_0x2a7a(0x177)](_0x39e20b[_0x2a7a(0x13c)]);
-    }
-    if (gStatus) {
-      gStatus[_0x2a7a(0xc9)] = _0x39e20b[_0x2a7a(0x1b3)];
-    }
-    if (displayName) {
-      displayName[_0x2a7a(0xc9)] = _0x2a8bd5[_0x2a7a(0xe1) + 'te'](_0x39e20b[_0x2a7a(0x10b)]);
-    }
-    if (displayGallery) {
-      displayGallery[_0x2a7a(0x158)][_0x2a7a(0x163)] = _0x39e20b[_0x2a7a(0x159)];
-    }
-    if (displayVideo) {
-      displayVideo[_0x2a7a(0x158)][_0x2a7a(0x163)] = _0x39e20b[_0x2a7a(0xea)];
-    }
-    if (dockGallery) {
-      dockGallery[_0x2a7a(0x158)][_0x2a7a(0x163)] = _0x39e20b[_0x2a7a(0x159)];
-    }
-    if (dockVideo) {
-      dockVideo[_0x2a7a(0x158)][_0x2a7a(0x163)] = _0x39e20b[_0x2a7a(0x1ba)];
-    }
-    const _0x3c4d07 = _0x2a8bd5[_0x2a7a(0xe1) + 'te'](_0x39e20b[_0x2a7a(0xa8)]);
-    if (globalVideo) {
-      globalVideo[_0x2a7a(0x9f)] = _0x3c4d07;
-      globalVideo[_0x2a7a(0x1a5)]()[_0x2a7a(0x150)](() => {
-        if (playBtn) {
-          playBtn[_0x2a7a(0xc9)] = _0x39e20b[_0x2a7a(0x133)];
+
+    const vSelectors = ws.querySelectorAll('.v-sel');
+    vSelectors.forEach(btn => {
+      btn.addEventListener('click', () => {
+        vSelectors.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        if(vidEl) vidEl.style.display = 'block';
+        if(imgEl) imgEl.style.display = 'none';
+        if(dockVid) dockVid.style.display = 'flex';
+        if(dockGal) dockGal.style.display = 'none';
+        if(dispName) dispName.innerText = btn.getAttribute('data-name');
+        if(galStatus) galStatus.innerText = 'loaded';
+        if(vidEl) {
+          vidEl.src = btn.getAttribute('data-src');
+          if (vidEl.src && !vidEl.src.endsWith('undefined') && vidEl.src !== window.location.href) {
+              vidEl.play().then(() => { if (playBtn) playBtn.innerText = 'pause'; }).catch(err=>{});
+          }
         }
-        globalVideo[_0x2a7a(0x197)][_0x2a7a(0x1b9)](_0x39e20b[_0x2a7a(0x13f)]);
+      });
+    });
+
+    const galToggle = ws.querySelector('.btn-gallery-toggle');
+    if (galToggle) {
+      let gIndex = 0;
+      const gCurrent = ws.querySelector('.g-current');
+      
+      let images = [];
+      try {
+        const rawData = galToggle.getAttribute('data-gallery').replace(/&quot;/g, '"');
+        images = JSON.parse(rawData);
+      } catch(e) {}
+
+      galToggle.addEventListener('click', () => {
+        if(vidEl) { vidEl.pause(); vidEl.style.display = 'none'; }
+        if(imgEl) imgEl.style.display = 'block';
+        if(dockVid) dockVid.style.display = 'none';
+        if(dockGal) dockGal.style.display = 'flex';
+        if(dispName) dispName.innerText = 'stills archive';
+        if(galStatus) galStatus.innerText = 'viewing';
+        vSelectors.forEach(b => b.classList.remove('active'));
+      });
+
+      ws.querySelector('.btn-prev')?.addEventListener('click', () => {
+        if(images.length === 0) return;
+        gIndex = (gIndex - 1 + images.length) % images.length;
+        if(imgEl) imgEl.src = images[gIndex];
+        if(gCurrent) gCurrent.innerText = gIndex + 1;
+      });
+      
+      ws.querySelector('.btn-next')?.addEventListener('click', () => {
+        if(images.length === 0) return;
+        gIndex = (gIndex + 1) % images.length;
+        if(imgEl) imgEl.src = images[gIndex];
+        if(gCurrent) gCurrent.innerText = gIndex + 1;
       });
     }
   });
-});
-if (btnGalleryToggle) {
-  btnGalleryToggle[_0x2a7a(0x1bd) + _0x2a7a(0x171)](_0x2a7a(0xc6), () => {
-    const _0x158734 = {
-      'MgWnl': _0x2a7a(0xcc) + _0x2a7a(0x1a9) + '|2',
-      'oYFGz': _0x2a7a(0xe9),
-      'NGLjG': _0x2a7a(0x185) + _0x2a7a(0xfd) + _0x2a7a(0x1c2),
-      'aCzpZ': function (_0x32f2f2) {
-        return _0x32f2f2();
-      },
-      'IvqPd': _0x2a7a(0x11f),
-      'XAFUL': _0x2a7a(0x1bb),
-      'IxBoO': _0x2a7a(0x113),
-      'dODqX': _0x2a7a(0x11a),
-      'EfWea': _0x2a7a(0x139),
-      'NmezA': _0x2a7a(0x1a5)
-    };
-    const _0x31e014 = _0x158734[_0x2a7a(0x14d)][_0x2a7a(0x182)]('|');
-    let _0x1070d4 = 0;
-    while (true) {
-      switch (_0x31e014[_0x1070d4++]) {
-        case '0':
-          if (globalVideo) {
-            globalVideo[_0x2a7a(0x126)]();
-            globalVideo[_0x2a7a(0x197)][_0x2a7a(0x177)](_0x158734[_0x2a7a(0xdf)]);
-          }
-          continue;
-        case '1':
-          if (displayName) {
-            displayName[_0x2a7a(0xc9)] = _0x158734[_0x2a7a(0x15a)];
-          }
-          continue;
-        case '2':
-          _0x158734[_0x2a7a(0xd0)](updateGallery);
-          continue;
-        case '3':
-          btnGalleryToggle[_0x2a7a(0x197)][_0x2a7a(0x1b9)](_0x158734[_0x2a7a(0x12b)]);
-          continue;
-        case '4':
-          if (displayGallery) {
-            displayGallery[_0x2a7a(0x158)][_0x2a7a(0x163)] = _0x158734[_0x2a7a(0x194)];
-          }
-          continue;
-        case '5':
-          if (dockVideo) {
-            dockVideo[_0x2a7a(0x158)][_0x2a7a(0x163)] = _0x158734[_0x2a7a(0x1b5)];
-          }
-          continue;
-        case '6':
-          if (dockGallery) {
-            dockGallery[_0x2a7a(0x158)][_0x2a7a(0x163)] = _0x158734[_0x2a7a(0x18b)];
-          }
-          continue;
-        case '7':
-          vSelectors[_0x2a7a(0x14f)](_0x58b837 => _0x58b837[_0x2a7a(0x197)][_0x2a7a(0x177)](_0x2a7a(0x11f)));
-          continue;
-        case '8':
-          if (gStatus) {
-            gStatus[_0x2a7a(0xc9)] = _0x158734[_0x2a7a(0x164)];
-          }
-          continue;
-        case '9':
-          if (displayVideo) {
-            displayVideo[_0x2a7a(0x158)][_0x2a7a(0x163)] = _0x158734[_0x2a7a(0x1b5)];
-          }
-          continue;
-        case '10':
-          if (playBtn) {
-            playBtn[_0x2a7a(0xc9)] = _0x158734[_0x2a7a(0xa9)];
-          }
-          continue;
-      }
-      break;
-    }
-  });
-  // Contact Form Toggle Logic
-const formToggleBtn = document.getElementById('form-toggle-btn');
-const formWrapper = document.getElementById('web3-form-wrapper');
-
-if (formToggleBtn && formWrapper) {
-  formToggleBtn.addEventListener('click', function() {
-    if (formWrapper.style.display === 'none' || formWrapper.style.display === '') {
-      formWrapper.style.display = 'block';
-      this.innerHTML = 'close message form ↑';
-    } else {
-      formWrapper.style.display = 'none';
-      this.innerHTML = 'open message form ↓';
-    }
-  });
 }
-  // Popup Modal Logic
+
+// ==========================================
+// 5. DYNAMIC UPCOMING SHOWS
+// ==========================================
+const upcomingContainer = document.getElementById('upcoming-wrapper-target');
+
+async function loadTours() {
+  if (!upcomingContainer) return;
+  try {
+    const querySnapshot = await getDocs(collection(db, "tours"));
+    upcomingContainer.innerHTML = '';
+    querySnapshot.forEach((doc) => {
+      const tour = doc.data() || {};
+      if (!tour.artist) return; 
+
+      let showsHTML = '';
+      if (tour.shows && Array.isArray(tour.shows)) {
+        tour.shows.forEach(show => {
+          showsHTML += `
+            <a href="${show.link || '#'}" class="schedule-row" target="_blank">
+              <div class="s-data s-date">${show.date || ''}</div>
+              <div class="s-data s-artist">${tour.artist}</div>
+              <div class="s-data s-location">${show.location || ''}</div>
+              <div class="s-data s-action">${show.action || 'tickets'}</div>
+            </a>
+          `;
+        });
+      }
+      const tourHTML = `
+        <div class="tour-accordion dynamic-accordion">
+          <button type="button" class="schedule-row accordion-trigger">
+            <div class="s-data s-date">${tour.date_range || 'TBA'}</div>
+            <div class="s-data s-artist">${tour.artist}</div>
+            <div class="s-data s-location">${tour.tour_name || 'Tour'}</div>
+            <div class="s-data s-action"><span class="accordion-icon">+</span> expand</div>
+          </button>
+          <div class="accordion-content"><div class="accordion-inner">${showsHTML}</div></div>
+        </div>
+      `;
+      upcomingContainer.insertAdjacentHTML('beforeend', tourHTML);
+    });
+
+    document.querySelectorAll('.dynamic-accordion').forEach(acc => {
+      const trigger = acc.querySelector('.accordion-trigger');
+      const icon = acc.querySelector('.accordion-icon');
+      trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        acc.classList.toggle('open');
+        if (icon) icon.innerText = acc.classList.contains('open') ? '-' : '+';
+      });
+    });
+  } catch (error) { console.error("Tours Fetch Error:", error); }
+}
+
+// ==========================================
+// 6. DIRECT TO FIREBASE POPUP SUBMISSION
+// ==========================================
 const formModal = document.getElementById('contact-modal');
 const formOpenBtn = document.getElementById('form-open-btn');
 const formCloseBtn = document.getElementById('form-close-btn');
 
 if (formOpenBtn && formModal && formCloseBtn) {
-  // Open modal
-  formOpenBtn.addEventListener('click', () => {
-    formModal.classList.add('active');
-  });
-  
-  // Close modal via button
-  formCloseBtn.addEventListener('click', () => {
-    formModal.classList.remove('active');
-  });
+  formOpenBtn.addEventListener('click', () => formModal.classList.add('active'));
+  formCloseBtn.addEventListener('click', () => formModal.classList.remove('active'));
+  formModal.addEventListener('click', (e) => { if (e.target === formModal) formModal.classList.remove('active'); });
+}
 
-  // Close modal by clicking the blurred background
-  formModal.addEventListener('click', (e) => {
-    if (e.target === formModal) {
-      formModal.classList.remove('active');
+const contactForm = document.getElementById('ao-contact-form');
+const resultMsg = document.getElementById('form-result-msg');
+const submitBtn = document.getElementById('form-submit-btn');
+
+if (contactForm) {
+  contactForm.addEventListener('submit', async function(e) {
+    e.preventDefault(); 
+    const formData = new FormData(contactForm);
+    const object = Object.fromEntries(formData);
+    
+    // Add a timestamp so we can sort them in your dashboard
+    object.timestamp = new Date().toISOString();
+
+    resultMsg.style.display = 'block';
+    resultMsg.style.color = 'var(--dust)';
+    resultMsg.innerHTML = 'sending...';
+    submitBtn.style.opacity = '0.5';
+    submitBtn.style.pointerEvents = 'none';
+
+    try {
+      // Push directly to Firebase instead of Web3Forms
+      await addDoc(collection(db, "inquiries"), object);
+      
+      resultMsg.style.color = 'var(--gold)';
+      resultMsg.innerHTML = 'message received. we will be in touch.';
+      contactForm.reset();
+    } catch (error) {
+      console.error("Form error:", error);
+      resultMsg.style.color = 'red';
+      resultMsg.innerHTML = 'error processing request.';
+    } finally {
+      submitBtn.style.opacity = '1';
+      submitBtn.style.pointerEvents = 'all';
+      setTimeout(() => { resultMsg.style.display = 'none'; }, 5000);
     }
   });
 }
-}
+
+// Start loading the dynamic data in the background silently
+loadServices();
+loadClients();
+loadTours();
