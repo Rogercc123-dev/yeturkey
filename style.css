@@ -938,7 +938,22 @@ button.schedule-row:hover .accordion-icon {
   transform: translateY(10px);
   transition: all .8s var(--lux-ease) .3s;
 }
+/* --- CUSTOM DROPDOWN STYLING --- */
+select.ao-input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%2380786b" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 8px);
+  background-position-y: center;
+  padding-right: 32px;
+}
 
+select.ao-input option {
+  background: var(--void);
+  color: var(--concrete);
+}
 .ws-artist-title {
   font-size: clamp(32px, 5vw, 64px);
   color: var(--concrete);
