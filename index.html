@@ -34,10 +34,12 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
-  <link rel="preload" href="OCR-a___.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="dark-mode home-view-active">
 
 <div id="cursor-dot"></div>
 
@@ -49,14 +51,13 @@
 
 <div class="page">
 
+  <video class="home-bg-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+    <source src="ao-visual-bg-web.mp4" type="video/mp4">
+  </video>
+  <div class="home-bg-scrim" aria-hidden="true"></div>
+
   <header class="block-top">
-    <a href="#" class="wordmark-wrap nav-trigger" data-target="view-home">
-      <div class="wordmark wordmark-primary">access opera</div>
-      <div class="wordmark">production agency</div>
-    </a>
-    <div class="top-right-actions">
-      <button class="theme-btn" id="theme-toggle">dark mode</button>
-    </div>
+    <a href="#" class="descriptor descriptor-top nav-trigger" data-target="view-home">home</a>
   </header>
 
   <main class="block-center">
@@ -65,45 +66,23 @@
       <div class="home-layout">
         <div class="home-left">
           <img src="opera.png" alt="access opera" class="logo-img" onerror="this.style.display='none'" />
-          <div class="datum"></div>
-          <div class="descriptor">production agency &nbsp;·&nbsp; creative management</div>
         </div>
         <div class="home-right">
           <p class="home-blurb">
-            <span class="blurb-desktop">
-              <strong>ACCESS OPERA (AO)</strong> DEVELOPS THE NEXT GENERATION OF CULTURAL ICONS. BRIDGING CLASSICAL EXCELLENCE WITH CONTEMPORARY INNOVATION TO CREATE CAREERS, DEALS, AND GROUNDBREAKING ART ACROSS FILM, STAGE, AND MUSIC. FROM PRODUCING ERA-DEFINING OPERA WITH THE WORLD’S BIGGEST ARTISTS TO BUILDING THE FUTURE OF CLASSICAL AND POP TALENT, AO OPERATES AT THE HIGHEST LEVEL OF CREATIVE EXECUTION. OUR ARTISTS RECEIVE PLATINUM-STANDARD MANAGEMENT, BRANDING, MARKETING, SOCIAL STRATEGY, AND CAREER DEVELOPMENT. BECAUSE IF YOU CAN BUILD HISTORY, ANY OPPORTUNITY IS ATTAINABLE.
-            </span>
-            <span class="blurb-mobile">
-              <strong>ACCESS OPERA</strong> DEVELOPS THE NEXT GENERATION OF CULTURAL ICONS, BLENDING CLASSICAL EXCELLENCE WITH CONTEMPORARY INNOVATION ACROSS FILM, STAGE, AND MUSIC. AO DELIVERS WORLD-CLASS PRODUCTION, MANAGEMENT, BRANDING, MARKETING, AND CAREER DEVELOPMENT FOR ARTISTS SHAPING THE FUTURE OF CULTURE.
-            </span>
+            Access Opera develops bold creative work and artist careers across opera, stage, film, and music.
           </p>
           
           <div class="home-contact">
             <div class="hc-row">
-              <span class="hc-label">inquiries</span>
-              <a href="mailto:inquiry@accessopera.com" class="hc-link">inquiry@accessopera.com</a>
+              <a href="mailto:inquiry@accessopera.com" class="hc-link hc-label">inquiries</a>
             </div>
             
             <div class="hc-row">
-              <span class="hc-label">press</span>
-              <a href="https://www.billboard.com/business/touring/kanye-west-comeback-tour-john-burton-access-opera-1236258800/" target="_blank" rel="noopener noreferrer" class="hc-link" style="display: inline-flex; align-items: center; gap: 4px;">
-                read billboard feature 
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="7" y1="17" x2="17" y2="7"></line>
-                  <polyline points="7 7 17 7 17 17"></polyline>
-                </svg>
-              </a>
+              <a href="https://www.billboard.com/business/touring/kanye-west-comeback-tour-john-burton-access-opera-1236258800/" target="_blank" rel="noopener noreferrer" class="hc-link hc-label">press</a>
             </div>
 
             <div class="hc-row">
-              <span class="hc-label">direct</span>
-              <button type="button" class="hc-link" id="form-open-btn" style="background: none; border: none; font-family: inherit; font-size: inherit; padding: 0; text-align: left; letter-spacing: inherit; cursor: none; display: inline-flex; align-items: center; gap: 4px;">
-                submit details
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="7" y1="17" x2="17" y2="7"></line>
-                  <polyline points="7 7 17 7 17 17"></polyline>
-                </svg>
-              </button>
+              <button type="button" class="hc-link hc-button hc-label" id="form-open-btn">direct</button>
             </div>
           </div>
             
@@ -112,8 +91,13 @@
     </div>
 
     <div class="view" id="view-services">
-      <div class="sec-num">01</div>
-      <h2 class="sec-title">services</h2>
+      <div class="services-head">
+        <div class="sec-num">01</div>
+        <div>
+          <h2 class="sec-title">services</h2>
+          <div class="sec-title-jp">サービス</div>
+        </div>
+      </div>
       
       <div class="services-grid" id="dynamic-services-list"></div>
 
@@ -126,8 +110,13 @@
     </div>
 
     <div class="view" id="view-clients">
-      <div class="sec-num">02</div>
-      <h2 class="sec-title">clients</h2>
+      <div class="clients-head">
+        <div class="sec-num">02</div>
+        <div>
+          <h2 class="sec-title">clients</h2>
+          <div class="sec-title-jp">クライアント</div>
+        </div>
+      </div>
       
       <div class="roster-wrap" id="dynamic-client-list"></div>
 
@@ -135,8 +124,13 @@
     </div>
 
     <div class="view" id="view-upcoming">
-      <div class="sec-num">03</div>
-      <h2 class="sec-title" id="upcoming-title-header">upcoming</h2>
+      <div class="upcoming-head">
+        <div class="sec-num">03</div>
+        <div>
+          <h2 class="sec-title" id="upcoming-title-header">upcoming</h2>
+          <div class="sec-title-jp">予定</div>
+        </div>
+      </div>
       
       <div class="schedule-wrap" id="upcoming-wrapper-target"></div>
     </div>
@@ -159,6 +153,11 @@
         <div class="nav-num">03</div>
         <div class="nav-label" id="nav-label-upcoming-text">upcoming</div>
         <div class="nav-jp" id="nav-jp-upcoming-text">予定</div>
+      </a>
+      <a href="/josephkarre" class="nav-item">
+        <div class="nav-num">04</div>
+        <div class="nav-label">joseph karre</div>
+        <div class="nav-jp">ジョセフ・カーレ</div>
       </a>
     </nav>
   </footer>

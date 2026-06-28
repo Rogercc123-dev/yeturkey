@@ -32,7 +32,11 @@ window.addEventListener('load', () => {
 // ==========================================
 const dot = document.getElementById('cursor-dot');
 let cursorX = window.innerWidth / 2, cursorY = window.innerHeight / 2;
-window.addEventListener('mousemove', (e) => { cursorX = e.clientX; cursorY = e.clientY; });
+window.addEventListener('mousemove', (e) => {
+  cursorX = e.clientX;
+  cursorY = e.clientY;
+  document.body.classList.add('cursor-ready');
+});
 
 function updateCursor() {
   if (dot) dot.style.transform = `translate(calc(${cursorX}px - 50%), calc(${cursorY}px - 50%))`;
@@ -40,18 +44,40 @@ function updateCursor() {
 }
 updateCursor();
 
-const themeToggle = document.getElementById('theme-toggle');
-if (themeToggle) {
-  themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-    themeToggle.innerText = document.body.classList.contains('dark-mode') ? 'light mode' : 'dark mode';
+const homeBgVideo = document.querySelector('.home-bg-video');
+
+function ensureHomeBgVideoPlayback() {
+  if (!homeBgVideo || !document.body.classList.contains('home-view-active')) return;
+  homeBgVideo.muted = true;
+  homeBgVideo.defaultMuted = true;
+  homeBgVideo.loop = true;
+  homeBgVideo.playsInline = true;
+  const playAttempt = homeBgVideo.play();
+  if (playAttempt && typeof playAttempt.catch === 'function') {
+    playAttempt.catch(() => {});
+  }
+}
+
+if (homeBgVideo) {
+  homeBgVideo.muted = true;
+  homeBgVideo.defaultMuted = true;
+  homeBgVideo.loop = true;
+  homeBgVideo.playsInline = true;
+  window.addEventListener('load', ensureHomeBgVideoPlayback);
+  window.addEventListener('pageshow', ensureHomeBgVideoPlayback);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) ensureHomeBgVideoPlayback();
   });
+  document.addEventListener('touchstart', ensureHomeBgVideoPlayback, { once: true, passive: true });
+  document.addEventListener('click', ensureHomeBgVideoPlayback, { once: true });
 }
 
 function switchSPAView(targetId) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   const target = document.getElementById(targetId);
   if (target) target.classList.add('active');
+  document.body.classList.toggle('home-view-active', targetId === 'view-home');
+  ensureHomeBgVideoPlayback();
 
   document.querySelectorAll('.media-workspace').forEach(ws => ws.classList.remove('active'));
   document.querySelectorAll('.svc-overlay').forEach(overlay => overlay.classList.remove('active'));
@@ -60,12 +86,27 @@ function switchSPAView(targetId) {
   if (globalVid) globalVid.pause();
 }
 
+const hashViewMap = {
+  '#services': 'view-services',
+  '#clients': 'view-clients',
+  '#upcoming': 'view-upcoming',
+  '#home': 'view-home'
+};
+
+function switchViewFromHash() {
+  const targetId = hashViewMap[window.location.hash];
+  if (targetId) switchSPAView(targetId);
+}
+
 document.querySelectorAll('.nav-trigger').forEach(btn => {
   btn.addEventListener('click', (e) => {
     e.preventDefault();
     switchSPAView(btn.getAttribute('data-target'));
   });
 });
+
+window.addEventListener('hashchange', switchViewFromHash);
+switchViewFromHash();
 
 // ==========================================
 // 3. DYNAMIC MODULAR SERVICES
@@ -156,9 +197,17 @@ async function loadClients() {
       `;
       clientListContainer.insertAdjacentHTML('beforeend', clientHTML);
 
-      const vids = Array.isArray(client.videos) && client.videos.length > 0 ? client.videos : [{name: 'motion', src: ''}];
+      const normalizedClientName = clientName.trim().toLowerCase();
+      const vids = Array.isArray(client.videos) && client.videos.length > 0 ? [...client.videos] : [{name: 'motion', src: ''}];
+      if (normalizedClientName === 'rotimi') {
+        vids[0] = { ...(vids[0] || {}), name: (vids[0] && vids[0].name) || 'ffj', src: 'ffj.mp4' };
+      }
+      if (normalizedClientName === 'ye') {
+        vids[0] = { ...(vids[0] || {}), name: (vids[0] && vids[0].name) || 'YE TRAILER', src: 'YE TRAILER.mp4' };
+      }
       const images = Array.isArray(client.gallery_images) && client.gallery_images.length > 0 ? client.gallery_images : [''];
       const gName = client.gallery_name || 'archive';
+      const videoClass = ['rotimi', 'ye'].includes(normalizedClientName) ? 'custom-video color-video' : 'custom-video';
 
       let videoGridHTML = '';
       vids.forEach((vid, idx) => {
@@ -179,7 +228,7 @@ async function loadClients() {
           </div>
           <div class="media-container">
             <div class="display-area">
-              <video class="custom-video" src="${firstVid.src || ''}" playsinline muted loop></video>
+              <video class="${videoClass}" src="${firstVid.src || ''}" playsinline muted loop></video>
               <img class="gallery-img" src="${images[0] || ''}" style="display: none;" onerror="this.style.display='none'" />
               
               <div class="media-controls-dock">
@@ -330,6 +379,15 @@ function attachWorkspaceLogic() {
 // ==========================================
 const upcomingContainer = document.getElementById('upcoming-wrapper-target');
 
+function formatScheduleDate(dateText) {
+  const value = (dateText || '').toString();
+  const parts = value.split(/\s+-\s+/);
+  if (parts.length === 2) {
+    return `<span>${parts[0]}</span><span>-${parts[1]}</span>`;
+  }
+  return value;
+}
+
 async function loadTours() {
   if (!upcomingContainer) return;
   try {
@@ -355,7 +413,7 @@ async function loadTours() {
       const tourHTML = `
         <div class="tour-accordion dynamic-accordion">
           <button type="button" class="schedule-row accordion-trigger">
-            <div class="s-data s-date">${tour.date_range || 'TBA'}</div>
+            <div class="s-data s-date">${formatScheduleDate(tour.date_range || 'TBA')}</div>
             <div class="s-data s-artist">${tour.artist}</div>
             <div class="s-data s-location">${tour.tour_name || 'Tour'}</div>
             <div class="s-data s-action"><span class="accordion-icon">+</span> expand</div>
@@ -394,6 +452,21 @@ if (formOpenBtn && formModal && formCloseBtn) {
 const contactForm = document.getElementById('ao-contact-form');
 const resultMsg = document.getElementById('form-result-msg');
 const submitBtn = document.getElementById('form-submit-btn');
+const inquiryEmail = 'inquiry@accessopera.com';
+
+function openInquiryEmailDraft(data) {
+  const phone = `${data.country_code || ''} ${data.phone || ''}`.trim() || 'Not provided';
+  const instagram = data.instagram || 'Not provided';
+  const subject = `Direct inquiry from ${data.name || 'website visitor'}`;
+  const body = [
+    `Name: ${data.name || 'Not provided'}`,
+    `Email: ${data.email || 'Not provided'}`,
+    `Phone: ${phone}`,
+    `Instagram: ${instagram}`
+  ].join('\n');
+
+  window.location.href = `mailto:${inquiryEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
 
 if (contactForm) {
   contactForm.addEventListener('submit', async function(e) {
@@ -415,7 +488,8 @@ if (contactForm) {
       await addDoc(collection(db, "inquiries"), object);
       
       resultMsg.style.color = 'var(--gold)';
-      resultMsg.innerHTML = 'message received. we will be in touch.';
+      resultMsg.innerHTML = 'message received. opening email...';
+      openInquiryEmailDraft(object);
       contactForm.reset();
     } catch (error) {
       console.error("Form error:", error);
