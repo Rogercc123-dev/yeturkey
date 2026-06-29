@@ -52,6 +52,7 @@ function ensureHomeBgVideoPlayback() {
   homeBgVideo.defaultMuted = true;
   homeBgVideo.loop = true;
   homeBgVideo.playsInline = true;
+  homeBgVideo.setAttribute('webkit-playsinline', '');
   const playAttempt = homeBgVideo.play();
   if (playAttempt && typeof playAttempt.catch === 'function') {
     playAttempt.catch(() => {});

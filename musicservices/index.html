@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>music services | access opera</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Noto+Sans+JP:wght@100&display=swap" rel="stylesheet">
+
+<style>
+@font-face {
+  font-family: 'OCR A BT';
+  src: url('../OCR-a___.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --concrete:#b8b4ad;
+  --raw:#1a1916;
+  --deep:#0d0c0b;
+  --void:#121110;
+  --dust:#5a574f;
+  --form:#2e2c28;
+}
+
+html,body{
+  width:100vw;height:100vh;
+  overflow:hidden;
+  background:var(--void);
+  cursor:none;
+}
+
+body{
+  font-family:'OCR A BT','Share Tech Mono','Courier New',monospace;
+  color:var(--concrete);
+  text-transform:lowercase;
+  letter-spacing:0.05em;
+  position:relative;
+}
+
+.cur{
+  position:fixed;top:0;left:0;
+  width:4px;height:4px;
+  background:var(--concrete);
+  pointer-events:none;
+  z-index:9999;
+  transform:translate(-2px,-2px);
+}
+
+.grain{
+  position:fixed;inset:0;
+  z-index:600;
+  pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='0.15'/%3E%3C/svg%3E");
+  background-size:300px 300px;
+  opacity:0.7;
+  mix-blend-mode:overlay;
+}
+
+.vignette{
+  position:fixed;inset:0;z-index:500;pointer-events:none;
+  background:radial-gradient(ellipse 80% 80% at 50% 50%, transparent 25%, rgba(7,7,6,0.4) 55%, rgba(4,4,3,0.92) 100%);
+}
+
+.bg-word{
+  position:fixed;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-size:clamp(88px,13vw,220px);
+  font-weight:400;
+  letter-spacing:-0.04em;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(184,180,173,0.045);
+  white-space:nowrap;
+  pointer-events:none;
+  z-index:1;
+  user-select:none;
+  line-height:1;
+}
+
+.mass-line{
+  position:fixed;left:0;right:0;
+  height:1px;
+  background:rgba(184,180,173,0.06);
+  pointer-events:none;
+  z-index:2;
+}
+
+.page{
+  position:relative;z-index:10;
+  width:100%;height:100vh;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+}
+
+.block-top{
+  padding:48px 56px 0;
+  display:flex;
+  justify-content:flex-start;
+  align-items:flex-start;
+  opacity:0;
+  animation:appear 3s ease 0.4s forwards;
+}
+
+.wordmark-wrap,.open-tag,.home-link,.nav-item{text-decoration:none;cursor:none}
+.home-link{
+  color:var(--dust);
+  font-size:12px;
+  letter-spacing:0.45em;
+  line-height:2.2;
+  transition:color 0.4s ease;
+}
+.home-link:hover{color:var(--concrete)}
+.wordmark{
+  font-size:11px;
+  letter-spacing:0.45em;
+  color:var(--dust);
+  line-height:2.2;
+  transition:color 0.4s ease;
+}
+.wordmark-primary{color:var(--concrete);font-size:12px}
+.wordmark-jp{
+  font-family:'Noto Sans JP',sans-serif;
+  font-weight:100;
+  font-size:10px;
+  color:var(--form);
+  letter-spacing:0.32em;
+  margin-top:6px;
+}
+.wordmark-wrap:hover .wordmark,.open-tag:hover{color:var(--concrete)}
+.open-tag{
+  color:var(--dust);
+  font-size:11px;
+  letter-spacing:0.28em;
+  transition:color 0.4s ease;
+}
+
+.block-center{
+  display:grid;
+  grid-template-columns:minmax(280px,0.9fr) minmax(360px,1.1fr);
+  gap:56px;
+  align-items:start;
+  padding:34px 56px 0;
+  min-height:0;
+  overflow-y:hidden;
+  overflow-x:hidden;
+}
+
+.profile-column{
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+  min-width:0;
+}
+
+.profile-panel{
+  border-top:1px solid rgba(184,180,173,0.12);
+  border-bottom:1px solid rgba(184,180,173,0.12);
+  padding:18px 0 20px;
+  opacity:0;
+  animation:massReveal 1.8s ease 0.8s forwards;
+}
+
+.profile-kicker{
+  color:var(--form);
+  font-size:clamp(16px,1.8vw,24px);
+  letter-spacing:0.36em;
+  margin-bottom:12px;
+}
+
+.profile-title{
+  font-size:clamp(42px,6.8vw,90px);
+  font-weight:400;
+  line-height:0.95;
+  letter-spacing:0.02em;
+}
+
+.profile-jp{
+  font-family:'Noto Sans JP',sans-serif;
+  font-weight:100;
+  font-size:clamp(18px,2.3vw,34px);
+  color:var(--dust);
+  letter-spacing:0.28em;
+  margin-top:12px;
+}
+
+.profile-meta{
+  display:grid;
+  grid-template-columns:140px 1fr;
+  gap:12px 24px;
+  width:min(520px,100%);
+  margin-top:20px;
+  color:var(--dust);
+  font-size:11px;
+  letter-spacing:0.24em;
+}
+
+.profile-meta div:nth-child(even){color:var(--concrete)}
+
+.bio-panel{
+  position:relative;
+  align-self:stretch;
+  border-top:1px solid rgba(184,180,173,0.12);
+  border-bottom:1px solid rgba(184,180,173,0.12);
+  padding:34px 0 38px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  scrollbar-width:none;
+  opacity:0;
+  animation:massReveal 1.8s ease 1s forwards;
+}
+.bio-panel::-webkit-scrollbar{display:none}
+.bio-panel::after{
+  content:'';
+  position:sticky;
+  display:block;
+  bottom:-38px;
+  height:180px;
+  margin-top:-180px;
+  background:linear-gradient(to bottom, rgba(18,17,16,0), rgba(18,17,16,0.42) 36%, #121110 88%);
+  pointer-events:none;
+}
+
+.bio-kicker{
+  color:var(--concrete);
+  font-size:clamp(22px,2.6vw,38px);
+  letter-spacing:0.32em;
+  margin-bottom:22px;
+}
+
+.bio-title{
+  color:var(--dust);
+  font-size:clamp(13px,1.2vw,17px);
+  letter-spacing:0.24em;
+  line-height:1.65;
+  margin-bottom:24px;
+}
+
+.bio-section{
+  margin-top:20px;
+}
+
+.bio-section h2{
+  color:var(--concrete);
+  font-size:clamp(13px,1.2vw,17px);
+  font-weight:400;
+  letter-spacing:0.24em;
+  margin-bottom:10px;
+}
+
+.bio-section ul{
+  list-style:none;
+  color:var(--dust);
+  font-size:clamp(12px,1vw,14px);
+  letter-spacing:0.14em;
+  line-height:1.65;
+}
+
+.bio-section li + li{margin-top:4px}
+
+.nav-slab{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border-top:1px solid rgba(184,180,173,0.08);
+}
+.nav-item{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:24px 42px 20px;
+  color:var(--dust);
+  border-right:1px solid rgba(184,180,173,0.06);
+  overflow:hidden;
+  transition:color 0.8s ease;
+}
+.nav-item:last-child{border-right:none}
+.nav-item::before{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;right:0;height:0;
+  background:var(--raw);
+  transition:height 0.6s cubic-bezier(0.76,0,0.24,1);
+  z-index:0;
+}
+.nav-item:hover::before,.nav-item.active::before{height:100%}
+.nav-item:hover,.nav-item.active{color:var(--concrete)}
+.nav-num,.nav-label,.nav-jp{position:relative;z-index:1}
+.nav-num{
+  font-size:9px;
+  letter-spacing:0.3em;
+  color:var(--form);
+  margin-bottom:6px;
+  transition:color 0.6s ease;
+}
+.nav-label{
+  font-size:clamp(12px,1vw,15px);
+  letter-spacing:0.24em;
+}
+.nav-jp{
+  font-family:'Noto Sans JP',sans-serif;
+  font-weight:100;
+  font-size:10px;
+  letter-spacing:0.22em;
+  color:var(--form);
+  margin-top:6px;
+  transition:color 0.6s ease;
+}
+.nav-item:hover .nav-num,.nav-item:hover .nav-jp,.nav-item.active .nav-num,.nav-item.active .nav-jp{color:var(--dust)}
+
+@keyframes appear{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes massReveal{
+  0%{opacity:0;transform:translateY(15px);filter:blur(8px)}
+  100%{opacity:1;transform:translateY(0);filter:blur(0)}
+}
+@media(max-width:850px){
+  body{cursor:auto}.cur{display:none}
+  html,body{height:100dvh}
+  .block-top,.block-center{padding-left:28px;padding-right:28px}
+  .block-top{padding-top:32px}
+  .block-center{grid-template-columns:1fr;gap:28px;align-items:flex-start;padding-top:28px;padding-bottom:44px;overflow-y:auto}
+  .profile-column{gap:24px}
+  .profile-panel{padding:28px 0 32px}
+  .profile-title{font-size:clamp(42px,16vw,78px)}
+  .profile-meta{grid-template-columns:1fr;gap:8px;margin-top:34px}
+  .bio-panel{align-self:auto;overflow:visible;padding:28px 0 32px}
+  .bio-panel::after{display:none}
+  .bio-kicker{font-size:clamp(22px,8vw,34px)}
+  .bio-title,.bio-section h2{font-size:clamp(13px,4vw,17px)}
+  .bio-section ul{font-size:clamp(12px,3.6vw,14px);letter-spacing:0.1em}
+  .nav-slab{
+    grid-template-columns:repeat(4,1fr);
+  }
+  .nav-item{
+    padding:16px 4px 14px;
+    align-items:center;
+    text-align:center;
+    border-right:1px solid rgba(184,180,173,0.06);
+  }
+  .nav-item:nth-child(2){border-right:1px solid rgba(184,180,173,0.06)}
+  .nav-item:nth-child(3),.nav-item:nth-child(4){border-top:none}
+  .nav-num{
+    margin-bottom:4px;
+    font-size:9px;
+  }
+  .nav-label{
+    font-size:11px;
+    letter-spacing:0.1em;
+    line-height:1.25;
+    text-align:center;
+    overflow-wrap:anywhere;
+  }
+  .nav-jp{
+    margin-top:4px;
+    font-size:8px;
+    text-align:center;
+  }
+  .bg-word{font-size:24vw}
+}
+</style>
+</head>
+<body>
+
+<div class="cur" id="cur"></div>
+
+<div class="page">
+  <header class="block-top">
+    <a href="../index.html" class="home-link">home</a>
+  </header>
+
+  <main class="block-center">
+    <div class="profile-column">
+      <section class="profile-panel" aria-labelledby="profile-title">
+        <h1 class="profile-title" id="profile-title">music<br>services</h1>
+        <div class="profile-jp">音楽サービス</div>
+        <div class="profile-meta" aria-label="profile details">
+          <div>representation</div>
+          <div>access opera</div>
+        </div>
+      </section>
+    </div>
+
+    <section class="bio-panel" aria-labelledby="bio-title">
+      <div class="bio-kicker" id="bio-title">bio</div>
+
+      <section class="bio-section">
+        <h2>Royalty Management</h2>
+        <ul>
+          <li>Royalty collection oversight across all revenue streams (master, publishing, sync, performance, mechanical)</li>
+          <li>Registration with PROs (ASCAP, BMI, SESAC, SoundExchange, etc.)</li>
+          <li>Neighboring rights registration and collection (international)</li>
+        </ul>
+      </section>
+
+      <section class="bio-section">
+        <h2>Audit Services</h2>
+        <ul>
+          <li>Full contractual audits of record label agreements</li>
+          <li>Publishing deal audits</li>
+          <li>Distribution agreement audits</li>
+          <li>Identifying and recovering underpaid or unpaid royalties</li>
+        </ul>
+      </section>
+
+      <section class="bio-section">
+        <h2>Contract &amp; Legal Advisory</h2>
+        <ul>
+          <li>Contract negotiation support (record, publishing, management, touring)</li>
+          <li>Deal structure analysis (360 deals, licensing vs. ownership, etc.)</li>
+          <li>Copyright registration for songs, compositions and album artwork</li>
+          <li>Trademark registration for artist name</li>
+        </ul>
+      </section>
+
+      <section class="bio-section">
+        <h2>Catalog Valuation &amp; Monetization</h2>
+        <ul>
+          <li>Music catalog valuations</li>
+          <li>Catalog acquisition advisory</li>
+          <li>Structuring catalog-backed loans or advances</li>
+        </ul>
+      </section>
+
+      <section class="bio-section">
+        <h2>Funding &amp; Investment</h2>
+        <ul>
+          <li>Advances against future royalties</li>
+          <li>Revenue-based financing</li>
+          <li>Tour and project funding</li>
+          <li>Co-investment in recordings and releases</li>
+        </ul>
+      </section>
+    </section>
+  </main>
+
+  <footer class="block-bottom">
+    <nav class="nav-slab">
+      <a href="../index.html#services" class="nav-item">
+        <div class="nav-num">01</div>
+        <div class="nav-label">services</div>
+        <div class="nav-jp">サービス</div>
+      </a>
+      <a href="../index.html#clients" class="nav-item">
+        <div class="nav-num">02</div>
+        <div class="nav-label">clients</div>
+        <div class="nav-jp">クライアント</div>
+      </a>
+      <a href="../index.html#upcoming" class="nav-item">
+        <div class="nav-num">03</div>
+        <div class="nav-label">upcoming</div>
+        <div class="nav-jp">予定</div>
+      </a>
+      <a href="/musicservices" class="nav-item active">
+        <div class="nav-num">04</div>
+        <div class="nav-label">music services</div>
+        <div class="nav-jp">音楽サービス</div>
+      </a>
+    </nav>
+  </footer>
+</div>
+
+<script>
+const cur = document.getElementById('cur');
+document.addEventListener('mousemove', e => {
+  if (cur) cur.style.transform = `translate(${e.clientX - 2}px,${e.clientY - 2}px)`;
+});
+</script>
+</body>
+</html>
