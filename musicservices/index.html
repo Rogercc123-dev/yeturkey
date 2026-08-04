@@ -264,7 +264,7 @@ body{
 
 .nav-slab{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(5,1fr);
   border-top:1px solid rgba(184,180,173,0.08);
 }
 .nav-item{
@@ -272,7 +272,7 @@ body{
   display:flex;
   flex-direction:column;
   justify-content:center;
-  padding:24px 42px 20px;
+  padding:24px clamp(14px,2.2vw,42px) 20px;
   color:var(--dust);
   border-right:1px solid rgba(184,180,173,0.06);
   overflow:hidden;
@@ -298,7 +298,7 @@ body{
   transition:color 0.6s ease;
 }
 .nav-label{
-  font-size:clamp(12px,1vw,15px);
+  font-size:clamp(10px,1vw,15px);
   letter-spacing:0.24em;
 }
 .nav-jp{
@@ -336,7 +336,7 @@ body{
   .bio-title,.bio-section h2{font-size:clamp(13px,4vw,17px)}
   .bio-section ul{font-size:clamp(12px,3.6vw,14px);letter-spacing:0.1em}
   .nav-slab{
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:repeat(5,1fr);
   }
   .nav-item{
     padding:16px 4px 14px;
@@ -351,7 +351,7 @@ body{
     font-size:9px;
   }
   .nav-label{
-    font-size:11px;
+    font-size:clamp(8px,2.4vw,11px);
     letter-spacing:0.1em;
     line-height:1.25;
     text-align:center;
@@ -461,6 +461,11 @@ body{
         <div class="nav-num">04</div>
         <div class="nav-label">music services</div>
         <div class="nav-jp">音楽サービス</div>
+      </a>
+      <a href="/about/" class="nav-item">
+        <div class="nav-num">05</div>
+        <div class="nav-label">about</div>
+        <div class="nav-jp">概要</div>
       </a>
     </nav>
   </footer>
