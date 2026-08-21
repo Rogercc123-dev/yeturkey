@@ -427,16 +427,16 @@ async function loadTours() {
       if (!tour.artist) return; 
 
       if (tour.artist.toString().trim().toLowerCase() === 'rotimi') {
-        const yeRussiaTour = {
+        const yeWorldTour = {
           artist: 'ye',
-          tour_name: 'russia',
+          tour_name: 'world tour',
           date_range: '11 oct - 12 oct',
           shows: [
-            { date: '11 oct', location: 'russia', action: 'tickets', link: 'https://yerussia2026.ru/' },
-            { date: '12 oct', location: 'russia', action: 'tickets', link: 'https://yerussia2026.ru/' }
+            { date: '11 oct', location: 'world tour', action: 'tickets', link: 'https://yerussia2026.ru/' },
+            { date: '12 oct', location: 'world tour', action: 'tickets', link: 'https://yerussia2026.ru/' }
           ]
         };
-        upcomingContainer.insertAdjacentHTML('beforeend', renderTourAccordion(yeRussiaTour));
+        upcomingContainer.insertAdjacentHTML('beforeend', renderTourAccordion(yeWorldTour));
       }
 
       upcomingContainer.insertAdjacentHTML('beforeend', renderTourAccordion(tour));
