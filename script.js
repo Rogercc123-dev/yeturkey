@@ -94,20 +94,35 @@ const hashViewMap = {
   '#home': 'view-home'
 };
 
-function switchViewFromHash() {
-  const targetId = hashViewMap[window.location.hash];
+const viewHrefMap = {
+  'view-home': '/',
+  'view-services': '/#services',
+  'view-clients': '/#clients',
+  'view-upcoming': '/tickets'
+};
+
+function switchViewFromLocation() {
+  const path = window.location.pathname.replace(/\/+$/, '') || '/';
+  const isTicketsEntry = new URLSearchParams(window.location.search).get('view') === 'tickets';
+  const targetId = path === '/tickets' || isTicketsEntry
+    ? 'view-upcoming'
+    : hashViewMap[window.location.hash];
+  if (isTicketsEntry) window.history.replaceState({}, '', '/tickets');
   if (targetId) switchSPAView(targetId);
 }
 
 document.querySelectorAll('.nav-trigger').forEach(btn => {
   btn.addEventListener('click', (e) => {
     e.preventDefault();
-    switchSPAView(btn.getAttribute('data-target'));
+    const targetId = btn.getAttribute('data-target');
+    switchSPAView(targetId);
+    window.history.pushState({}, '', viewHrefMap[targetId] || btn.href);
   });
 });
 
-window.addEventListener('hashchange', switchViewFromHash);
-switchViewFromHash();
+window.addEventListener('popstate', switchViewFromLocation);
+window.addEventListener('hashchange', switchViewFromLocation);
+switchViewFromLocation();
 
 // ==========================================
 // 3. DYNAMIC MODULAR SERVICES
