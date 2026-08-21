@@ -445,10 +445,10 @@ async function loadTours() {
         const yeWorldTour = {
           artist: 'ye',
           tour_name: 'world tour',
-          date_range: '11 oct - 12 oct',
+          date_range: '10 oct - 11 oct',
           shows: [
-            { date: '11 oct', location: 'world tour', action: 'tickets', link: 'https://yerussia2026.ru/' },
-            { date: '12 oct', location: 'world tour', action: 'tickets', link: 'https://yerussia2026.ru/' }
+            { date: '10 oct', location: 'world tour', action: 'tickets', link: 'https://yerussia2026.ru/' },
+            { date: '11 oct', location: 'world tour', action: 'tickets', link: 'https://yerussia2026.ru/' }
           ]
         };
         upcomingContainer.insertAdjacentHTML('beforeend', renderTourAccordion(yeWorldTour));
