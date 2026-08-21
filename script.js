@@ -389,6 +389,34 @@ function formatScheduleDate(dateText) {
   return value;
 }
 
+function renderTourAccordion(tour) {
+  let showsHTML = '';
+  if (tour.shows && Array.isArray(tour.shows)) {
+    tour.shows.forEach(show => {
+      showsHTML += `
+        <a href="${show.link || '#'}" class="schedule-row" target="_blank" rel="noopener noreferrer">
+          <div class="s-data s-date">${show.date || ''}</div>
+          <div class="s-data s-artist">${tour.artist}</div>
+          <div class="s-data s-location">${show.location || ''}</div>
+          <div class="s-data s-action">${show.action || 'tickets'}</div>
+        </a>
+      `;
+    });
+  }
+
+  return `
+    <div class="tour-accordion dynamic-accordion">
+      <button type="button" class="schedule-row accordion-trigger">
+        <div class="s-data s-date">${formatScheduleDate(tour.date_range || 'TBA')}</div>
+        <div class="s-data s-artist">${tour.artist}</div>
+        <div class="s-data s-location">${tour.tour_name || 'Tour'}</div>
+        <div class="s-data s-action"><span class="accordion-icon">+</span> expand</div>
+      </button>
+      <div class="accordion-content"><div class="accordion-inner">${showsHTML}</div></div>
+    </div>
+  `;
+}
+
 async function loadTours() {
   if (!upcomingContainer) return;
   try {
@@ -398,31 +426,20 @@ async function loadTours() {
       const tour = doc.data() || {};
       if (!tour.artist) return; 
 
-      let showsHTML = '';
-      if (tour.shows && Array.isArray(tour.shows)) {
-        tour.shows.forEach(show => {
-          showsHTML += `
-            <a href="${show.link || '#'}" class="schedule-row" target="_blank">
-              <div class="s-data s-date">${show.date || ''}</div>
-              <div class="s-data s-artist">${tour.artist}</div>
-              <div class="s-data s-location">${show.location || ''}</div>
-              <div class="s-data s-action">${show.action || 'tickets'}</div>
-            </a>
-          `;
-        });
+      if (tour.artist.toString().trim().toLowerCase() === 'rotimi') {
+        const yeRussiaTour = {
+          artist: 'ye',
+          tour_name: 'russia',
+          date_range: '11 oct - 12 oct',
+          shows: [
+            { date: '11 oct', location: 'russia', action: 'tickets', link: 'https://yerussia2026.ru/' },
+            { date: '12 oct', location: 'russia', action: 'tickets', link: 'https://yerussia2026.ru/' }
+          ]
+        };
+        upcomingContainer.insertAdjacentHTML('beforeend', renderTourAccordion(yeRussiaTour));
       }
-      const tourHTML = `
-        <div class="tour-accordion dynamic-accordion">
-          <button type="button" class="schedule-row accordion-trigger">
-            <div class="s-data s-date">${formatScheduleDate(tour.date_range || 'TBA')}</div>
-            <div class="s-data s-artist">${tour.artist}</div>
-            <div class="s-data s-location">${tour.tour_name || 'Tour'}</div>
-            <div class="s-data s-action"><span class="accordion-icon">+</span> expand</div>
-          </button>
-          <div class="accordion-content"><div class="accordion-inner">${showsHTML}</div></div>
-        </div>
-      `;
-      upcomingContainer.insertAdjacentHTML('beforeend', tourHTML);
+
+      upcomingContainer.insertAdjacentHTML('beforeend', renderTourAccordion(tour));
     });
 
     document.querySelectorAll('.dynamic-accordion').forEach(acc => {
