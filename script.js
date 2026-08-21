@@ -452,6 +452,7 @@ async function loadTours() {
           ]
         };
         upcomingContainer.insertAdjacentHTML('beforeend', renderTourAccordion(yeWorldTour));
+        return;
       }
 
       upcomingContainer.insertAdjacentHTML('beforeend', renderTourAccordion(tour));
